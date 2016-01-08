@@ -158,7 +158,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         }
         UIColor.lightGrayColor().colorWithAlphaComponent(0.4).setStroke()
         touchCircle.stroke()
-        color.colorWithAlphaComponent(0.4).setStroke()
+        color.setStroke()
         path.stroke()
     }
 }
