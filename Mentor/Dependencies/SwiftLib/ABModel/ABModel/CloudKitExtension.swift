@@ -126,6 +126,7 @@ public class ABModelCloudKit : ABModel {
         var rec = [self.toRecord()]
         rec.appendContentsOf(records)
         let saveOp = CKModifyRecordsOperation(recordsToSave: rec, recordIDsToDelete: nil)
+
         if let cmp = completion {
             saveOp.completionBlock = {
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
@@ -139,6 +140,7 @@ public class ABModelCloudKit : ABModel {
     
     public class func saveBulk(records:[CKRecord],completion:(() -> Void)?) {
         let saveOp = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
+
         if let cmp = completion {
             saveOp.completionBlock = {
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
@@ -221,8 +223,8 @@ public class ABModelCloudKit : ABModel {
         let refs = references.map({ (reference) -> CKRecordID in
             reference.recordID
         })
-        
         let op = CKFetchRecordsOperation(recordIDs: refs)
+        op.queuePriority = .VeryHigh
         if let completion = completion {
             op.fetchRecordsCompletionBlock = { (recordDictionary, error) in
                 for (key, value) in recordDictionary! {
