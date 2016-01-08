@@ -114,8 +114,6 @@
 		8DD8976D1C19760E007DA303 /* DrawingPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingPath.swift; sourceTree = "<group>"; };
 		8DE74F481C21A97800B60F0D /* DrawableScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawableScrollView.swift; sourceTree = "<group>"; };
 		8DEB6EEA1C2060D200B9BF9F /* UserTeamColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTeamColor.swift; sourceTree = "<group>"; };
-		8DF9F2821C0C80E700CB98A2 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
-		8DF9F2831C0C80E700CB98A2 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		AC19259A1BFA1DED0098FA28 /* ABUIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ABUIKit.xcodeproj; path = SwiftLib/ABUIKit/ABUIKit.xcodeproj; sourceTree = "<group>"; };
 		AC307FF31BF1F69300C28D5D /* Mentor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mentor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC307FF61BF1F69300C28D5D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -170,12 +168,12 @@
 		8DBD194A1C15CA6D0073BE8B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8D05D6741C187963008B7A7E /* Drawing.swift */,
+				8DD8976D1C19760E007DA303 /* DrawingPath.swift */,
+				8D058ADD1C17314F00A2D076 /* Point.swift */,
 				8DBD194B1C15CAC50073BE8B /* Project.swift */,
 				8DBD195A1C15CDEC0073BE8B /* Team.swift */,
 				8DBD195C1C15D1C60073BE8B /* User.swift */,
-				8D058ADD1C17314F00A2D076 /* Point.swift */,
-				8D05D6741C187963008B7A7E /* Drawing.swift */,
-				8DD8976D1C19760E007DA303 /* DrawingPath.swift */,
 				8DEB6EEA1C2060D200B9BF9F /* UserTeamColor.swift */,
 			);
 			path = Model;
@@ -228,11 +226,11 @@
 		AC307FF51BF1F69300C28D5D /* Mentor */ = {
 			isa = PBXGroup;
 			children = (
-				8D13B4F41C1ACA98005F7325 /* Helpers */,
 				AC307FF61BF1F69300C28D5D /* AppDelegate.swift */,
 				AC307FFD1BF1F69300C28D5D /* Assets.xcassets */,
 				AC778DE71BF1F81D00669BD7 /* Controllers */,
 				ACA2D7C21BF64FDE0005E8CE /* Dependencies */,
+				8D13B4F41C1ACA98005F7325 /* Helpers */,
 				8D3CF1911C1594F5006D23C7 /* Hermite */,
 				AC3080021BF1F69300C28D5D /* Info.plist */,
 				AC307FFF1BF1F69300C28D5D /* LaunchScreen.storyboard */,
@@ -247,8 +245,8 @@
 		AC778DE61BF1F80B00669BD7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				AC778DE81BF1F86E00669BD7 /* DrawableView.swift */,
 				8DE74F481C21A97800B60F0D /* DrawableScrollView.swift */,
+				AC778DE81BF1F86E00669BD7 /* DrawableView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -256,10 +254,10 @@
 		AC778DE71BF1F81D00669BD7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				AC307FF81BF1F69300C28D5D /* ViewController.swift */,
-				8D1120191C1ED23F000E041B /* TeamTableViewController.swift */,
 				8D11201B1C1EE728000E041B /* MPopoverViewController.swift */,
 				8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */,
+				8D1120191C1ED23F000E041B /* TeamTableViewController.swift */,
+				AC307FF81BF1F69300C28D5D /* ViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -267,11 +265,9 @@
 		ACA2D7C21BF64FDE0005E8CE /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				8DBD19481C15C9F30073BE8B /* CloudKit.framework */,
 				8DBD194D1C15CB420073BE8B /* ABModel.xcodeproj */,
-				8DF9F2821C0C80E700CB98A2 /* Fabric.framework */,
-				8DF9F2831C0C80E700CB98A2 /* Crashlytics.framework */,
 				AC19259A1BFA1DED0098FA28 /* ABUIKit.xcodeproj */,
+				8DBD19481C15C9F30073BE8B /* CloudKit.framework */,
 			);
 			path = Dependencies;
 			sourceTree = "<group>";

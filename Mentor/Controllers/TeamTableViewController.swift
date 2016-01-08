@@ -22,7 +22,9 @@ class TeamTableViewController: MPopoverViewController, UITableViewDataSource, UI
             self.preferredContentSize = CGSize(width: popoverWidth, height: computedHeight)
         }
     }
+    
     private var completion:((project:Project, team:Team)->Void)?
+    
     private var computedHeight : Double {
         get {
             return Double(self.displayedDataSource.count * 50)

@@ -21,7 +21,6 @@ class DrawingPath: ABModelCloudKit {
     
     override func ignoreKey(key: String, value: AnyObject) -> Bool {
         if key == "points" {
-
             self.points = value as! [CKReference]
             return true
         }

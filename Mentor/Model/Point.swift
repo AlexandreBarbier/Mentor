@@ -16,6 +16,7 @@ class Point: ABModelCloudKit {
     var y: NSNumber = 0.0
     var position = 0
     var drawingPath : CKReference!
+    
     override class func recordType() -> String {
         return "Points"
     }
