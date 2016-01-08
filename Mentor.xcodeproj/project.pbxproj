@@ -24,10 +24,6 @@
 		8DD8976E1C19760E007DA303 /* DrawingPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD8976D1C19760E007DA303 /* DrawingPath.swift */; };
 		8DE74F491C21A97800B60F0D /* DrawableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE74F481C21A97800B60F0D /* DrawableScrollView.swift */; };
 		8DEB6EEB1C2060D200B9BF9F /* UserTeamColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEB6EEA1C2060D200B9BF9F /* UserTeamColor.swift */; };
-		8DF9F2841C0C80E700CB98A2 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF9F2821C0C80E700CB98A2 /* Fabric.framework */; };
-		8DF9F2851C0C80E700CB98A2 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF9F2831C0C80E700CB98A2 /* Crashlytics.framework */; };
-		8DF9F2861C0C85DB00CB98A2 /* Fabric.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF9F2821C0C80E700CB98A2 /* Fabric.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8DF9F2871C0C85DB00CB98A2 /* Crashlytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF9F2831C0C80E700CB98A2 /* Crashlytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AC307FF71BF1F69300C28D5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC307FF61BF1F69300C28D5D /* AppDelegate.swift */; };
 		AC307FF91BF1F69300C28D5D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC307FF81BF1F69300C28D5D /* ViewController.swift */; };
 		AC307FFC1BF1F69300C28D5D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC307FFA1BF1F69300C28D5D /* Main.storyboard */; };
@@ -90,9 +86,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8DF9F2861C0C85DB00CB98A2 /* Fabric.framework in Embed Frameworks */,
 				8DBD19571C15CC740073BE8B /* ABModel.framework in Embed Frameworks */,
-				8DF9F2871C0C85DB00CB98A2 /* Crashlytics.framework in Embed Frameworks */,
 				AC84922E1BFA270F00280968 /* ABUIKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -140,8 +134,6 @@
 			files = (
 				8DBD19491C15C9F30073BE8B /* CloudKit.framework in Frameworks */,
 				AC84922D1BFA270F00280968 /* ABUIKit.framework in Frameworks */,
-				8DF9F2851C0C80E700CB98A2 /* Crashlytics.framework in Frameworks */,
-				8DF9F2841C0C80E700CB98A2 /* Fabric.framework in Frameworks */,
 				8DBD19561C15CC740073BE8B /* ABModel.framework in Frameworks */,
 				2546C40E604B0EB87F8DE1B6 /* Pods.framework in Frameworks */,
 			);
@@ -298,7 +290,6 @@
 				AC84923B1BFA270F00280968 /* Embed Frameworks */,
 				6D9149C2C995F3B2D4B0289E /* Embed Pods Frameworks */,
 				3B302D6B681A5BB131F7B109 /* Copy Pods Resources */,
-				AC3033341C0611FA002DD500 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -437,19 +428,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		AC3033341C0611FA002DD500 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run 32dc190aeef47e3e7971889471a1b8779c32ad54 83f9580156b0b2a49d43c853be4c737e668a01d42e42436d24844f7e23e60019\n";
 		};
 		E01446F582D91E6CC4FF2B61 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
