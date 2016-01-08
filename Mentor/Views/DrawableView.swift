@@ -42,6 +42,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
     private var blue : CGFloat = 0.0
     private var colorAlpha : CGFloat = 0.0
     private var archivedColor : NSData!
+    
     var color = UIColor.greenColor() {
         didSet {
             self.color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
@@ -172,12 +173,12 @@ extension DrawableView {
         firebaseDrawingObserverHandle = firbaseDrawing!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
             if !self.isSource {
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    let arr = snap.value as! [AnyObject]
+                    let arr = snap.value as! [[Dictionary<String, AnyObject>]]
                     var cPoint = Array<CGPoint>()
                     arr.forEach({ (obj) -> () in
-                        let minArray = obj as! [Dictionary<String, AnyObject>]
+
                         var point = CGPointZero
-                        minArray.forEach({ (mino) -> () in
+                        obj.forEach({ (mino) -> () in
                             if let x = mino[FirebaseKey.x] {
                                 point.x = CGFloat(x.floatValue)
                             }
@@ -187,7 +188,7 @@ extension DrawableView {
                         })
                         cPoint.append(point)
                     })
-                    let firstPoint = arr.first as! [Dictionary<String, AnyObject>]
+                    let firstPoint = arr.first!
                     var red : CGFloat = 0.0
                     var green : CGFloat = 0.0
                     var blue : CGFloat = 0.0

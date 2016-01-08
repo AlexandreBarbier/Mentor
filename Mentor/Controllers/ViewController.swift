@@ -20,7 +20,6 @@ import Firebase
 class ViewController: UIViewController {
     
     @IBOutlet weak var activity: UIActivityIndicatorView!
-    
     @IBOutlet weak var scrollView: DrawableScrollView!
     @IBOutlet weak var drawableView: DrawableView!
     var buttonTools : ABExpendableButton = ABExpendableButton(orientation: .Vertical, borderColor: .blackColor(), backColor: .whiteColor())
