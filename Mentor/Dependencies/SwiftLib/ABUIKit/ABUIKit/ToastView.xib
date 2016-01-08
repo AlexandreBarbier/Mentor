@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6206.8" systemVersion="14A329f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIViewController" customModule="ABUIKit">
+            <connections>
+                <outlet property="view" destination="iN0-l3-epB" id="2dL-a2-NCp"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ToastView" customModule="ABUIKit">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="80"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdo-rA-xNZ" userLabel="Message">
+                    <rect key="frame" x="66" y="6" width="348" height="69"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="69" id="o2E-Q3-SzG"/>
+                        <constraint firstAttribute="width" constant="348" id="x0R-gs-KvD"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gRR-ar-4Dc" userLabel="icon">
+                    <rect key="frame" x="8" y="15" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="1w9-1r-GCD"/>
+                        <constraint firstAttribute="width" constant="50" id="g0V-Op-aLl"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="centerY" secondItem="kdo-rA-xNZ" secondAttribute="centerY" id="3CW-OS-qO3"/>
+                <constraint firstItem="kdo-rA-xNZ" firstAttribute="leading" secondItem="gRR-ar-4Dc" secondAttribute="trailing" constant="8" id="MUq-CC-A94"/>
+                <constraint firstAttribute="centerY" secondItem="gRR-ar-4Dc" secondAttribute="centerY" id="Qiw-lf-7sH"/>
+                <constraint firstAttribute="centerX" secondItem="kdo-rA-xNZ" secondAttribute="centerX" id="ZCv-95-btF"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="iconImageView" destination="gRR-ar-4Dc" id="mZJ-2h-TOT"/>
+                <outlet property="messageLabel" destination="kdo-rA-xNZ" id="U6x-S7-xpw"/>
+            </connections>
+        </view>
+    </objects>
+</document>
