@@ -14,8 +14,8 @@ import ABModel
 import Firebase
 
 // MARK: - ViewController declaration
-//TODO: Remove first team and project creation 
-//TODO: fix resizing when rotate
+// TODO: Remove first team and project creation
+// TODO: fix resizing when rotate
 
 class ViewController: UIViewController {
     
@@ -449,10 +449,6 @@ extension ViewController {
 // MARK: - tools method
 extension ViewController {
     
-    func eraser(sender:UIButton) {
-        drawableView.eraser = true
-    }
-    
     @IBAction func undoTouch(sender:UIButton) {
         self.drawableView.undo()
     }
@@ -462,7 +458,6 @@ extension ViewController {
     }
     
     @IBAction func settingTouch(sender:UIButton) {
-        
         if canPresent {
                 self.canPresent = false
             if let navTeamVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("NavTeamVC") as? UINavigationController, teamVC = navTeamVC.viewControllers.first as? TeamTableViewController {
@@ -472,6 +467,10 @@ extension ViewController {
             }
         }
 
+    }
+    
+    func eraser(sender:UIButton) {
+        drawableView.eraser = true
     }
     
     func addViewButton(sender:UIButton) {

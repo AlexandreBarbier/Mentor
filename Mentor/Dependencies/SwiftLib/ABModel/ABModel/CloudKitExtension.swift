@@ -9,10 +9,6 @@
 import UIKit
 import CloudKit
 
-public enum ABCKNotificationID : String {
-    case kCKAccountAuth = "CloudkitAvailabilityChange"
-}
-
 public class ABModelCloudKit : ABModel {
     public class func recordType() -> String {
         return ""

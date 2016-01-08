@@ -19,6 +19,7 @@ class Team: ABModelCloudKit {
     var token : String = ""
     var infos = ""
     var admin:String = ""
+    
     var currentUserIsAdmin:Bool {
         get {
             if let currentUser = KCurrentUser {
