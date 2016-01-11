@@ -14,8 +14,8 @@ import Foundation
 class Team: ABModelCloudKit {
     
     var name:String = ""
-    var users : [CKReference] = []
-    var projects : [CKReference] = []
+    var users : [CKReference] = [CKReference]()
+    var projects : [CKReference] = [CKReference]()
     var token : String = ""
     var infos = ""
     var admin:String = ""
@@ -35,11 +35,18 @@ class Team: ABModelCloudKit {
     
     override func ignoreKey(key: String, value: AnyObject) -> Bool {
         if key == "users" {
-            self.users = value as! [CKReference]
+            self.users = [CKReference]()
+            for ref : CKReference in value as! [CKReference] {
+                self.users.append(ref)
+            }
             return true
         }
         if key == "projects" {
-            self.projects = value as! [CKReference]
+            self.projects = [CKReference]()
+            for ref : CKReference in value as! [CKReference] {
+                self.projects.append(ref)
+            }
+            
             return true
         }
         return false
@@ -76,7 +83,7 @@ extension Team {
     }
     
     func getProjects(completion:(projects:[Project], error:NSError?) -> Void) {
-        super.getReferences(projects,completion: { (results:[Project], error) -> Void in
+        super.getReferences(projects, completion: { (results:[Project], error) -> Void in
             completion(projects: results, error: error)
         })
         

@@ -24,16 +24,24 @@ class User : ABModelCloudKit {
     }
     
     var username:String = ""
-    var teams : [CKReference] = []
-    var teamColor: [CKReference] = []
+    var teams : [CKReference] = [CKReference]()
+    var teamColor: [CKReference] = [CKReference]()
     
     override func ignoreKey(key: String, value: AnyObject) -> Bool {
         if key == "teams" {
-            self.teams = value as! [CKReference]
+            self.teams = [CKReference]()
+            for ref : CKReference in value as! [CKReference] {
+                self.teams.append(ref)
+            }
+           
             return true
         }
         if key == "teamColor" {
-            self.teamColor = value as! [CKReference]
+            self.teamColor = [CKReference]()
+            for ref : CKReference in value as! [CKReference] {
+                self.teamColor.append(ref)
+            }
+            
             return true
         }
         return false

@@ -68,8 +68,9 @@ public class ABModel: NSObject, NSCoding {
         var finalDictionnary = dictionary
         
         for (key, value) in dictionary {
+
             if !self.respondsToSelector(Selector(key)) {
-                if !self.ignoreKey(key, value: value) {
+               
                     let replacementKey = self.replaceKey(key)
                     if replacementKey.isEmpty {
                         finalDictionnary.removeAtIndex(finalDictionnary.indexForKey(key)!)
@@ -79,11 +80,12 @@ public class ABModel: NSObject, NSCoding {
                         finalDictionnary[replacementKey] = value;
                         finalDictionnary.removeAtIndex(finalDictionnary.indexForKey(key)!)
                     }
-                }
-                else {
-                    print("ignoreKey \(key)")
-                    finalDictionnary.removeAtIndex(finalDictionnary.indexForKey(key)!)
-                }
+              
+
+            }
+            if self.ignoreKey(key, value: value) {
+
+                finalDictionnary.removeAtIndex(finalDictionnary.indexForKey(key)!)
             }
         }
         self.setValuesForKeysWithDictionary(finalDictionnary)

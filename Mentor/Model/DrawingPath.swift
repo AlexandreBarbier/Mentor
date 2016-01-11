@@ -11,7 +11,7 @@ import ABModel
 import CloudKit
 
 class DrawingPath: ABModelCloudKit {
-    var points : [CKReference] = []
+    var points : [CKReference] = [CKReference]()
     var color : NSData!
     var user = ""
 
@@ -21,7 +21,9 @@ class DrawingPath: ABModelCloudKit {
     
     override func ignoreKey(key: String, value: AnyObject) -> Bool {
         if key == "points" {
-            self.points = value as! [CKReference]
+            for ref : CKReference in value as! [CKReference] {
+                self.points.append(ref)
+            }
             return true
         }
         return false

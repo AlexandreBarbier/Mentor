@@ -17,7 +17,9 @@ public class ABModelCloudKit : ABModel {
     public var recordId : CKRecordID!
     
     public required init(record:CKRecord, recordId:CKRecordID) {
-        super.init(dictionary: record.dictionaryWithValuesForKeys(record.allKeys()))
+        let keys = record.allKeys()
+        let dictionary = record.dictionaryWithValuesForKeys(keys)
+        super.init(dictionary: dictionary)
         self.recordId = recordId
         self.record = record
     }
@@ -223,10 +225,11 @@ public class ABModelCloudKit : ABModel {
         op.queuePriority = .VeryHigh
         if let completion = completion {
             op.fetchRecordsCompletionBlock = { (recordDictionary, error) in
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                 for (key, value) in recordDictionary! {
                     results.append(T(record:value, recordId:key))
                 }
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+
                     completion(results:results,error:nil)
                 })
             }
