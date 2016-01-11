@@ -224,8 +224,7 @@ public class ABModelCloudKit : ABModel {
         if let completion = completion {
             op.fetchRecordsCompletionBlock = { (recordDictionary, error) in
                 for (key, value) in recordDictionary! {
-                    let project = T(record:value, recordId:key)
-                    results.append(project)
+                    results.append(T(record:value, recordId:key))
                 }
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     completion(results:results,error:nil)

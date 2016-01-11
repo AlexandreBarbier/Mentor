@@ -82,6 +82,7 @@ public class ABModel: NSObject, NSCoding {
                 }
                 else {
                     print("ignoreKey \(key)")
+                    finalDictionnary.removeAtIndex(finalDictionnary.indexForKey(key)!)
                 }
             }
         }
