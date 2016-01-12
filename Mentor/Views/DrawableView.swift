@@ -21,6 +21,7 @@ struct FirebaseKey {
     static let y = "y"
     static let points = "po"
     static let delete = "del"
+    static let marker = "mark"
     static let undeletable = "undeletable"
 }
 
@@ -49,7 +50,24 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             self.archivedColor = NSKeyedArchiver.archivedDataWithRootObject(self.color)
         }
     }
+    
     var eraser = false
+    var marker = false {
+        didSet {
+            if marker {
+                self.color = self.color.colorWithAlphaComponent(0.6)
+                pen = false
+            }
+        }
+    }
+    var pen = false {
+        didSet {
+            if pen {
+                self.color = self.color.colorWithAlphaComponent(1.0)
+                marker = false
+            }
+        }
+    }
     
     var drawing : Drawing? {
         didSet {
@@ -69,6 +87,14 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                         if let col = paths.color {
                             color = NSKeyedUnarchiver.unarchiveObjectWithData(col) as? UIColor
                         }
+                        if paths.pen {
+                            self.pen = true
+                        }
+                        else {
+                            self.marker = true
+                        }
+                        self.path.lineWidth = paths.lineWidth
+
                         self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(paths.recordId.recordName)",color: color)
                     })
                 })
@@ -132,6 +158,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         super.awakeFromNib()
         touchCircle.lineWidth = 1
         lineWidth = 2.0
+        pen = true
         self.opaque = false
         self.backgroundColor = UIColor.clearColor()
     }
@@ -141,11 +168,18 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         layer.path = path
         layer.name = layerName
         layer.lineWidth = self.path.lineWidth
-        layer.lineCap  = kCALineCapRound
-        layer.lineJoin = kCALineJoinRound
+        if pen {
+            layer.lineCap  = kCALineCapRound
+            layer.lineJoin = kCALineJoinRound
+            
+        }
         layer.fillColor = UIColor.clearColor().CGColor
-        layer.strokeColor = color == nil ? self.color.CGColor : color!.CGColor
+        if marker {
+            layer.lineCap  = kCALineCapSquare
+            layer.lineJoin = kCALineJoinBevel
 
+        }
+        layer.strokeColor = color == nil ? self.color.CGColor : color!.CGColor
         self.superview!.layer.insertSublayer(layer, below: self.layer)
         return layer
     }
@@ -192,6 +226,7 @@ extension DrawableView {
                     var red : CGFloat = 0.0
                     var green : CGFloat = 0.0
                     var blue : CGFloat = 0.0
+                    var mark : Bool = false
                     var name = ""
                     firstPoint.forEach({ (obj) -> () in
                         if let r = obj[FirebaseKey.red] {
@@ -206,11 +241,20 @@ extension DrawableView {
                         else if let pathName = obj[FirebaseKey.pathName] {
                             name = pathName as! String
                         }
+                        else if let ma = obj[FirebaseKey.marker] {
+                            mark = ma as! Bool
+                        }
                     })
                     
                     let cPath = UIBezierPath()
                     cPath.removeAllPoints()
                     cPath.interpolatePointsWithHermite(cPoint)
+                    if mark {
+                        self.marker = mark
+                    }
+                    else {
+                        self.pen = true
+                    }
                     self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: 1.0))
                 })
             }
@@ -272,10 +316,12 @@ extension DrawableView {
         case .Ended, .Cancelled, .Failed:
             let dPath = DrawingPath.create(self.drawing!, completion:nil)
             dPath.color = self.archivedColor
+            dPath.pen = self.pen
+            dPath.lineWidth = self.lineWidth
             let recPoints = Point.createBatch(interPolationPoints,dPath: dPath)
             self.isSource = true
             firbaseDrawing!.updateChildValues([FirebaseKey.points:  interPolationPoints.map({ (point) -> [[String:AnyObject]] in
-                return [[FirebaseKey.x:NSNumber(float: Float(point.x))], [FirebaseKey.y:NSNumber(float: Float(point.y))], [FirebaseKey.red:NSNumber(float: Float(red))],[FirebaseKey.green:NSNumber(float: Float(green))],[FirebaseKey.blue:NSNumber(float: Float(blue))],[FirebaseKey.pathName:dPath.recordId.recordName]]
+                return [[FirebaseKey.x:NSNumber(float: Float(point.x))], [FirebaseKey.y:NSNumber(float: Float(point.y))], [FirebaseKey.red:NSNumber(float: Float(red))],[FirebaseKey.green:NSNumber(float: Float(green))],[FirebaseKey.blue:NSNumber(float: Float(blue))],[FirebaseKey.pathName:dPath.recordId.recordName],[FirebaseKey.marker:marker]]
             })
                 ])
             dPath.points.appendContentsOf(recPoints.0.map({ (record) -> CKReference in

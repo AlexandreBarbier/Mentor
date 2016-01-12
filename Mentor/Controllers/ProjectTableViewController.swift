@@ -26,7 +26,6 @@ class ProjectTableViewController: UITableViewController {
     var displayedDataSource:[Project]! {
         didSet {
             self.title = "Project\(self.displayedDataSource.count > 1 ? "s": "")"
-          
         }
     }
     
@@ -75,13 +74,19 @@ class ProjectTableViewController: UITableViewController {
             textField.placeholder = "project name"
         }
         alert.addAction(UIAlertAction(title: "Create", style: .Default, handler: { (action) -> Void in
-            if let textF = alert.textFields!.first {
+            if let textF = alert.textFields!.first where textF.text != "" {
                 let project = Project.create(textF.text!, team: self.team, completion: self.completion)
                 self.displayedDataSource.append(project)
                 self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
             }
         }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) -> Void in
+            
+        }))
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+
     }
     
     

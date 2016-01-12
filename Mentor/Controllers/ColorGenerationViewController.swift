@@ -15,7 +15,7 @@ class ColorGenerationViewController: UIViewController {
     var teamName : String = ""
     var completion : ((team:Team,color:UIColor, colorSeed:CGFloat) -> Void)?
     private var usedSeed = [CGFloat]()
-    
+    var debug = false
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var generateColorTouch: UIButton!
     @IBOutlet weak var chooseColorButton: UIButton!
@@ -31,6 +31,7 @@ class ColorGenerationViewController: UIViewController {
                         }
                         if self.usedSeed.count == self.team.users.count {
                             self.chooseColor()
+                            
                         }
                     })
                 }
@@ -55,6 +56,12 @@ class ColorGenerationViewController: UIViewController {
         super.viewWillAppear(animated)
         if team == nil {
             self.chooseColor()
+        }
+        if debug {
+            self.chooseColor()
+            Team.create(self.teamName,color: self.chosenColor,colorSeed: self.currentSeed, completion: { (success, team) -> Void in
+                self.completion?(team: team,color:self.chosenColor, colorSeed:self.currentSeed)
+            })
         }
     }
     

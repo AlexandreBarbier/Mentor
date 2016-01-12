@@ -14,7 +14,9 @@ class DrawingPath: ABModelCloudKit {
     var points : [CKReference] = [CKReference]()
     var color : NSData!
     var user = ""
-
+    var lineWidth : CGFloat = 2.0
+    var pen = true
+    
     override class func recordType() -> String {
         return "DrawingPath"
     }

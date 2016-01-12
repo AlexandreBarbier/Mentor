@@ -38,15 +38,11 @@ class TeamCreationViewController: UIViewController, UITextFieldDelegate {
         }
         return false
     }
-
-    @IBAction func cancelTouch(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
     
     @IBAction func createTouch(sender: AnyObject) {
         guard let teamName = self.teamNameTF.text where teamName != "" else {
             //TODO: AlertView field team name empty
-         return
+            return
         }
         guard let projectName = self.projectNameTF.text where projectName != ""else {
             //TODO: AlertView field project name empty
@@ -54,7 +50,7 @@ class TeamCreationViewController: UIViewController, UITextFieldDelegate {
         }
         Team.create(teamName,color: self.colorController.chosenColor, colorSeed: self.colorController.currentSeed, completion: { (success, team) -> Void in
             Project.create(projectName, team: team)
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.navigationController?.popToRootViewControllerAnimated(true)
             self.completion?(team: team)
         })
     }

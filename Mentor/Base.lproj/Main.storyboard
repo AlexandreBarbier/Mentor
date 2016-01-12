@@ -268,9 +268,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="zMD-LU-4p3">
                             <connections>
-                                <segue destination="8i3-wB-Ro4" kind="popoverPresentation" identifier="TeamCreationSegue" popoverAnchorView="xnJ-40-pCj" id="gab-uj-FN5">
-                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                </segue>
+                                <segue destination="8i3-wB-Ro4" kind="show" identifier="TeamCreationSegue" id="gab-uj-FN5"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

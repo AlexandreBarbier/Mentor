@@ -50,7 +50,9 @@ extension ViewController {
             y: self.view.frame.height - buttonTools.frame.height)
         buttonTools.addVerticalButton(["addViewIcon": addViewButton,
                                        "imageIcon"  : importBG,
-                                       "settings"   : setEraser])
+                                       "settings"   : setEraser,
+                                       "pen"   : pen,
+                                       "marker"   : marker])
 
             DebugConsoleView.debugView = DebugConsoleView(inView:self.view)            
 
@@ -251,6 +253,7 @@ extension ViewController {
             default :
                 let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
                 colorAlert.teamName = textField.text!
+                colorAlert.debug = true
                 colorAlert.completion = { (team, color, colorSeed) in
                     colorAlert.dismissViewControllerAnimated(true, completion: { () -> Void in
                         self.projectlessTeam(team)
@@ -287,6 +290,7 @@ extension ViewController {
                     //TODO: Choose color
                     let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
                     colorAlert.team = team
+                    colorAlert.debug = true
                     colorAlert.completion = { (team, color, colorSeed) in
                          colorAlert.dismissViewControllerAnimated(true, completion:nil)
                         user.addTeam(team, color:color, colorSeed: colorSeed)
@@ -438,6 +442,15 @@ extension ViewController {
     
     func eraser(sender:UIButton) {
         drawableView.eraser = true
+    }
+    func pen(sender:UIButton) {
+        drawableView.lineWidth = 2.0
+        drawableView.pen = true
+    }
+    func marker(sender:UIButton) {
+        drawableView.lineWidth = 15.0
+        drawableView.marker = true
+
     }
     
     func addViewButton(sender:UIButton) {

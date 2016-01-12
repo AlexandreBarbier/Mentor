@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Team Creation View Controller-->
@@ -50,13 +49,6 @@
                                     <segue destination="Vbm-2I-XYE" kind="embed" identifier="ColorSegue" id="oBu-Kn-tqH"/>
                                 </connections>
                             </containerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bpb-jy-gdS">
-                                <rect key="frame" x="8" y="30" width="48" height="30"/>
-                                <state key="normal" title="Cancel"/>
-                                <connections>
-                                    <action selector="cancelTouch:" destination="JqT-5e-p0A" eventType="touchUpInside" id="CcE-f1-p0v"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Team name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEU-by-uQM">
                                 <rect key="frame" x="192" y="179" width="101" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -69,10 +61,8 @@
                             <constraint firstItem="Gh8-18-9dP" firstAttribute="leading" secondItem="mEU-by-uQM" secondAttribute="leading" id="2jR-Wh-oDp"/>
                             <constraint firstItem="5gd-vf-F54" firstAttribute="top" secondItem="AEo-U9-Fbs" secondAttribute="bottom" constant="8" id="3S6-qn-prF"/>
                             <constraint firstItem="cky-GJ-mfi" firstAttribute="top" secondItem="ipN-kx-1uN" secondAttribute="bottom" constant="46" id="F04-G6-51m"/>
-                            <constraint firstItem="Bpb-jy-gdS" firstAttribute="top" secondItem="hby-QT-1cv" secondAttribute="topMargin" constant="30" id="FHj-A1-Rns"/>
                             <constraint firstItem="2AH-pW-qOF" firstAttribute="centerY" secondItem="hby-QT-1cv" secondAttribute="centerY" id="L8o-hb-8qa"/>
                             <constraint firstItem="AEo-U9-Fbs" firstAttribute="leading" secondItem="mEU-by-uQM" secondAttribute="trailing" constant="8" id="Nzl-vH-u6Q"/>
-                            <constraint firstItem="Bpb-jy-gdS" firstAttribute="leading" secondItem="hby-QT-1cv" secondAttribute="leading" constant="8" id="T40-Qh-D3L"/>
                             <constraint firstItem="mEU-by-uQM" firstAttribute="centerX" secondItem="hby-QT-1cv" secondAttribute="centerX" constant="-57.5" id="a0y-53-g9g"/>
                             <constraint firstItem="5gd-vf-F54" firstAttribute="centerY" secondItem="Gh8-18-9dP" secondAttribute="centerY" id="ed8-IO-kmF"/>
                             <constraint firstItem="Gh8-18-9dP" firstAttribute="trailing" secondItem="mEU-by-uQM" secondAttribute="trailing" id="etM-wK-bpg"/>
