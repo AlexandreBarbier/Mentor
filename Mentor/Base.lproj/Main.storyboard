@@ -17,32 +17,47 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58C-xB-9WN">
-                                <rect key="frame" x="253" y="285" width="94" height="30"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NUE-4w-hT8">
+                                <rect key="frame" x="180" y="180" width="240" height="240"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ajj-Uf-c8u">
+                                        <rect key="frame" x="60" y="196" width="120" height="34"/>
+                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                        <state key="normal" title="Generate Color"/>
+                                        <connections>
+                                            <action selector="generateColorTouch:" destination="edY-6O-fdJ" eventType="touchUpInside" id="yZs-O1-fEy"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Ajj-Uf-c8u" firstAttribute="centerX" secondItem="NUE-4w-hT8" secondAttribute="centerX" id="36j-ej-ekb"/>
+                                    <constraint firstAttribute="bottom" secondItem="Ajj-Uf-c8u" secondAttribute="bottom" constant="10" id="g6d-9e-HAp"/>
+                                    <constraint firstAttribute="width" constant="240" id="riP-sB-TLX"/>
+                                    <constraint firstAttribute="height" constant="240" id="rmN-LR-QKa"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fGI-i6-aXe">
+                                <rect key="frame" x="245" y="283" width="110" height="34"/>
+                                <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                 <state key="normal" title="Choose Color"/>
                                 <connections>
-                                    <action selector="chooseColorTouch:" destination="edY-6O-fdJ" eventType="touchUpInside" id="LAz-nW-oXr"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y04-ga-go3">
-                                <rect key="frame" x="248" y="550" width="104" height="30"/>
-                                <state key="normal" title="Generate Color"/>
-                                <connections>
-                                    <action selector="generateColorTouch:" destination="edY-6O-fdJ" eventType="touchUpInside" id="m2S-i6-O8a"/>
+                                    <action selector="chooseColorTouch:" destination="edY-6O-fdJ" eventType="touchUpInside" id="moQ-VP-Q4F"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.72635995370370365" alpha="0.5" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Y04-ga-go3" firstAttribute="centerX" secondItem="9di-QJ-nMz" secondAttribute="centerX" id="PNc-0f-eHd"/>
-                            <constraint firstItem="58C-xB-9WN" firstAttribute="centerX" secondItem="9di-QJ-nMz" secondAttribute="centerX" id="cDf-zs-mdI"/>
-                            <constraint firstItem="58C-xB-9WN" firstAttribute="centerY" secondItem="9di-QJ-nMz" secondAttribute="centerY" id="pai-Ov-WJV"/>
-                            <constraint firstAttribute="bottom" secondItem="Y04-ga-go3" secondAttribute="bottom" constant="20" id="yVU-Rk-Sdw"/>
+                            <constraint firstItem="NUE-4w-hT8" firstAttribute="centerX" secondItem="9di-QJ-nMz" secondAttribute="centerX" id="67H-QD-ASg"/>
+                            <constraint firstItem="fGI-i6-aXe" firstAttribute="centerY" secondItem="9di-QJ-nMz" secondAttribute="centerY" id="JNV-yJ-mcw"/>
+                            <constraint firstItem="NUE-4w-hT8" firstAttribute="centerY" secondItem="9di-QJ-nMz" secondAttribute="centerY" id="Kw2-8l-ecM"/>
+                            <constraint firstItem="fGI-i6-aXe" firstAttribute="centerX" secondItem="9di-QJ-nMz" secondAttribute="centerX" id="M5t-8p-Nb2"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="chooseColorButton" destination="58C-xB-9WN" id="LY3-oU-wCZ"/>
-                        <outlet property="generateColorTouch" destination="Y04-ga-go3" id="wCl-I9-neC"/>
+                        <outlet property="backView" destination="NUE-4w-hT8" id="dc2-8I-xAj"/>
+                        <outlet property="chooseColorButton" destination="fGI-i6-aXe" id="VKE-UG-9he"/>
+                        <outlet property="generateColorTouch" destination="Ajj-Uf-c8u" id="ge0-OM-UK2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bdF-U2-z6B" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -116,7 +131,7 @@
                                     <color key="titleColor" red="0.9872785210609436" green="0.23953893780708313" blue="0.28234177827835083" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="settingTouch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zAG-7a-UmR"/>
+                                    <segue destination="eug-Zm-jEK" kind="presentation" identifier="ShowTeamSegue" modalPresentationStyle="pageSheet" modalTransitionStyle="crossDissolve" id="0B5-xw-lH5"/>
                                 </connections>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="b0f-Av-GDU">
@@ -189,7 +204,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xnJ-40-pCj">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xnJ-40-pCj">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -218,8 +233,25 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="oqb-9f-avE" kind="show" id="ezm-oT-aUA"/>
+                                            <segue destination="oqb-9f-avE" kind="show" identifier="CellSegue" id="ezm-oT-aUA"/>
                                         </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="JoinCell" textLabel="Czq-dj-u1N" style="IBUITableViewCellStyleDefault" id="JJN-Bj-Ddp">
+                                        <rect key="frame" x="0.0" y="72" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JJN-Bj-Ddp" id="vxD-zg-97u">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Join" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Czq-dj-u1N">
+                                                    <rect key="frame" x="15" y="0.0" width="570" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -237,14 +269,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="oBa-hc-k0E">
-                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="zMD-LU-4p3">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Rqf-vi-l8b">
                             <connections>
-                                <action selector="createTouch:" destination="yRi-Hr-8Ko" id="CZ6-Yd-fjb"/>
+                                <action selector="cancelTouch:" destination="yRi-Hr-8Ko" id="C69-Dm-UTl"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Join" id="92k-IJ-A3G">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="zMD-LU-4p3">
                             <connections>
-                                <action selector="joinTeamTouch:" destination="yRi-Hr-8Ko" id="Nin-ka-USL"/>
+                                <action selector="createTouch:" destination="yRi-Hr-8Ko" id="CZ6-Yd-fjb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -260,14 +292,14 @@
         <scene sceneID="iD3-GF-6lf">
             <objects>
                 <tableViewController id="oqb-9f-avE" customClass="ProjectTableViewController" customModule="Mentor" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qzW-iF-mm5">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qzW-iF-mm5">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="projectCell" textLabel="Bdb-A5-Gvl" detailTextLabel="aUn-h7-W8s" style="IBUITableViewCellStyleSubtitle" id="cZL-ew-apY">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="72" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cZL-ew-apY" id="dgb-21-A2U">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -307,6 +339,23 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m2L-eT-i9u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2823" y="-272"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="y8N-7e-Bhe">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0ov-o9-xab" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="Y8B-nW-3Z7" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lTA-Xy-bto"/>
+                        <viewControllerLayoutGuide type="bottom" id="zJn-7i-zuo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2HC-Ro-dpa">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+            </objects>
         </scene>
     </scenes>
     <resources>

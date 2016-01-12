@@ -252,7 +252,10 @@ extension ViewController {
                 let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
                 colorAlert.teamName = textField.text!
                 colorAlert.completion = { (team, color, colorSeed) in
-                    self.projectlessTeam(team)
+                    colorAlert.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        self.projectlessTeam(team)
+                    })
+
                 }
                 self.presentViewController(colorAlert, animated: true, completion: nil)
                 break
@@ -285,7 +288,9 @@ extension ViewController {
                     let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
                     colorAlert.team = team
                     colorAlert.completion = { (team, color, colorSeed) in
+                         colorAlert.dismissViewControllerAnimated(true, completion:nil)
                         user.addTeam(team, color:color, colorSeed: colorSeed)
+                        
                         team.getProjects({ (projects, error) -> Void in
                             guard let project = projects.first else {
                                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
@@ -415,13 +420,17 @@ extension ViewController {
         self.drawableView.redo()
     }
     
-    @IBAction func settingTouch(sender:UIButton) {
-        if canPresent {
-            self.canPresent = false
-            if let navTeamVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("NavTeamVC") as? UINavigationController, teamVC = navTeamVC.viewControllers.first as? TeamTableViewController {
-                teamVC.present(self, sourceFrame: sender.frame, inNavigationController: navTeamVC,completion: { (project, team) in
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ShowTeamSegue" {
+           let navTeamVC = segue.destinationViewController as? UINavigationController
+            let teamVC = navTeamVC!.viewControllers.first as? TeamTableViewController
+            teamVC?.completion = { (project, team) in
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    teamVC!.dismissViewControllerAnimated(true, completion: nil)
                     self.initDrawing(team, project: project)
                 })
+
             }
         }
     }

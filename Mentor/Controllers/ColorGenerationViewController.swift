@@ -16,6 +16,7 @@ class ColorGenerationViewController: UIViewController {
     var completion : ((team:Team,color:UIColor, colorSeed:CGFloat) -> Void)?
     private var usedSeed = [CGFloat]()
     
+    @IBOutlet weak var backView: UIView!
     @IBOutlet weak var generateColorTouch: UIButton!
     @IBOutlet weak var chooseColorButton: UIButton!
     
@@ -29,7 +30,7 @@ class ColorGenerationViewController: UIViewController {
                             self.currentSeed = utColor.colorSeed
                         }
                         if self.usedSeed.count == self.team.users.count {
-                            self.chooseColor(self.currentSeed)
+                            self.chooseColor()
                         }
                     })
                 }
@@ -40,6 +41,8 @@ class ColorGenerationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.backView.rounded(15.0)
+        
         self.chooseColorButton.rounded(5.0)
         self.generateColorTouch.rounded(5.0)
         self.chooseColorButton.backgroundColor = UIColor.whiteColor()
@@ -55,7 +58,7 @@ class ColorGenerationViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if team == nil {
-            self.chooseColor(self.currentSeed++)
+            self.chooseColor()
         }
 
     }
@@ -67,11 +70,14 @@ class ColorGenerationViewController: UIViewController {
         return UIColor(hue: h, saturation: satSeed, brightness: 1.0, alpha: 1.0)
     }
     
-    func chooseColor(seed:CGFloat) {
-        let colorRGB = generateColor(seed)
+    func chooseColor() {
+        while self.usedSeed.contains(self.currentSeed) {
+            currentSeed++
+        }
+        let colorRGB = generateColor(self.currentSeed)
         self.chosenColor = colorRGB
         UIView.animateWithDuration(0.3) { () -> Void in
-            self.view.backgroundColor = self.chosenColor
+            self.backView.backgroundColor = self.chosenColor
         }
     }
     
@@ -87,6 +93,7 @@ class ColorGenerationViewController: UIViewController {
    }
     
     @IBAction func generateColorTouch(sender: AnyObject) {
-        self.chooseColor(self.currentSeed++)
+        self.currentSeed++
+        self.chooseColor()
     }
 }
