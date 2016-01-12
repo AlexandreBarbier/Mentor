@@ -18,7 +18,6 @@ import Firebase
 // TODO: fix resizing when rotate
 
 class ViewController: UIViewController {
-    
     @IBOutlet weak var activity: UIActivityIndicatorView!
     @IBOutlet weak var scrollView: DrawableScrollView!
     @IBOutlet weak var drawableView: DrawableView!
@@ -250,23 +249,11 @@ extension ViewController {
                 })
                 break
             default :
-                
-                let colorAlert = UIAlertController(title: "Choose a color", message: "", preferredStyle: UIAlertControllerStyle.Alert)
-                colorAlert.addAction(UIAlertAction(title: "blue", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                    Team.create(textField.text!,color: UIColor.blueColor(), completion: { (success, team) -> Void in
-                        self.projectlessTeam(team)
-                    })
-                }))
-                colorAlert.addAction(UIAlertAction(title: "green", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                    Team.create(textField.text!,color: UIColor.greenColor(), completion: { (success, team) -> Void in
-                        self.projectlessTeam(team)
-                    })
-                }))
-                colorAlert.addAction(UIAlertAction(title: "red", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                    Team.create(textField.text!,color: UIColor.redColor(), completion: { (success, team) -> Void in
-                        self.projectlessTeam(team)
-                    })
-                }))
+                let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
+                colorAlert.teamName = textField.text!
+                colorAlert.completion = { (team, color, colorSeed) in
+                    self.projectlessTeam(team)
+                }
                 self.presentViewController(colorAlert, animated: true, completion: nil)
                 break
             }
@@ -295,9 +282,10 @@ extension ViewController {
                         return
                     }
                     //TODO: Choose color
-                    let colorAlert = UIAlertController(title: "Choose a color", message: "", preferredStyle: UIAlertControllerStyle.Alert)
-                    colorAlert.addAction(UIAlertAction(title: "blue", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                        user.addTeam(team, color:UIColor.blueColor())
+                    let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
+                    colorAlert.team = team
+                    colorAlert.completion = { (team, color, colorSeed) in
+                        user.addTeam(team, color:color, colorSeed: colorSeed)
                         team.getProjects({ (projects, error) -> Void in
                             guard let project = projects.first else {
                                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
@@ -309,38 +297,8 @@ extension ViewController {
                             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                                 self.initDrawing(team, project: project)
                             })
-                        })
-                    }))
-                    colorAlert.addAction(UIAlertAction(title: "green", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                        user.addTeam(team, color:UIColor.greenColor())
-                        team.getProjects({ (projects, error) -> Void in
-                            guard let project = projects.first else {
-                                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                    alert.dismissViewControllerAnimated(false, completion: nil)
-                                    self.projectlessTeam(team)
-                                })
-                                return
-                            }
-                            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                self.initDrawing(team, project: project)
-                            })
-                        })
-                    }))
-                    colorAlert.addAction(UIAlertAction(title: "red", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                        user.addTeam(team, color:UIColor.redColor())
-                        team.getProjects({ (projects, error) -> Void in
-                            guard let project = projects.first else {
-                                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                    alert.dismissViewControllerAnimated(false, completion: nil)
-                                    self.projectlessTeam(team)
-                                })
-                                return
-                            }
-                            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                self.initDrawing(team, project: project)
-                            })
-                        })
-                    }))
+                    })
+                    }
                     self.presentViewController(colorAlert, animated: true, completion: nil)
 
                 })
@@ -355,7 +313,7 @@ extension ViewController {
 // MARK: - Drawing initialisation
 extension ViewController {
     func setDrawingColor(team:Team) {
-        KCurrentUser!.getTeamColor(team, completion: { (teamColor, error) -> Void in
+        KCurrentUser!.getTeamColor(team, completion: { (teamColor,userTeamColor:UserTeamColor, error) -> Void in
             self.drawableView.color = teamColor == nil ? UIColor.greenColor() : teamColor
         })
     }
@@ -459,14 +417,13 @@ extension ViewController {
     
     @IBAction func settingTouch(sender:UIButton) {
         if canPresent {
-                self.canPresent = false
+            self.canPresent = false
             if let navTeamVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("NavTeamVC") as? UINavigationController, teamVC = navTeamVC.viewControllers.first as? TeamTableViewController {
                 teamVC.present(self, sourceFrame: sender.frame, inNavigationController: navTeamVC,completion: { (project, team) in
                     self.initDrawing(team, project: project)
                 })
             }
         }
-
     }
     
     func eraser(sender:UIButton) {

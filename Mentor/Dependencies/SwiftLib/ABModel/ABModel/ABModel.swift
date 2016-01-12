@@ -51,7 +51,6 @@ public class ABModel: NSObject, NSCoding {
             
         }
         self.setValuesForKeysWithDictionary(finalDictionnary)
-        //self.init(dictionary: aDecoder.decodeObjectForKey("root") as! Dictionary<String, AnyObject>)
     }
     
     public func encodeWithCoder(aCoder: NSCoder) {

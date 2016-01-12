@@ -35,14 +35,12 @@ class Team: ABModelCloudKit {
     
     override func ignoreKey(key: String, value: AnyObject) -> Bool {
         if key == "users" {
-            self.users = [CKReference]()
             for ref : CKReference in value as! [CKReference] {
                 self.users.append(ref)
             }
             return true
         }
         if key == "projects" {
-            self.projects = [CKReference]()
             for ref : CKReference in value as! [CKReference] {
                 self.projects.append(ref)
             }
@@ -55,14 +53,14 @@ class Team: ABModelCloudKit {
 
 // MARK: - Creation
 extension Team {
-    class func create(name:String, color:UIColor, completion:(success:Bool, team:Team) -> Void) -> Team {
+    class func create(name:String, color:UIColor, colorSeed:CGFloat, completion:(success:Bool, team:Team) -> Void) -> Team {
         let team = Team()
         team.name = name
         team.token = "\(name)\(arc4random() % 100)"
         if let currentUser = KCurrentUser {
             team.users = [CKReference(record: currentUser.record!, action: .None)]
             team.admin = currentUser.recordId.recordName
-            currentUser.addTeam(team, color: color)
+            currentUser.addTeam(team, color: color, colorSeed: colorSeed)
             completion(success: true, team: team)
         }
         return team

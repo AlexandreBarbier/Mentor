@@ -49,28 +49,15 @@ class TeamTableViewController: MPopoverViewController, UITableViewDataSource, UI
         alert.addAction(UIAlertAction(title: "Create", style: .Default, handler: { (action) -> Void in
             if let textF = alert.textFields!.first {
                 
-                let colorAlert = UIAlertController(title: "Choose a color", message: "", preferredStyle: UIAlertControllerStyle.Alert)
-                colorAlert.addAction(UIAlertAction(title: "blue", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                    Team.create(textF.text!,color: UIColor.blueColor(), completion: { (success, team) -> Void in
-                        self.displayedDataSource.append(team)
-                        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
-                        self.preferredContentSize = CGSize(width: popoverWidth, height:self.computedHeight)
-                    })
-                }))
-                colorAlert.addAction(UIAlertAction(title: "green", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                    Team.create(textF.text!,color: UIColor.greenColor(), completion: { (success, team) -> Void in
-                        self.displayedDataSource.append(team)
-                        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
-                        self.preferredContentSize = CGSize(width: popoverWidth, height:self.computedHeight)
-                    })
-                }))
-                colorAlert.addAction(UIAlertAction(title: "red", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                    Team.create(textF.text!,color: UIColor.redColor(), completion: { (success, team) -> Void in
-                        self.displayedDataSource.append(team)
-                        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
-                        self.preferredContentSize = CGSize(width: popoverWidth, height:self.computedHeight)
-                    })
-                }))
+                let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
+                colorAlert.teamName = textF.text!
+                colorAlert.completion = { (team, color, colorSeed) in
+                    self.displayedDataSource.append(team)
+                    self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+                    self.preferredContentSize = CGSize(width: popoverWidth, height:self.computedHeight)
+                    
+                    colorAlert.dismissViewControllerAnimated(true, completion: nil)
+                }
                 self.presentViewController(colorAlert, animated: true, completion: nil)
             }
         }))
@@ -150,31 +137,9 @@ class TeamTableViewController: MPopoverViewController, UITableViewDataSource, UI
                         return
                     }
                     //TODO: Choose color
-                    let colorAlert = UIAlertController(title: "Choose a color", message: "", preferredStyle: UIAlertControllerStyle.Alert)
-                    colorAlert.addAction(UIAlertAction(title: "blue", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                        KCurrentUser!.addTeam(team, color:UIColor.blackColor())
-                        KCurrentUser!.publicSave()
-                        
-                        self.displayedDataSource.append(team)
-                        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
-                        self.preferredContentSize = CGSize(width: popoverWidth, height:self.computedHeight)
-                    }))
-                    colorAlert.addAction(UIAlertAction(title: "green", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                        KCurrentUser!.addTeam(team, color:UIColor.blackColor())
-                        KCurrentUser!.publicSave()
-                        
-                        self.displayedDataSource.append(team)
-                        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
-                        self.preferredContentSize = CGSize(width: popoverWidth, height:self.computedHeight)
-                    }))
-                    colorAlert.addAction(UIAlertAction(title: "red", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                        KCurrentUser!.addTeam(team, color:UIColor.blackColor())
-                        KCurrentUser!.publicSave()
-                        
-                        self.displayedDataSource.append(team)
-                        self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
-                        self.preferredContentSize = CGSize(width: popoverWidth, height:self.computedHeight)
-                    }))
+                    let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
+                    colorAlert.team = team
+                    
                     self.presentViewController(colorAlert, animated: true, completion: nil)
                 })
                 

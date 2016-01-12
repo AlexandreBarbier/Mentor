@@ -10,6 +10,7 @@
 		2546C40E604B0EB87F8DE1B6 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD7D9B4A09BE7B703315063 /* Pods.framework */; };
 		8D058ADE1C17314F00A2D076 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D058ADD1C17314F00A2D076 /* Point.swift */; };
 		8D05D6751C187963008B7A7E /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D05D6741C187963008B7A7E /* Drawing.swift */; };
+		8D0D6DC41C441AF10018CE41 /* ColorGenerationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0D6DC31C441AF10018CE41 /* ColorGenerationViewController.swift */; };
 		8D11201A1C1ED23F000E041B /* TeamTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1120191C1ED23F000E041B /* TeamTableViewController.swift */; };
 		8D11201C1C1EE728000E041B /* MPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D11201B1C1EE728000E041B /* MPopoverViewController.swift */; };
 		8D11201E1C1EFEB9000E041B /* ProjectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */; };
@@ -100,6 +101,7 @@
 		73667D4011EA8419CDA7F1FF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8D058ADD1C17314F00A2D076 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		8D05D6741C187963008B7A7E /* Drawing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
+		8D0D6DC31C441AF10018CE41 /* ColorGenerationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorGenerationViewController.swift; sourceTree = "<group>"; };
 		8D1120191C1ED23F000E041B /* TeamTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamTableViewController.swift; sourceTree = "<group>"; };
 		8D11201B1C1EE728000E041B /* MPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPopoverViewController.swift; sourceTree = "<group>"; };
 		8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectTableViewController.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */,
 				8D1120191C1ED23F000E041B /* TeamTableViewController.swift */,
 				AC307FF81BF1F69300C28D5D /* ViewController.swift */,
+				8D0D6DC31C441AF10018CE41 /* ColorGenerationViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -466,6 +469,7 @@
 				8D13B4F61C1ACAC6005F7325 /* Constants.swift in Sources */,
 				8D11201A1C1ED23F000E041B /* TeamTableViewController.swift in Sources */,
 				8DBD195B1C15CDEC0073BE8B /* Team.swift in Sources */,
+				8D0D6DC41C441AF10018CE41 /* ColorGenerationViewController.swift in Sources */,
 				8D11201C1C1EE728000E041B /* MPopoverViewController.swift in Sources */,
 				AC778DE91BF1F86E00669BD7 /* DrawableView.swift in Sources */,
 				AC307FF91BF1F69300C28D5D /* ViewController.swift in Sources */,

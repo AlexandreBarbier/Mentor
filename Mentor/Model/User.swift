@@ -29,19 +29,15 @@ class User : ABModelCloudKit {
     
     override func ignoreKey(key: String, value: AnyObject) -> Bool {
         if key == "teams" {
-            self.teams = [CKReference]()
             for ref : CKReference in value as! [CKReference] {
                 self.teams.append(ref)
             }
-           
             return true
         }
         if key == "teamColor" {
-            self.teamColor = [CKReference]()
             for ref : CKReference in value as! [CKReference] {
                 self.teamColor.append(ref)
             }
-            
             return true
         }
         return false
@@ -118,18 +114,18 @@ class User : ABModelCloudKit {
         })
     }
     
-    func getTeamColor(team:Team, completion:(teamColor:UIColor, error:NSError?) -> Void) {
+    func getTeamColor(team:Team, completion:(teamColor:UIColor,userTeamColor:UserTeamColor, error:NSError?) -> Void) {
         self.getColors { (teamColor, error) -> Void in
             teamColor.forEach({ (utColor) -> () in
                 if utColor.teamName == team.recordId.recordName {
-                    completion(teamColor: utColor.getColor(), error: nil)
+                    completion(teamColor: utColor.getColor(), userTeamColor: utColor, error: nil)
                 }
             })
         }
     }
     
-    func addTeam(team:Team, color:UIColor) {
-        UserTeamColor.create(team, color: color, completion: {(utColor:UserTeamColor, error:NSError?) in
+    func addTeam(team:Team, color:UIColor, colorSeed:CGFloat) {
+        UserTeamColor.create(team, colorSeed: colorSeed, color: color, completion: {(utColor:UserTeamColor, error:NSError?) in
             self.teamColor.append(CKReference(record: utColor.toRecord(), action: .None))
             self.teams.append(CKReference(record: team.toRecord(), action: .None))
             self.saveBulk([utColor.toRecord(), team.toRecord()], completion:  nil)

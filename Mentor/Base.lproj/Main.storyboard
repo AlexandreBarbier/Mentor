@@ -5,6 +5,50 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
+        <!--Color Generation View Controller-->
+        <scene sceneID="3Em-U3-OgQ">
+            <objects>
+                <viewController storyboardIdentifier="ColorGeneratorVC" id="edY-6O-fdJ" customClass="ColorGenerationViewController" customModule="Mentor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KLE-NA-qZv"/>
+                        <viewControllerLayoutGuide type="bottom" id="LXh-O1-Bc4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9di-QJ-nMz">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58C-xB-9WN">
+                                <rect key="frame" x="253" y="285" width="94" height="30"/>
+                                <state key="normal" title="Choose Color"/>
+                                <connections>
+                                    <action selector="chooseColorTouch:" destination="edY-6O-fdJ" eventType="touchUpInside" id="LAz-nW-oXr"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y04-ga-go3">
+                                <rect key="frame" x="248" y="550" width="104" height="30"/>
+                                <state key="normal" title="Generate Color"/>
+                                <connections>
+                                    <action selector="generateColorTouch:" destination="edY-6O-fdJ" eventType="touchUpInside" id="m2S-i6-O8a"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Y04-ga-go3" firstAttribute="centerX" secondItem="9di-QJ-nMz" secondAttribute="centerX" id="PNc-0f-eHd"/>
+                            <constraint firstItem="58C-xB-9WN" firstAttribute="centerX" secondItem="9di-QJ-nMz" secondAttribute="centerX" id="cDf-zs-mdI"/>
+                            <constraint firstItem="58C-xB-9WN" firstAttribute="centerY" secondItem="9di-QJ-nMz" secondAttribute="centerY" id="pai-Ov-WJV"/>
+                            <constraint firstAttribute="bottom" secondItem="Y04-ga-go3" secondAttribute="bottom" constant="20" id="yVU-Rk-Sdw"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="chooseColorButton" destination="58C-xB-9WN" id="LY3-oU-wCZ"/>
+                        <outlet property="generateColorTouch" destination="Y04-ga-go3" id="wCl-I9-neC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bdF-U2-z6B" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="228" y="-678"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -68,7 +112,9 @@
                                     <constraint firstAttribute="height" constant="50" id="0xb-UB-TSW"/>
                                     <constraint firstAttribute="width" constant="50" id="SJY-Dl-G5t"/>
                                 </constraints>
-                                <state key="normal" image="settings"/>
+                                <state key="normal" image="settings">
+                                    <color key="titleColor" red="0.9872785210609436" green="0.23953893780708313" blue="0.28234177827835083" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="settingTouch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zAG-7a-UmR"/>
                                 </connections>

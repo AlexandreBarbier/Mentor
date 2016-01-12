@@ -19,7 +19,6 @@ class Drawing: ABModelCloudKit {
     
     override func ignoreKey(key: String, value: AnyObject) -> Bool {
         if key == "paths" {
-            self.paths = [CKReference]()
             for ref : CKReference in value as! [CKReference] {
                 self.paths.append(ref)
             }
