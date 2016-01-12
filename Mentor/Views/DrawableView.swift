@@ -10,7 +10,8 @@ import UIKit
 import CloudKit
 import Firebase
 import ABUIKit
-//TODO: manage multi size screen (simple solution : create a view with the max screen size)
+//TODO: manage multi size screen (simple solution : create a view with the max screen size) 
+//TODO: Fix pen size after update
 
 struct FirebaseKey {
     static let red = "r"
@@ -22,6 +23,7 @@ struct FirebaseKey {
     static let points = "po"
     static let delete = "del"
     static let marker = "mark"
+        static let lineWidth = "lw"
     static let undeletable = "undeletable"
 }
 
@@ -171,13 +173,11 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         if pen {
             layer.lineCap  = kCALineCapRound
             layer.lineJoin = kCALineJoinRound
-            
         }
         layer.fillColor = UIColor.clearColor().CGColor
         if marker {
             layer.lineCap  = kCALineCapSquare
             layer.lineJoin = kCALineJoinBevel
-
         }
         layer.strokeColor = color == nil ? self.color.CGColor : color!.CGColor
         self.superview!.layer.insertSublayer(layer, below: self.layer)
@@ -227,6 +227,7 @@ extension DrawableView {
                     var green : CGFloat = 0.0
                     var blue : CGFloat = 0.0
                     var mark : Bool = false
+                    var lw : CGFloat = 2.0
                     var name = ""
                     firstPoint.forEach({ (obj) -> () in
                         if let r = obj[FirebaseKey.red] {
@@ -244,18 +245,24 @@ extension DrawableView {
                         else if let ma = obj[FirebaseKey.marker] {
                             mark = ma as! Bool
                         }
+                        else if let line = obj[FirebaseKey.lineWidth] {
+                            lw = CGFloat(line.floatValue)
+                        }
                     })
                     
                     let cPath = UIBezierPath()
                     cPath.removeAllPoints()
                     cPath.interpolatePointsWithHermite(cPoint)
+                    var alpha : CGFloat = 1.0
                     if mark {
                         self.marker = mark
+                        alpha = 0.6
                     }
                     else {
                         self.pen = true
                     }
-                    self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: 1.0))
+                    self.lineWidth = lw
+                    self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: alpha))
                 })
             }
             self.isSource = false
@@ -321,7 +328,7 @@ extension DrawableView {
             let recPoints = Point.createBatch(interPolationPoints,dPath: dPath)
             self.isSource = true
             firbaseDrawing!.updateChildValues([FirebaseKey.points:  interPolationPoints.map({ (point) -> [[String:AnyObject]] in
-                return [[FirebaseKey.x:NSNumber(float: Float(point.x))], [FirebaseKey.y:NSNumber(float: Float(point.y))], [FirebaseKey.red:NSNumber(float: Float(red))],[FirebaseKey.green:NSNumber(float: Float(green))],[FirebaseKey.blue:NSNumber(float: Float(blue))],[FirebaseKey.pathName:dPath.recordId.recordName],[FirebaseKey.marker:marker]]
+                return [[FirebaseKey.x:NSNumber(float: Float(point.x))], [FirebaseKey.y:NSNumber(float: Float(point.y))], [FirebaseKey.red:NSNumber(float: Float(red))],[FirebaseKey.green:NSNumber(float: Float(green))],[FirebaseKey.blue:NSNumber(float: Float(blue))],[FirebaseKey.pathName:dPath.recordId.recordName],[FirebaseKey.marker:marker], [FirebaseKey.lineWidth:self.lineWidth]]
             })
                 ])
             dPath.points.appendContentsOf(recPoints.0.map({ (record) -> CKReference in
