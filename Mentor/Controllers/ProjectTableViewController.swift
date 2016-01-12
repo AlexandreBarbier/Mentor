@@ -26,9 +26,7 @@ class ProjectTableViewController: UITableViewController {
     var displayedDataSource:[Project]! {
         didSet {
             self.title = "Project\(self.displayedDataSource.count > 1 ? "s": "")"
-            if let presentingViewController = navigationController {
-                presentingViewController.preferredContentSize = CGSize(width: popoverWidth, height: self.computedHeight)
-            }
+          
         }
     }
     
@@ -81,9 +79,6 @@ class ProjectTableViewController: UITableViewController {
                 let project = Project.create(textF.text!, team: self.team, completion: self.completion)
                 self.displayedDataSource.append(project)
                 self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
-                if let presentingViewController = self.navigationController {
-                    presentingViewController.preferredContentSize = CGSize(width: popoverWidth, height: self.computedHeight)
-                }
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JqT-5e-p0A">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Team Creation View Controller-->
+        <scene sceneID="pMy-JF-uEJ">
+            <objects>
+                <viewController id="JqT-5e-p0A" customClass="TeamCreationViewController" customModule="Mentor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yXo-g2-lyy"/>
+                        <viewControllerLayoutGuide type="bottom" id="cky-GJ-mfi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hby-QT-1cv">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="My first team" borderStyle="roundedRect" placeholder="team name" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AEo-U9-Fbs">
+                                <rect key="frame" x="301" y="174" width="119" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="My first project" borderStyle="roundedRect" placeholder="project name" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5gd-vf-F54">
+                                <rect key="frame" x="301" y="212" width="119" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gh8-18-9dP">
+                                <rect key="frame" x="192" y="217" width="101" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ipN-kx-1uN">
+                                <rect key="frame" x="277" y="524" width="46" height="30"/>
+                                <state key="normal" title="Create"/>
+                                <connections>
+                                    <action selector="createTouch:" destination="JqT-5e-p0A" eventType="touchUpInside" id="UIJ-V3-eOs"/>
+                                </connections>
+                            </button>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2AH-pW-qOF">
+                                <rect key="frame" x="0.0" y="250" width="600" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="kgI-rW-WTc"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="Vbm-2I-XYE" kind="embed" identifier="ColorSegue" id="oBu-Kn-tqH"/>
+                                </connections>
+                            </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bpb-jy-gdS">
+                                <rect key="frame" x="8" y="30" width="48" height="30"/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="cancelTouch:" destination="JqT-5e-p0A" eventType="touchUpInside" id="CcE-f1-p0v"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Team name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEU-by-uQM">
+                                <rect key="frame" x="192" y="179" width="101" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Gh8-18-9dP" firstAttribute="leading" secondItem="mEU-by-uQM" secondAttribute="leading" id="2jR-Wh-oDp"/>
+                            <constraint firstItem="5gd-vf-F54" firstAttribute="top" secondItem="AEo-U9-Fbs" secondAttribute="bottom" constant="8" id="3S6-qn-prF"/>
+                            <constraint firstItem="cky-GJ-mfi" firstAttribute="top" secondItem="ipN-kx-1uN" secondAttribute="bottom" constant="46" id="F04-G6-51m"/>
+                            <constraint firstItem="Bpb-jy-gdS" firstAttribute="top" secondItem="hby-QT-1cv" secondAttribute="topMargin" constant="30" id="FHj-A1-Rns"/>
+                            <constraint firstItem="2AH-pW-qOF" firstAttribute="centerY" secondItem="hby-QT-1cv" secondAttribute="centerY" id="L8o-hb-8qa"/>
+                            <constraint firstItem="AEo-U9-Fbs" firstAttribute="leading" secondItem="mEU-by-uQM" secondAttribute="trailing" constant="8" id="Nzl-vH-u6Q"/>
+                            <constraint firstItem="Bpb-jy-gdS" firstAttribute="leading" secondItem="hby-QT-1cv" secondAttribute="leading" constant="8" id="T40-Qh-D3L"/>
+                            <constraint firstItem="mEU-by-uQM" firstAttribute="centerX" secondItem="hby-QT-1cv" secondAttribute="centerX" constant="-57.5" id="a0y-53-g9g"/>
+                            <constraint firstItem="5gd-vf-F54" firstAttribute="centerY" secondItem="Gh8-18-9dP" secondAttribute="centerY" id="ed8-IO-kmF"/>
+                            <constraint firstItem="Gh8-18-9dP" firstAttribute="trailing" secondItem="mEU-by-uQM" secondAttribute="trailing" id="etM-wK-bpg"/>
+                            <constraint firstItem="5gd-vf-F54" firstAttribute="trailing" secondItem="AEo-U9-Fbs" secondAttribute="trailing" id="fLP-4f-tC1"/>
+                            <constraint firstAttribute="trailing" secondItem="2AH-pW-qOF" secondAttribute="trailing" id="fYO-5u-WiP"/>
+                            <constraint firstItem="2AH-pW-qOF" firstAttribute="leading" secondItem="hby-QT-1cv" secondAttribute="leading" id="ihd-gx-Aba"/>
+                            <constraint firstItem="AEo-U9-Fbs" firstAttribute="centerY" secondItem="mEU-by-uQM" secondAttribute="centerY" id="juE-0J-qg9"/>
+                            <constraint firstItem="ipN-kx-1uN" firstAttribute="centerX" secondItem="hby-QT-1cv" secondAttribute="centerX" id="lBE-vg-S9J"/>
+                            <constraint firstItem="2AH-pW-qOF" firstAttribute="top" secondItem="5gd-vf-F54" secondAttribute="bottom" constant="8" id="yNW-BS-RIL"/>
+                            <constraint firstItem="5gd-vf-F54" firstAttribute="leading" secondItem="AEo-U9-Fbs" secondAttribute="leading" id="zXd-Nd-V5H"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="projectNameTF" destination="5gd-vf-F54" id="5KH-6f-jTT"/>
+                        <outlet property="teamNameTF" destination="AEo-U9-Fbs" id="bZz-3z-VEP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mvo-Hr-saJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="543" y="-24"/>
+        </scene>
+        <!--ColorGeneratorVC-->
+        <scene sceneID="MLV-0Z-UK2">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ColorGeneratorVC" id="Vbm-2I-XYE" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dah-CD-DV8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="543.5" y="454"/>
+        </scene>
+    </scenes>
+</document>

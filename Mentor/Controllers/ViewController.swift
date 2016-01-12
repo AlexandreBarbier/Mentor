@@ -428,6 +428,7 @@ extension ViewController {
                 
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     teamVC!.dismissViewControllerAnimated(true, completion: nil)
+
                     self.initDrawing(team, project: project)
                 })
 

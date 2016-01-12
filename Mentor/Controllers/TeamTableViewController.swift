@@ -9,8 +9,6 @@
 import UIKit
 import ABUIKit
 
-let popoverWidth:Double = UIScreen.mainScreen().bounds.width <= 375.0 ? Double(UIScreen.mainScreen().bounds.width - 16.0) : 375.0 - 16.0
-
 class TeamTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var createButton: UIButton!
@@ -54,46 +52,6 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func createTouch(sender: AnyObject) {
-        let alert = UIAlertController(title: "Team", message: "create a new team", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addTextFieldWithConfigurationHandler { (textField) -> Void in
-            textField.placeholder = "team name"
-        }
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Create", style: .Default, handler: { (action) -> Void in
-            if let textF = alert.textFields!.first {
-                
-                let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
-                colorAlert.teamName = textF.text!
-                colorAlert.completion = { (team, color, colorSeed) in
-                    self.displayedDataSource.append(team)
-                    self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
-                    self.preferredContentSize = CGSize(width: popoverWidth, height:self.computedHeight)
-                    
-                    UIView.animateWithDuration(0.3, animations: { () -> Void in
-                        colorAlert.view.alpha = 0.0
-                        }, completion: { (finished) -> Void in
-                            if finished {
-                                colorAlert.view.removeFromSuperview()
-                                colorAlert.removeFromParentViewController()
-                            }
-                    })
-                    colorAlert.removeFromParentViewController()
-
-                }
-                self.addChildViewController(colorAlert)
-                colorAlert.view.alpha = 0.0
-                self.view.addSubview(colorAlert.view)
-                UIView.animateWithDuration(0.3, animations: { () -> Void in
-                    colorAlert.view.alpha = 1.0
-                })
-
-            }
-        }))
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    
     // MARK: - Table view data source
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -101,12 +59,10 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.displayedDataSource.count + 1
+        return self.displayedDataSource.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        if indexPath.row < self.displayedDataSource.count {
             var cell = tableView.dequeueReusableCellWithIdentifier("teamCell")
             if cell == nil {
                 cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "teamCell")
@@ -122,23 +78,10 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
             cell!.detailTextLabel!.text = "token : \(self.displayedDataSource[indexPath.row].token)"
             cell!.textLabel?.numberOfLines = 0
             return cell!
-        }
-        else {
-            var cell = tableView.dequeueReusableCellWithIdentifier("JoinCell")
-            if cell == nil {
-                cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "JoinCell")
-            }
-            return cell!
-        }
+      
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row >= self.displayedDataSource.count {
-            joinTeamTouch()
-        }
-    }
-    
-    func joinTeamTouch() {
+    @IBAction func joinTeamTouch(sender:AnyObject) {
         let alert = UIAlertController(title: "Team", message: "Join a team", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
         alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
@@ -174,15 +117,14 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
                     UIView.animateWithDuration(0.3, animations: { () -> Void in
                         colorAlert.view.alpha = 1.0
                     })
-
                 })
-                
                 break
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
-        
     }
+    
+    
     @IBAction func cancelTouch(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -196,6 +138,14 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
             projectVC!.completion = completion
             projectVC!.displayedDataSource = [Project]()
             projectVC!.team =  self.displayedDataSource[index!.row]
+        }
+        
+        if segue.identifier == "TeamCreationSegue" {
+            let teamCreationVC = segue.destinationViewController as? TeamCreationViewController
+            teamCreationVC?.completion = { (team) in
+                self.displayedDataSource.append(team)
+                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+            }
         }
     }
     

@@ -10,7 +10,7 @@ import UIKit
 
 class ColorGenerationViewController: UIViewController {
     var chosenColor : UIColor!
-    private var currentSeed : CGFloat = 1.0
+    var currentSeed : CGFloat = 1.0
     private var satSeed : CGFloat = 1.0
     var teamName : String = ""
     var completion : ((team:Team,color:UIColor, colorSeed:CGFloat) -> Void)?
@@ -41,13 +41,9 @@ class ColorGenerationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.backView.rounded(15.0)
-        
-        self.chooseColorButton.rounded(5.0)
         self.generateColorTouch.rounded(5.0)
-        self.chooseColorButton.backgroundColor = UIColor.whiteColor()
+
         self.generateColorTouch.backgroundColor = UIColor.whiteColor()
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,11 +56,9 @@ class ColorGenerationViewController: UIViewController {
         if team == nil {
             self.chooseColor()
         }
-
     }
     
     func generateColor(seed:CGFloat) -> UIColor! {
-        
         let h = seed <= 12 ? (seed / 12.0) : ((seed % 12.0) / 12.0)
         satSeed = seed <= 12 ? 1 : 6 - ((seed / 12) / 6)
         return UIColor(hue: h, saturation: satSeed, brightness: 1.0, alpha: 1.0)
@@ -80,17 +74,6 @@ class ColorGenerationViewController: UIViewController {
             self.backView.backgroundColor = self.chosenColor
         }
     }
-    
-    @IBAction func chooseColorTouch(sender: AnyObject) {
-        if team == nil {
-            Team.create(self.teamName,color: self.chosenColor,colorSeed: self.currentSeed, completion: { (success, team) -> Void in
-                self.completion?(team: team,color:self.chosenColor, colorSeed:self.currentSeed)
-            })
-        }
-        else {
-            self.completion?(team: self.team,color:self.chosenColor, colorSeed:self.currentSeed)
-        }
-   }
     
     @IBAction func generateColorTouch(sender: AnyObject) {
         self.currentSeed++
