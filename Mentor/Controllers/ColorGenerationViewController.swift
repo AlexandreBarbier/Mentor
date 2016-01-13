@@ -31,7 +31,6 @@ class ColorGenerationViewController: UIViewController {
                         }
                         if self.usedSeed.count == self.team.users.count {
                             self.chooseColor()
-                            
                         }
                     })
                 }
@@ -67,8 +66,8 @@ class ColorGenerationViewController: UIViewController {
     
     func generateColor(seed:CGFloat) -> UIColor! {
         let h = seed <= 12 ? (seed / 12.0) : ((seed % 12.0) / 12.0)
-        satSeed = seed <= 12 ? 1 : 6 - ((seed / 12) / 6)
-        return UIColor(hue: h, saturation: satSeed, brightness: 1.0, alpha: 1.0)
+        satSeed = seed <= 12 ? 1 : 1 - ((seed % 12) / 12)
+        return UIColor(hue: h, saturation: 1.0, brightness: satSeed, alpha: 1.0)
     }
     
     func chooseColor() {
