@@ -14,7 +14,7 @@ import ABModel
 import Firebase
 
 // MARK: - ViewController declaration
-// TODO: Remove first team and project creation
+// TODO: Remove first team and project creation + color chooser
 // TODO: fix resizing when rotate
 
 class ViewController: UIViewController {

@@ -10,7 +10,7 @@ import UIKit
 import CloudKit
 import Firebase
 import ABUIKit
-//TODO: manage multi size screen (simple solution : create a view with the max screen size) 
+//TODO: manage multi size screen (simple solution : create a view with the max screen size)
 //TODO: Fix pen size after update
 
 struct FirebaseKey {
@@ -23,7 +23,8 @@ struct FirebaseKey {
     static let points = "po"
     static let delete = "del"
     static let marker = "mark"
-        static let lineWidth = "lw"
+    static let lineWidth = "lw"
+    static let drawingUser = "du"
     static let undeletable = "undeletable"
 }
 
@@ -36,7 +37,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
     private var interPolationPoints = [CGPoint] ()
     private var firbaseDrawing : Firebase!
     private var firebaseDelete : Firebase!
-    private var isSource = false
+
     private var touchCircle = UIBezierPath()
     private var firebaseDrawingObserverHandle : UInt = 0
     private var firebaseDeleteObserverHandle : UInt = 0
@@ -76,6 +77,8 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             DebugConsoleView.debugView.print("set drawing")
             if (drawing != nil) {
                 initFirebase()
+                let p = self.pen
+                let m = self.marker
                 self.drawing!.getPaths({ (paths, error) -> Void in
                     paths.getPoints({ (points, error) -> Void in
                         let cPoint = points.sort({ (p1, p2) -> Bool in
@@ -96,8 +99,10 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                             self.marker = true
                         }
                         self.path.lineWidth = paths.lineWidth
-
                         self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(paths.recordId.recordName)",color: color)
+                        self.pen = p
+                        self.marker = m
+                        self.path.lineWidth = self.lineWidth
                     })
                 })
             }
@@ -205,12 +210,18 @@ extension DrawableView {
         }
         firbaseDrawing = Firebase(url: "\(Constants.NetworkURL.firebase.rawValue)\(project!.recordName)/drawing/")
         firebaseDrawingObserverHandle = firbaseDrawing!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
-            if !self.isSource {
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    let arr = snap.value as! [[Dictionary<String, AnyObject>]]
+            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                let arr = snap.value as! [[Dictionary<String, AnyObject>]]
+                let firstP = arr.first!
+                var userName = ""
+                firstP.forEach({ (obj) -> () in
+                     if let un = obj[FirebaseKey.drawingUser] {
+                        userName = "\(un)"
+                    }
+                    })
+                if userName != KCurrentUser!.recordId.recordName {
                     var cPoint = Array<CGPoint>()
                     arr.forEach({ (obj) -> () in
-
                         var point = CGPointZero
                         obj.forEach({ (mino) -> () in
                             if let x = mino[FirebaseKey.x] {
@@ -263,9 +274,9 @@ extension DrawableView {
                     }
                     self.lineWidth = lw
                     self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: alpha))
-                })
-            }
-            self.isSource = false
+                }
+            })
+            
             }) { (error) -> Void in
                 
         }
@@ -273,12 +284,13 @@ extension DrawableView {
             firebaseDelete.removeObserverWithHandle(firebaseDeleteObserverHandle)
         }
         firebaseDelete = Firebase(url: "\(Constants.NetworkURL.firebase.rawValue)\(project!.recordName)/delete")
+
         firebaseDeleteObserverHandle = firebaseDelete!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
-            if !self.isSource {
-                let layerName = snap.value as! String
-                self.removeLayerWithName(layerName)
+            let value = snap.value as! [[String:String]]
+            if value.first![FirebaseKey.drawingUser] != KCurrentUser!.recordId.recordName {
+                self.removeLayerWithName(value.first![FirebaseKey.delete]!)
             }
-            self.isSource = false
+
             }, withCancelBlock: { (error) -> Void in
                 
         })
@@ -326,9 +338,8 @@ extension DrawableView {
             dPath.pen = self.pen
             dPath.lineWidth = self.lineWidth
             let recPoints = Point.createBatch(interPolationPoints,dPath: dPath)
-            self.isSource = true
             firbaseDrawing!.updateChildValues([FirebaseKey.points:  interPolationPoints.map({ (point) -> [[String:AnyObject]] in
-                return [[FirebaseKey.x:NSNumber(float: Float(point.x))], [FirebaseKey.y:NSNumber(float: Float(point.y))], [FirebaseKey.red:NSNumber(float: Float(red))],[FirebaseKey.green:NSNumber(float: Float(green))],[FirebaseKey.blue:NSNumber(float: Float(blue))],[FirebaseKey.pathName:dPath.recordId.recordName],[FirebaseKey.marker:marker], [FirebaseKey.lineWidth:self.lineWidth]]
+                return [[FirebaseKey.drawingUser:"\(KCurrentUser!.recordId.recordName)"],[FirebaseKey.x:NSNumber(float: Float(point.x))], [FirebaseKey.y:NSNumber(float: Float(point.y))], [FirebaseKey.red:NSNumber(float: Float(red))],[FirebaseKey.green:NSNumber(float: Float(green))],[FirebaseKey.blue:NSNumber(float: Float(blue))],[FirebaseKey.pathName:dPath.recordId.recordName],[FirebaseKey.marker:marker], [FirebaseKey.lineWidth:self.lineWidth]]
             })
                 ])
             dPath.points.appendContentsOf(recPoints.0.map({ (record) -> CKReference in
@@ -407,8 +418,7 @@ extension DrawableView {
                     let bezierPath = UIBezierPath(CGPath:path)
                     if bezierPath.bounds.contains(point) {
                         if !shapeLayer.name!.containsString(FirebaseKey.undeletable) {
-                            self.isSource = true
-                            firebaseDelete!.updateChildValues([FirebaseKey.delete: shapeLayer.name!])
+                            firebaseDelete!.updateChildValues([FirebaseKey.delete:[[FirebaseKey.delete: shapeLayer.name!],[FirebaseKey.drawingUser:KCurrentUser!.recordId.recordName]]])
                             let index = history.indexOf({ (_: (layer: CALayer, dPath: DrawingPath)) -> Bool in
                                 if layer == shapeLayer {
                                     return true
