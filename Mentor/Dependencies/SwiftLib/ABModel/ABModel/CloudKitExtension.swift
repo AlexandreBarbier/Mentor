@@ -97,8 +97,6 @@ public class ABModelCloudKit : ABModel {
         saveOp.savePolicy = .AllKeys
         saveOp.perRecordCompletionBlock =  { (record, error) -> Void in
             guard let rec = record else {
-                
-                print("public save \(error)")
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     completion?(record: record, error: error)
                 })
@@ -132,7 +130,6 @@ public class ABModelCloudKit : ABModel {
                 })
             }
         }
-        
         CloudKitManager.publicDB.addOperation(saveOp)
     }
     

@@ -25,26 +25,38 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ajj-Uf-c8u">
-                                <rect key="frame" x="240" y="330" width="120" height="34"/>
+                                <rect key="frame" x="240" y="283" width="120" height="34"/>
                                 <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                <state key="normal" title="Generate Color"/>
+                                <state key="normal" title="Generate Color">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="generateColorTouch:" destination="edY-6O-fdJ" eventType="touchUpInside" id="yZs-O1-fEy"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lhz-Ga-lQn">
+                                <rect key="frame" x="274" y="330" width="53" height="30"/>
+                                <state key="normal" title="Choose"/>
+                                <connections>
+                                    <action selector="chooseColorTouch:" destination="edY-6O-fdJ" eventType="touchUpInside" id="7tb-3Y-edE"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.083537109196186066" blue="0.99822652339935303" alpha="0.0" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="NUE-4w-hT8" secondAttribute="trailing" id="0GY-z2-fWt"/>
                             <constraint firstItem="NUE-4w-hT8" firstAttribute="centerX" secondItem="9di-QJ-nMz" secondAttribute="centerX" id="67H-QD-ASg"/>
                             <constraint firstItem="NUE-4w-hT8" firstAttribute="centerY" secondItem="9di-QJ-nMz" secondAttribute="centerY" id="Kw2-8l-ecM"/>
+                            <constraint firstItem="lhz-Ga-lQn" firstAttribute="centerX" secondItem="9di-QJ-nMz" secondAttribute="centerX" id="c6W-KB-q7H"/>
+                            <constraint firstItem="lhz-Ga-lQn" firstAttribute="top" secondItem="NUE-4w-hT8" secondAttribute="bottom" constant="8" id="c7f-gs-7tC"/>
                             <constraint firstItem="Ajj-Uf-c8u" firstAttribute="centerX" secondItem="9di-QJ-nMz" secondAttribute="centerX" id="caS-7u-2wd"/>
-                            <constraint firstItem="Ajj-Uf-c8u" firstAttribute="top" secondItem="NUE-4w-hT8" secondAttribute="bottom" constant="8" id="itT-pd-27k"/>
                             <constraint firstItem="NUE-4w-hT8" firstAttribute="leading" secondItem="9di-QJ-nMz" secondAttribute="leading" id="jc3-b8-4Fk"/>
+                            <constraint firstItem="Ajj-Uf-c8u" firstAttribute="centerY" secondItem="9di-QJ-nMz" secondAttribute="centerY" id="qjw-Ab-fb9"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="backView" destination="NUE-4w-hT8" id="dc2-8I-xAj"/>
+                        <outlet property="chooseColorButton" destination="lhz-Ga-lQn" id="kBz-xO-czK"/>
                         <outlet property="generateColorTouch" destination="Ajj-Uf-c8u" id="ge0-OM-UK2"/>
                     </connections>
                 </viewController>
@@ -158,11 +170,20 @@
                         <outlet property="scrollView" destination="6kI-HS-PAE" id="We6-3b-smD"/>
                         <outlet property="settingButton" destination="QoM-lS-OLz" id="4lg-n9-7XL"/>
                         <outlet property="undoButton" destination="JJa-II-zha" id="ykj-8e-FlW"/>
+                        <segue destination="i2V-SE-h5H" kind="presentation" identifier="CreateTeamSegue" id="oGq-SH-4He"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="232" y="-228"/>
+        </scene>
+        <!--CreationStoryboard-->
+        <scene sceneID="lb5-oB-SWF">
+            <objects>
+                <viewControllerPlaceholder storyboardName="CreationStoryboard" id="i2V-SE-h5H" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I9d-kD-3Le" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="232" y="239"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Z7g-nx-btI">

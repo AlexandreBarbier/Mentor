@@ -15,7 +15,7 @@ class ColorGenerationViewController: UIViewController {
     var teamName : String = ""
     var completion : ((team:Team,color:UIColor, colorSeed:CGFloat) -> Void)?
     private var usedSeed = [CGFloat]()
-    var debug = false
+    var canChoose = false
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var generateColorTouch: UIButton!
     @IBOutlet weak var chooseColorButton: UIButton!
@@ -42,7 +42,6 @@ class ColorGenerationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.generateColorTouch.rounded(5.0)
-
         self.generateColorTouch.backgroundColor = UIColor.whiteColor()
     }
 
@@ -56,11 +55,8 @@ class ColorGenerationViewController: UIViewController {
         if team == nil {
             self.chooseColor()
         }
-        if debug {
-            self.chooseColor()
-            Team.create(self.teamName,color: self.chosenColor,colorSeed: self.currentSeed, completion: { (success, team) -> Void in
-                self.completion?(team: team,color:self.chosenColor, colorSeed:self.currentSeed)
-            })
+        if !canChoose {
+            self.chooseColorButton.hidden = true
         }
     }
     
@@ -68,6 +64,10 @@ class ColorGenerationViewController: UIViewController {
         let h = seed <= 12 ? (seed / 12.0) : ((seed % 12.0) / 12.0)
         satSeed = seed <= 12 ? 1 : 1 - ((seed % 12) / 12)
         return UIColor(hue: h, saturation: 1.0, brightness: satSeed, alpha: 1.0)
+    }
+    
+    @IBAction func chooseColorTouch(sender: AnyObject) {
+        self.completion?(team: self.team,color:self.chosenColor, colorSeed:self.currentSeed)
     }
     
     func chooseColor() {

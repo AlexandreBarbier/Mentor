@@ -102,7 +102,7 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
                 break
             default :
                 Team.get(textField.text!, completion: { (team, error) -> Void in
-                    guard let team = team else {
+                    guard let team1 = team else {
                         NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                             alert.dismissViewControllerAnimated(false, completion: nil)
                         })
@@ -110,9 +110,19 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
                     }
                     //TODO: Choose color
                     let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
-                    colorAlert.team = team
+                    colorAlert.team = team1
+                    colorAlert.canChoose = true
+                    colorAlert.completion = { (team:Team, color:UIColor, colorSeed:CGFloat) in
+                        KCurrentUser!.addTeam(team, color: color, colorSeed: colorSeed, completion: {
+                            self.displayedDataSource.append(team)
+                            self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+                            colorAlert.dismissViewControllerAnimated(true, completion: nil)
+                        })                        
+                    }
                     self.addChildViewController(colorAlert)
                     colorAlert.view.alpha = 0.0
+                    colorAlert.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 200)
+                    colorAlert.view.center = self.view.center
                     self.view.addSubview(colorAlert.view)
                     UIView.animateWithDuration(0.3, animations: { () -> Void in
                         colorAlert.view.alpha = 1.0
@@ -142,7 +152,7 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
         
         if segue.identifier == "TeamCreationSegue" {
             let teamCreationVC = segue.destinationViewController as? TeamCreationViewController
-            teamCreationVC?.completion = { (team) in
+            teamCreationVC?.completion = { (team, project) in
                 self.displayedDataSource.append(team)
                 self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
             }

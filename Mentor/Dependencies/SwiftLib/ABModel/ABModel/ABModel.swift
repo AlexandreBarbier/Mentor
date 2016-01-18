@@ -83,7 +83,6 @@ public class ABModel: NSObject, NSCoding {
 
             }
             if self.ignoreKey(key, value: value) {
-
                 finalDictionnary.removeAtIndex(finalDictionnary.indexForKey(key)!)
             }
         }

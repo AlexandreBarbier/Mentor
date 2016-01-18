@@ -54,8 +54,7 @@ extension ViewController {
                                        "pen"   : pen,
                                        "marker"   : marker])
 
-            DebugConsoleView.debugView = DebugConsoleView(inView:self.view)            
-
+        DebugConsoleView.debugView = DebugConsoleView(inView:self.view)
         self.view.addSubview(buttonTools)
         self.loginUser()
     }
@@ -84,7 +83,6 @@ extension ViewController {
 extension ViewController {
     
     func loginUser() {
-
         DebugConsoleView.debugView.print("login method")
         CloudKitManager.availability { (available) -> Void in
             if available {
@@ -103,7 +101,7 @@ extension ViewController {
                     }
                     if user.teams.count == 0 {
                         DebugConsoleView.debugView.print("team less user")
-                        self.teamlessUser(user)
+                        self.performSegueWithIdentifier("CreateTeamSegue", sender: self)
                     }
                     else {
                         DebugConsoleView.debugView.print("get team")
@@ -253,7 +251,6 @@ extension ViewController {
             default :
                 let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
                 colorAlert.teamName = textField.text!
-                colorAlert.debug = true
                 colorAlert.completion = { (team, color, colorSeed) in
                     colorAlert.dismissViewControllerAnimated(true, completion: { () -> Void in
                         self.projectlessTeam(team)
@@ -290,7 +287,6 @@ extension ViewController {
                     //TODO: Choose color
                     let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
                     colorAlert.team = team
-                    colorAlert.debug = true
                     colorAlert.completion = { (team, color, colorSeed) in
                          colorAlert.dismissViewControllerAnimated(true, completion:nil)
                         user.addTeam(team, color:color, colorSeed: colorSeed)
@@ -436,6 +432,28 @@ extension ViewController {
                     self.initDrawing(team, project: project)
                 })
 
+            }
+        }
+        if segue.identifier == "CreateTeamSegue" {
+            let teamCreationVC = segue.destinationViewController as! TeamCreationViewController
+            teamCreationVC.showUser = true
+            teamCreationVC.completion = { (team, project) in
+                team.getProjects({ (projects, error) -> Void in
+                    guard let proj = projects.first else {
+                        DebugConsoleView.debugView.errorPrint("project error \(error)")
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            self.initDrawing(team, project: project!)
+                            teamCreationVC.dismissViewControllerAnimated(true, completion: nil)
+                            self.activity.stopAnimating()
+                        })
+                        return
+                    }
+                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        self.initDrawing(team, project: proj)
+                        teamCreationVC.dismissViewControllerAnimated(true, completion: nil)
+                        self.activity.stopAnimating()
+                    })
+                })
             }
         }
     }

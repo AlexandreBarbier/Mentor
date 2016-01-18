@@ -31,7 +31,7 @@ class DrawingPath: ABModelCloudKit {
         return false
     }
     
-    class func create(drawing:Drawing, completion:((success:Bool) -> Void)?) -> DrawingPath {
+    class func create(drawing:Drawing, completion:((success:Bool, dPath:DrawingPath) -> Void)?) -> DrawingPath {
         let drawingPath = DrawingPath()
 
         drawing.paths.append(CKReference(record: drawingPath.record, action: CKReferenceAction.None))
@@ -40,10 +40,9 @@ class DrawingPath: ABModelCloudKit {
         }
         drawing.publicSave({ (record, error) -> Void in
             if let completion = completion {
-                completion(success: error == nil)
+                completion(success: error == nil, dPath: drawingPath)
             }
         })
-
         return drawingPath
     }
     
