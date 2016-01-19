@@ -179,11 +179,11 @@ extension ViewController {
         })
     }
     
-    func initFirebase() -> Void {
+    func initFirebase(project:Project) -> Void {
         if let firebaseBgReference = firebaseBgReference {
             firebaseBgReference.removeObserverWithHandle(firebaseObserverHandle)
         }
-        firebaseBgReference = Firebase(url: "\(Constants.NetworkURL.firebase.rawValue)\(drawableView.project!.recordName)/back")
+        firebaseBgReference = Firebase(url: "\(Constants.NetworkURL.firebase.rawValue)\(project.recordName)/back")
         firebaseObserverHandle = firebaseBgReference!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
             self.drawableView.project!.refresh({ (updateObject:Project?) -> Void in
                 if let update = updateObject {
@@ -351,7 +351,7 @@ extension ViewController {
     func initDrawing(team:Team, project:Project) {
         self.setDrawingColor(team)
         self.drawableView.project = project
-        self.initFirebase()
+        self.initFirebase(project)
         self.scrollView.contentSize = self.drawableView.frame.size
         self.setBG(project)
     }
