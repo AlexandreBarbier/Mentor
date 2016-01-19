@@ -28,6 +28,7 @@ struct FirebaseKey {
     static let undeletable = "undeletable"
 }
 
+/// this is the view used to draw everything
 class DrawableView: UIView, UIGestureRecognizerDelegate {
     private var markerAlpha : CGFloat = 0.4
     private var layerIndex = 0
@@ -75,37 +76,50 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
     var drawing : Drawing? {
         didSet {
             DebugConsoleView.debugView.print("set drawing")
+            /**
+            *  when we set the drawing we can draw everything that's on the server (this is called when we load
+            *  a new project)
+            */
             if (drawing != nil) {
+                //firebase initialisation
                 initFirebase()
+                // current drawing tool save
                 let p = self.pen
                 let m = self.marker
+                // get all paths of the current drawing. The closure is called sequencially (path by path)
                 self.drawing!.getPaths({ (paths, error) -> Void in
+                    // get path's points, order them and convert them to CGPoint
                     paths.getPoints({ (points, error) -> Void in
                         let cPoint = points.sort({ (p1, p2) -> Bool in
                             return p1.position < p2.position
                         }).map({ (point) -> CGPoint in
                             CGPoint(x:CGFloat(point.x.floatValue), y:CGFloat(point.y.floatValue))
                         })
+                        // path redrawing
                         let cPath = UIBezierPath()
                         cPath.interpolatePointsWithHermite(cPoint)
+                        // set path color
                         var color:UIColor? = nil
                         if let col = paths.color {
                             color = NSKeyedUnarchiver.unarchiveObjectWithData(col) as? UIColor
                         }
+                        // marker or pen path
                         if paths.pen {
                             self.pen = true
                         }
                         else {
                             self.marker = true
                         }
+                        // path linewidth
                         self.path.lineWidth = paths.lineWidth
-                        
+                        // if I draw this path I can delete it
                         if paths.user == KCurrentUser!.recordId.recordName {
                             self.addPath(cPath.CGPath, layerName: "\(paths.recordId.recordName)",color: color)
                         }
                         else {
                             self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(paths.recordId.recordName)",color: color)
                         }
+                        // reset user tools
                         self.pen = p
                         self.marker = m
                         self.path.lineWidth = self.lineWidth
@@ -120,6 +134,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             guard var sublayers = self.superview!.layer.sublayers else {
                 return
             }
+            // clear history
             history.removeAll()
             historyIndex = 0
             sublayers = sublayers.filter { (layer) -> Bool in
