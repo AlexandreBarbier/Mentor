@@ -75,6 +75,7 @@ extension Team {
 
 // MARK: - fetches
 extension Team {
+    
     class func get(token:String, completion:(team:Team?, error:NSError?) -> Void) {
         Team.getRecord("token=\'\(token)\'") { (record, error)  in
             guard let record = record else {
@@ -87,13 +88,13 @@ extension Team {
     }
     
     func getProjects(completion:(projects:[Project], local:Bool, error:NSError?) -> Void) {
-        if let projectsData = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.teamProjects) as? NSData {
+        if let projectsData = NSUserDefaults.standardUserDefaults().objectForKey("\(UserDefaultsKeys.teamProjects)\(self.name)") as? NSData {
             let projects = NSKeyedUnarchiver.unarchiveObjectWithData(projectsData) as? [Project]
             completion(projects: projects!, local:true, error: nil)
         }
         super.getReferences(projects,completion: { (results:[Project], error) -> Void in
             let data = NSKeyedArchiver.archivedDataWithRootObject(results)
-            NSUserDefaults.standardUserDefaults().setObject(data, forKey:UserDefaultsKeys.teamProjects)
+            NSUserDefaults.standardUserDefaults().setObject(data, forKey:"\(UserDefaultsKeys.teamProjects)\(self.name)")
             completion(projects: results, local:false, error: error)
         })
         
