@@ -70,8 +70,7 @@ class User : ABModelCloudKit {
                     let usr = User(record: rec, recordId: recordId!)
                     
                     User.currentUser = usr
-                    let data = NSKeyedArchiver.archivedDataWithRootObject(usr)
-                    NSUserDefaults.standardUserDefaults().setObject(data, forKey:UserDefaultsKeys.currentUser)
+                    User.currentUser!.save()
                     completion(user: usr, error: nil)
                 })
             }
@@ -91,8 +90,7 @@ class User : ABModelCloudKit {
             }
             let usr = User(record: rec, recordId: rec.recordID)
             User.currentUser = usr
-            let data = NSKeyedArchiver.archivedDataWithRootObject(usr)
-            NSUserDefaults.standardUserDefaults().setObject(data, forKey:UserDefaultsKeys.currentUser)
+            User.currentUser!.save()
             if let cp = completion {
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     cp(record: rec, error: error)
@@ -100,6 +98,11 @@ class User : ABModelCloudKit {
                 
             }
         }
+    }
+    
+    private func save() {
+        let data = NSKeyedArchiver.archivedDataWithRootObject(self)
+        NSUserDefaults.standardUserDefaults().setObject(data, forKey:UserDefaultsKeys.currentUser)
     }
     
     func getTeams(completion:(teams:[Team], error:NSError?) -> Void) {
@@ -129,9 +132,8 @@ class User : ABModelCloudKit {
             self.teamColor.append(CKReference(record: utColor.toRecord(), action: .None))
             self.teams.append(CKReference(record: team.toRecord(), action: .None))
             self.saveBulk([utColor.toRecord(), team.toRecord()], completion:  completion)
-
-            let data = NSKeyedArchiver.archivedDataWithRootObject(self)
-            NSUserDefaults.standardUserDefaults().setObject(data, forKey:UserDefaultsKeys.currentUser)
+            self.save()
+            
         })
     }
 }
