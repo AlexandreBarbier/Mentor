@@ -42,7 +42,7 @@ class ColorGenerationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.generateColorTouch.rounded(5.0)
-        self.generateColorTouch.backgroundColor = UIColor.whiteColor()
+        self.generateColorTouch.backgroundColor = UIColor.clearColor()
     }
 
     override func didReceiveMemoryWarning() {

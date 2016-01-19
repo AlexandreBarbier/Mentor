@@ -58,7 +58,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
     var marker = false {
         didSet {
             if marker {
-                self.color = self.color.colorWithAlphaComponent(0.6)
+                self.color = self.color.colorWithAlphaComponent(0.4)
                 pen = false
             }
         }
@@ -267,22 +267,30 @@ extension DrawableView {
                                 point.y = CGFloat(y.floatValue)
                             }
                         })
-                        cPoint.append(point)
+                        if point != CGPointZero {
+                            cPoint.append(point)
+                        }
                     })
                     
                     let cPath = UIBezierPath()
                     cPath.removeAllPoints()
                     cPath.interpolatePointsWithHermite(cPoint)
                     var alpha : CGFloat = 1.0
+                    let lineW = self.lineWidth
+                    let ma = self.marker
+                    let pe = self.pen
                     if mark {
                         self.marker = mark
-                        alpha = 0.6
+                        alpha = 0.4
                     }
                     else {
                         self.pen = true
                     }
                     self.lineWidth = lw
                     self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: alpha))
+                    self.pen = pe
+                    self.marker = ma
+                    self.lineWidth = lineW
                 }
             })
             
@@ -311,7 +319,7 @@ extension DrawableView {
 extension DrawableView {
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return gestureRecognizer is UITapGestureRecognizer
+        return !(gestureRecognizer is UITapGestureRecognizer)
     }
     
     func panGesture(panGesture:UIPanGestureRecognizer) {
@@ -393,6 +401,7 @@ extension DrawableView {
         
         self.setNeedsDisplay()
     }
+    
     func redo() {
         if historyIndex >= 0 && historyIndex < history.count - 1 {
             history[historyIndex].dPath.publicSave({ (record, error) -> Void in
