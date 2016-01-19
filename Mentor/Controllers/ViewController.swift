@@ -438,21 +438,11 @@ extension ViewController {
             let teamCreationVC = segue.destinationViewController as! TeamCreationViewController
             teamCreationVC.showUser = true
             teamCreationVC.completion = { (team, project) in
-                team.getProjects({ (projects, error) -> Void in
-                    guard let proj = projects.first else {
-                        DebugConsoleView.debugView.errorPrint("project error \(error)")
-                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                            self.initDrawing(team, project: project!)
-                            teamCreationVC.dismissViewControllerAnimated(true, completion: nil)
-                            self.activity.stopAnimating()
-                        })
-                        return
-                    }
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                        self.initDrawing(team, project: proj)
-                        teamCreationVC.dismissViewControllerAnimated(true, completion: nil)
-                        self.activity.stopAnimating()
-                    })
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    self.initDrawing(team, project: project!)
+                    teamCreationVC.dismissViewControllerAnimated(true, completion: nil)
+                    self.activity.stopAnimating()
                 })
             }
         }
