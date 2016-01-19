@@ -48,6 +48,9 @@ public class ABModel: NSObject, NSCoding {
                     finalDictionnary.removeAtIndex(finalDictionnary.indexForKey(key)!)
                 }
             }
+            if self.ignoreKey(key, value: value) {
+                finalDictionnary.removeAtIndex(finalDictionnary.indexForKey(key)!)
+            }
             
         }
         self.setValuesForKeysWithDictionary(finalDictionnary)
@@ -76,7 +79,7 @@ public class ABModel: NSObject, NSCoding {
                         debugPrint("Forgoten key : \(key) in \(NSStringFromClass(self.dynamicType))")
                     }
                     else {
-                        finalDictionnary[replacementKey] = value;
+                        finalDictionnary[replacementKey] = value
                         finalDictionnary.removeAtIndex(finalDictionnary.indexForKey(key)!)
                     }
               
@@ -148,8 +151,7 @@ public class ABModel: NSObject, NSCoding {
         let k = Mirror(reflecting: self)
         let children = AnyRandomAccessCollection(k.children)
         var json:Dictionary<String, AnyObject> = [:]
-        for (_, value) in  (children?.enumerate())!
-        {
+        for (_, value) in  (children?.enumerate())! {
             if value.0 != "super" {
                 if let val = value.1 as? NSObject {
                     if val != "" {

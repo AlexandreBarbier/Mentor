@@ -65,8 +65,7 @@ class DrawingPath: ABModelCloudKit {
         }
         else {
             super.getReferences(points, completion: { (results:[Point], error) -> Void in
-                let data = NSKeyedArchiver.archivedDataWithRootObject(results)
-                NSUserDefaults.standardUserDefaults().setObject(data, forKey:self.localKey())
+                self.localSave(results)
                 completion(points: results, error: error)
             })
         }
@@ -76,5 +75,4 @@ class DrawingPath: ABModelCloudKit {
         let data = NSKeyedArchiver.archivedDataWithRootObject(point)
         NSUserDefaults.standardUserDefaults().setObject(data, forKey:localKey())
     }
-    
 }

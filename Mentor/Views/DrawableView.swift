@@ -470,7 +470,7 @@ extension DrawableView {
         guard let currentLayer = currentLayer else {
             return
         }
-        firebaseDelete!.updateChildValues([FirebaseKey.delete: history.last!.layer.name!])
+        firebaseDelete!.updateChildValues([FirebaseKey.delete:[[FirebaseKey.delete: history.last!.layer.name!],[FirebaseKey.drawingUser:KCurrentUser!.recordId.recordName]]])
         history[historyIndex].dPath.remove()
         self.removeLayerWithName(currentLayer.name!)
         historyIndex -= 1
