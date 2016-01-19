@@ -520,6 +520,9 @@ extension DrawableView {
                                 shapeLayer.removeFromSuperlayer()
                                 return
                             }
+                            else {
+                                DrawingPath.removeWithName(shapeLayer.name!)
+                            }
                         }
                     }
                 }

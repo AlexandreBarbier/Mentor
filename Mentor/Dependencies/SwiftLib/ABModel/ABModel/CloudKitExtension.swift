@@ -213,6 +213,14 @@ public class ABModelCloudKit : ABModel {
         CloudKitManager.publicDB.addOperation(deleteOp)
     }
     
+    public class func removeRecordId(record:CKRecordID) {
+        let deleteOp = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: [record])
+        deleteOp.perRecordCompletionBlock = {(record,error) in
+            print(error)
+        }
+        CloudKitManager.publicDB.addOperation(deleteOp)
+    }
+    
     public func getReferences<T:ABModelCloudKit>(references:[CKReference],completion:((results:[T], error:NSError?) -> Void)? = nil, perRecordCompletion:((result:T?, error:NSError?) -> Void)? = nil) {
         var results = [T]()
         let refs = references.map({ (reference) -> CKRecordID in

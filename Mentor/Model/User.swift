@@ -80,7 +80,7 @@ class User : ABModelCloudKit {
     override func publicSave(completion: ((record: CKRecord?, error: NSError?) -> Void)? = nil) {
         super.publicSave { (record, error) -> Void in
             guard let rec = record else {
-                print("User public save error : \(error)")
+                debugPrint("User public save error : \(error)")
                 if let cp = completion {
                     NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                         cp(record: nil, error: error)

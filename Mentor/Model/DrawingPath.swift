@@ -53,6 +53,11 @@ class DrawingPath: ABModelCloudKit {
         NSUserDefaults.standardUserDefaults().setObject(nil, forKey: localKey())
     }
     
+    class func removeWithName(name:String) {
+        let k = CKRecordID(recordName: name)
+        super.removeRecordId(k)
+    }
+    
     func getPoints(completion:(points:[Point], error:NSError?) -> Void) {
         if let pointsData = NSUserDefaults.standardUserDefaults().objectForKey(localKey()) as? NSData {
             let archivedPoints =  NSKeyedUnarchiver.unarchiveObjectWithData(pointsData) as? [Point]

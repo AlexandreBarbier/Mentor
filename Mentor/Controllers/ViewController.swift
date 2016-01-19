@@ -120,6 +120,7 @@ extension ViewController {
                                 team.getProjects({ (projects, error) -> Void in
                                     guard let project = projects.first else {
                                         DebugConsoleView.debugView.errorPrint("project error \(error)")
+                                        self.projectlessTeam(team)
                                         return
                                     }
                                     NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
