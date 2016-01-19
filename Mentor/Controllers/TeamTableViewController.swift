@@ -36,7 +36,7 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
             DebugConsoleView.debugView.errorPrint("Team popover no user")
             return
         }
-        user.getTeams { (teams, error) -> Void in
+        user.getTeams { (teams, local, error) -> Void in
             if let error = error {
                 DebugConsoleView.debugView.errorPrint("get teams error \(error)")
             }

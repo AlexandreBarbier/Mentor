@@ -235,7 +235,7 @@ public class ABModelCloudKit : ABModel {
                     results.append(T(record:value, recordId:key))
                 }
 
-                    completion(results:results,error:nil)
+                    completion(results:results, error:nil)
                 })
             }
         }

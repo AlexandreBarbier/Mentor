@@ -11,6 +11,12 @@ import ABModel
 import CloudKit
 import Foundation
 
+
+
+extension UserDefaultsKeys {
+    static let teamProjects = "teamProjects"
+}
+
 class Team: ABModelCloudKit {
     
     var name:String = ""
@@ -80,9 +86,15 @@ extension Team {
         }
     }
     
-    func getProjects(completion:(projects:[Project], error:NSError?) -> Void) {
-        super.getReferences(projects, completion: { (results:[Project], error) -> Void in
-            completion(projects: results, error: error)
+    func getProjects(completion:(projects:[Project], local:Bool, error:NSError?) -> Void) {
+        if let projectsData = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.teamProjects) as? NSData {
+            let projects = NSKeyedUnarchiver.unarchiveObjectWithData(projectsData) as? [Project]
+            completion(projects: projects!, local:true, error: nil)
+        }
+        super.getReferences(projects,completion: { (results:[Project], error) -> Void in
+            let data = NSKeyedArchiver.archivedDataWithRootObject(results)
+            NSUserDefaults.standardUserDefaults().setObject(data, forKey:UserDefaultsKeys.teamProjects)
+            completion(projects: results, local:false, error: error)
         })
         
     }

@@ -12,7 +12,7 @@ class ProjectTableViewController: UITableViewController {
     
     var team : Team! {
         didSet {
-            team.getProjects { (projects, error) -> Void in
+            team.getProjects { (projects, local, error) -> Void in
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     self.displayedDataSource = projects
                     self.tableView.reloadData()

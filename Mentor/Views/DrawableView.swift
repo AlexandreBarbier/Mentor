@@ -190,6 +190,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         self.opaque = false
         self.backgroundColor = UIColor.clearColor()
     }
+    
     /**
      add a path to a layer and insert it to the superview
      
@@ -282,7 +283,7 @@ extension DrawableView {
      ]
      
      
-        2) when a user delete something
+        2) when a user delete a path
      
      */
     func initFirebase() {
@@ -458,7 +459,7 @@ extension DrawableView {
     func clear() {
         history.forEach { (val: (layer: CALayer, dPath: DrawingPath)) -> () in
             val.dPath.remove()
-            self.removeLayerWithName(layer.name!)
+            self.removeLayerWithName(val.layer.name!)
         }
         history.removeAll()
         historyIndex = 0

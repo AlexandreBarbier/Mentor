@@ -14,6 +14,7 @@ let KCurrentUser = User.currentUser
 
 struct UserDefaultsKeys {
     static let currentUser = "currentUser"
+    static let teamUserKey = "teams"
 }
 
 class User : ABModelCloudKit {
@@ -105,9 +106,15 @@ class User : ABModelCloudKit {
         NSUserDefaults.standardUserDefaults().setObject(data, forKey:UserDefaultsKeys.currentUser)
     }
     
-    func getTeams(completion:(teams:[Team], error:NSError?) -> Void) {
+    func getTeams(completion:(teams:[Team], local:Bool, error:NSError?) -> Void) {
+        if let teamsData = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.teamUserKey) as? NSData {
+            let teams = NSKeyedUnarchiver.unarchiveObjectWithData(teamsData) as? [Team]
+            completion(teams: teams!, local: true, error: nil)
+        }
         super.getReferences(teams,completion: { (results:[Team], error) -> Void in
-            completion(teams: results, error: error)
+            let data = NSKeyedArchiver.archivedDataWithRootObject(results)
+            NSUserDefaults.standardUserDefaults().setObject(data, forKey:UserDefaultsKeys.teamUserKey)
+            completion(teams: results, local:false, error: error)
         })
     }
     

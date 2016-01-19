@@ -104,8 +104,9 @@ extension ViewController {
                         self.performSegueWithIdentifier("CreateTeamSegue", sender: self)
                     }
                     else {
+//TODO: get the last opened project
                         DebugConsoleView.debugView.print("get team")
-                        user.getTeams({ (teams, error) -> Void in
+                        user.getTeams({ (teams, local, error) -> Void in
                             guard let team = teams.first else {
                                 DebugConsoleView.debugView.errorPrint("team error \(error)")
                                 return
@@ -117,17 +118,18 @@ extension ViewController {
                             }
                             else {
                                 DebugConsoleView.debugView.print("get project")
-                                team.getProjects({ (projects, error) -> Void in
-                                    guard let project = projects.first else {
-                                        DebugConsoleView.debugView.errorPrint("project error \(error)")
-                                        self.projectlessTeam(team)
-                                        return
+                                team.getProjects({ (projects, local, error) -> Void in
+                                    if !local {
+                                        guard let project = projects.first else {
+                                            DebugConsoleView.debugView.errorPrint("project error \(error)")
+                                            self.projectlessTeam(team)
+                                            return
+                                        }
+                                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                                            self.initDrawing(team, project: project)
+                                            self.usernamelessUser(KCurrentUser!)
+                                        })
                                     }
-                                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                        self.initDrawing(team, project: project)
-                                        self.usernamelessUser(KCurrentUser!)
-                                        
-                                    })
                                 })
                             }
                         })
@@ -292,7 +294,10 @@ extension ViewController {
                          colorAlert.dismissViewControllerAnimated(true, completion:nil)
                         user.addTeam(team, color:color, colorSeed: colorSeed)
                         
-                        team.getProjects({ (projects, error) -> Void in
+                        team.getProjects({ (projects, local, error) -> Void in
+                            if local {
+                                return
+                            }
                             guard let project = projects.first else {
                                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                                     alert.dismissViewControllerAnimated(false, completion: nil)
@@ -483,6 +488,7 @@ extension ViewController {
     func pen(sender:UIButton) {
         drawableView.lineWidth = 2.0
         drawableView.pen = true
+        drawableView.eraser = false
     }
     /**
      set the marker tool
@@ -492,15 +498,16 @@ extension ViewController {
     func marker(sender:UIButton) {
         drawableView.lineWidth = 15.0
         drawableView.marker = true
-
+        drawableView.eraser = false
     }
     
     func addViewButton(sender:UIButton) {
         let k = UIAlertController(title: "Clear", message: "Remove everything", preferredStyle: UIAlertControllerStyle.Alert)
         k.addAction(UIAlertAction(title: "ok", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
-            
+            self.drawableView.clear()            
         }))
         k.addAction(UIAlertAction(title: "cancel", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+
             k.dismissViewControllerAnimated(true, completion: nil)
         }))
         self.presentViewController(k, animated: true, completion: nil)
