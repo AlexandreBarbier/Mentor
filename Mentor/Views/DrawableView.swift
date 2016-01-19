@@ -10,8 +10,8 @@ import UIKit
 import CloudKit
 import Firebase
 import ABUIKit
+
 //TODO: manage multi size screen (simple solution : create a view with the max screen size)
-//TODO: Fix pen size after update
 
 struct FirebaseKey {
     static let red = "r"
@@ -29,7 +29,7 @@ struct FirebaseKey {
 }
 
 class DrawableView: UIView, UIGestureRecognizerDelegate {
-    
+    private var markerAlpha : CGFloat = 0.4
     private var layerIndex = 0
     private var path = UIBezierPath()
     private var history = [(layer:CALayer,dPath:DrawingPath)]()
@@ -58,7 +58,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
     var marker = false {
         didSet {
             if marker {
-                self.color = self.color.colorWithAlphaComponent(0.4)
+                self.color = self.color.colorWithAlphaComponent(markerAlpha)
                 pen = false
             }
         }
@@ -201,7 +201,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             UIColor.whiteColor().setFill()
             touchCircle.fill()
         }
-        UIColor.lightGrayColor().colorWithAlphaComponent(0.4).setStroke()
+        UIColor.lightGrayColor().colorWithAlphaComponent(markerAlpha).setStroke()
         touchCircle.stroke()
         color.setStroke()
         path.stroke()
@@ -281,7 +281,7 @@ extension DrawableView {
                     let pe = self.pen
                     if mark {
                         self.marker = mark
-                        alpha = 0.4
+                        alpha = self.markerAlpha
                     }
                     else {
                         self.pen = true
@@ -328,7 +328,7 @@ extension DrawableView {
             return
         }
         touchCircle.removeAllPoints()
-        touchCircle.addArcWithCenter(currentPoint, radius: 5.0, startAngle: 0.0, endAngle: 6.28, clockwise: true)
+        touchCircle.addArcWithCenter(currentPoint, radius: 5.0, startAngle: 0.0, endAngle: 2*CGFloat(M_PI), clockwise: true)
         if eraser {
             self.removeAtPoint(currentPoint)
             self.setNeedsDisplay()
@@ -398,7 +398,6 @@ extension DrawableView {
         history[historyIndex].dPath.remove()
         self.removeLayerWithName(currentLayer.name!)
         historyIndex -= 1
-        
         self.setNeedsDisplay()
     }
     
@@ -433,7 +432,7 @@ extension DrawableView {
             if let shapeLayer = layer as? CAShapeLayer {
                 if let path = shapeLayer.path {
                     let bezierPath = UIBezierPath(CGPath:path)
-                    if bezierPath.bounds.contains(point) {
+                    if bezierPath.containsPoint(point) {
                         if !shapeLayer.name!.containsString(FirebaseKey.undeletable) {
                             firebaseDelete!.updateChildValues([FirebaseKey.delete:[[FirebaseKey.delete: shapeLayer.name!],[FirebaseKey.drawingUser:KCurrentUser!.recordId.recordName]]])
                             let index = history.indexOf({ (tuple: (layer: CALayer, dPath: DrawingPath)) -> Bool in
