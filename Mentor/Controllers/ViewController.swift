@@ -398,7 +398,7 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         drawableView.project!.saveBackground((imageBG?.image)!,completion: { () in
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                 DebugConsoleView.debugView.print("bg uploaded")
-                self.firebaseBgReference!.updateChildValues(["bg":NSNumber(unsignedInt:arc4random())])
+                self.firebaseBgReference!.updateChildValues(["bg":NSNumber(unsignedInt:arc4random_uniform(UInt32(100)))])
             })
         })
         

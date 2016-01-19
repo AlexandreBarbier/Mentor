@@ -62,7 +62,7 @@ extension Team {
     class func create(name:String, color:UIColor, colorSeed:CGFloat, completion:(success:Bool, team:Team) -> Void) -> Team {
         let team = Team()
         team.name = name
-        team.token = "\(name)\(arc4random() % 100)"
+        team.token = "\(name)\(arc4random_uniform(UInt32(100)))"
         if let currentUser = KCurrentUser {
             team.users = [CKReference(record: currentUser.record!, action: .None)]
             team.admin = currentUser.recordId.recordName
