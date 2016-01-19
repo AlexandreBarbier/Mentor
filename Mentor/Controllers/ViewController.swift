@@ -359,7 +359,11 @@ extension ViewController {
 
 // MARK: - background management
 extension ViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
+    /**
+     import a background image
+     
+     - parameter sender: the button that send the action
+     */
     func importBG(sender:UIButton) {
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
@@ -367,6 +371,13 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         self.presentViewController(pickerController, animated: true, completion: nil)
     }
     
+    
+    /**
+     image picker controller delegate method
+     
+     - parameter picker: image picker
+     - parameter info:   data from the image picker
+     */
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if self.imageBG == nil {
             imageBG = UIImageView(image: info[UIImagePickerControllerOriginalImage] as? UIImage)
@@ -387,7 +398,11 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
-    
+    /**
+    image picker controller delegate method
+     
+     - parameter picker: image picker
+     */
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         self.imageBG?.image = nil
         drawableView.project!.publicSave()
@@ -397,15 +412,18 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
 
 // MARK: - Gestures
 extension ViewController {
-    func setEraser(sender:UIButton) {
-        drawableView.eraser = !drawableView.eraser
-    }
+    
 }
 
 // MARK: - Drawing settings
 extension ViewController {
+    
     func setBrushSize(sender:UIButton) {
         drawableView.lineWidth = 3.0
+    }
+    
+    func setEraser(sender:UIButton) {
+        drawableView.eraser = !drawableView.eraser
     }
 }
 
@@ -447,14 +465,29 @@ extension ViewController {
             }
         }
     }
-    
+    /**
+     eraser
+     
+     - parameter sender: the button that send the action
+     */
     func eraser(sender:UIButton) {
         drawableView.eraser = true
     }
+    
+    /**
+     set the pen tool
+     
+     - parameter sender: the button that send the action
+     */
     func pen(sender:UIButton) {
         drawableView.lineWidth = 2.0
         drawableView.pen = true
     }
+    /**
+     set the marker tool
+     
+     - parameter sender: the button that send the action
+     */
     func marker(sender:UIButton) {
         drawableView.lineWidth = 15.0
         drawableView.marker = true

@@ -71,7 +71,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             }
         }
     }
-    
+
     var drawing : Drawing? {
         didSet {
             DebugConsoleView.debugView.print("set drawing")
@@ -175,7 +175,15 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         self.opaque = false
         self.backgroundColor = UIColor.clearColor()
     }
-    
+    /**
+     add a path to a layer and insert it to the superview
+     
+     - parameter path:      CGPath we want to add
+     - parameter layerName: String used to identify the layer
+     - parameter color:     color of the stroke
+     
+     - returns: the new layer
+     */
     func addPath(path:CGPath, layerName:String, color: UIColor? = nil) -> CALayer {
         let layer = CAShapeLayer(layer: self.layer)
         layer.path = path
@@ -210,6 +218,58 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
 
 // MARK: - Firebase initialisation
 extension DrawableView {
+    /**
+     initialisation of firebase
+     there is 2 firebase events we want to observe : 
+        1) when a user draw something
+            - in that case the object received from firebase is an array containing all the points of the new path
+            and all the informations relative to that path 
+     array : [
+        [
+            [0] =  {
+                // user who draw the path
+                drawingUser = "_360c5dfd1b920a7108d1340c2ba14cd7"
+            }
+            [1] =  {
+                // x coordinate
+                x = 170
+            }
+            [2] = {
+                // y coordinate
+                y = 127
+            }
+            [3] = {
+                // red componant
+                red = 0.2
+            }
+            [4] = {
+                // green componant
+                green = 1
+            }
+            [5] = {
+                // blue componant
+                blue = 0
+            }
+            [6] = {
+                // path name
+                pathName = ""
+            }
+            [7] = {
+                // if the user used the marker tool
+                marker = false
+            }
+            [8] = {
+                // line width used
+                lineWidth = 2
+            }
+        ]
+     ...
+     ]
+     
+     
+        2) when a user delete something
+     
+     */
     func initFirebase() {
         if let firbaseDrawing = firbaseDrawing {
             firbaseDrawing.removeObserverWithHandle(firebaseDrawingObserverHandle)
