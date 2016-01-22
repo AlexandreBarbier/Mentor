@@ -73,15 +73,13 @@ extension ViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
-    
-    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
-        super.dismissViewControllerAnimated(flag, completion: completion)
-    }
 }
 
 // MARK: - Cloudkit management
 extension ViewController {
-    
+    /**
+     log the current user into iCloud
+     */
     func loginUser() {
         DebugConsoleView.debugView.print("login method")
         CloudKitManager.availability { (available) -> Void in
@@ -89,50 +87,26 @@ extension ViewController {
                 DebugConsoleView.debugView.print("cloudKit available")
                 self.activity.startAnimating()
                 DebugConsoleView.debugView.print("get current user")
-                let begin = NSDate()
                 User.getCurrentUser({ (user, error) -> () in
-                    let secDate = NSDate()
-                    DebugConsoleView.debugView.print("get user completion in \(secDate.timeIntervalSinceDate(begin))")
                     guard let user = user else {
                         DebugConsoleView.debugView.errorPrint("user nil")
                         let alert = UIAlertController(title: "An error occured", message: "please restart Mentor", preferredStyle: UIAlertControllerStyle.Alert)
                         self.presentViewController(alert, animated: true, completion: nil)
                         return
                     }
+                    // here we assume that a user always have at least one team and one project this is ensure by the login process and the fact that if you have only one team or one project you are not able to delete it
                     if user.teams.count == 0 {
                         DebugConsoleView.debugView.print("team less user")
                         self.performSegueWithIdentifier("CreateTeamSegue", sender: self)
                     }
                     else {
-                        //TODO: get the last opened project
                         DebugConsoleView.debugView.print("get team")
-                        user.getTeams({ (teams, local, error) -> Void in
-                            guard let team = teams.first else {
-                                DebugConsoleView.debugView.errorPrint("team error \(error)")
-                                return
-                            }
-                            DebugConsoleView.debugView.print("team received")
-                            if team.projects.count == 0 {
-                                DebugConsoleView.debugView.warningPrint("project less team")
-                                self.projectlessTeam(team)
-                            }
-                            else {
-                                DebugConsoleView.debugView.print("get project")
-                                team.getProjects({ (projects, local, error) -> Void in
-                                    if !local {
-                                        guard let project = projects.first else {
-                                            DebugConsoleView.debugView.errorPrint("project error \(error)")
-                                            self.projectlessTeam(team)
-                                            return
-                                        }
-                                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                            self.initDrawing(team, project: project)
-                                            self.usernamelessUser(KCurrentUser!)
-                                        })
-                                    }
-                                })
-                            }
-                        })
+                        if let lastOpenedteamProject = Project.getLastOpen() {
+                            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                                self.initDrawing(lastOpenedteamProject.team!, project: lastOpenedteamProject.project!)
+                                self.activity.stopAnimating()
+                            })
+                        }
                     }
                 })
             }
@@ -145,43 +119,11 @@ extension ViewController {
             }
         }
     }
-    
-    func usernamelessUser(user:User) {
-        if user.username == "" {
-            let alert = UIAlertController(title: "You need a username", message: "Chouse your username", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
-                textField.placeholder = "User name"
-            })
-            alert.addAction(UIAlertAction(title: "Create", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                guard let textField = alert.textFields!.first else {
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                        alert.dismissViewControllerAnimated(false, completion: nil)
-                        self.usernamelessUser(user)
-                    })
-                    return
-                }
-                switch textField.text! {
-                case "" :
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                        alert.dismissViewControllerAnimated(false, completion: nil)
-                        self.usernamelessUser(user)
-                    })
-                    break
-                default :
-                    user.username = textField.text!
-                    user.publicSave()
-                    break
-                }
-            }))
-            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                self.presentViewController(alert, animated: true, completion: nil)
-            })
-        }
-        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-            self.activity.stopAnimating()
-        })
-    }
-    
+    /**
+     firebase initialisation for background change
+     
+     - parameter project: current project
+     */
     func initFirebase(project:Project) -> Void {
         if let firebaseBgReference = firebaseBgReference {
             firebaseBgReference.removeObserverWithHandle(firebaseObserverHandle)
@@ -199,138 +141,26 @@ extension ViewController {
             self.downloadBG = true
         })
     }
-    
-    func projectlessTeam(team:Team) {
-        let alert = UIAlertController(title: "You need a project", message: "Create a project", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
-            textField.placeholder = "New project name"
-        })
-        alert.addAction(UIAlertAction(title: "Create", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            guard let textField = alert.textFields!.first else {
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    alert.dismissViewControllerAnimated(false, completion: nil)
-                    self.projectlessTeam(team)
-                })
-                return
-            }
-            switch textField.text! {
-            case "" :
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    alert.dismissViewControllerAnimated(false, completion: nil)
-                    self.projectlessTeam(team)
-                })
-                break
-            default :
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    let _ = Project.create(textField.text!, team: team, completion: { (project, team) -> Void in
-                        self.initDrawing(team, project: project)
-                        self.usernamelessUser(KCurrentUser!)
-                    })
-                })
-                break
-            }
-        }))
-        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-    }
-    
-    func teamlessUser(user:User) {
-        let alert = UIAlertController(title: "You need a team", message: "Create or join a team", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
-            textField.placeholder = "New team name or token"
-        })
-        alert.addAction(UIAlertAction(title: "Create", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            guard let textField = alert.textFields!.first else {
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    alert.dismissViewControllerAnimated(true, completion: nil)
-                })
-                return
-            }
-            switch textField.text! {
-            case "" :
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    alert.dismissViewControllerAnimated(false, completion: nil)
-                    self.teamlessUser(user)
-                })
-                break
-            default :
-                let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
-                colorAlert.teamName = textField.text!
-                colorAlert.completion = { (team, color, colorSeed) in
-                    colorAlert.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.projectlessTeam(team)
-                    })
-                    
-                }
-                self.presentViewController(colorAlert, animated: true, completion: nil)
-                break
-            }
-        }))
-        alert.addAction(UIAlertAction(title: "Join", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            guard let textField = alert.textFields!.first else {
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    alert.dismissViewControllerAnimated(true, completion: nil)
-                })
-                return
-            }
-            switch textField.text! {
-            case "" :
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    alert.dismissViewControllerAnimated(false, completion: nil)
-                    self.teamlessUser(user)
-                })
-                break
-            default :
-                Team.get(textField.text!, completion: { (team, error) -> Void in
-                    guard let team = team else {
-                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                            alert.dismissViewControllerAnimated(false, completion: nil)
-                            self.teamlessUser(user)
-                        })
-                        return
-                    }
-                    //TODO: Choose color
-                    let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
-                    colorAlert.team = team
-                    colorAlert.completion = { (team, color, colorSeed) in
-                        colorAlert.dismissViewControllerAnimated(true, completion:nil)
-                        user.addTeam(team, color:color, colorSeed: colorSeed)
-                        
-                        team.getProjects({ (projects, local, error) -> Void in
-                            if !local {
-                                guard let project = projects.first else {
-                                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                        alert.dismissViewControllerAnimated(false, completion: nil)
-                                        self.projectlessTeam(team)
-                                    })
-                                    return
-                                }
-                                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                    self.initDrawing(team, project: project)
-                                })
-                            }
-                        })
-                    }
-                    self.presentViewController(colorAlert, animated: true, completion: nil)
-                    
-                })
-                break
-            }
-        }))
-        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-    }
 }
+
 // MARK: - Drawing initialisation
 extension ViewController {
+    
+    /**
+     set the drawing color
+     
+     - parameter team: current team
+     */
     func setDrawingColor(team:Team) {
         KCurrentUser!.getTeamColor(team, completion: { (teamColor,userTeamColor:UserTeamColor, error) -> Void in
             self.drawableView.color = teamColor == nil ? UIColor.greenColor() : teamColor
         })
     }
-    
+    /**
+     set background for current project
+     
+     - parameter project: current project
+     */
     func setBG(project:Project) {
         NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
             if let bg = project.background {
@@ -356,7 +186,12 @@ extension ViewController {
             }
         })
     }
-    
+    /**
+     drawing initialisation
+     
+     - parameter team:    current team
+     - parameter project: current project
+     */
     func initDrawing(team:Team, project:Project) {
         self.setDrawingColor(team)
         self.drawableView.project = project
@@ -368,6 +203,7 @@ extension ViewController {
 
 // MARK: - background management
 extension ViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     /**
      import a background image
      
@@ -439,15 +275,24 @@ extension ViewController {
 
 // MARK: - tools method
 extension ViewController {
-    
+    /**
+     undo button touch
+     
+     - parameter sender: undo button
+     */
     @IBAction func undoTouch(sender:UIButton) {
         self.drawableView.undo()
     }
-    
+    /**
+     redo button touch
+     
+     - parameter sender: redo button
+     */
     @IBAction func redoTouch(sender:UIButton) {
         self.drawableView.redo()
     }
     
+    //TODO: put segue identifier in Constant
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowTeamSegue" {
             let navTeamVC = segue.destinationViewController as? UINavigationController

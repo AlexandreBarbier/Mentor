@@ -65,6 +65,7 @@ class ProjectTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.displayedDataSource[indexPath.row].setLastOpenForTeam(self.team)
         self.completion?(project: self.displayedDataSource[indexPath.row], team: self.team)
     }
     

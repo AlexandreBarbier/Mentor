@@ -12,11 +12,6 @@ import CloudKit
 
 let KCurrentUser = User.currentUser
 
-struct UserDefaultsKeys {
-    static let currentUser = "currentUser"
-    static let teamUserKey = "teams"
-}
-
 class User : ABModelCloudKit {
     internal static var currentUser : User? = nil
     
@@ -45,14 +40,15 @@ class User : ABModelCloudKit {
     }
     
     class func getCurrentUser(completion:(user:User?, error:NSError?)->()) {
-        if let user = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.currentUser) as? NSData {
+        if let user = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaultsKeys.currentUser) as? NSData {
             User.currentUser =  NSKeyedUnarchiver.unarchiveObjectWithData(user) as? User
             completion(user: User.currentUser, error: nil)
             User.currentUser!.refresh({ (updatedObj:User?) -> Void in
                 if let update = updatedObj {
                     User.currentUser = update
                     let data = NSKeyedArchiver.archivedDataWithRootObject(update)
-                    NSUserDefaults.standardUserDefaults().setObject(data, forKey: UserDefaultsKeys.currentUser)
+                    NSUserDefaults.standardUserDefaults().setObject(data, forKey: Constants.UserDefaultsKeys.currentUser)
+                    NSUserDefaults.standardUserDefaults().synchronize()
                 }
             })
         }
@@ -102,17 +98,19 @@ class User : ABModelCloudKit {
     
     private func localSave() {
         let data = NSKeyedArchiver.archivedDataWithRootObject(self)
-        NSUserDefaults.standardUserDefaults().setObject(data, forKey:UserDefaultsKeys.currentUser)
+        NSUserDefaults.standardUserDefaults().setObject(data, forKey:Constants.UserDefaultsKeys.currentUser)
+                NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     func getTeams(completion:(teams:[Team], local:Bool, error:NSError?) -> Void) {
-        if let teamsData = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.teamUserKey) as? NSData {
+        if let teamsData = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaultsKeys.teamUserKey) as? NSData {
             let teams = NSKeyedUnarchiver.unarchiveObjectWithData(teamsData) as? [Team]
             completion(teams: teams!, local: true, error: nil)
         }
         super.getReferences(teams,completion: { (results:[Team], error) -> Void in
             let data = NSKeyedArchiver.archivedDataWithRootObject(results)
-            NSUserDefaults.standardUserDefaults().setObject(data, forKey:UserDefaultsKeys.teamUserKey)
+            NSUserDefaults.standardUserDefaults().setObject(data, forKey:Constants.UserDefaultsKeys.teamUserKey)
+            NSUserDefaults.standardUserDefaults().synchronize()
             completion(teams: results, local:false, error: error)
         })
     }

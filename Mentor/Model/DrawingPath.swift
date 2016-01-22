@@ -51,6 +51,7 @@ class DrawingPath: ABModelCloudKit {
     override func remove() {
         super.remove()
         NSUserDefaults.standardUserDefaults().setObject(nil, forKey: localKey())
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     class func removeWithName(name:String) {
@@ -74,5 +75,6 @@ class DrawingPath: ABModelCloudKit {
     func localSave(point:[Point]) {
         let data = NSKeyedArchiver.archivedDataWithRootObject(point)
         NSUserDefaults.standardUserDefaults().setObject(data, forKey:localKey())
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
 }

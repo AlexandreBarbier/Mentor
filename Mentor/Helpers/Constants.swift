@@ -12,4 +12,10 @@ class Constants {
     enum NetworkURL : String {
         case firebase = "https://mentor1.firebaseio.com/"
     }
+    struct UserDefaultsKeys {
+        static let currentUser = "currentUser"
+        static let teamUserKey = "teams"
+        static let teamProjects = "teamProjects"
+        static let lastOpenedProject = "lastOpenedProject"
+    }
 }

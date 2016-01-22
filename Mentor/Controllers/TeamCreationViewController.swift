@@ -77,6 +77,7 @@ class TeamCreationViewController: UIViewController, UITextFieldDelegate {
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     KCurrentUser!.addTeam(team, color: self.colorController.chosenColor, colorSeed: self.colorController.currentSeed, completion: {
                         self.activity.stopAnimating()
+                        project.setLastOpenForTeam(team)
                         self.completion?(team: team, project:project)
                         self.navigationController?.popToRootViewControllerAnimated(true)
                     })

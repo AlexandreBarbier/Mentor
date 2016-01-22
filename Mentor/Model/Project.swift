@@ -54,6 +54,22 @@ extension Project {
 // MARK: - Fetches
 extension Project {
     
+    class func getLastOpen() -> (project:Project?, team:Team?)? {
+        if let teamProjectData = NSUserDefaults.standardUserDefaults().arrayForKey(Constants.UserDefaultsKeys.lastOpenedProject) {
+            let project = NSKeyedUnarchiver.unarchiveObjectWithData(teamProjectData[0] as! NSData) as? Project
+            let team = NSKeyedUnarchiver.unarchiveObjectWithData(teamProjectData[1] as! NSData) as? Team
+            return (project,team)
+        }
+        return nil
+    }
+    
+    func setLastOpenForTeam(team:Team) {
+        let projectData = NSKeyedArchiver.archivedDataWithRootObject(self)
+        let teamData = NSKeyedArchiver.archivedDataWithRootObject(team)
+        NSUserDefaults.standardUserDefaults().setObject([projectData,teamData], forKey:Constants.UserDefaultsKeys.lastOpenedProject)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
     func getDrawing(completion:(drawing:[Drawing], error:NSError?) -> Void) {
         super.getReferences([drawing!],completion: { (results:[Drawing], error) -> Void in
             completion(drawing: results, error: error)
