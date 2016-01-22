@@ -16,6 +16,7 @@ import Firebase
 // MARK: - ViewController declaration
 // TODO: Remove first team and project creation + color chooser
 // TODO: fix resizing when rotate
+// TODO: fix image upload
 
 class ViewController: UIViewController {
     @IBOutlet weak var activity: UIActivityIndicatorView!
@@ -28,7 +29,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var redoButton : UIButton!
     private var firebaseBgReference : Firebase?
     private var firebaseObserverHandle : UInt = 0
-    private var canPresent = true
+    private var downloadBG = true
 }
 
 // MARK: - View lifecycle
@@ -49,11 +50,11 @@ extension ViewController {
         buttonTools.frame.origin = CGPoint(x: self.view.frame.width - buttonTools.frame.width,
             y: self.view.frame.height - buttonTools.frame.height)
         buttonTools.addVerticalButton(["addViewIcon": addViewButton,
-                                       "imageIcon"  : importBG,
-                                       "settings"   : setEraser,
-                                       "pen"   : pen,
-                                       "marker"   : marker])
-
+            "imageIcon"  : importBG,
+            "settings"   : setEraser,
+            "pen"   : pen,
+            "marker"   : marker])
+        
         DebugConsoleView.debugView = DebugConsoleView(inView:self.view)
         self.view.addSubview(buttonTools)
         self.loginUser()
@@ -74,7 +75,6 @@ extension ViewController {
     }
     
     override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
-        self.canPresent = true
         super.dismissViewControllerAnimated(flag, completion: completion)
     }
 }
@@ -104,7 +104,7 @@ extension ViewController {
                         self.performSegueWithIdentifier("CreateTeamSegue", sender: self)
                     }
                     else {
-//TODO: get the last opened project
+                        //TODO: get the last opened project
                         DebugConsoleView.debugView.print("get team")
                         user.getTeams({ (teams, local, error) -> Void in
                             guard let team = teams.first else {
@@ -188,12 +188,15 @@ extension ViewController {
         }
         firebaseBgReference = Firebase(url: "\(Constants.NetworkURL.firebase.rawValue)\(project.recordName)/back")
         firebaseObserverHandle = firebaseBgReference!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
-            self.drawableView.project!.refresh({ (updateObject:Project?) -> Void in
-                if let update = updateObject {
-                    self.drawableView.project = update
-                    self.setBG(self.drawableView.project!)
-                }
-            })
+            if self.downloadBG {
+                self.drawableView.project!.refresh({ (updateObject:Project?) -> Void in
+                    if let update = updateObject {
+                        self.drawableView.project = update
+                        self.setBG(self.drawableView.project!)
+                    }
+                })
+            }
+            self.downloadBG = true
         })
     }
     
@@ -258,7 +261,7 @@ extension ViewController {
                     colorAlert.dismissViewControllerAnimated(true, completion: { () -> Void in
                         self.projectlessTeam(team)
                     })
-
+                    
                 }
                 self.presentViewController(colorAlert, animated: true, completion: nil)
                 break
@@ -291,27 +294,26 @@ extension ViewController {
                     let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
                     colorAlert.team = team
                     colorAlert.completion = { (team, color, colorSeed) in
-                         colorAlert.dismissViewControllerAnimated(true, completion:nil)
+                        colorAlert.dismissViewControllerAnimated(true, completion:nil)
                         user.addTeam(team, color:color, colorSeed: colorSeed)
                         
                         team.getProjects({ (projects, local, error) -> Void in
-                            if local {
-                                return
-                            }
-                            guard let project = projects.first else {
+                            if !local {
+                                guard let project = projects.first else {
+                                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                                        alert.dismissViewControllerAnimated(false, completion: nil)
+                                        self.projectlessTeam(team)
+                                    })
+                                    return
+                                }
                                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                    alert.dismissViewControllerAnimated(false, completion: nil)
-                                    self.projectlessTeam(team)
+                                    self.initDrawing(team, project: project)
                                 })
-                                return
                             }
-                            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                self.initDrawing(team, project: project)
-                            })
-                    })
+                        })
                     }
                     self.presentViewController(colorAlert, animated: true, completion: nil)
-
+                    
                 })
                 break
             }
@@ -333,17 +335,18 @@ extension ViewController {
         NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
             if let bg = project.background {
                 if self.imageBG == nil {
-                    self.imageBG = UIImageView(image: UIImage(data: NSData(contentsOfFile: bg.fileURL.path!)!))
-                    self.imageBG!.autoresizingMask = [.FlexibleHeight,.FlexibleHeight]
-                    self.scrollView.insertSubview(self.imageBG!, atIndex: 0)
-                    self.imageBG!.contentMode = .ScaleAspectFill
+                    if let data = NSData(contentsOfFile: bg.fileURL.path!) {
+                        self.imageBG = UIImageView(image: UIImage(data: data))
+                        self.imageBG!.autoresizingMask = [.FlexibleHeight,.FlexibleHeight]
+                        self.scrollView.insertSubview(self.imageBG!, atIndex: 0)
+                        self.imageBG!.contentMode = .ScaleAspectFill
+                        self.imageBG!.frame = self.drawableView.frame
+                    }
                 }
                 else {
                     self.imageBG!.image = UIImage(data: NSData(contentsOfFile: bg.fileURL.path!)!)
+                    self.imageBG!.frame = self.drawableView.frame
                 }
-                
-                self.imageBG!.frame = self.drawableView.frame
-                
             }
             else {
                 if self.imageBG != nil {
@@ -398,6 +401,7 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         drawableView.project!.saveBackground((imageBG?.image)!,completion: { () in
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                 DebugConsoleView.debugView.print("bg uploaded")
+                self.downloadBG = false
                 self.firebaseBgReference!.updateChildValues(["bg":NSNumber(unsignedInt:arc4random_uniform(UInt32(100)))])
             })
         })
@@ -405,7 +409,7 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
     /**
-    image picker controller delegate method
+     image picker controller delegate method
      
      - parameter picker: image picker
      */
@@ -446,16 +450,16 @@ extension ViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowTeamSegue" {
-           let navTeamVC = segue.destinationViewController as? UINavigationController
+            let navTeamVC = segue.destinationViewController as? UINavigationController
             let teamVC = navTeamVC!.viewControllers.first as? TeamTableViewController
             teamVC?.completion = { (project, team) in
                 
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     teamVC!.dismissViewControllerAnimated(true, completion: nil)
-
+                    
                     self.initDrawing(team, project: project)
                 })
-
+                
             }
         }
         if segue.identifier == "CreateTeamSegue" {
@@ -504,10 +508,10 @@ extension ViewController {
     func addViewButton(sender:UIButton) {
         let k = UIAlertController(title: "Clear", message: "Remove everything", preferredStyle: UIAlertControllerStyle.Alert)
         k.addAction(UIAlertAction(title: "ok", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
-            self.drawableView.clear()            
+            self.drawableView.clear()
         }))
         k.addAction(UIAlertAction(title: "cancel", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-
+            
             k.dismissViewControllerAnimated(true, completion: nil)
         }))
         self.presentViewController(k, animated: true, completion: nil)
