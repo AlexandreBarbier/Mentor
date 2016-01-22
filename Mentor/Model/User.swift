@@ -68,8 +68,7 @@ class User : ABModelCloudKit {
                         completion(user: nil, error: error)
                         return
                     }
-                    let usr = User(record: rec, recordId: recordId!)
-                    
+                    let usr = User(record: rec, recordId: recordId!)                   
                     User.currentUser = usr
                     User.currentUser!.save()
                     completion(user: usr, error: nil)

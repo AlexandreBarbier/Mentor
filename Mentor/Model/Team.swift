@@ -11,8 +11,6 @@ import ABModel
 import CloudKit
 import Foundation
 
-
-
 extension UserDefaultsKeys {
     static let teamProjects = "teamProjects"
 }
