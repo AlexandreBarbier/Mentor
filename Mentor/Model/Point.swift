@@ -34,7 +34,7 @@ class Point: ABModelCloudKit {
         return po
     }
     
-    class func createBatch(points:[CGPoint], dPath : DrawingPath) -> ([CKRecord],[Point]) {
+    class func createBatch(points:[CGPoint], dPath : DrawingPath) -> (records:[CKRecord],points:[Point]) {
         var pointsRecord = [CKRecord]()
         var batchPoints = [Point]()
         var i = 0

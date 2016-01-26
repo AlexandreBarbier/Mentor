@@ -7,19 +7,12 @@
 //
 
 import UIKit
-
-/**
- * IMPROVEMENT : need an ignore key method when we have arrays that are not compound with ABModel objects (CKReference for exemple)
- *               because this cause a memory leak
- *
- */
- 
  
  /**
  *
  * You just need to inherit from this class to be able to create object from JSON
  * You have to name your properties like the JSON keys or override the method replaceKey to rename a JSON key
- *
+ * If you have an array<T> where T does
  */
 
 public class ABModel: NSObject, NSCoding {

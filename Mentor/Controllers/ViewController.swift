@@ -14,9 +14,7 @@ import ABModel
 import Firebase
 
 // MARK: - ViewController declaration
-// TODO: Remove first team and project creation + color chooser
 // TODO: fix resizing when rotate
-// TODO: fix image upload
 
 class ViewController: UIViewController {
     @IBOutlet weak var activity: UIActivityIndicatorView!
@@ -50,24 +48,19 @@ extension ViewController {
         buttonTools.frame.origin = CGPoint(x: self.view.frame.width - buttonTools.frame.width,
             y: self.view.frame.height - buttonTools.frame.height)
         buttonTools.addVerticalButton(["addViewIcon": addViewButton,
-            "imageIcon"  : importBG,
-            "settings"   : setEraser,
-            "pen"   : pen,
-            "marker"   : marker])
+                                       "imageIcon"  : importBG,
+                                       "settings"   : setEraser,
+                                       "pen"        : pen,
+                                       "marker"     : marker])
         
         DebugConsoleView.debugView = DebugConsoleView(inView:self.view)
         self.view.addSubview(buttonTools)
-        self.loginUser()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         self.prefersStatusBarHidden()
+        self.loginUser()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func prefersStatusBarHidden() -> Bool {
@@ -104,8 +97,25 @@ extension ViewController {
                         if let lastOpenedteamProject = Project.getLastOpen() {
                             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                                 self.initDrawing(lastOpenedteamProject.team!, project: lastOpenedteamProject.project!)
-                                self.activity.stopAnimating()
+
                             })
+                        }
+                        else {
+                            user.getTeams({ (teams, local, error) -> Void in
+                                if !local {
+
+                                        if let team = teams.first {
+                                            team.getProjects({ (projects, local, error) -> Void in
+                                                
+                                                if let project = projects.first {
+                                                    self.initDrawing(team, project: project)
+                                                }
+                                            })
+                                        }
+                                }
+
+                            })
+                            self.activity.stopAnimating()
                         }
                     }
                 })
@@ -198,6 +208,7 @@ extension ViewController {
         self.initFirebase(project)
         self.scrollView.contentSize = self.drawableView.frame.size
         self.setBG(project)
+        self.activity.stopAnimating()
     }
 }
 
@@ -254,11 +265,6 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         drawableView.project!.publicSave()
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
-}
-
-// MARK: - Gestures
-extension ViewController {
-    
 }
 
 // MARK: - Drawing settings
@@ -339,6 +345,7 @@ extension ViewController {
         drawableView.pen = true
         drawableView.eraser = false
     }
+    
     /**
      set the marker tool
      

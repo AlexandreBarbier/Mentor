@@ -55,7 +55,6 @@ class User : ABModelCloudKit {
         else {
             CloudKitManager.container.fetchUserRecordIDWithCompletionHandler { (recordId, error) -> Void in
                 guard let recId = recordId else {
-                    debugPrint("get current user error \(error)")
                     completion(user: nil, error: error)
                     return
                 }
@@ -76,7 +75,6 @@ class User : ABModelCloudKit {
     override func publicSave(completion: ((record: CKRecord?, error: NSError?) -> Void)? = nil) {
         super.publicSave { (record, error) -> Void in
             guard let rec = record else {
-                debugPrint("User public save error : \(error)")
                 if let cp = completion {
                     NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                         cp(record: nil, error: error)
@@ -111,7 +109,7 @@ class User : ABModelCloudKit {
             let data = NSKeyedArchiver.archivedDataWithRootObject(results)
             NSUserDefaults.standardUserDefaults().setObject(data, forKey:Constants.UserDefaultsKeys.teamUserKey)
             NSUserDefaults.standardUserDefaults().synchronize()
-            completion(teams: results, local:false, error: error)
+            completion(teams: results, local: false, error: error)
         })
     }
     

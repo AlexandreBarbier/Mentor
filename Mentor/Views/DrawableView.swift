@@ -292,45 +292,44 @@ extension DrawableView {
         }
         firbaseDrawing = Firebase(url: "\(Constants.NetworkURL.firebase.rawValue)\(project!.recordName)/drawing/")
         firebaseDrawingObserverHandle = firbaseDrawing!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
+            let arr = snap.value as! [[Dictionary<String, AnyObject>]]
+            let firstPoint = arr.first!
+            var red : CGFloat = 0.0
+            var green : CGFloat = 0.0
+            var blue : CGFloat = 0.0
+            var mark : Bool = false
+            var lw : CGFloat = 2.0
+            var name = ""
+            var userName = ""
+            
+            firstPoint.forEach({ (obj) -> () in
+                if let un = obj[FirebaseKey.drawingUser] {
+                    userName = "\(un)"
+                }
+                if let r = obj[FirebaseKey.red] {
+                    red = CGFloat(r.floatValue)
+                }
+                else if let g = obj[FirebaseKey.green] {
+                    green = CGFloat(g.floatValue)
+                }
+                else if let b = obj[FirebaseKey.blue] {
+                    blue = CGFloat(b.floatValue)
+                }
+                else if let pathName = obj[FirebaseKey.pathName] {
+                    name = pathName as! String
+                }
+                else if let ma = obj[FirebaseKey.marker] {
+                    mark = ma as! Bool
+                }
+                else if let line = obj[FirebaseKey.lineWidth] {
+                    lw = CGFloat(line.floatValue)
+                }
+            })
+            
+            let contains = self.history.contains({ (tuple: (layer: CALayer, dPath: DrawingPath)) -> Bool in
+                return name == tuple.layer.name
+            })
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                let arr = snap.value as! [[Dictionary<String, AnyObject>]]
-                let firstPoint = arr.first!
-                var red : CGFloat = 0.0
-                var green : CGFloat = 0.0
-                var blue : CGFloat = 0.0
-                var mark : Bool = false
-                var lw : CGFloat = 2.0
-                var name = ""
-                var userName = ""
-                
-                firstPoint.forEach({ (obj) -> () in
-                    if let un = obj[FirebaseKey.drawingUser] {
-                        userName = "\(un)"
-                    }
-                    if let r = obj[FirebaseKey.red] {
-                        red = CGFloat(r.floatValue)
-                    }
-                    else if let g = obj[FirebaseKey.green] {
-                        green = CGFloat(g.floatValue)
-                    }
-                    else if let b = obj[FirebaseKey.blue] {
-                        blue = CGFloat(b.floatValue)
-                    }
-                    else if let pathName = obj[FirebaseKey.pathName] {
-                        name = pathName as! String
-                    }
-                    else if let ma = obj[FirebaseKey.marker] {
-                        mark = ma as! Bool
-                    }
-                    else if let line = obj[FirebaseKey.lineWidth] {
-                        lw = CGFloat(line.floatValue)
-                    }
-                })
-                
-                let contains = self.history.contains({ (tuple: (layer: CALayer, dPath: DrawingPath)) -> Bool in
-                    return name == tuple.layer.name
-                })
-                
                 if userName != KCurrentUser!.recordId.recordName || !contains {
                     var cPoint =  Array<CGPoint>()
                     arr.forEach({ (obj) -> () in
@@ -428,17 +427,18 @@ extension DrawableView {
             dPath.pen = self.pen
             dPath.lineWidth = self.lineWidth
             let recPoints = Point.createBatch(interPolationPoints, dPath: dPath)
-            firbaseDrawing!.updateChildValues([FirebaseKey.points:  interPolationPoints.map({ (point) -> [[String:AnyObject]] in
-                return [[FirebaseKey.drawingUser:"\(KCurrentUser!.recordId.recordName)"],[FirebaseKey.x:NSNumber(float: Float(point.x))], [FirebaseKey.y:NSNumber(float: Float(point.y))], [FirebaseKey.red:NSNumber(float: Float(red))],[FirebaseKey.green:NSNumber(float: Float(green))],[FirebaseKey.blue:NSNumber(float: Float(blue))],[FirebaseKey.pathName:dPath.recordId.recordName],[FirebaseKey.marker:marker], [FirebaseKey.lineWidth:self.lineWidth]]
+            NSOperationQueue().addOperationWithBlock({ () -> Void in
+                self.firbaseDrawing!.updateChildValues([FirebaseKey.points:  self.interPolationPoints.map({ (point) -> [[String:AnyObject]] in
+                    return [[FirebaseKey.drawingUser:"\(KCurrentUser!.recordId.recordName)"],[FirebaseKey.x:NSNumber(float: Float(point.x))], [FirebaseKey.y:NSNumber(float: Float(point.y))], [FirebaseKey.red:NSNumber(float: Float(self.red))],[FirebaseKey.green:NSNumber(float: Float(self.green))],[FirebaseKey.blue:NSNumber(float: Float(self.blue))],[FirebaseKey.pathName:dPath.recordId.recordName],[FirebaseKey.marker:self.marker], [FirebaseKey.lineWidth:self.lineWidth]]
+                })
+                    ])
             })
-                ])
-            dPath.points.appendContentsOf(recPoints.0.map({ (record) -> CKReference in
+
+            dPath.points.appendContentsOf(recPoints.records.map({ (record) -> CKReference in
                 CKReference(record: record, action: CKReferenceAction.None)
             }))
-            dPath.saveBulk(recPoints.0, completion: {
-                
-            })
-            dPath.localSave(recPoints.1)
+            dPath.saveBulk(recPoints.records, completion: nil)
+            dPath.localSave(recPoints.points)
             interPolationPoints.removeAll()
             let newLayer = self.addPath(path.CGPath, layerName: dPath.recordId.recordName)
             history.append((newLayer, dPath))
