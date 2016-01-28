@@ -94,8 +94,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                 self.drawing!.getPaths({ (paths, error) -> Void in
                     // get path's points, order them and convert them to CGPoint
                     paths.getPoints({ (points, error) -> Void in
-                        print("\(pathPrinted)   /   \(totalPaths)")
-                        self.loadingProgressBlock!(progress: (pathPrinted++ / totalPaths), current:pathPrinted, total:totalPaths)
+                        
                         let cPoint = points.sort({ (p1, p2) -> Bool in
                             return p1.position < p2.position
                         }).map({ (point) -> CGPoint in
@@ -125,6 +124,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                         else {
                             self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(paths.recordId.recordName)",color: color)
                         }
+                        self.loadingProgressBlock!(progress: (pathPrinted++ / totalPaths), current:pathPrinted, total:totalPaths)
                         // reset user tools
                         self.pen = p
                         self.marker = m

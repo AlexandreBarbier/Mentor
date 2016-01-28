@@ -41,12 +41,7 @@ extension ViewController {
         drawableView.loadingProgressBlock = {(progress, current, total) in
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                 self.progressView.progress = Float(progress)
-                if progress == 1.0 {
-                    self.progressView.hidden = true
-                }
-                else {
-                    self.progressView.hidden = false
-                }
+                self.progressView.hidden = self.progressView.progress == 1.0
             })
 
         }

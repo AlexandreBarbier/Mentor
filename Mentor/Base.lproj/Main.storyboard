@@ -143,11 +143,11 @@
                                 </constraints>
                                 <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="8bn-v9-XUi">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="2"/>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="8bn-v9-XUi">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="6"/>
                                 <color key="tintColor" red="0.08235294118" green="0.80000000000000004" blue="0.13725490200000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="2" id="Vhk-t1-d7a"/>
+                                    <constraint firstAttribute="height" constant="6" id="NFE-Nk-dWf"/>
                                 </constraints>
                             </progressView>
                         </subviews>
@@ -156,14 +156,14 @@
                             <accessibilityTraits key="traits" updatesFrequently="YES"/>
                         </accessibility>
                         <constraints>
+                            <constraint firstItem="8bn-v9-XUi" firstAttribute="top" secondItem="6kI-HS-PAE" secondAttribute="top" id="3NM-PJ-ImE"/>
                             <constraint firstItem="b0f-Av-GDU" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="8E6-gM-kSj"/>
                             <constraint firstItem="JJa-II-zha" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="8" id="8xO-1y-bHf"/>
                             <constraint firstItem="JJa-II-zha" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="8" id="9j5-NI-1Ke"/>
-                            <constraint firstAttribute="trailing" secondItem="8bn-v9-XUi" secondAttribute="trailing" id="Gme-CL-sAh"/>
+                            <constraint firstItem="8bn-v9-XUi" firstAttribute="leading" secondItem="6kI-HS-PAE" secondAttribute="leading" id="EEM-Tq-Ews"/>
                             <constraint firstItem="6kI-HS-PAE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="MNi-po-Xsc"/>
+                            <constraint firstItem="8bn-v9-XUi" firstAttribute="trailing" secondItem="6kI-HS-PAE" secondAttribute="trailing" id="Owd-fr-xDq"/>
                             <constraint firstItem="6kI-HS-PAE" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="RWs-yp-0bY"/>
-                            <constraint firstItem="8bn-v9-XUi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="RaR-wb-Hb5"/>
-                            <constraint firstItem="8bn-v9-XUi" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ULi-q2-PiV"/>
                             <constraint firstItem="QoM-lS-OLz" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="8" id="Whn-4B-6P6"/>
                             <constraint firstItem="Hbw-Lo-GYZ" firstAttribute="leading" secondItem="JJa-II-zha" secondAttribute="trailing" constant="8" id="Zld-Yc-N2e"/>
                             <constraint firstAttribute="trailing" secondItem="6kI-HS-PAE" secondAttribute="trailing" id="a4Q-IY-5EP"/>
