@@ -15,8 +15,9 @@ import Firebase
 
 // MARK: - ViewController declaration
 // TODO: fix resizing when rotate
-
+//TODO: change loading progress
 class ViewController: UIViewController {
+    @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var activity: UIActivityIndicatorView!
     @IBOutlet weak var scrollView: DrawableScrollView!
     @IBOutlet weak var drawableView: DrawableView!
@@ -36,6 +37,19 @@ extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.drawableView = self.drawableView
+        self.progressView.progress = 0.0
+        drawableView.loadingProgressBlock = {(progress, current, total) in
+            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                self.progressView.progress = Float(progress)
+                if progress == 1.0 {
+                    self.progressView.hidden = true
+                }
+                else {
+                    self.progressView.hidden = false
+                }
+            })
+
+        }
         settingButton.border(.blackColor(), width: 2.0)
         settingButton.circle()
         settingButton.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
@@ -97,23 +111,19 @@ extension ViewController {
                         if let lastOpenedteamProject = Project.getLastOpen() {
                             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                                 self.initDrawing(lastOpenedteamProject.team!, project: lastOpenedteamProject.project!)
-
                             })
                         }
                         else {
                             user.getTeams({ (teams, local, error) -> Void in
                                 if !local {
-
                                         if let team = teams.first {
                                             team.getProjects({ (projects, local, error) -> Void in
-                                                
                                                 if let project = projects.first {
                                                     self.initDrawing(team, project: project)
                                                 }
                                             })
                                         }
                                 }
-
                             })
                             self.activity.stopAnimating()
                         }

@@ -48,6 +48,8 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
     private var colorAlpha : CGFloat = 0.0
     private var archivedColor : NSData!
     
+    var loadingProgressBlock : ((progress:Double, current:Double, total:Double) -> Void)?
+    
     var color = UIColor.greenColor() {
         didSet {
             self.color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
@@ -87,9 +89,13 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                 let p = self.pen
                 let m = self.marker
                 // get all paths of the current drawing. The closure is called sequencially (path by path)
+                let totalPaths = Double(self.drawing!.paths.count)
+                var pathPrinted : Double = 1
                 self.drawing!.getPaths({ (paths, error) -> Void in
                     // get path's points, order them and convert them to CGPoint
                     paths.getPoints({ (points, error) -> Void in
+                        print("\(pathPrinted)   /   \(totalPaths)")
+                        self.loadingProgressBlock!(progress: (pathPrinted++ / totalPaths), current:pathPrinted, total:totalPaths)
                         let cPoint = points.sort({ (p1, p2) -> Bool in
                             return p1.position < p2.position
                         }).map({ (point) -> CGPoint in
@@ -150,7 +156,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                 self.border(UIColor.blackColor(), width: 1.0)
             }
             project!.getDrawing { (drawing, error) -> Void in
-                guard let drawing = drawing.first else {
+                guard let drawing = drawing else {
                     DebugConsoleView.debugView.errorPrint("empty drawing you should retry in few seconds")
                     return
                 }

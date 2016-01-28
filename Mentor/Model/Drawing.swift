@@ -40,8 +40,11 @@ class Drawing: ABModelCloudKit {
     }
     
     func getPaths(completion:(path:DrawingPath, error:NSError?) -> Void) {
-        super.getReferences(paths, perRecordCompletion:{ (results:DrawingPath?, error) -> Void in
+        let currentPath = paths
+        paths.removeAll()
+        super.getReferences(currentPath, perRecordCompletion:{ (results:DrawingPath?, error) -> Void in
             if let result = results {
+                self.paths.append(CKReference(recordID: result.recordId, action: .None))
                 completion(path:result, error: error)
             }
         })

@@ -12,7 +12,9 @@ import UIKit
  *
  * You just need to inherit from this class to be able to create object from JSON
  * You have to name your properties like the JSON keys or override the method replaceKey to rename a JSON key
- * If you have an array<T> where T does
+ * If you have an array<T> where T does not inherit from ABModel or is not a basic type you should use the ingnore key method and fill the array
+ * yourself to avoid a memory leak caused by the casting from NSArray to Array
+ *
  */
 
 public class ABModel: NSObject, NSCoding {

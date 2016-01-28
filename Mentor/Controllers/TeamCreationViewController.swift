@@ -81,13 +81,8 @@ class TeamCreationViewController: UIViewController, UITextFieldDelegate {
                         self.completion?(team: team, project:project)
                         self.navigationController?.popToRootViewControllerAnimated(true)
                     })
-                    
                 })
-                
             })
-            
-            
-            
         })
     }
     // MARK: - Navigation
