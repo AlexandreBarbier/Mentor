@@ -18,6 +18,7 @@ import Firebase
 //TODO: change loading progress
 class ViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
+    var connectedUsersView: ConnectedUsersTableViewController!
     @IBOutlet weak var activity: UIActivityIndicatorView!
     @IBOutlet weak var scrollView: DrawableScrollView!
     @IBOutlet weak var drawableView: DrawableView!
@@ -36,6 +37,7 @@ extension ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print (self.connectedUsersView)
         scrollView.drawableView = self.drawableView
         self.progressView.progress = 0.0
         drawableView.loadingProgressBlock = {(progress, current, total) in
@@ -210,6 +212,7 @@ extension ViewController {
     func initDrawing(team:Team, project:Project) {
         self.setDrawingColor(team)
         self.drawableView.project = project
+        self.connectedUsersView.team = team
         self.initFirebase(project)
         self.scrollView.contentSize = self.drawableView.frame.size
         self.setBG(project)
@@ -329,6 +332,9 @@ extension ViewController {
                     self.activity.stopAnimating()
                 })
             }
+        }
+        if segue.identifier == "ConnectedUserSegue" {
+            self.connectedUsersView = segue.destinationViewController as! ConnectedUsersTableViewController
         }
     }
     /**

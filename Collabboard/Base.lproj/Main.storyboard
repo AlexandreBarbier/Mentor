@@ -312,6 +312,52 @@
             </objects>
             <point key="canvasLocation" x="2068" y="-228"/>
         </scene>
+        <!--Connected Users Table View Controller-->
+        <scene sceneID="2PI-df-K9M">
+            <objects>
+                <tableViewController id="8tM-a1-71K" customClass="ConnectedUsersTableViewController" customModule="Collabboard" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="1k6-RF-be9">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="gW7-R4-YGT">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connected User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lhk-yG-ynI">
+                                    <rect key="frame" x="238" y="8" width="125" height="28"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="lhk-yG-ynI" firstAttribute="centerX" secondItem="gW7-R4-YGT" secondAttribute="centerX" id="Omq-Sl-VEG"/>
+                                <constraint firstItem="lhk-yG-ynI" firstAttribute="centerY" secondItem="gW7-R4-YGT" secondAttribute="centerY" id="XI5-hz-eiW"/>
+                                <constraint firstItem="lhk-yG-ynI" firstAttribute="top" secondItem="gW7-R4-YGT" secondAttribute="top" constant="8" id="aiT-nV-mFu"/>
+                            </constraints>
+                        </view>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="connectedUserCell" id="VJD-re-ezf">
+                                <rect key="frame" x="0.0" y="72" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VJD-re-ezf" id="VO1-rp-hvN">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="8tM-a1-71K" id="axv-oE-9cV"/>
+                            <outlet property="delegate" destination="8tM-a1-71K" id="51n-fs-jfM"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vgw-c4-TGd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1623" y="-876"/>
+        </scene>
         <!--CreationStoryboard-->
         <scene sceneID="w7b-kF-Wbf">
             <objects>

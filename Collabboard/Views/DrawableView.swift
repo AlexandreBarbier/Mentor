@@ -134,7 +134,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             }
         }
     }
-    
+
     var project : Project? {
         didSet {
             guard var sublayers = self.superview!.layer.sublayers else {

@@ -132,6 +132,7 @@ class User : ABModelCloudKit {
     func addTeam(team:Team, color:UIColor, colorSeed:CGFloat, completion:(()-> Void)? = nil) {
         UserTeamColor.create(team, colorSeed: colorSeed, color: color, completion: {(utColor:UserTeamColor, error:NSError?) in
             self.teamColor.append(CKReference(record: utColor.toRecord(), action: .None))
+            team.users.append(CKReference(record: self.toRecord(), action: .None))
             self.teams.append(CKReference(record: team.toRecord(), action: .None))
             self.saveBulk([utColor.toRecord(), team.toRecord()], completion:  completion)
             self.localSave()

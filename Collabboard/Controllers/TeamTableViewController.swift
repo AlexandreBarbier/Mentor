@@ -111,6 +111,7 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
                     //TODO: Choose color
                     let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
                     colorAlert.team = team1
+                    
                     colorAlert.canChoose = true
                     colorAlert.completion = { (team:Team, color:UIColor, colorSeed:CGFloat) in
                         KCurrentUser!.addTeam(team, color: color, colorSeed: colorSeed, completion: {

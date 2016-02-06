@@ -92,11 +92,12 @@
 		AC3E696619B4C8D600681A5A /* ABUIKit */ = {
 			isa = PBXGroup;
 			children = (
-				8D237ECA1AFE668B00F6D57F /* Helpers */,
 				8D5AEE0019F025DE00256082 /* ABExpendableButtons.swift */,
 				AC3E69B119B4CB1900681A5A /* ABSelector.swift */,
 				AC3E69B219B4CB1900681A5A /* ABSelector.xib */,
 				AC3E696919B4C8D600681A5A /* ABUIKit.h */,
+				8DFF2CA61C1C180700F147DB /* DebugConsoleView.swift */,
+				8D237ECA1AFE668B00F6D57F /* Helpers */,
 				AC3E69B319B4CB1900681A5A /* HighlightedButton.swift */,
 				AC3E69B419B4CB1900681A5A /* RoundedView.swift */,
 				AC3E69B519B4CB1900681A5A /* SocialTextView.swift */,
@@ -104,7 +105,6 @@
 				AC3E69B619B4CB1900681A5A /* ToastView.swift */,
 				AC3E69B719B4CB1900681A5A /* ToastView.xib */,
 				AC3E69B819B4CB1900681A5A /* TransparentTextLabel.swift */,
-				8DFF2CA61C1C180700F147DB /* DebugConsoleView.swift */,
 			);
 			path = ABUIKit;
 			sourceTree = "<group>";

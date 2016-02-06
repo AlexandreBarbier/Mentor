@@ -58,7 +58,7 @@ extension Team {
         team.name = name
         team.token = "\(name)\(arc4random_uniform(UInt32(100)))"
         if let currentUser = KCurrentUser {
-            team.users = [CKReference(record: currentUser.record!, action: .None)]
+            team.users = []
             team.admin = currentUser.recordId.recordName
             currentUser.addTeam(team, color: color, colorSeed: colorSeed)
             completion(success: true, team: team)
