@@ -27,8 +27,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var settingButton : UIButton!
     @IBOutlet weak var undoButton : UIButton!
     @IBOutlet weak var redoButton : UIButton!
-    private var firebaseBgReference : Firebase?
-    private var firebaseObserverHandle : UInt = 0
     private var downloadBG = true
 }
 
@@ -37,7 +35,9 @@ extension ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print (self.connectedUsersView)
+        self.connectedUsersView = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConnectedUsersVC") as! ConnectedUsersTableViewController
+        self.connectedUsersView.view.frame = CGRect(origin: CGPoint(x: self.view.frame.size.width - 50, y: 0), size: self.view.frame.size)
+        self.view.addSubview(self.connectedUsersView.view)
         scrollView.drawableView = self.drawableView
         self.progressView.progress = 0.0
         drawableView.loadingProgressBlock = {(progress, current, total) in
@@ -142,11 +142,8 @@ extension ViewController {
      - parameter project: current project
      */
     func initFirebase(project:Project) -> Void {
-        if let firebaseBgReference = firebaseBgReference {
-            firebaseBgReference.removeObserverWithHandle(firebaseObserverHandle)
-        }
-        firebaseBgReference = Firebase(url: "\(Constants.NetworkURL.firebase.rawValue)\(project.recordName)/back")
-        firebaseObserverHandle = firebaseBgReference!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
+        cbFirebase.project = project
+        cbFirebase.firebaseObserverHandle = cbFirebase.background!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
             if self.downloadBG {
                 self.drawableView.project!.refresh({ (updateObject:Project?) -> Void in
                     if let update = updateObject {
@@ -257,7 +254,7 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                 DebugConsoleView.debugView.print("bg uploaded")
                 self.downloadBG = false
-                self.firebaseBgReference!.updateChildValues(["bg":NSNumber(unsignedInt:arc4random_uniform(UInt32(100)))])
+                cbFirebase.background!.updateChildValues(["bg":NSNumber(unsignedInt:arc4random_uniform(UInt32(100)))])
             })
         })
         

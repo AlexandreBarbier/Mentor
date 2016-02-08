@@ -16,6 +16,7 @@
 		8D13B4F61C1ACAC6005F7325 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D13B4F51C1ACAC6005F7325 /* Constants.swift */; };
 		8D3CF1931C159514006D23C7 /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */; };
 		8D4981E81C65EC6700BC6067 /* ConnectedUsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */; };
+		8D91FD051C6876E20088F0FA /* CBFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91FD041C6876E20088F0FA /* CBFirebase.swift */; };
 		8D9679CA1C4535B8009B2299 /* CreationStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D9679C81C4535B8009B2299 /* CreationStoryboard.storyboard */; };
 		8D9679CE1C453603009B2299 /* TeamCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */; };
 		8D9E8E1B1C621AAD0076030A /* ABUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E141C621A600076030A /* ABUIKit.framework */; };
@@ -123,6 +124,7 @@
 		8D13B4F51C1ACAC6005F7325 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtension.swift; sourceTree = "<group>"; };
 		8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectedUsersTableViewController.swift; sourceTree = "<group>"; };
+		8D91FD041C6876E20088F0FA /* CBFirebase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBFirebase.swift; sourceTree = "<group>"; };
 		8D9679C91C4535B8009B2299 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CreationStoryboard.storyboard; sourceTree = "<group>"; };
 		8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamCreationViewController.swift; sourceTree = "<group>"; };
 		8D9E8DFC1C621A4F0076030A /* ABModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ABModel.xcodeproj; path = SwiftLib/ABModel/ABModel.xcodeproj; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				8D13B4F51C1ACAC6005F7325 /* Constants.swift */,
+				8D91FD041C6876E20088F0FA /* CBFirebase.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -503,6 +506,7 @@
 				8D0D6DC41C441AF10018CE41 /* ColorGenerationViewController.swift in Sources */,
 				AC778DE91BF1F86E00669BD7 /* DrawableView.swift in Sources */,
 				AC307FF91BF1F69300C28D5D /* ViewController.swift in Sources */,
+				8D91FD051C6876E20088F0FA /* CBFirebase.swift in Sources */,
 				AC307FF71BF1F69300C28D5D /* AppDelegate.swift in Sources */,
 				8DD8976E1C19760E007DA303 /* DrawingPath.swift in Sources */,
 				8D05D6751C187963008B7A7E /* Drawing.swift in Sources */,
