@@ -141,9 +141,9 @@ extension ViewController {
      
      - parameter project: current project
      */
-    func initFirebase(project:Project) -> Void {
-        cbFirebase.project = project
-        cbFirebase.firebaseObserverHandle = cbFirebase.background!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
+    func initFirebase(team: Team, project:Project) -> Void {
+        cbFirebase.setupWithTeam(team, project: project)
+        cbFirebase.firebaseBackgroundObserverHandle = cbFirebase.background!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
             if self.downloadBG {
                 self.drawableView.project!.refresh({ (updateObject:Project?) -> Void in
                     if let update = updateObject {
@@ -210,7 +210,8 @@ extension ViewController {
         self.setDrawingColor(team)
         self.drawableView.project = project
         self.connectedUsersView.team = team
-        self.initFirebase(project)
+        
+        self.initFirebase(team, project: project)
         self.scrollView.contentSize = self.drawableView.frame.size
         self.setBG(project)
         self.activity.stopAnimating()
