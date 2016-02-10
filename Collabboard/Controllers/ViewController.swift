@@ -59,7 +59,7 @@ extension ViewController {
         buttonTools.verticaleDirection = .Up
         buttonTools.frame.origin = CGPoint(x: self.view.frame.width - buttonTools.frame.width,
             y: self.view.frame.height - buttonTools.frame.height)
-        buttonTools.addVerticalButton(["addViewIcon": addViewButton,
+        buttonTools.addVerticalButton(["addViewIcon": textTool,
             "imageIcon"  : importBG,
             "settings"   : setEraser,
             "pen"        : pen,
@@ -86,6 +86,12 @@ extension ViewController {
 extension ViewController {
     
     @IBAction func hideInterface(sender: AnyObject) {
+        if drawableView.text {
+            let tap = sender as! UITapGestureRecognizer
+            drawableView.addText(tap)
+                    drawableView.text = false
+            return
+        }
         let alpha = 1 - self.undoButton.alpha
         if alpha == 1 {
             self.undoButton.hidden = self.interfaceIsVisible
@@ -111,7 +117,6 @@ extension ViewController {
         }
         self.interfaceIsVisible = !self.interfaceIsVisible
     }
-    
 }
 
 // MARK: - Cloudkit management
@@ -386,7 +391,8 @@ extension ViewController {
      */
     func pen(sender:UIButton) {
         drawableView.lineWidth = 2.0
-        drawableView.pen = true
+        drawableView.pen = false
+        drawableView.text = false
         drawableView.eraser = false
     }
     
@@ -398,6 +404,14 @@ extension ViewController {
     func marker(sender:UIButton) {
         drawableView.lineWidth = 15.0
         drawableView.marker = true
+        drawableView.text = false
+        drawableView.eraser = false
+    }
+    
+    func textTool(sender:UIButton) {
+        drawableView.text = true
+        drawableView.pen = false
+        drawableView.marker = false
         drawableView.eraser = false
     }
     

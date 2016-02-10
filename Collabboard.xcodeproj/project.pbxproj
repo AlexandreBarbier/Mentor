@@ -18,6 +18,7 @@
 		8D4981E81C65EC6700BC6067 /* ConnectedUsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */; };
 		8D91FD051C6876E20088F0FA /* CBFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91FD041C6876E20088F0FA /* CBFirebase.swift */; };
 		8D91FD091C6B31650088F0FA /* TouchThroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91FD081C6B31650088F0FA /* TouchThroughView.swift */; };
+		8D91FD0B1C6B5AD60088F0FA /* DrawableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91FD0A1C6B5AD60088F0FA /* DrawableTextView.swift */; };
 		8D9679CA1C4535B8009B2299 /* CreationStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D9679C81C4535B8009B2299 /* CreationStoryboard.storyboard */; };
 		8D9679CE1C453603009B2299 /* TeamCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */; };
 		8D9E8E1B1C621AAD0076030A /* ABUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E141C621A600076030A /* ABUIKit.framework */; };
@@ -127,6 +128,7 @@
 		8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectedUsersTableViewController.swift; sourceTree = "<group>"; };
 		8D91FD041C6876E20088F0FA /* CBFirebase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBFirebase.swift; sourceTree = "<group>"; };
 		8D91FD081C6B31650088F0FA /* TouchThroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchThroughView.swift; sourceTree = "<group>"; };
+		8D91FD0A1C6B5AD60088F0FA /* DrawableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawableTextView.swift; sourceTree = "<group>"; };
 		8D9679C91C4535B8009B2299 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CreationStoryboard.storyboard; sourceTree = "<group>"; };
 		8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamCreationViewController.swift; sourceTree = "<group>"; };
 		8D9E8DFC1C621A4F0076030A /* ABModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ABModel.xcodeproj; path = SwiftLib/ABModel/ABModel.xcodeproj; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 			children = (
 				8DE74F481C21A97800B60F0D /* DrawableScrollView.swift */,
 				AC778DE81BF1F86E00669BD7 /* DrawableView.swift */,
+				8D91FD0A1C6B5AD60088F0FA /* DrawableTextView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				8DBD195D1C15D1C60073BE8B /* User.swift in Sources */,
 				8D4981E81C65EC6700BC6067 /* ConnectedUsersTableViewController.swift in Sources */,
 				8DE74F491C21A97800B60F0D /* DrawableScrollView.swift in Sources */,
+				8D91FD0B1C6B5AD60088F0FA /* DrawableTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

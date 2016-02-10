@@ -42,6 +42,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             if marker {
                 self.color = self.color.colorWithAlphaComponent(markerAlpha)
                 pen = false
+                text = false
             }
         }
     }
@@ -50,10 +51,20 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             if pen {
                 self.color = self.color.colorWithAlphaComponent(1.0)
                 marker = false
+                text = false
             }
         }
     }
-
+    var text = false {
+        didSet {
+            if text {
+                self.color = self.color.colorWithAlphaComponent(1.0)
+                marker = false
+                pen = false
+            }
+        }
+    }
+    
     var drawing : Drawing? {
         didSet {
             DebugConsoleView.debugView.print("set drawing")
@@ -73,15 +84,11 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                 self.drawing!.getPaths({ (paths, error) -> Void in
                     // get path's points, order them and convert them to CGPoint
                     paths.getPoints({ (points, error) -> Void in
-                        
                         let cPoint = points.sort({ (p1, p2) -> Bool in
                             return p1.position < p2.position
                         }).map({ (point) -> CGPoint in
                             CGPoint(x:CGFloat(point.x.floatValue), y:CGFloat(point.y.floatValue))
                         })
-                        // path redrawing
-                        let cPath = UIBezierPath()
-                        cPath.interpolatePointsWithHermite(cPoint)
                         // set path color
                         var color:UIColor? = nil
                         if let col = paths.color {
@@ -94,26 +101,36 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                         else {
                             self.marker = true
                         }
-                        // path linewidth
-                        self.path.lineWidth = paths.lineWidth
-                        // if I draw this path I can delete it
-                        if paths.user == KCurrentUser!.recordId.recordName {
-                            self.addPath(cPath.CGPath, layerName: "\(paths.recordId.recordName)",color: color)
+                        // the pa
+                        if paths.text != nil && paths.text == "" {
+                            // path redrawing
+                            let cPath = UIBezierPath()
+                            cPath.interpolatePointsWithHermite(cPoint)
+                            // path linewidth
+                            self.path.lineWidth = paths.lineWidth
+                            // if I draw this path I can delete it
+                            if paths.user == KCurrentUser!.recordId.recordName {
+                                self.addPath(cPath.CGPath, layerName: "\(paths.recordId.recordName)",color: color)
+                            }
+                            else {
+                                self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(paths.recordId.recordName)",color: color)
+                            }
+                            self.loadingProgressBlock!(progress: (pathPrinted++ / totalPaths), current:pathPrinted, total:totalPaths)
+                            // reset user tools
+                            self.pen = p
+                            self.marker = m
+                            self.path.lineWidth = self.lineWidth
                         }
                         else {
-                            self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(paths.recordId.recordName)",color: color)
+                            let text = DrawableTextView.create(cPoint.first!, text: paths.text!, color: color!)
+                            self.addSubview(text)
                         }
-                        self.loadingProgressBlock!(progress: (pathPrinted++ / totalPaths), current:pathPrinted, total:totalPaths)
-                        // reset user tools
-                        self.pen = p
-                        self.marker = m
-                        self.path.lineWidth = self.lineWidth
                     })
                 })
             }
         }
     }
-
+    
     var project : Project? {
         didSet {
             guard var sublayers = self.superview!.layer.sublayers else {
@@ -221,54 +238,54 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
 extension DrawableView {
     /**
      initialisation of firebase
-     there is 2 firebase events we want to observe : 
-        1) when a user draw something
-            - in that case the object received from firebase is an array containing all the points of the new path
-            and all the informations relative to that path 
+     there is 2 firebase events we want to observe :
+     1) when a user draw something
+     - in that case the object received from firebase is an array containing all the points of the new path
+     and all the informations relative to that path
      array : [
-        [
-            [0] =  {
-                // user who draw the path
-                drawingUser = "_360c5dfd1b920a7108d1340c2ba14cd7"
-            }
-            [1] =  {
-                // x coordinate
-                x = 170
-            }
-            [2] = {
-                // y coordinate
-                y = 127
-            }
-            [3] = {
-                // red componant
-                red = 0.2
-            }
-            [4] = {
-                // green componant
-                green = 1
-            }
-            [5] = {
-                // blue componant
-                blue = 0
-            }
-            [6] = {
-                // path name
-                pathName = ""
-            }
-            [7] = {
-                // if the user used the marker tool
-                marker = false
-            }
-            [8] = {
-                // line width used
-                lineWidth = 2
-            }
-        ]
+     [
+     [0] =  {
+     // user who draw the path
+     drawingUser = "_360c5dfd1b920a7108d1340c2ba14cd7"
+     }
+     [1] =  {
+     // x coordinate
+     x = 170
+     }
+     [2] = {
+     // y coordinate
+     y = 127
+     }
+     [3] = {
+     // red componant
+     red = 0.2
+     }
+     [4] = {
+     // green componant
+     green = 1
+     }
+     [5] = {
+     // blue componant
+     blue = 0
+     }
+     [6] = {
+     // path name
+     pathName = ""
+     }
+     [7] = {
+     // if the user used the marker tool
+     marker = false
+     }
+     [8] = {
+     // line width used
+     lineWidth = 2
+     }
+     ]
      ...
      ]
      
      
-        2) when a user delete a path
+     2) when a user delete a path
      
      */
     func initFirebase() {
@@ -409,7 +426,7 @@ extension DrawableView {
                 })
                     ])
             })
-
+            
             dPath.points.appendContentsOf(recPoints.records.map({ (record) -> CKReference in
                 CKReference(record: record, action: CKReferenceAction.None)
             }))
@@ -427,6 +444,14 @@ extension DrawableView {
             break
         }
         self.setNeedsDisplay()
+    }
+    
+    func addText(tapGesture:UITapGestureRecognizer) {
+        let currentPoint = tapGesture.locationInView(self)
+        if text {
+            let textV = DrawableTextView.create(currentPoint, text: "put text", color: color)
+            self.addSubview(textV)
+        }
     }
 }
 
