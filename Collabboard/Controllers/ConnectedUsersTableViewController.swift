@@ -13,8 +13,10 @@ import UIKit
 
 class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var openButton: UIButton!
     @IBOutlet var tableView:UITableView!
     private var previous:CGFloat = 0.0
+    private var shown = false
     var displayedDataSource : [User] = [] {
         didSet {
             NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
@@ -34,13 +36,16 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
             }
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let pan = UIPanGestureRecognizer(target: self, action: "pangesture:")
         self.view.addGestureRecognizer(pan)
     }
-
+    override func viewDidLayoutSubviews() {
+        self.openButton.backgroundColor = UIColor.lightGrayColor()
+        self.openButton.roundedLeft(self.openButton.frame.width / 2)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -98,9 +103,17 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
     }
 
     @IBAction func show(sender: AnyObject) {
-        UIView.animateWithDuration(0.5) { () -> Void in
-            self.view.layer.transform = CATransform3DMakeTranslation(-(self.view.frame.size.width - 50), 0, 0)
+        if !shown {
+            UIView.animateWithDuration(0.5) { () -> Void in
+                self.view.layer.transform = CATransform3DMakeTranslation(-(self.view.frame.size.width - 50), 0, 0)
+            }
         }
+        else {
+            UIView.animateWithDuration(0.5) { () -> Void in
+                self.view.layer.transform = CATransform3DIdentity
+            }
+        }
+        shown = !shown
     }
 
     /*

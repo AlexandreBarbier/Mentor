@@ -51,8 +51,8 @@ class CBFirebase: NSObject {
     }
     
     func setupWithTeam(team:Team, project:Project) {
-        self.team = team
         self.project = project
+        self.team = team
     }
     
     func initUser(team:Team) {

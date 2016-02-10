@@ -17,6 +17,7 @@
 		8D3CF1931C159514006D23C7 /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */; };
 		8D4981E81C65EC6700BC6067 /* ConnectedUsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */; };
 		8D91FD051C6876E20088F0FA /* CBFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91FD041C6876E20088F0FA /* CBFirebase.swift */; };
+		8D91FD091C6B31650088F0FA /* TouchThroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91FD081C6B31650088F0FA /* TouchThroughView.swift */; };
 		8D9679CA1C4535B8009B2299 /* CreationStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D9679C81C4535B8009B2299 /* CreationStoryboard.storyboard */; };
 		8D9679CE1C453603009B2299 /* TeamCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */; };
 		8D9E8E1B1C621AAD0076030A /* ABUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E141C621A600076030A /* ABUIKit.framework */; };
@@ -125,6 +126,7 @@
 		8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtension.swift; sourceTree = "<group>"; };
 		8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectedUsersTableViewController.swift; sourceTree = "<group>"; };
 		8D91FD041C6876E20088F0FA /* CBFirebase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBFirebase.swift; sourceTree = "<group>"; };
+		8D91FD081C6B31650088F0FA /* TouchThroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchThroughView.swift; sourceTree = "<group>"; };
 		8D9679C91C4535B8009B2299 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CreationStoryboard.storyboard; sourceTree = "<group>"; };
 		8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamCreationViewController.swift; sourceTree = "<group>"; };
 		8D9E8DFC1C621A4F0076030A /* ABModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ABModel.xcodeproj; path = SwiftLib/ABModel/ABModel.xcodeproj; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			children = (
 				8D13B4F51C1ACAC6005F7325 /* Constants.swift */,
 				8D91FD041C6876E20088F0FA /* CBFirebase.swift */,
+				8D91FD081C6B31650088F0FA /* TouchThroughView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -499,6 +502,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D91FD091C6B31650088F0FA /* TouchThroughView.swift in Sources */,
 				8D058ADE1C17314F00A2D076 /* Point.swift in Sources */,
 				8D13B4F61C1ACAC6005F7325 /* Constants.swift in Sources */,
 				8D11201A1C1ED23F000E041B /* TeamTableViewController.swift in Sources */,

@@ -15,7 +15,7 @@ import Firebase
 
 // MARK: - ViewController declaration
 // TODO: fix resizing when rotate
-//TODO: change loading progress
+
 class ViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
     var connectedUsersView: ConnectedUsersTableViewController!
@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var drawableView: DrawableView!
     var buttonTools : ABExpendableButton = ABExpendableButton(orientation: .Vertical, borderColor: .blackColor(), backColor: .whiteColor())
     var imageBG : UIImageView?
+    private var interfaceIsVisible = true
     @IBOutlet weak var settingButton : UIButton!
     @IBOutlet weak var undoButton : UIButton!
     @IBOutlet weak var redoButton : UIButton!
@@ -36,7 +37,7 @@ extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.connectedUsersView = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConnectedUsersVC") as! ConnectedUsersTableViewController
-        self.connectedUsersView.view.frame = CGRect(origin: CGPoint(x: self.view.frame.size.width - 50, y: 0), size: self.view.frame.size)
+        self.connectedUsersView.view.frame = CGRect(origin: CGPoint(x: self.view.frame.size.width - 58, y: 0), size: self.view.frame.size)
         self.view.addSubview(self.connectedUsersView.view)
         scrollView.drawableView = self.drawableView
         self.progressView.progress = 0.0
@@ -45,7 +46,7 @@ extension ViewController {
                 self.progressView.progress = Float(progress)
                 self.progressView.hidden = self.progressView.progress == 1.0
             })
-
+            
         }
         settingButton.border(.blackColor(), width: 2.0)
         settingButton.circle()
@@ -59,12 +60,13 @@ extension ViewController {
         buttonTools.frame.origin = CGPoint(x: self.view.frame.width - buttonTools.frame.width,
             y: self.view.frame.height - buttonTools.frame.height)
         buttonTools.addVerticalButton(["addViewIcon": addViewButton,
-                                       "imageIcon"  : importBG,
-                                       "settings"   : setEraser,
-                                       "pen"        : pen,
-                                       "marker"     : marker])
+            "imageIcon"  : importBG,
+            "settings"   : setEraser,
+            "pen"        : pen,
+            "marker"     : marker])
         
         DebugConsoleView.debugView = DebugConsoleView(inView:self.view)
+
         self.view.addSubview(buttonTools)
         self.prefersStatusBarHidden()
         self.loginUser()
@@ -77,6 +79,39 @@ extension ViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
+}
+
+// MARK: - Gestures
+
+extension ViewController {
+    
+    @IBAction func hideInterface(sender: AnyObject) {
+        let alpha = 1 - self.undoButton.alpha
+        if alpha == 1 {
+            self.undoButton.hidden = self.interfaceIsVisible
+            self.redoButton.hidden = self.interfaceIsVisible
+            self.buttonTools.hidden = self.interfaceIsVisible
+            self.connectedUsersView.view.hidden = self.interfaceIsVisible
+            self.settingButton.hidden = self.interfaceIsVisible
+        }
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.undoButton.alpha = alpha
+            self.redoButton.alpha = alpha
+            self.buttonTools.alpha = alpha
+            self.connectedUsersView.view.alpha = alpha
+            self.settingButton.alpha = alpha
+            }) { (finished) -> Void in
+                if alpha != 1 {
+                    self.undoButton.hidden = self.interfaceIsVisible
+                    self.redoButton.hidden = self.interfaceIsVisible
+                    self.buttonTools.hidden = self.interfaceIsVisible
+                    self.connectedUsersView.view.hidden = self.interfaceIsVisible
+                    self.settingButton.hidden = self.interfaceIsVisible
+                }
+        }
+        self.interfaceIsVisible = !self.interfaceIsVisible
+    }
+    
 }
 
 // MARK: - Cloudkit management
@@ -113,13 +148,13 @@ extension ViewController {
                         else {
                             user.getTeams({ (teams, local, error) -> Void in
                                 if !local {
-                                        if let team = teams.first {
-                                            team.getProjects({ (projects, local, error) -> Void in
-                                                if let project = projects.first {
-                                                    self.initDrawing(team, project: project)
-                                                }
-                                            })
-                                        }
+                                    if let team = teams.first {
+                                        team.getProjects({ (projects, local, error) -> Void in
+                                            if let project = projects.first {
+                                                self.initDrawing(team, project: project)
+                                            }
+                                        })
+                                    }
                                 }
                             })
                             self.activity.stopAnimating()

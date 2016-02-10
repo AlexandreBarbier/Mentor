@@ -88,8 +88,12 @@
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="aOa-7Y-Bze" appends="YES" id="aah-sR-e8F"/>
+                                        </connections>
                                     </view>
                                 </subviews>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="A2P-xL-aPo" firstAttribute="leading" secondItem="6kI-HS-PAE" secondAttribute="leading" id="7fi-Sn-jw9"/>
                                     <constraint firstAttribute="trailing" secondItem="A2P-xL-aPo" secondAttribute="trailing" id="JsR-jq-T0u"/>
@@ -122,7 +126,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QoM-lS-OLz">
-                                <rect key="frame" x="542" y="8" width="50" height="50"/>
+                                <rect key="frame" x="492" y="8" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="0xb-UB-TSW"/>
                                     <constraint firstAttribute="width" constant="50" id="SJY-Dl-G5t"/>
@@ -168,7 +172,7 @@
                             <constraint firstItem="Hbw-Lo-GYZ" firstAttribute="leading" secondItem="JJa-II-zha" secondAttribute="trailing" constant="8" id="Zld-Yc-N2e"/>
                             <constraint firstAttribute="trailing" secondItem="6kI-HS-PAE" secondAttribute="trailing" id="a4Q-IY-5EP"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="6kI-HS-PAE" secondAttribute="bottom" id="gMD-Fd-Szv"/>
-                            <constraint firstAttribute="trailing" secondItem="QoM-lS-OLz" secondAttribute="trailing" constant="8" id="hi4-eV-GJf"/>
+                            <constraint firstAttribute="trailing" secondItem="QoM-lS-OLz" secondAttribute="trailing" constant="58" id="hi4-eV-GJf"/>
                             <constraint firstItem="Hbw-Lo-GYZ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="8" id="pQz-fu-2D6"/>
                             <constraint firstItem="b0f-Av-GDU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="rjd-hn-eFc"/>
                         </constraints>
@@ -185,6 +189,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="aOa-7Y-Bze">
+                    <connections>
+                        <action selector="hideInterface:" destination="BYZ-38-t0r" id="nzh-4I-1dg"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="232" y="-228"/>
         </scene>
@@ -204,15 +213,15 @@
                         <viewControllerLayoutGuide type="top" id="6jR-Vf-rlG"/>
                         <viewControllerLayoutGuide type="bottom" id="OU7-cC-XZt"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="gu4-Op-7vt">
+                    <view key="view" contentMode="scaleToFill" id="gu4-Op-7vt" customClass="TouchThroughView" customModule="Collabboard" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FW0-hg-Uji">
-                                <rect key="frame" x="13" y="42" width="25" height="25"/>
+                                <rect key="frame" x="8" y="42" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="25" id="58D-69-5Od"/>
-                                    <constraint firstAttribute="height" constant="25" id="lUU-gh-ADi"/>
+                                    <constraint firstAttribute="width" constant="50" id="58D-69-5Od"/>
+                                    <constraint firstAttribute="height" constant="50" id="lUU-gh-ADi"/>
                                 </constraints>
                                 <state key="normal" image="settings"/>
                                 <connections>
@@ -220,13 +229,13 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8P4-4r-CyC">
-                                <rect key="frame" x="50" y="0.0" width="550" height="600"/>
+                                <rect key="frame" x="58" y="0.0" width="542" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="uN9-RN-t1S">
-                                    <rect key="frame" x="0.0" y="0.0" width="550" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="542" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connected User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebc-hp-IMb">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Connected User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebc-hp-IMb">
                                             <rect key="frame" x="213" y="11" width="125" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -241,10 +250,10 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="connectedUserCell" id="bCQ-TR-La6">
-                                        <rect key="frame" x="0.0" y="72" width="550" height="44"/>
+                                        <rect key="frame" x="0.0" y="72" width="542" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bCQ-TR-La6" id="hxH-3D-1aT">
-                                            <rect key="frame" x="0.0" y="0.0" width="550" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="542" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -258,14 +267,15 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="OU7-cC-XZt" firstAttribute="top" secondItem="8P4-4r-CyC" secondAttribute="bottom" id="7EV-uB-7Ve"/>
-                            <constraint firstItem="FW0-hg-Uji" firstAttribute="leading" secondItem="gu4-Op-7vt" secondAttribute="leading" constant="13" id="9Rf-Hm-Ok4"/>
+                            <constraint firstItem="FW0-hg-Uji" firstAttribute="leading" secondItem="gu4-Op-7vt" secondAttribute="leading" constant="8" id="9Rf-Hm-Ok4"/>
                             <constraint firstItem="8P4-4r-CyC" firstAttribute="top" secondItem="gu4-Op-7vt" secondAttribute="top" id="EPH-QX-fwH"/>
                             <constraint firstItem="FW0-hg-Uji" firstAttribute="top" secondItem="gu4-Op-7vt" secondAttribute="top" constant="42" id="Q0O-pr-VPC"/>
-                            <constraint firstItem="8P4-4r-CyC" firstAttribute="leading" secondItem="FW0-hg-Uji" secondAttribute="trailing" constant="12" id="Zfn-Sa-aFO"/>
+                            <constraint firstItem="8P4-4r-CyC" firstAttribute="leading" secondItem="FW0-hg-Uji" secondAttribute="trailing" id="Zfn-Sa-aFO"/>
                             <constraint firstAttribute="trailing" secondItem="8P4-4r-CyC" secondAttribute="trailing" id="g5w-Lt-VIB"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="openButton" destination="FW0-hg-Uji" id="0df-4i-DjT"/>
                         <outlet property="tableView" destination="8P4-4r-CyC" id="rtu-9y-glX"/>
                     </connections>
                 </viewController>
