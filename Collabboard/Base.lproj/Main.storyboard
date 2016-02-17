@@ -235,8 +235,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="542" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Connected User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebc-hp-IMb">
-                                            <rect key="frame" x="213" y="11" width="125" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connected User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebc-hp-IMb">
+                                            <rect key="frame" x="209" y="11" width="125" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
@@ -277,6 +277,7 @@
                     <connections>
                         <outlet property="openButton" destination="FW0-hg-Uji" id="0df-4i-DjT"/>
                         <outlet property="tableView" destination="8P4-4r-CyC" id="rtu-9y-glX"/>
+                        <outlet property="titleLabel" destination="ebc-hp-IMb" id="oNA-jf-8w6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ozX-wy-jVh" userLabel="First Responder" sceneMemberID="firstResponder"/>

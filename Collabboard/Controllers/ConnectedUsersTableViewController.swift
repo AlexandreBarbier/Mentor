@@ -15,8 +15,10 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
 
     @IBOutlet weak var openButton: UIButton!
     @IBOutlet var tableView:UITableView!
+    @IBOutlet weak var titleLabel: UILabel!
     private var previous:CGFloat = 0.0
     private var shown = false
+    
     var displayedDataSource : [User] = [] {
         didSet {
             NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
@@ -27,6 +29,7 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
     
     var team : Team! {
         didSet {
+            self.titleLabel.text = team.name
             self.team.getUsers { (users, error) -> Void in
                 if error != nil {
                     print(error)
@@ -68,18 +71,17 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
                 UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1.0, options: .CurveEaseInOut, animations: { () -> Void in
                     self.view.layer.transform = CATransform3DIdentity
                     }, completion: { (finished) -> Void in
-                        
                 })
             }
             else {
                 UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1.0, options: .CurveEaseInOut, animations: { () -> Void in
-                    self.view.layer.transform = CATransform3DMakeTranslation(-(self.view.frame.size.width - 50), 0, 0)
+                    self.view.layer.transform = CATransform3DMakeTranslation(-(self.view.frame.size.width - 58), 0, 0)
                     }, completion: { (finished) -> Void in
                 })
             }
             break
         case .Changed :
-            if self.view.layer.frame.origin.x >= 0 && self.view.layer.frame.origin.x <= self.view.frame.size.width - 50 {
+            if self.view.layer.frame.origin.x >= 0 && self.view.layer.frame.origin.x <= self.view.frame.size.width - 58 {
                 self.view.layer.transform = CATransform3DConcat(self.view.layer.transform,CATransform3DMakeTranslation(x - previous, 0, 0))
                 previous = x
             }
@@ -105,7 +107,7 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
     @IBAction func show(sender: AnyObject) {
         if !shown {
             UIView.animateWithDuration(0.5) { () -> Void in
-                self.view.layer.transform = CATransform3DMakeTranslation(-(self.view.frame.size.width - 50), 0, 0)
+                self.view.layer.transform = CATransform3DMakeTranslation(-(self.view.frame.size.width - 58), 0, 0)
             }
         }
         else {

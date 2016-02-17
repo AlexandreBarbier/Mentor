@@ -37,7 +37,8 @@ extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.connectedUsersView = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConnectedUsersVC") as! ConnectedUsersTableViewController
-        self.connectedUsersView.view.frame = CGRect(origin: CGPoint(x: self.view.frame.size.width - 58, y: 0), size: self.view.frame.size)
+        let panelSize = CGSize(width: 2*(self.view.frame.size.width / 3), height: self.view.frame.size.height)
+        self.connectedUsersView.view.frame = CGRect(origin: CGPoint(x: self.view.frame.size.width - 58, y: 0), size: panelSize)
         self.view.addSubview(self.connectedUsersView.view)
         scrollView.drawableView = self.drawableView
         self.progressView.progress = 0.0
@@ -66,7 +67,7 @@ extension ViewController {
             "marker"     : marker])
         
         DebugConsoleView.debugView = DebugConsoleView(inView:self.view)
-
+        
         self.view.addSubview(buttonTools)
         self.prefersStatusBarHidden()
         self.loginUser()
@@ -89,7 +90,7 @@ extension ViewController {
         if drawableView.text {
             let tap = sender as! UITapGestureRecognizer
             drawableView.addText(tap)
-                    drawableView.text = false
+            drawableView.text = false
             return
         }
         let alpha = 1 - self.undoButton.alpha
