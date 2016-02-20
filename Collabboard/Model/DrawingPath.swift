@@ -36,7 +36,7 @@ class DrawingPath: ABModelCloudKit {
         let drawingPath = DrawingPath()
 
         drawing.paths.append(CKReference(record: drawingPath.record, action: CKReferenceAction.None))
-        if let currentUser = KCurrentUser {
+        if let currentUser = User.currentUser {
             drawingPath.user = currentUser.recordId.recordName
         }
         drawing.publicSave({ (record, error) -> Void in

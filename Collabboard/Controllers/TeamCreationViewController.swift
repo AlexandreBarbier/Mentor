@@ -69,13 +69,13 @@ class TeamCreationViewController: UIViewController, UITextFieldDelegate {
                 //TODO: AlertView field project name empty
                 return
             }
-            KCurrentUser!.username = userName
+            User.currentUser!.username = userName
         }
         self.activity.startAnimating()
         Team.create(teamName,color: self.colorController.chosenColor, colorSeed: self.colorController.currentSeed, completion: { (success, team) -> Void in
             Project.create(projectName, team: team, completion: { (project, team) -> Void in
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    KCurrentUser!.addTeam(team, color: self.colorController.chosenColor, colorSeed: self.colorController.currentSeed, completion: {
+                    User.currentUser!.addTeam(team, color: self.colorController.chosenColor, colorSeed: self.colorController.currentSeed, completion: {
                         self.activity.stopAnimating()
                         project.setLastOpenForTeam(team)
                         self.completion?(team: team, project:project)

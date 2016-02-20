@@ -25,9 +25,7 @@ class ViewController: UIViewController {
     var buttonTools : ABExpendableButton = ABExpendableButton(orientation: .Vertical, borderColor: .blackColor(), backColor: .whiteColor())
     var imageBG : UIImageView?
     private var interfaceIsVisible = true
-    @IBOutlet weak var settingButton : UIButton!
-    @IBOutlet weak var undoButton : UIButton!
-    @IBOutlet weak var redoButton : UIButton!
+    @IBOutlet weak var bottomToolBar: UIToolbar!
     private var downloadBG = true
 }
 
@@ -37,7 +35,7 @@ extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.connectedUsersView = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConnectedUsersVC") as! ConnectedUsersTableViewController
-        let panelSize = CGSize(width: 2*(self.view.frame.size.width / 3), height: self.view.frame.size.height)
+        let panelSize = CGSize(width: self.view.frame.size.width , height: self.view.frame.size.height - 44)
         self.connectedUsersView.view.frame = CGRect(origin: CGPoint(x: self.view.frame.size.width - 58, y: 0), size: panelSize)
         self.view.addSubview(self.connectedUsersView.view)
         scrollView.drawableView = self.drawableView
@@ -49,13 +47,6 @@ extension ViewController {
             })
             
         }
-        settingButton.border(.blackColor(), width: 2.0)
-        settingButton.circle()
-        settingButton.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
-        redoButton.border(UIColor.blackColor(), width: 1.0)
-        undoButton.border(UIColor.blackColor(), width: 1.0)
-        undoButton.rounded()
-        redoButton.rounded()
         activity.rounded()
         buttonTools.verticaleDirection = .Up
         buttonTools.frame.origin = CGPoint(x: self.view.frame.width - buttonTools.frame.width,
@@ -93,27 +84,22 @@ extension ViewController {
             drawableView.text = false
             return
         }
-        let alpha = 1 - self.undoButton.alpha
+        let alpha = 1 - self.bottomToolBar.alpha
         if alpha == 1 {
-            self.undoButton.hidden = self.interfaceIsVisible
-            self.redoButton.hidden = self.interfaceIsVisible
+            self.bottomToolBar.hidden = self.interfaceIsVisible
             self.buttonTools.hidden = self.interfaceIsVisible
             self.connectedUsersView.view.hidden = self.interfaceIsVisible
-            self.settingButton.hidden = self.interfaceIsVisible
         }
         UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.undoButton.alpha = alpha
-            self.redoButton.alpha = alpha
+            self.bottomToolBar.alpha = alpha
             self.buttonTools.alpha = alpha
             self.connectedUsersView.view.alpha = alpha
-            self.settingButton.alpha = alpha
+
             }) { (finished) -> Void in
                 if alpha != 1 {
-                    self.undoButton.hidden = self.interfaceIsVisible
-                    self.redoButton.hidden = self.interfaceIsVisible
+                    self.bottomToolBar.hidden = self.interfaceIsVisible
                     self.buttonTools.hidden = self.interfaceIsVisible
                     self.connectedUsersView.view.hidden = self.interfaceIsVisible
-                    self.settingButton.hidden = self.interfaceIsVisible
                 }
         }
         self.interfaceIsVisible = !self.interfaceIsVisible
@@ -207,7 +193,8 @@ extension ViewController {
      - parameter team: current team
      */
     func setDrawingColor(team:Team) {
-        KCurrentUser!.getTeamColor(team, completion: { (teamColor,userTeamColor:UserTeamColor, error) -> Void in
+        print(User.currentUser, User.currentUser?.username)
+        User.currentUser!.getTeamColor(team, completion: { (teamColor,userTeamColor:UserTeamColor, error) -> Void in
             self.drawableView.color = teamColor == nil ? UIColor.greenColor() : teamColor
         })
     }
@@ -267,7 +254,7 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
      
      - parameter sender: the button that send the action
      */
-    func importBG(sender:UIButton) {
+    @IBAction func importBG(sender:AnyObject) {
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
         pickerController.sourceType = .PhotoLibrary
@@ -381,16 +368,26 @@ extension ViewController {
      
      - parameter sender: the button that send the action
      */
-    func eraser(sender:UIButton) {
+  @IBAction func eraser(sender:AnyObject) {
         drawableView.eraser = true
     }
     
+    @IBAction func showBrushTools(sender:UIBarButtonItem) {
+        let popover =  UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ToolsCollectionVC") as! ToolsCollectionViewController
+        popover.modalPresentationStyle = .Popover
+        popover.popoverPresentationController?.delegate = popover
+        popover.popoverPresentationController!.sourceView = self.view
+        var rect = self.bottomToolBar.frame
+        rect.size.width = sender.image!.size.width
+        popover.popoverPresentationController?.sourceRect = rect
+        self.presentViewController(popover, animated: true, completion: nil)
+    }
     /**
      set the pen tool
      
      - parameter sender: the button that send the action
      */
-    func pen(sender:UIButton) {
+   @IBAction func pen(sender:AnyObject) {
         drawableView.lineWidth = 2.0
         drawableView.pen = false
         drawableView.text = false
@@ -402,21 +399,21 @@ extension ViewController {
      
      - parameter sender: the button that send the action
      */
-    func marker(sender:UIButton) {
+   @IBAction func marker(sender:UIButton) {
         drawableView.lineWidth = 15.0
         drawableView.marker = true
         drawableView.text = false
         drawableView.eraser = false
     }
     
-    func textTool(sender:UIButton) {
+   @IBAction func textTool(sender:UIButton) {
         drawableView.text = true
         drawableView.pen = false
         drawableView.marker = false
         drawableView.eraser = false
     }
     
-    func addViewButton(sender:UIButton) {
+   @IBAction func addViewButton(sender:UIButton) {
         let k = UIAlertController(title: "Clear", message: "Remove everything", preferredStyle: UIAlertControllerStyle.Alert)
         k.addAction(UIAlertAction(title: "ok", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
             self.drawableView.clear()

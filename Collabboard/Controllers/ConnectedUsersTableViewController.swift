@@ -15,10 +15,13 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
 
     @IBOutlet weak var openButton: UIButton!
     @IBOutlet var tableView:UITableView!
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var teamContainer: UIView!
+    
+    @IBOutlet weak var segmentControl: UISegmentedControl!
     private var previous:CGFloat = 0.0
     private var shown = false
-    
+    private var teamTableVC: TeamTableViewController!
+
     var displayedDataSource : [User] = [] {
         didSet {
             NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
@@ -29,10 +32,11 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
     
     var team : Team! {
         didSet {
-            self.titleLabel.text = team.name
+            self.segmentControl.setTitle(team.name, forSegmentAtIndex: 0)
+            self.teamTableVC.show()
             self.team.getUsers { (users, error) -> Void in
                 if error != nil {
-                    print(error)
+                    
                     return
                 }
                 self.displayedDataSource = users
@@ -45,10 +49,12 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
         let pan = UIPanGestureRecognizer(target: self, action: "pangesture:")
         self.view.addGestureRecognizer(pan)
     }
+    
     override func viewDidLayoutSubviews() {
         self.openButton.backgroundColor = UIColor.lightGrayColor()
         self.openButton.roundedLeft(self.openButton.frame.width / 2)
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -106,6 +112,8 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
 
     @IBAction func show(sender: AnyObject) {
         if !shown {
+            self.segmentControl.selectedSegmentIndex = 0
+            self.segmentControlChanged(self.segmentControl)
             UIView.animateWithDuration(0.5) { () -> Void in
                 self.view.layer.transform = CATransform3DMakeTranslation(-(self.view.frame.size.width - 58), 0, 0)
             }
@@ -118,14 +126,29 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
         shown = !shown
     }
 
-    /*
+    @IBAction func segmentControlChanged(sender: AnyObject) {
+        switch self.segmentControl.selectedSegmentIndex {
+        case 0:
+            self.teamContainer.hidden = true
+            break
+        case 1:
+            self.teamContainer.hidden = false
+            self.teamTableVC.show()
+            break
+        default :
+            break
+        }
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "teamContainerVC" {
+            let nav = segue.destinationViewController as! UINavigationController
+            self.teamTableVC = nav.viewControllers.first as! TeamTableViewController
+        }
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
-
 }

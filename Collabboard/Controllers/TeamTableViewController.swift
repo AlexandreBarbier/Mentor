@@ -30,9 +30,8 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        guard let user = KCurrentUser else {
+    func show () {
+        guard let user = User.currentUser else {
             DebugConsoleView.debugView.errorPrint("Team popover no user")
             return
         }
@@ -114,7 +113,7 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
                     
                     colorAlert.canChoose = true
                     colorAlert.completion = { (team:Team, color:UIColor, colorSeed:CGFloat) in
-                        KCurrentUser!.addTeam(team, color: color, colorSeed: colorSeed, completion: {
+                        User.currentUser!.addTeam(team, color: color, colorSeed: colorSeed, completion: {
                             self.displayedDataSource.append(team)
                             self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
                             colorAlert.dismissViewControllerAnimated(true, completion: nil)

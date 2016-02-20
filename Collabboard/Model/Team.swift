@@ -22,7 +22,7 @@ class Team: ABModelCloudKit {
     
     var currentUserIsAdmin:Bool {
         get {
-            if let currentUser = KCurrentUser {
+            if let currentUser = User.currentUser {
                 return currentUser.recordId.recordName == self.admin
             }
             return false
@@ -57,7 +57,7 @@ extension Team {
         let team = Team()
         team.name = name
         team.token = "\(name)\(arc4random_uniform(UInt32(100)))"
-        if let currentUser = KCurrentUser {
+        if let currentUser = User.currentUser {
             team.users = []
             team.admin = currentUser.recordId.recordName
             currentUser.addTeam(team, color: color, colorSeed: colorSeed)

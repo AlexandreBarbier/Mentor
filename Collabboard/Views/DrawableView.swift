@@ -109,7 +109,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                             // path linewidth
                             self.path.lineWidth = paths.lineWidth
                             // if I draw this path I can delete it
-                            if paths.user == KCurrentUser!.recordId.recordName {
+                            if paths.user == User.currentUser!.recordId.recordName {
                                 self.addPath(cPath.CGPath, layerName: "\(paths.recordId.recordName)",color: color)
                             }
                             else {
@@ -328,7 +328,7 @@ extension DrawableView {
                 return name == tuple.layer.name
             })
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                if userName != KCurrentUser!.recordId.recordName || !contains {
+                if userName != User.currentUser!.recordId.recordName || !contains {
                     var cPoint =  Array<CGPoint>()
                     arr.forEach({ (obj) -> () in
                         var point = CGPointZero
@@ -372,7 +372,7 @@ extension DrawableView {
         }
         cbFirebase.firebaseDeleteObserverHandle = cbFirebase.delete!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
             let value = snap.value as! [[String:String]]
-            if value.first![FirebaseKey.drawingUser] != KCurrentUser!.recordId.recordName {
+            if value.first![FirebaseKey.drawingUser] != User.currentUser!.recordId.recordName {
                 self.removeLayerWithName(value.first![FirebaseKey.delete]!)
             }
             
@@ -422,7 +422,7 @@ extension DrawableView {
             let recPoints = Point.createBatch(interPolationPoints, dPath: dPath)
             NSOperationQueue().addOperationWithBlock({ () -> Void in
                 cbFirebase.drawing!.updateChildValues([FirebaseKey.points:  self.interPolationPoints.map({ (point) -> [[String:AnyObject]] in
-                    return [[FirebaseKey.drawingUser:"\(KCurrentUser!.recordId.recordName)"],[FirebaseKey.x:NSNumber(float: Float(point.x))], [FirebaseKey.y:NSNumber(float: Float(point.y))], [FirebaseKey.red:NSNumber(float: Float(self.red))],[FirebaseKey.green:NSNumber(float: Float(self.green))],[FirebaseKey.blue:NSNumber(float: Float(self.blue))],[FirebaseKey.pathName:dPath.recordId.recordName],[FirebaseKey.marker:self.marker], [FirebaseKey.lineWidth:self.lineWidth]]
+                    return [[FirebaseKey.drawingUser:"\(User.currentUser!.recordId.recordName)"],[FirebaseKey.x:NSNumber(float: Float(point.x))], [FirebaseKey.y:NSNumber(float: Float(point.y))], [FirebaseKey.red:NSNumber(float: Float(self.red))],[FirebaseKey.green:NSNumber(float: Float(self.green))],[FirebaseKey.blue:NSNumber(float: Float(self.blue))],[FirebaseKey.pathName:dPath.recordId.recordName],[FirebaseKey.marker:self.marker], [FirebaseKey.lineWidth:self.lineWidth]]
                 })
                     ])
             })
@@ -471,7 +471,7 @@ extension DrawableView {
         guard let currentLayer = currentLayer else {
             return
         }
-        cbFirebase.delete!.updateChildValues([FirebaseKey.delete:[[FirebaseKey.delete: history.last!.layer.name!],[FirebaseKey.drawingUser:KCurrentUser!.recordId.recordName]]])
+        cbFirebase.delete!.updateChildValues([FirebaseKey.delete:[[FirebaseKey.delete: history.last!.layer.name!],[FirebaseKey.drawingUser:User.currentUser!.recordId.recordName]]])
         history[historyIndex].dPath.remove()
         self.removeLayerWithName(currentLayer.name!)
         historyIndex -= 1
@@ -511,7 +511,7 @@ extension DrawableView {
                     let bezierPath = UIBezierPath(CGPath:path)
                     if bezierPath.containsPoint(point) {
                         if !shapeLayer.name!.containsString(FirebaseKey.undeletable) {
-                            cbFirebase.delete!.updateChildValues([FirebaseKey.delete:[[FirebaseKey.delete: shapeLayer.name!],[FirebaseKey.drawingUser:KCurrentUser!.recordId.recordName]]])
+                            cbFirebase.delete!.updateChildValues([FirebaseKey.delete:[[FirebaseKey.delete: shapeLayer.name!],[FirebaseKey.drawingUser:User.currentUser!.recordId.recordName]]])
                             let index = history.indexOf({ (tuple: (layer: CALayer, dPath: DrawingPath)) -> Bool in
                                 return tuple.layer == shapeLayer
                             })

@@ -10,8 +10,6 @@ import UIKit
 import ABModel
 import CloudKit
 
-let KCurrentUser = User.currentUser
-
 class User : ABModelCloudKit {
     internal static var currentUser : User? = nil
     
@@ -136,7 +134,6 @@ class User : ABModelCloudKit {
             self.teams.append(CKReference(record: team.toRecord(), action: .None))
             self.saveBulk([utColor.toRecord(), team.toRecord()], completion:  completion)
             self.localSave()
-            
         })
     }
 }
