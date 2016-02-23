@@ -16,8 +16,13 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
     @IBOutlet weak var openButton: UIButton!
     @IBOutlet var tableView:UITableView!
     @IBOutlet weak var teamContainer: UIView!
-    
     @IBOutlet weak var segmentControl: UISegmentedControl!
+    
+    var teamCompletion:((project:Project, team:Team)->Void)? {
+        didSet {
+            self.teamTableVC.completion = teamCompletion
+        }
+    }
     private var previous:CGFloat = 0.0
     private var shown = false
     private var teamTableVC: TeamTableViewController!
@@ -33,6 +38,7 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
     var team : Team! {
         didSet {
             self.segmentControl.setTitle(team.name, forSegmentAtIndex: 0)
+                        self.segmentControl.setTitle("Teams", forSegmentAtIndex: 1)
             self.teamTableVC.show()
             self.team.getUsers { (users, error) -> Void in
                 if error != nil {
@@ -147,6 +153,7 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
         if segue.identifier == "teamContainerVC" {
             let nav = segue.destinationViewController as! UINavigationController
             self.teamTableVC = nav.viewControllers.first as! TeamTableViewController
+
         }
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.

@@ -11,7 +11,6 @@ import ABUIKit
 
 class TeamTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak var createButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var colorChooser: UIView!
@@ -107,10 +106,8 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
                         })
                         return
                     }
-                    //TODO: Choose color
                     let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
                     colorAlert.team = team1
-                    
                     colorAlert.canChoose = true
                     colorAlert.completion = { (team:Team, color:UIColor, colorSeed:CGFloat) in
                         User.currentUser!.addTeam(team, color: color, colorSeed: colorSeed, completion: {
@@ -132,11 +129,6 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    
-    @IBAction func cancelTouch(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: - Navigation

@@ -10,16 +10,27 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
+enum Tool : Int {
+    case pen = 0, marker = 1
+}
+
+protocol ToolsViewDelegate {
+    func didSelectTools(popover:ToolsCollectionViewController,tool:Tool)
+    func changeUserColor(popover:ToolsCollectionViewController,color:UIColor)
+    func changeBrushSize(popover:ToolsCollectionViewController,size:CGFloat)
+}
+
 class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresentationControllerDelegate {
     
 
-    private var toolsDataSource = ["pen", "marker","marker","marker","marker","marker","marker","marker","marker","marker","marker"]
-    private var colorsDataSource = ["pen"]
+    private var toolsDataSource = ["pen", "marker"]
+    private var colorsDataSource = ["pen","pen"]
     private var sizesDataSource = ["pen"]
+    
+    var delegate : ToolsViewDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -27,6 +38,7 @@ class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresen
         self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "separator")
         self.preferredContentSize = CGSize(width: UIScreen.mainScreen().bounds.width - 16, height: 159)
+        
         // Do any additional setup after loading the view.
     }
 
@@ -44,6 +56,7 @@ class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresen
         // Pass the selected object to the new view controller.
     }
     */
+    
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
         return .None
     }
@@ -90,7 +103,14 @@ class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresen
            cell.backgroundView = UIImageView(image: UIImage(named: self.sizesDataSource[indexPath.row]))
             break
         case 1 :
-           cell.backgroundView = UIImageView(image: UIImage(named: self.colorsDataSource[indexPath.row]))
+            var frame = cell.bounds
+            frame.size.width = frame.width - 16
+            frame.size.height = frame.height - 16
+            frame.origin = CGPoint(x: 8, y: 8)
+            let v = UIView(frame: frame)
+            v.circle()
+            v.backgroundColor = UIColor.greenColor()
+           cell.addSubview(v)
             break
             
         case 2 :
@@ -109,14 +129,16 @@ class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresen
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         switch indexPath.section {
         case 0 :
-
+        
             break
         case 1 :
 
             break
             
         case 2 :
-
+            if let delegate = self.delegate {
+                delegate.didSelectTools(self, tool:Tool(rawValue: indexPath.row)!)
+            }
             break
             
         default:

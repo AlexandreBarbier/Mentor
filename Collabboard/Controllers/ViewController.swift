@@ -16,13 +16,19 @@ import Firebase
 // MARK: - ViewController declaration
 // TODO: fix resizing when rotate
 
-class ViewController: UIViewController {
+private enum SegueIdentifier : String {
+    case ShowTeamSegue
+    case CreateTeamSegue
+    case ConnectedUserSegue
+    
+}
+
+class ViewController: UIViewController, ToolsViewDelegate {
     @IBOutlet weak var progressView: UIProgressView!
     var connectedUsersView: ConnectedUsersTableViewController!
     @IBOutlet weak var activity: UIActivityIndicatorView!
     @IBOutlet weak var scrollView: DrawableScrollView!
     @IBOutlet weak var drawableView: DrawableView!
-    var buttonTools : ABExpendableButton = ABExpendableButton(orientation: .Vertical, borderColor: .blackColor(), backColor: .whiteColor())
     var imageBG : UIImageView?
     private var interfaceIsVisible = true
     @IBOutlet weak var bottomToolBar: UIToolbar!
@@ -35,6 +41,7 @@ extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.connectedUsersView = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConnectedUsersVC") as! ConnectedUsersTableViewController
+        
         let panelSize = CGSize(width: self.view.frame.size.width , height: self.view.frame.size.height - 44)
         self.connectedUsersView.view.frame = CGRect(origin: CGPoint(x: self.view.frame.size.width - 58, y: 0), size: panelSize)
         self.view.addSubview(self.connectedUsersView.view)
@@ -48,18 +55,13 @@ extension ViewController {
             
         }
         activity.rounded()
-        buttonTools.verticaleDirection = .Up
-        buttonTools.frame.origin = CGPoint(x: self.view.frame.width - buttonTools.frame.width,
-            y: self.view.frame.height - buttonTools.frame.height)
-        buttonTools.addVerticalButton(["addViewIcon": textTool,
-            "imageIcon"  : importBG,
-            "settings"   : setEraser,
-            "pen"        : pen,
-            "marker"     : marker])
+//        buttonTools.addVerticalButton(["addViewIcon": textTool,
+//            "imageIcon"  : importBG,
+//            "settings"   : setEraser,
+//            "pen"        : pen,
+//            "marker"     : marker])
         
         DebugConsoleView.debugView = DebugConsoleView(inView:self.view)
-        
-        self.view.addSubview(buttonTools)
         self.prefersStatusBarHidden()
         self.loginUser()
     }
@@ -87,18 +89,15 @@ extension ViewController {
         let alpha = 1 - self.bottomToolBar.alpha
         if alpha == 1 {
             self.bottomToolBar.hidden = self.interfaceIsVisible
-            self.buttonTools.hidden = self.interfaceIsVisible
             self.connectedUsersView.view.hidden = self.interfaceIsVisible
         }
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.bottomToolBar.alpha = alpha
-            self.buttonTools.alpha = alpha
             self.connectedUsersView.view.alpha = alpha
-
+            
             }) { (finished) -> Void in
                 if alpha != 1 {
                     self.bottomToolBar.hidden = self.interfaceIsVisible
-                    self.buttonTools.hidden = self.interfaceIsVisible
                     self.connectedUsersView.view.hidden = self.interfaceIsVisible
                 }
         }
@@ -124,6 +123,12 @@ extension ViewController {
                         let alert = UIAlertController(title: "An error occured", message: "please restart Mentor", preferredStyle: UIAlertControllerStyle.Alert)
                         self.presentViewController(alert, animated: true, completion: nil)
                         return
+                    }
+                    self.connectedUsersView.teamCompletion =  { (project, team) in
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            self.initDrawing(team, project: project)
+                        })
+                        
                     }
                     // here we assume that a user always have at least one team and one project this is ensure by the login process and the fact that if you have only one team or one project you are not able to delete it
                     if user.teams.count == 0 {
@@ -184,6 +189,31 @@ extension ViewController {
     }
 }
 
+// MARK: - tools view delegate
+
+extension ViewController {
+    func didSelectTools(popover:ToolsCollectionViewController,tool: Tool) {
+        switch tool {
+        case .marker :
+            self.marker()
+            break
+        case .pen :
+            self.pen()
+            break
+        }
+        popover.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func changeBrushSize(popover:ToolsCollectionViewController, size: CGFloat) {
+        drawableView.lineWidth = size
+                popover.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func changeUserColor(popover:ToolsCollectionViewController, color: UIColor) {
+                popover.dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
 // MARK: - Drawing initialisation
 extension ViewController {
     
@@ -193,7 +223,6 @@ extension ViewController {
      - parameter team: current team
      */
     func setDrawingColor(team:Team) {
-        print(User.currentUser, User.currentUser?.username)
         User.currentUser!.getTeamColor(team, completion: { (teamColor,userTeamColor:UserTeamColor, error) -> Void in
             self.drawableView.color = teamColor == nil ? UIColor.greenColor() : teamColor
         })
@@ -332,35 +361,40 @@ extension ViewController {
         self.drawableView.redo()
     }
     
-    //TODO: put segue identifier in Constant
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowTeamSegue" {
-            let navTeamVC = segue.destinationViewController as? UINavigationController
-            let teamVC = navTeamVC!.viewControllers.first as? TeamTableViewController
-            teamVC?.completion = { (project, team) in
+        if let identifier = SegueIdentifier(rawValue: segue.identifier!) {
+            switch identifier {
+            case .ConnectedUserSegue :
+                self.connectedUsersView = segue.destinationViewController as! ConnectedUsersTableViewController
                 
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    teamVC!.dismissViewControllerAnimated(true, completion: nil)
+                break
+            case .CreateTeamSegue :
+                let teamCreationVC = segue.destinationViewController as! TeamCreationViewController
+                teamCreationVC.showUser = true
+                teamCreationVC.completion = { (team, project) in
+                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        self.initDrawing(team, project: project!)
+                        teamCreationVC.dismissViewControllerAnimated(true, completion: nil)
+                        self.activity.stopAnimating()
+                    })
+                }
+                break
+            case .ShowTeamSegue :
+                let navTeamVC = segue.destinationViewController as? UINavigationController
+                let teamVC = navTeamVC!.viewControllers.first as? TeamTableViewController
+                teamVC?.completion = { (project, team) in
                     
-                    self.initDrawing(team, project: project)
-                })
+                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        teamVC!.dismissViewControllerAnimated(true, completion: nil)
+                        
+                        self.initDrawing(team, project: project)
+                    })
+                    
+                }
+                break
                 
             }
-        }
-        if segue.identifier == "CreateTeamSegue" {
-            let teamCreationVC = segue.destinationViewController as! TeamCreationViewController
-            teamCreationVC.showUser = true
-            teamCreationVC.completion = { (team, project) in
-                
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    self.initDrawing(team, project: project!)
-                    teamCreationVC.dismissViewControllerAnimated(true, completion: nil)
-                    self.activity.stopAnimating()
-                })
-            }
-        }
-        if segue.identifier == "ConnectedUserSegue" {
-            self.connectedUsersView = segue.destinationViewController as! ConnectedUsersTableViewController
         }
     }
     /**
@@ -368,12 +402,13 @@ extension ViewController {
      
      - parameter sender: the button that send the action
      */
-  @IBAction func eraser(sender:AnyObject) {
+    @IBAction func eraser(sender:AnyObject) {
         drawableView.eraser = true
     }
     
     @IBAction func showBrushTools(sender:UIBarButtonItem) {
         let popover =  UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ToolsCollectionVC") as! ToolsCollectionViewController
+        popover.delegate = self
         popover.modalPresentationStyle = .Popover
         popover.popoverPresentationController?.delegate = popover
         popover.popoverPresentationController!.sourceView = self.view
@@ -387,9 +422,9 @@ extension ViewController {
      
      - parameter sender: the button that send the action
      */
-   @IBAction func pen(sender:AnyObject) {
+    func pen() {
         drawableView.lineWidth = 2.0
-        drawableView.pen = false
+        drawableView.pen = true
         drawableView.text = false
         drawableView.eraser = false
     }
@@ -399,21 +434,21 @@ extension ViewController {
      
      - parameter sender: the button that send the action
      */
-   @IBAction func marker(sender:UIButton) {
+    func marker() {
         drawableView.lineWidth = 15.0
         drawableView.marker = true
         drawableView.text = false
         drawableView.eraser = false
     }
     
-   @IBAction func textTool(sender:UIButton) {
+    @IBAction func textTool(sender:AnyObject) {
         drawableView.text = true
         drawableView.pen = false
         drawableView.marker = false
         drawableView.eraser = false
     }
     
-   @IBAction func addViewButton(sender:UIButton) {
+    @IBAction func addViewButton(sender:UIButton) {
         let k = UIAlertController(title: "Clear", message: "Remove everything", preferredStyle: UIAlertControllerStyle.Alert)
         k.addAction(UIAlertAction(title: "ok", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
             self.drawableView.clear()

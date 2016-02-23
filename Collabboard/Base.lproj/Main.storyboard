@@ -111,7 +111,11 @@
                                             <action selector="showBrushTools:" destination="BYZ-38-t0r" id="YzZ-l8-3jI"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem image="pen" id="y7G-lL-2ld"/>
+                                    <barButtonItem image="pen" id="y7G-lL-2ld">
+                                        <connections>
+                                            <action selector="textTool:" destination="BYZ-38-t0r" id="WOM-un-RuQ"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem image="settings" id="SaV-2O-YUB">
                                         <connections>
                                             <action selector="eraser:" destination="BYZ-38-t0r" id="ega-Gn-o6Z"/>
@@ -124,7 +128,6 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="8Hw-IE-DA2"/>
-                                    <barButtonItem title="Item" id="QWa-Pc-xTI"/>
                                 </items>
                             </toolbar>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="b0f-Av-GDU">
@@ -217,7 +220,18 @@
                         <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="separator" id="fe2-ZT-e0q">
                             <rect key="frame" x="0.0" y="50" width="600" height="1"/>
                             <autoresizingMask key="autoresizingMask"/>
-                            <color key="backgroundColor" red="0.98727852110000003" green="0.23953893779999999" blue="0.28234177830000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jdC-zz-p80">
+                                    <rect key="frame" x="8" y="0.0" width="584" height="1"/>
+                                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="jdC-zz-p80" firstAttribute="top" secondItem="fe2-ZT-e0q" secondAttribute="top" id="DBn-mI-97L"/>
+                                <constraint firstItem="jdC-zz-p80" firstAttribute="leading" secondItem="fe2-ZT-e0q" secondAttribute="leading" constant="8" id="MMK-8D-82X"/>
+                                <constraint firstAttribute="bottom" secondItem="jdC-zz-p80" secondAttribute="bottom" id="fIh-Y9-Pr1"/>
+                                <constraint firstAttribute="trailing" secondItem="jdC-zz-p80" secondAttribute="trailing" constant="8" id="yg4-YH-0fq"/>
+                            </constraints>
                         </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="Xrd-I8-XaS" id="1H3-Kh-g7y"/>
@@ -416,11 +430,6 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="oBa-hc-k0E">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Rqf-vi-l8b">
-                            <connections>
-                                <action selector="cancelTouch:" destination="yRi-Hr-8Ko" id="C69-Dm-UTl"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="zMD-LU-4p3">
                             <connections>
                                 <segue destination="8i3-wB-Ro4" kind="show" identifier="TeamCreationSegue" id="gab-uj-FN5"/>
