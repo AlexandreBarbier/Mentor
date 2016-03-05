@@ -8,7 +8,7 @@
 
 import UIKit
 import Foundation
-
+private let reuseIdentifier = "DebugCell"
 public class DebugConsoleView: UIView {
     private var dataSource = [NSAttributedString]()
     private var tableview : UITableView!
@@ -117,9 +117,9 @@ extension DebugConsoleView : UITableViewDataSource, UITableViewDelegate {
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("DebugCell")
+        var cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier)
         guard let c = cell else {
-            cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "DebugCell")
+            cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: reuseIdentifier)
             cell!.textLabel?.attributedText = dataSource[indexPath.row]
             cell!.backgroundColor = UIColor.clearColor()
             cell!.textLabel?.numberOfLines = 0

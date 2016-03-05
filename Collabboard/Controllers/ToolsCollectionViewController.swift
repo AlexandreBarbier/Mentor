@@ -9,7 +9,7 @@
 import UIKit
 
 private let reuseIdentifier = "Cell"
-
+private let colorReuseIdentifier = "colorCell"
 enum Tool : Int {
     case pen = 0, marker = 1
 }
@@ -24,9 +24,9 @@ class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresen
     
 
     private var toolsDataSource = ["pen", "marker"]
-    private var colorsDataSource = ["pen","pen"]
+    private var colorsDataSource : [UIColor] = []
     private var sizesDataSource = ["pen"]
-    
+    var team : Team!
     var delegate : ToolsViewDelegate?
     
     override func viewDidLoad() {
@@ -38,8 +38,15 @@ class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresen
         self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "separator")
         self.preferredContentSize = CGSize(width: UIScreen.mainScreen().bounds.width - 16, height: 159)
-        
-        // Do any additional setup after loading the view.
+        ColorGenerator.CGSharedInstance.readyBlock = { (ready) in
+            self.colorsDataSource = Array<UIColor>(count: 12, repeatedValue: UIColor.whiteColor())
+            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                self.collectionView?.reloadData()
+            })
+        }
+        if let lastOpenedteamProject = Project.getLastOpen() {
+            ColorGenerator.CGSharedInstance.team = lastOpenedteamProject.team!
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -95,7 +102,7 @@ class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresen
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)
+        let cell = indexPath.section == 1 ?  collectionView.dequeueReusableCellWithReuseIdentifier(colorReuseIdentifier, forIndexPath: indexPath) : collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)
     
         // Configure the cell
         switch indexPath.section {
@@ -109,7 +116,14 @@ class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresen
             frame.origin = CGPoint(x: 8, y: 8)
             let v = UIView(frame: frame)
             v.circle()
-            v.backgroundColor = UIColor.greenColor()
+            if colorsDataSource[indexPath.row] == UIColor.whiteColor() {
+                v.backgroundColor = ColorGenerator.CGSharedInstance.getNextColor()
+                colorsDataSource[indexPath.row] = v.backgroundColor!
+            }
+            else {
+                v.backgroundColor = colorsDataSource[indexPath.row]
+            }
+
            cell.addSubview(v)
             break
             

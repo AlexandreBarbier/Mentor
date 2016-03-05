@@ -32,7 +32,7 @@ class ViewController: UIViewController, ToolsViewDelegate {
     var imageBG : UIImageView?
     private var interfaceIsVisible = true
     @IBOutlet weak var bottomToolBar: UIToolbar!
-    private var downloadBG = true
+    private var canDownloadBG = true
 }
 
 // MARK: - View lifecycle
@@ -55,12 +55,6 @@ extension ViewController {
             
         }
         activity.rounded()
-//        buttonTools.addVerticalButton(["addViewIcon": textTool,
-//            "imageIcon"  : importBG,
-//            "settings"   : setEraser,
-//            "pen"        : pen,
-//            "marker"     : marker])
-        
         DebugConsoleView.debugView = DebugConsoleView(inView:self.view)
         self.prefersStatusBarHidden()
         self.loginUser()
@@ -176,7 +170,7 @@ extension ViewController {
     func initFirebase(team: Team, project:Project) -> Void {
         cbFirebase.setupWithTeam(team, project: project)
         cbFirebase.firebaseBackgroundObserverHandle = cbFirebase.background!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
-            if self.downloadBG {
+            if self.canDownloadBG {
                 self.drawableView.project!.refresh({ (updateObject:Project?) -> Void in
                     if let update = updateObject {
                         self.drawableView.project = update
@@ -184,7 +178,7 @@ extension ViewController {
                     }
                 })
             }
-            self.downloadBG = true
+            self.canDownloadBG = true
         })
     }
 }
@@ -245,8 +239,14 @@ extension ViewController {
                     }
                 }
                 else {
-                    self.imageBG!.image = UIImage(data: NSData(contentsOfFile: bg.fileURL.path!)!)
-                    self.imageBG!.frame = self.drawableView.frame
+                    if let imageData = NSData(contentsOfFile: bg.fileURL.path!) {
+                        self.imageBG!.image = UIImage(data: imageData)
+                        self.imageBG!.frame = self.drawableView.frame
+                    }
+                    else {
+                        self.imageBG!.image = nil
+                        self.imageBG!.frame = self.drawableView.frame
+                    }
                 }
             }
             else {
@@ -290,7 +290,6 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         self.presentViewController(pickerController, animated: true, completion: nil)
     }
     
-    
     /**
      image picker controller delegate method
      
@@ -311,7 +310,7 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         drawableView.project!.saveBackground((imageBG?.image)!,completion: { () in
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                 DebugConsoleView.debugView.print("bg uploaded")
-                self.downloadBG = false
+                self.canDownloadBG = false
                 cbFirebase.background!.updateChildValues(["bg":NSNumber(unsignedInt:arc4random_uniform(UInt32(100)))])
             })
         })
@@ -344,30 +343,12 @@ extension ViewController {
 
 // MARK: - tools method
 extension ViewController {
-    /**
-     undo button touch
-     
-     - parameter sender: undo button
-     */
-    @IBAction func undoTouch(sender:UIButton) {
-        self.drawableView.undo()
-    }
-    /**
-     redo button touch
-     
-     - parameter sender: redo button
-     */
-    @IBAction func redoTouch(sender:UIButton) {
-        self.drawableView.redo()
-    }
     
-
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let identifier = SegueIdentifier(rawValue: segue.identifier!) {
             switch identifier {
             case .ConnectedUserSegue :
                 self.connectedUsersView = segue.destinationViewController as! ConnectedUsersTableViewController
-                
                 break
             case .CreateTeamSegue :
                 let teamCreationVC = segue.destinationViewController as! TeamCreationViewController
@@ -428,7 +409,6 @@ extension ViewController {
         drawableView.text = false
         drawableView.eraser = false
     }
-    
     /**
      set the marker tool
      
@@ -440,23 +420,15 @@ extension ViewController {
         drawableView.text = false
         drawableView.eraser = false
     }
-    
+    /**
+     set the text tool
+     
+     - parameter sender: the button that send the action
+     */
     @IBAction func textTool(sender:AnyObject) {
         drawableView.text = true
         drawableView.pen = false
         drawableView.marker = false
         drawableView.eraser = false
-    }
-    
-    @IBAction func addViewButton(sender:UIButton) {
-        let k = UIAlertController(title: "Clear", message: "Remove everything", preferredStyle: UIAlertControllerStyle.Alert)
-        k.addAction(UIAlertAction(title: "ok", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
-            self.drawableView.clear()
-        }))
-        k.addAction(UIAlertAction(title: "cancel", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            
-            k.dismissViewControllerAnimated(true, completion: nil)
-        }))
-        self.presentViewController(k, animated: true, completion: nil)
     }
 }

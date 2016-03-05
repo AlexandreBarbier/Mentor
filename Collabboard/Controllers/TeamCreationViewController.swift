@@ -72,10 +72,10 @@ class TeamCreationViewController: UIViewController, UITextFieldDelegate {
             User.currentUser!.username = userName
         }
         self.activity.startAnimating()
-        Team.create(teamName,color: self.colorController.chosenColor, colorSeed: self.colorController.currentSeed, completion: { (success, team) -> Void in
+        Team.create(teamName,color: self.colorController.chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
             Project.create(projectName, team: team, completion: { (project, team) -> Void in
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    User.currentUser!.addTeam(team, color: self.colorController.chosenColor, colorSeed: self.colorController.currentSeed, completion: {
+                    User.currentUser!.addTeam(team, color: self.colorController.chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: {
                         self.activity.stopAnimating()
                         project.setLastOpenForTeam(team)
                         self.completion?(team: team, project:project)
