@@ -102,7 +102,7 @@ public class ABModelCloudKit : ABModel {
                 })
                 if let retryAfterValue = error?.userInfo[CKErrorRetryAfterKey] as? NSTimeInterval  {
                     debugPrint("should retry")
-                    self.performSelector("publicSave:", withObject: nil, afterDelay:retryAfterValue)
+                    self.performSelector(#selector(ABModelCloudKit.publicSave(_:)), withObject: nil, afterDelay:retryAfterValue)
                 }
                 return
             }

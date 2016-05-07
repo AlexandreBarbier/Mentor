@@ -115,7 +115,9 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                             else {
                                 self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(paths.recordId.recordName)",color: color)
                             }
-                            self.loadingProgressBlock!(progress: (pathPrinted++ / totalPaths), current:pathPrinted, total:totalPaths)
+                            
+                            self.loadingProgressBlock!(progress: (pathPrinted / totalPaths), current:pathPrinted, total:totalPaths)
+                            pathPrinted += 1
                             // reset user tools
                             self.pen = p
                             self.marker = m
@@ -438,7 +440,7 @@ extension DrawableView {
             historyIndex = history.count - 1
             path.removeAllPoints()
             touchCircle.removeAllPoints()
-            layerIndex++
+            layerIndex += 1
             break
         default:
             break

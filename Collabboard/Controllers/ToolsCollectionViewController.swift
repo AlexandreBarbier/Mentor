@@ -10,6 +10,7 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 private let colorReuseIdentifier = "colorCell"
+
 enum Tool : Int {
     case pen = 0, marker = 1
 }
@@ -22,19 +23,18 @@ protocol ToolsViewDelegate {
 
 class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresentationControllerDelegate {
     
-
     private var toolsDataSource = ["pen", "marker"]
     private var colorsDataSource : [UIColor] = []
     private var sizesDataSource = ["pen"]
     var team : Team!
     var delegate : ToolsViewDelegate?
-    
+}
+
+// MARK: - View lifecycle
+extension ToolsCollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
+        
         self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "separator")
         self.preferredContentSize = CGSize(width: UIScreen.mainScreen().bounds.width - 16, height: 159)
@@ -48,27 +48,15 @@ class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresen
             ColorGenerator.CGSharedInstance.team = lastOpenedteamProject.team!
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
         return .None
     }
 
-    // MARK: UICollectionViewDataSource
+}
+
+// MARK: - CollectionView
+extension ToolsCollectionViewController {
     override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         let reuseView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "separator", forIndexPath: indexPath)
         if indexPath.section == 2 {
@@ -80,19 +68,19 @@ class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresen
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 3
     }
-
+    
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var number = 0
         switch section {
         case 0 :
-            number = self.sizesDataSource.count
+            number = sizesDataSource.count
             break
         case 1 :
-            number = self.colorsDataSource.count
+            number = colorsDataSource.count
             break
             
         case 2 :
-            number = self.toolsDataSource.count
+            number = toolsDataSource.count
             break
             
         default:
@@ -100,14 +88,13 @@ class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresen
         }
         return number
     }
-
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = indexPath.section == 1 ?  collectionView.dequeueReusableCellWithReuseIdentifier(colorReuseIdentifier, forIndexPath: indexPath) : collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)
     
-        // Configure the cell
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = indexPath.section == 1 ? collectionView.dequeueReusableCellWithReuseIdentifier(colorReuseIdentifier, forIndexPath: indexPath) : collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)
+    
         switch indexPath.section {
         case 0 :
-           cell.backgroundView = UIImageView(image: UIImage(named: self.sizesDataSource[indexPath.row]))
+            cell.backgroundView = UIImageView(image: UIImage(named: sizesDataSource[indexPath.row]))
             break
         case 1 :
             var frame = cell.bounds
@@ -123,30 +110,28 @@ class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresen
             else {
                 v.backgroundColor = colorsDataSource[indexPath.row]
             }
-
-           cell.addSubview(v)
+            
+            cell.addSubview(v)
             break
             
         case 2 :
-            cell.backgroundView = UIImageView(image: UIImage(named: self.toolsDataSource[indexPath.row]))
+            cell.backgroundView = UIImageView(image: UIImage(named: toolsDataSource[indexPath.row]))
             break
             
         default:
             break
         }
-
+        
         return cell
     }
-
-    // MARK: UICollectionViewDelegate
-
+    
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         switch indexPath.section {
         case 0 :
-        
+            
             break
         case 1 :
-
+            
             break
             
         case 2 :
@@ -158,35 +143,5 @@ class ToolsCollectionViewController: UICollectionViewController, UIPopoverPresen
         default:
             break
         }
-
     }
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        return false
-    }
-
-    override func collectionView(collectionView: UICollectionView, performAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
-    
-    }
-    */
-
 }

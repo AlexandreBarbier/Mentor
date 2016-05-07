@@ -27,6 +27,7 @@
 		8D9E8E1C1C621AAD0076030A /* ABUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E141C621A600076030A /* ABUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8D9E8E1F1C621AAD0076030A /* ABModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E021C621A4F0076030A /* ABModel.framework */; };
 		8D9E8E201C621AAD0076030A /* ABModel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E021C621A4F0076030A /* ABModel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8DA753DC1CDE45A6005F6BB2 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA753DB1CDE45A6005F6BB2 /* Storyboard.swift */; };
 		8DBD19491C15C9F30073BE8B /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DBD19481C15C9F30073BE8B /* CloudKit.framework */; };
 		8DBD194C1C15CAC50073BE8B /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD194B1C15CAC50073BE8B /* Project.swift */; };
 		8DBD195B1C15CDEC0073BE8B /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD195A1C15CDEC0073BE8B /* Team.swift */; };
@@ -137,12 +138,13 @@
 		8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamCreationViewController.swift; sourceTree = "<group>"; };
 		8D9E8DFC1C621A4F0076030A /* ABModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ABModel.xcodeproj; path = SwiftLib/ABModel/ABModel.xcodeproj; sourceTree = "<group>"; };
 		8D9E8E0E1C621A600076030A /* ABUIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ABUIKit.xcodeproj; path = SwiftLib/ABModel/../ABUIKit/ABUIKit.xcodeproj; sourceTree = "<group>"; };
+		8DA753DB1CDE45A6005F6BB2 /* Storyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
 		8DBD19471C15C9ED0073BE8B /* Mentor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Mentor.entitlements; sourceTree = "<group>"; };
 		8DBD19481C15C9F30073BE8B /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		8DBD194B1C15CAC50073BE8B /* Project.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		8DBD195A1C15CDEC0073BE8B /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		8DBD195C1C15D1C60073BE8B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		8DD8976D1C19760E007DA303 /* DrawingPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingPath.swift; sourceTree = "<group>"; };
+		8DD8976D1C19760E007DA303 /* DrawingPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DrawingPath.swift; path = ../Model/DrawingPath.swift; sourceTree = "<group>"; };
 		8DE74F481C21A97800B60F0D /* DrawableScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawableScrollView.swift; sourceTree = "<group>"; };
 		8DEB6EEA1C2060D200B9BF9F /* UserTeamColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTeamColor.swift; sourceTree = "<group>"; };
 		AC307FF31BF1F69300C28D5D /* Collabboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Collabboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -182,6 +184,7 @@
 		8D13B4F41C1ACA98005F7325 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				8DD8976D1C19760E007DA303 /* DrawingPath.swift */,
 				8D13B4F51C1ACAC6005F7325 /* Constants.swift */,
 				8D91FD041C6876E20088F0FA /* CBFirebase.swift */,
 				8D91FD081C6B31650088F0FA /* TouchThroughView.swift */,
@@ -230,7 +233,6 @@
 			isa = PBXGroup;
 			children = (
 				8D05D6741C187963008B7A7E /* Drawing.swift */,
-				8DD8976D1C19760E007DA303 /* DrawingPath.swift */,
 				8D058ADD1C17314F00A2D076 /* Point.swift */,
 				8DBD194B1C15CAC50073BE8B /* Project.swift */,
 				8DBD195A1C15CDEC0073BE8B /* Team.swift */,
@@ -297,6 +299,7 @@
 		AC778DE71BF1F81D00669BD7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8DA753DB1CDE45A6005F6BB2 /* Storyboard.swift */,
 				8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */,
 				8D1120191C1ED23F000E041B /* TeamTableViewController.swift */,
 				AC307FF81BF1F69300C28D5D /* ViewController.swift */,
@@ -515,6 +518,7 @@
 				8D058ADE1C17314F00A2D076 /* Point.swift in Sources */,
 				8D91F2C11C7B38C3001D6A4E /* ColorGenerator.swift in Sources */,
 				8D13B4F61C1ACAC6005F7325 /* Constants.swift in Sources */,
+				8DA753DC1CDE45A6005F6BB2 /* Storyboard.swift in Sources */,
 				8D11201A1C1ED23F000E041B /* TeamTableViewController.swift in Sources */,
 				8DBD195B1C15CDEC0073BE8B /* Team.swift in Sources */,
 				8D0D6DC41C441AF10018CE41 /* ColorGenerationViewController.swift in Sources */,

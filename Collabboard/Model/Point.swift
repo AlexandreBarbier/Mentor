@@ -39,7 +39,8 @@ class Point: ABModelCloudKit {
         var batchPoints = [Point]()
         var i = 0
         for point in points {
-            let po = Point.create(NSNumber(float:Float(point.x)), y: NSNumber(float:Float(point.y)), position: i++, save: false, dPath:dPath)
+            let po = Point.create(NSNumber(float:Float(point.x)), y: NSNumber(float:Float(point.y)), position: i, save: false, dPath:dPath)
+            i += 1
             batchPoints.append(po)
             pointsRecord.append(po.record!)
             

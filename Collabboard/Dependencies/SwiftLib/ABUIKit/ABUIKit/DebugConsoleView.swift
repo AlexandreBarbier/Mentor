@@ -29,10 +29,10 @@ public class DebugConsoleView: UIView {
     
     public convenience init(inView: UIView) {
         self.init(frame: CGRect(origin: CGPoint(x: inView.frame.size.width, y: 0), size: inView.frame.size))
-        let swipeHideDebug = UISwipeGestureRecognizer(target: self, action: "hideDebug:")
+        let swipeHideDebug = UISwipeGestureRecognizer(target: self, action: #selector(DebugConsoleView.hideDebug(_:)))
         swipeHideDebug.direction = .Right
         self.addGestureRecognizer(swipeHideDebug)
-        let swipeBorder = UIScreenEdgePanGestureRecognizer(target: self, action: "screenEdge:")
+        let swipeBorder = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(DebugConsoleView.screenEdge(_:)))
         swipeBorder.edges = UIRectEdge.Right
         inView.addGestureRecognizer(swipeBorder)
         inView.addSubview(self)
@@ -63,6 +63,7 @@ public class DebugConsoleView: UIView {
         }
         
     }
+
     public  func warningPrint(message:String) {
         
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
@@ -78,6 +79,7 @@ public class DebugConsoleView: UIView {
 
         }
     }
+    
     public func errorPrint(message:String) {
         
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in

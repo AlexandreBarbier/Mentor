@@ -10,6 +10,13 @@ import UIKit
 
 class ProjectTableViewController: UITableViewController {
     
+    private var computedHeight : Double {
+        get {
+            return Double((displayedDataSource.count * 50) == 0 ? 50: (displayedDataSource.count * 50))
+        }
+    }
+    
+    var completion:((project:Project, team:Team)->Void)?
     var team : Team! {
         didSet {
             team.getProjects { (projects, local, error) -> Void in
@@ -20,32 +27,15 @@ class ProjectTableViewController: UITableViewController {
             }
         }
     }
-    
-    var completion:((project:Project, team:Team)->Void)?
-    
     var displayedDataSource:[Project]! {
         didSet {
-            self.title = "Project\(self.displayedDataSource.count > 1 ? "s": "")"
+            title = "Project\(displayedDataSource.count > 1 ? "s": "")"
         }
     }
-    
-    private var computedHeight : Double {
-        get {
-            return Double((self.displayedDataSource.count * 50) == 0 ? 50: (self.displayedDataSource.count * 50))
-        }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    // MARK: - Table view data source
-    
+}
+
+// MARK: - Table view data source
+extension ProjectTableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -54,23 +44,25 @@ class ProjectTableViewController: UITableViewController {
         return displayedDataSource.count
     }
     
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("projectCell", forIndexPath: indexPath)
         
-        cell.textLabel?.text = self.displayedDataSource[indexPath.row].name
-        cell.detailTextLabel?.text = self.displayedDataSource[indexPath.row].infos
+        cell.textLabel?.text = displayedDataSource[indexPath.row].name
+        cell.detailTextLabel?.text = displayedDataSource[indexPath.row].infos
         
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.displayedDataSource[indexPath.row].setLastOpenForTeam(self.team)
-        self.completion?(project: self.displayedDataSource[indexPath.row], team: self.team)
+        displayedDataSource[indexPath.row].setLastOpenForTeam(team)
+        completion?(project: displayedDataSource[indexPath.row], team: team)
     }
-    
+}
+
+// MARK: - Actions
+extension ProjectTableViewController {
     @IBAction func createTouch(sender: AnyObject) {
-        let alert = UIAlertController(title: "Project", message: "create a new project", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Project", message: "Create a new project", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addTextFieldWithConfigurationHandler { (textField) -> Void in
             textField.placeholder = "project name"
         }
@@ -81,14 +73,9 @@ class ProjectTableViewController: UITableViewController {
                 self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
             }
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) -> Void in
-            
-        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
             self.presentViewController(alert, animated: true, completion: nil)
         }
-
     }
-    
-    
 }

@@ -25,14 +25,15 @@ private enum SegueIdentifier : String {
 
 class ViewController: UIViewController, ToolsViewDelegate {
     @IBOutlet weak var progressView: UIProgressView!
-    var connectedUsersView: ConnectedUsersTableViewController!
     @IBOutlet weak var activity: UIActivityIndicatorView!
     @IBOutlet weak var scrollView: DrawableScrollView!
     @IBOutlet weak var drawableView: DrawableView!
-    var imageBG : UIImageView?
-    private var interfaceIsVisible = true
     @IBOutlet weak var bottomToolBar: UIToolbar!
+    
+    private var interfaceIsVisible = true
     private var canDownloadBG = true
+    var imageBG : UIImageView?
+    var connectedUsersView: ConnectedUsersTableViewController!
 }
 
 // MARK: - View lifecycle
@@ -40,13 +41,12 @@ extension ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.connectedUsersView = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConnectedUsersVC") as! ConnectedUsersTableViewController
-        
-        let panelSize = CGSize(width: self.view.frame.size.width , height: self.view.frame.size.height - 44)
-        self.connectedUsersView.view.frame = CGRect(origin: CGPoint(x: self.view.frame.size.width - 58, y: 0), size: panelSize)
-        self.view.addSubview(self.connectedUsersView.view)
-        scrollView.drawableView = self.drawableView
-        self.progressView.progress = 0.0
+        connectedUsersView = StoryboardScene.Main.instantiateConnectedUsersVC()
+        let panelSize = CGSize(width: view.frame.size.width , height: view.frame.size.height - 44)
+        connectedUsersView.view.frame = CGRect(origin: CGPoint(x: view.frame.size.width - 58, y: 0), size: panelSize)
+        view.addSubview(connectedUsersView.view)
+        scrollView.drawableView = drawableView
+        progressView.progress = 0.0
         drawableView.loadingProgressBlock = {(progress, current, total) in
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                 self.progressView.progress = Float(progress)
@@ -55,9 +55,9 @@ extension ViewController {
             
         }
         activity.rounded()
-        DebugConsoleView.debugView = DebugConsoleView(inView:self.view)
-        self.prefersStatusBarHidden()
-        self.loginUser()
+        DebugConsoleView.debugView = DebugConsoleView(inView:view)
+        prefersStatusBarHidden()
+        loginUser()
     }
     
     override func didReceiveMemoryWarning() {
@@ -80,22 +80,22 @@ extension ViewController {
             drawableView.text = false
             return
         }
-        let alpha = 1 - self.bottomToolBar.alpha
+        let alpha = 1 - bottomToolBar.alpha
         if alpha == 1 {
-            self.bottomToolBar.hidden = self.interfaceIsVisible
-            self.connectedUsersView.view.hidden = self.interfaceIsVisible
+            bottomToolBar.hidden = interfaceIsVisible
+            connectedUsersView.view.hidden = interfaceIsVisible
         }
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.bottomToolBar.alpha = alpha
             self.connectedUsersView.view.alpha = alpha
             
-            }) { (finished) -> Void in
-                if alpha != 1 {
-                    self.bottomToolBar.hidden = self.interfaceIsVisible
-                    self.connectedUsersView.view.hidden = self.interfaceIsVisible
-                }
+        }) { (finished) -> Void in
+            if alpha != 1 {
+                self.bottomToolBar.hidden = self.interfaceIsVisible
+                self.connectedUsersView.view.hidden = self.interfaceIsVisible
+            }
         }
-        self.interfaceIsVisible = !self.interfaceIsVisible
+        interfaceIsVisible = !interfaceIsVisible
     }
 }
 
@@ -162,6 +162,7 @@ extension ViewController {
             }
         }
     }
+    
     /**
      firebase initialisation for background change
      
@@ -189,10 +190,10 @@ extension ViewController {
     func didSelectTools(popover:ToolsCollectionViewController,tool: Tool) {
         switch tool {
         case .marker :
-            self.marker()
+            marker()
             break
         case .pen :
-            self.pen()
+            pen()
             break
         }
         popover.dismissViewControllerAnimated(true, completion: nil)
@@ -200,11 +201,11 @@ extension ViewController {
     
     func changeBrushSize(popover:ToolsCollectionViewController, size: CGFloat) {
         drawableView.lineWidth = size
-                popover.dismissViewControllerAnimated(true, completion: nil)
+        popover.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func changeUserColor(popover:ToolsCollectionViewController, color: UIColor) {
-                popover.dismissViewControllerAnimated(true, completion: nil)
+        popover.dismissViewControllerAnimated(true, completion: nil)
     }
 }
 
@@ -264,14 +265,14 @@ extension ViewController {
      - parameter project: current project
      */
     func initDrawing(team:Team, project:Project) {
-        self.setDrawingColor(team)
-        self.drawableView.project = project
-        self.connectedUsersView.team = team
+        setDrawingColor(team)
+        drawableView.project = project
+        connectedUsersView.team = team
         
-        self.initFirebase(team, project: project)
-        self.scrollView.contentSize = self.drawableView.frame.size
-        self.setBG(project)
-        self.activity.stopAnimating()
+        initFirebase(team, project: project)
+        scrollView.contentSize = drawableView.frame.size
+        setBG(project)
+        activity.stopAnimating()
     }
 }
 
@@ -287,7 +288,7 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
         pickerController.sourceType = .PhotoLibrary
-        self.presentViewController(pickerController, animated: true, completion: nil)
+        presentViewController(pickerController, animated: true, completion: nil)
     }
     
     /**
@@ -297,12 +298,12 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
      - parameter info:   data from the image picker
      */
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        if self.imageBG == nil {
+        if imageBG == nil {
             imageBG = UIImageView(image: info[UIImagePickerControllerOriginalImage] as? UIImage)
             imageBG!.contentMode = .ScaleAspectFill
-            imageBG!.frame = self.view.bounds
+            imageBG!.frame = view.bounds
             imageBG!.autoresizingMask = [.FlexibleHeight,.FlexibleHeight]
-            self.scrollView.insertSubview(imageBG!, atIndex: 0)
+            scrollView.insertSubview(imageBG!, atIndex: 0)
         }
         else {
             imageBG?.image = info[UIImagePickerControllerOriginalImage] as? UIImage
@@ -323,7 +324,7 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
      - parameter picker: image picker
      */
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.imageBG?.image = nil
+        imageBG?.image = nil
         drawableView.project!.publicSave()
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -341,14 +342,14 @@ extension ViewController {
     }
 }
 
-// MARK: - tools method
+// MARK: - Navigation
+
 extension ViewController {
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let identifier = SegueIdentifier(rawValue: segue.identifier!) {
             switch identifier {
             case .ConnectedUserSegue :
-                self.connectedUsersView = segue.destinationViewController as! ConnectedUsersTableViewController
+                connectedUsersView = segue.destinationViewController as! ConnectedUsersTableViewController
                 break
             case .CreateTeamSegue :
                 let teamCreationVC = segue.destinationViewController as! TeamCreationViewController
@@ -368,7 +369,6 @@ extension ViewController {
                     
                     NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                         teamVC!.dismissViewControllerAnimated(true, completion: nil)
-                        
                         self.initDrawing(team, project: project)
                     })
                     
@@ -378,6 +378,20 @@ extension ViewController {
             }
         }
     }
+}
+
+
+// MARK: - tools method
+extension ViewController {
+    
+    private func configureDrawableView(lineWidth:CGFloat, text: Bool, pen: Bool, marker:Bool, eraser: Bool) {
+        drawableView.lineWidth = lineWidth
+        drawableView.marker = marker
+        drawableView.pen = pen
+        drawableView.text = text
+        drawableView.eraser = eraser
+    }
+    
     /**
      eraser
      
@@ -388,7 +402,7 @@ extension ViewController {
     }
     
     @IBAction func showBrushTools(sender:UIBarButtonItem) {
-        let popover =  UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ToolsCollectionVC") as! ToolsCollectionViewController
+        let popover = StoryboardScene.Main.instantiateToolsCollectionVC()
         popover.delegate = self
         popover.modalPresentationStyle = .Popover
         popover.popoverPresentationController?.delegate = popover
@@ -404,10 +418,7 @@ extension ViewController {
      - parameter sender: the button that send the action
      */
     func pen() {
-        drawableView.lineWidth = 2.0
-        drawableView.pen = true
-        drawableView.text = false
-        drawableView.eraser = false
+        configureDrawableView(2.0, text: false, pen: true, marker: false, eraser: false)
     }
     /**
      set the marker tool
@@ -415,20 +426,15 @@ extension ViewController {
      - parameter sender: the button that send the action
      */
     func marker() {
-        drawableView.lineWidth = 15.0
-        drawableView.marker = true
-        drawableView.text = false
-        drawableView.eraser = false
+        configureDrawableView(15.0, text: false, pen: false, marker: true, eraser: false)
     }
+    
     /**
      set the text tool
      
      - parameter sender: the button that send the action
      */
     @IBAction func textTool(sender:AnyObject) {
-        drawableView.text = true
-        drawableView.pen = false
-        drawableView.marker = false
-        drawableView.eraser = false
+        configureDrawableView(0.0, text: true, pen: false, marker: false, eraser: false)
     }
 }

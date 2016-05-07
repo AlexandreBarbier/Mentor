@@ -39,7 +39,7 @@ public class ToastView : UIView {
         view.frame = fr
         view.autoresizingMask = UIViewAutoresizing.FlexibleWidth
         view.tag = vkToastViewTag
-        let swipe = UIPanGestureRecognizer(target: view, action:"panGesture:")
+        let swipe = UIPanGestureRecognizer(target: view, action:#selector(ToastView.panGesture(_:)))
         var swipeCenter = view.center
         swipeCenter.y = view.frame.size.height - 8 - (view.swipeIndicator.frame.size.height / 2)
         view.swipeIndicator.rounded()

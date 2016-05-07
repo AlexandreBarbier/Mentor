@@ -17,18 +17,20 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
     
     private var displayedDataSource = [Team]()  {
         didSet {
-            self.title = "Team\(self.displayedDataSource.count > 1 ? "s": "")"
+            title = "Team\(displayedDataSource.count > 1 ? "s": "")"
+        }
+    }
+    private var computedHeight : Double {
+        get {
+            return Double(displayedDataSource.count * 50)
         }
     }
     
     var completion:((project:Project, team:Team)->Void)?
-    
-    private var computedHeight : Double {
-        get {
-            return Double(self.displayedDataSource.count * 50)
-        }
-    }
-    
+}
+
+// MARK: - Helper
+extension TeamTableViewController {
     func show () {
         guard let user = User.currentUser else {
             DebugConsoleView.debugView.errorPrint("Team popover no user")
@@ -44,41 +46,60 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
             })
         }
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    // MARK: - Table view data source
-    
+}
+
+// MARK: - Tableview delegate
+extension TeamTableViewController {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.displayedDataSource.count
+        return displayedDataSource.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-            var cell = tableView.dequeueReusableCellWithIdentifier("teamCell")
-            if cell == nil {
-                cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "teamCell")
-            }
-            let team = self.displayedDataSource[indexPath.row]
-            if team.currentUserIsAdmin {
-                cell!.imageView?.image = UIImage(named: "ProfileBlackIcon")
-            }
-            else {
-                cell!.imageView?.image = nil
-            }
-            cell!.textLabel!.text = "\(team.name)"
-            cell!.detailTextLabel!.text = "token : \(self.displayedDataSource[indexPath.row].token)"
-            cell!.textLabel?.numberOfLines = 0
-            return cell!
-      
+        var cell = tableView.dequeueReusableCellWithIdentifier("teamCell")
+        if cell == nil {
+            cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "teamCell")
+        }
+        let team = displayedDataSource[indexPath.row]
+        if team.currentUserIsAdmin {
+            cell!.imageView?.image = UIImage(named: "ProfileBlackIcon")
+        }
+        else {
+            cell!.imageView?.image = nil
+        }
+        cell!.textLabel!.text = "\(team.name)"
+        cell!.detailTextLabel!.text = "token : \(displayedDataSource[indexPath.row].token)"
+        cell!.textLabel?.numberOfLines = 0
+        return cell!
     }
-    
+}
+
+// MARK: - Navigation
+extension TeamTableViewController {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "CellSegue" {
+            let projectVC = segue.destinationViewController as? ProjectTableViewController
+            let index = self.tableView.indexPathForCell(sender as! UITableViewCell)
+            projectVC!.completion = completion
+            projectVC!.displayedDataSource = [Project]()
+            projectVC!.team = displayedDataSource[index!.row]
+        }
+        
+        if segue.identifier == "TeamCreationSegue" {
+            let teamCreationVC = segue.destinationViewController as? TeamCreationViewController
+            teamCreationVC?.completion = { (team, project) in
+                self.displayedDataSource.append(team)
+                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+            }
+        }
+    }
+}
+
+// MARK: - Actions
+extension TeamTableViewController {
     @IBAction func joinTeamTouch(sender:AnyObject) {
         let alert = UIAlertController(title: "Team", message: "Join a team", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
@@ -106,7 +127,7 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
                         })
                         return
                     }
-                    let colorAlert = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorGeneratorVC") as! ColorGenerationViewController
+                    let colorAlert = StoryboardScene.Main.instantiateColorGeneratorVC()
                     colorAlert.team = team1
                     colorAlert.canChoose = true
                     colorAlert.completion = { (team:Team, color:UIColor, colorSeed:CGFloat) in
@@ -114,7 +135,7 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
                             self.displayedDataSource.append(team)
                             self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
                             colorAlert.dismissViewControllerAnimated(true, completion: nil)
-                        })                        
+                        })
                     }
                     self.addChildViewController(colorAlert)
                     colorAlert.view.alpha = 0.0
@@ -128,28 +149,6 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
                 break
             }
         }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        presentViewController(alert, animated: true, completion: nil)
     }
-    
-    // MARK: - Navigation
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "CellSegue" {
-            let projectVC = segue.destinationViewController as? ProjectTableViewController
-            let index = self.tableView.indexPathForCell(sender as! UITableViewCell)
-            projectVC!.completion = completion
-            projectVC!.displayedDataSource = [Project]()
-            projectVC!.team =  self.displayedDataSource[index!.row]
-        }
-        
-        if segue.identifier == "TeamCreationSegue" {
-            let teamCreationVC = segue.destinationViewController as? TeamCreationViewController
-            teamCreationVC?.completion = { (team, project) in
-                self.displayedDataSource.append(team)
-                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
-            }
-        }
-    }
-    
-    
 }

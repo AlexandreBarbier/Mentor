@@ -8,22 +8,24 @@
 
 import UIKit
 
-class TeamCreationViewController: UIViewController, UITextFieldDelegate {
+class TeamCreationViewController: UIViewController {
     
-    private var colorController : ColorGenerationViewController!
-    var completion : ((team:Team, project:Project?) -> Void)?
-    
-    var showUser = false
     @IBOutlet weak var projectNameTF: UITextField!
     @IBOutlet weak var teamNameTF: UITextField!
     @IBOutlet weak var userNameTF: UITextField!
     @IBOutlet weak var userNameLabel: UILabel!
-    
     @IBOutlet weak var activity: UIActivityIndicatorView!
     
+    private var colorController : ColorGenerationViewController!
+    
+    var completion : ((team:Team, project:Project?) -> Void)?
+    var showUser = false
+}
+
+// MARK: - View livecycle
+extension TeamCreationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -41,19 +43,34 @@ class TeamCreationViewController: UIViewController, UITextFieldDelegate {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
+
+}
+
+// MARK: - Navigation
+extension TeamCreationViewController {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == StoryboardSegue.CreationStoryboard.ColorSegue.rawValue {
+            self.colorController = segue.destinationViewController as! ColorGenerationViewController
+        }
+    }
+}
+
+// MARK: - TextField delegate 
+extension TeamCreationViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == self.teamNameTF || textField == self.userNameTF {
-            self.nextResponder()!.becomeFirstResponder()
+            nextResponder()!.becomeFirstResponder()
         }
         else {
-            self.view.endEditing(true)
+            view.endEditing(true)
         }
         return false
     }
-    
+}
+
+// MARK: - Actions
+extension TeamCreationViewController {
     @IBAction func createTouch(sender: AnyObject) {
         
         guard let teamName = self.teamNameTF.text where teamName != "" else {
@@ -85,12 +102,5 @@ class TeamCreationViewController: UIViewController, UITextFieldDelegate {
             })
         })
     }
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ColorSegue" {
-            self.colorController = segue.destinationViewController as! ColorGenerationViewController
-        }
-    }
+
 }
