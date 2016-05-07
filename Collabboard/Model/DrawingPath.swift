@@ -18,10 +18,14 @@ class DrawingPath: ABModelCloudKit {
     var lineWidth : CGFloat = 2.0
     var pen = true
     
+    override class func recordType() -> String {
+        return "DrawingPath"
+    }
+    
     override func ignoreKey(key: String, value: AnyObject) -> Bool {
         if key == "points" {
             for ref : CKReference in value as! [CKReference] {
-                points.append(ref)
+                self.points.append(ref)
             }
             return true
         }
@@ -30,8 +34,8 @@ class DrawingPath: ABModelCloudKit {
     
     class func create(drawing:Drawing, completion:((success:Bool, dPath:DrawingPath) -> Void)?) -> DrawingPath {
         let drawingPath = DrawingPath()
-        
-        drawing.paths.append(CKReference(record: drawingPath.record, action: .None))
+
+        drawing.paths.append(CKReference(record: drawingPath.record, action: CKReferenceAction.None))
         if let currentUser = User.currentUser {
             drawingPath.user = currentUser.recordId.recordName
         }
@@ -43,7 +47,7 @@ class DrawingPath: ABModelCloudKit {
         return drawingPath
     }
     
-    func localKey()-> String { return "\(recordId.recordName)points" }
+    func localKey()-> String { return "\(self.recordId.recordName)points" }
     
     override func remove() {
         super.remove()

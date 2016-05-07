@@ -13,6 +13,9 @@ import CloudKit
 class Drawing: ABModelCloudKit {
     var project = ""
     var paths : [CKReference] = [CKReference]()
+    override class func recordType() -> String {
+        return "Drawing"
+    }
     
     override func ignoreKey(key: String, value: AnyObject) -> Bool {
         if key == "paths" {
