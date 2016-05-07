@@ -38,15 +38,15 @@ class CBFirebase: NSObject {
     
     var project : Project! {
         didSet {
-            self.initBackground(self.project)
-            self.initDrawing(self.project)
-            self.initDelete(self.project)
+            initBackground(project)
+            initDrawing(project)
+            initDelete(project)
         }
     }
     
     var team : Team! {
         didSet {
-            self.initUser(self.team)
+            initUser(team)
         }
     }
     

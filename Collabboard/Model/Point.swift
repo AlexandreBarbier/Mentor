@@ -30,7 +30,7 @@ class Point: ABModelCloudKit {
             po.position = position
         }
         po.updateRecord()
-
+        
         return po
     }
     
@@ -43,9 +43,7 @@ class Point: ABModelCloudKit {
             i += 1
             batchPoints.append(po)
             pointsRecord.append(po.record!)
-            
         }
-
         return (pointsRecord, batchPoints)
     }
 }

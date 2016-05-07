@@ -36,15 +36,14 @@ class Team: ABModelCloudKit {
     override func ignoreKey(key: String, value: AnyObject) -> Bool {
         if key == "users" {
             for ref : CKReference in value as! [CKReference] {
-                self.users.append(ref)
+                users.append(ref)
             }
             return true
         }
         if key == "projects" {
             for ref : CKReference in value as! [CKReference] {
-                self.projects.append(ref)
+                projects.append(ref)
             }
-            
             return true
         }
         return false
@@ -92,7 +91,6 @@ extension Team {
             NSUserDefaults.standardUserDefaults().synchronize()
             completion(projects: results, local:false, error: error)
         })
-        
     }
     
     func getUsers(completion:(users:[User], error:NSError?) -> Void) {

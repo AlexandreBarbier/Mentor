@@ -52,7 +52,7 @@ extension ToolsCollectionViewController {
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
         return .None
     }
-
+    
 }
 
 // MARK: - CollectionView
@@ -91,7 +91,7 @@ extension ToolsCollectionViewController {
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = indexPath.section == 1 ? collectionView.dequeueReusableCellWithReuseIdentifier(colorReuseIdentifier, forIndexPath: indexPath) : collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)
-    
+        
         switch indexPath.section {
         case 0 :
             cell.backgroundView = UIImageView(image: UIImage(named: sizesDataSource[indexPath.row]))

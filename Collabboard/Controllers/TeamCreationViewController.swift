@@ -44,7 +44,7 @@ extension TeamCreationViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
 }
 
 // MARK: - Navigation
@@ -56,7 +56,7 @@ extension TeamCreationViewController {
     }
 }
 
-// MARK: - TextField delegate 
+// MARK: - TextField delegate
 extension TeamCreationViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == self.teamNameTF || textField == self.userNameTF {
@@ -102,5 +102,5 @@ extension TeamCreationViewController {
             })
         })
     }
-
+    
 }

@@ -24,13 +24,13 @@ class User : ABModelCloudKit {
     override func ignoreKey(key: String, value: AnyObject) -> Bool {
         if key == "teams" {
             for ref : CKReference in value as! [CKReference] {
-                self.teams.append(ref)
+                teams.append(ref)
             }
             return true
         }
         if key == "teamColor" {
             for ref : CKReference in value as! [CKReference] {
-                self.teamColor.append(ref)
+                teamColor.append(ref)
             }
             return true
         }
@@ -95,7 +95,7 @@ class User : ABModelCloudKit {
     private func localSave() {
         let data = NSKeyedArchiver.archivedDataWithRootObject(self)
         NSUserDefaults.standardUserDefaults().setObject(data, forKey:Constants.UserDefaultsKeys.currentUser)
-                NSUserDefaults.standardUserDefaults().synchronize()
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     func getTeams(completion:(teams:[Team], local:Bool, error:NSError?) -> Void) {

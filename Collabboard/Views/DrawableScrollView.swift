@@ -9,20 +9,20 @@
 import UIKit
 
 class DrawableScrollView: UIScrollView {
-
+    
     var drawableView:DrawableView! {
         didSet {
             drawableView.autoresizingMask = [.FlexibleWidth,.FlexibleHeight]
             let pan = UIPanGestureRecognizer(target: drawableView, action: #selector(DrawableView.panGesture(_:)))
             pan.maximumNumberOfTouches = 1
-            self.setNeedsLayout()
+            setNeedsLayout()
             pan.delegate = drawableView
-            self.addGestureRecognizer(pan)
+            addGestureRecognizer(pan)
         }
     }
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.panGestureRecognizer.minimumNumberOfTouches = 2
+        panGestureRecognizer.minimumNumberOfTouches = 2
     }
 }

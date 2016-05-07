@@ -11,7 +11,7 @@ import CloudKit
 
 public class ABModelCloudKit : ABModel {
     public class func recordType() -> String {
-        return ""
+        return NSStringFromClass(self)
     }
     public var record : CKRecord!
     public var recordId : CKRecordID!

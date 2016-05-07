@@ -8,32 +8,21 @@
 
 import UIKit
 
-
-
-
-
 class ColorGenerator {
-    var currentSeed : CGFloat = -1.0
-    private var satSeed : CGFloat = 1.0
-    private var usedSeed = [CGFloat]()
-
-    static let CGSharedInstance = ColorGenerator()
-
-    var readyBlock : ((ready:Bool)->Void)?
-    
-    private init() {
-        
-    }
-    
     private struct CGeneratorConstant {
         static let maxSeed : CGFloat = 12.0
         static let saturation : CGFloat = 1.0
     }
+    private var satSeed : CGFloat = 1.0
+    private var usedSeed = [CGFloat]()
     
+    static let CGSharedInstance = ColorGenerator()
+    var currentSeed : CGFloat = -1.0
+    var readyBlock : ((ready:Bool)->Void)?
     var team : Team! {
         didSet {
-            self.currentSeed = -1.0
-            self.team.getUsers { (users, error) -> Void in
+            currentSeed = -1.0
+            team.getUsers { (users, error) -> Void in
                 for user in users {
                     user.getTeamColor(self.team, completion: { (teamColor, utColor, error) -> Void in
                         self.usedSeed.append(utColor.colorSeed)
@@ -49,22 +38,27 @@ class ColorGenerator {
         }
     }
     
+    private init() {
+        
+    }
+    
     func generateColor(seed:CGFloat) -> UIColor! {
-        let h = seed <= CGeneratorConstant.maxSeed ? (seed / CGeneratorConstant.maxSeed) : ((seed % CGeneratorConstant.maxSeed) / CGeneratorConstant.maxSeed)
-        satSeed = seed <= CGeneratorConstant.maxSeed ? 1 : 1 - ((seed % CGeneratorConstant.maxSeed) / CGeneratorConstant.maxSeed)
+        let maxSeed = CGeneratorConstant.maxSeed
+        let h = seed <= maxSeed ? (seed / maxSeed) : ((seed % maxSeed) / maxSeed)
+        satSeed = seed <= maxSeed ? 1 : 1 - ((seed % maxSeed) / maxSeed)
         return UIColor(hue: h, saturation: CGeneratorConstant.saturation, brightness: satSeed, alpha: 1.0)
     }
-
+    
     func getNextColor() -> UIColor? {
         if let _ = readyBlock {
-            guard self.currentSeed != -1 else {
+            guard currentSeed != -1 else {
                 return nil
             }
         }
-        currentSeed++
-        while self.usedSeed.contains(self.currentSeed) {
-            currentSeed++
+        currentSeed += 1
+        while usedSeed.contains(currentSeed) {
+            currentSeed += 1
         }
-        return generateColor(self.currentSeed)
+        return generateColor(currentSeed)
     }
 }

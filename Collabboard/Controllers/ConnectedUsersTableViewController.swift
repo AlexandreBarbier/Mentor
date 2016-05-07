@@ -12,7 +12,7 @@
 import UIKit
 
 class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     @IBOutlet weak var openButton: UIButton!
     @IBOutlet var tableView:UITableView!
     @IBOutlet weak var teamContainer: UIView!
@@ -110,7 +110,7 @@ extension ConnectedUsersTableViewController {
     }
 }
 
-// MARK: - TableView delegate 
+// MARK: - TableView delegate
 extension ConnectedUsersTableViewController {
     // MARK: - Table view data source
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {

@@ -10,7 +10,6 @@ import UIKit
 
 class DrawableTextView: UITextView, UITextViewDelegate {
     
-    
     class func create(origin:CGPoint, text:String, color:UIColor) -> DrawableTextView {
         let screenSize = UIScreen.mainScreen().bounds.size
         let maxSize = CGSize(width: screenSize.width - origin.x, height: screenSize.height - origin.y)
@@ -20,13 +19,10 @@ class DrawableTextView: UITextView, UITextViewDelegate {
         textView.text = text
         textView.textColor = color
         textView.delegate = textView
-
-
         textView.returnKeyType = .Done
 
         return textView
     }
-    
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
@@ -43,13 +39,4 @@ class DrawableTextView: UITextView, UITextViewDelegate {
         }
         return true
     }
-    
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-    // Drawing code
-    }
-    */
-    
 }

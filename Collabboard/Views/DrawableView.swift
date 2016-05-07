@@ -69,9 +69,9 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         didSet {
             DebugConsoleView.debugView.print("set drawing")
             /**
-            *  when we set the drawing we can draw everything that's on the server (this is called when we load
-            *  a new project)
-            */
+             *  when we set the drawing we can draw everything that's on the server (this is called when we load
+             *  a new project)
+             */
             if (drawing != nil) {
                 //firebase initialisation
                 initFirebase()
@@ -369,8 +369,8 @@ extension DrawableView {
                 }
             })
             
-            }) { (error) -> Void in
-                
+        }) { (error) -> Void in
+            
         }
         cbFirebase.firebaseDeleteObserverHandle = cbFirebase.delete!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
             let value = snap.value as! [[String:String]]

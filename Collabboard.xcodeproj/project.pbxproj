@@ -144,7 +144,7 @@
 		8DBD194B1C15CAC50073BE8B /* Project.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		8DBD195A1C15CDEC0073BE8B /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		8DBD195C1C15D1C60073BE8B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		8DD8976D1C19760E007DA303 /* DrawingPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DrawingPath.swift; path = ../Model/DrawingPath.swift; sourceTree = "<group>"; };
+		8DD8976D1C19760E007DA303 /* DrawingPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingPath.swift; sourceTree = "<group>"; };
 		8DE74F481C21A97800B60F0D /* DrawableScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawableScrollView.swift; sourceTree = "<group>"; };
 		8DEB6EEA1C2060D200B9BF9F /* UserTeamColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTeamColor.swift; sourceTree = "<group>"; };
 		AC307FF31BF1F69300C28D5D /* Collabboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Collabboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -184,7 +184,6 @@
 		8D13B4F41C1ACA98005F7325 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				8DD8976D1C19760E007DA303 /* DrawingPath.swift */,
 				8D13B4F51C1ACAC6005F7325 /* Constants.swift */,
 				8D91FD041C6876E20088F0FA /* CBFirebase.swift */,
 				8D91FD081C6B31650088F0FA /* TouchThroughView.swift */,
@@ -232,6 +231,7 @@
 		8DBD194A1C15CA6D0073BE8B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8DD8976D1C19760E007DA303 /* DrawingPath.swift */,
 				8D05D6741C187963008B7A7E /* Drawing.swift */,
 				8D058ADD1C17314F00A2D076 /* Point.swift */,
 				8DBD194B1C15CAC50073BE8B /* Project.swift */,

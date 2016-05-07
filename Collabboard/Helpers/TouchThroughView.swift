@@ -9,7 +9,6 @@
 import UIKit
 
 class TouchThroughView: UIView {
-
     
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
         let v = super.hitTest(point, withEvent: event)
@@ -18,12 +17,4 @@ class TouchThroughView: UIView {
         }
         return v
     }
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
-
 }

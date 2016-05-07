@@ -98,7 +98,7 @@ extension Project {
     
     func saveBackground(image:UIImage, completion:() -> Void) {
         let docDirPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
-        let filePath =  "\(docDirPath)/\(self.recordName).png"
+        let filePath =  "\(docDirPath)/\(recordName).png"
         let myData =  UIImagePNGRepresentation(image)
         myData?.writeToFile(filePath, atomically: true)
         self.background = CKAsset(fileURL:NSURL(fileURLWithPath:filePath))
