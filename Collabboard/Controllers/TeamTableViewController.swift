@@ -80,7 +80,7 @@ extension TeamTableViewController {
 // MARK: - Navigation
 extension TeamTableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "CellSegue" {
+        if segue.identifier == StoryboardSegue.Main.CellSegue.rawValue {
             let projectVC = segue.destinationViewController as? ProjectTableViewController
             let index = self.tableView.indexPathForCell(sender as! UITableViewCell)
             projectVC!.completion = completion
@@ -88,7 +88,7 @@ extension TeamTableViewController {
             projectVC!.team = displayedDataSource[index!.row]
         }
         
-        if segue.identifier == "TeamCreationSegue" {
+        if segue.identifier == StoryboardSegue.Main.TeamCreationSegue.rawValue {
             let teamCreationVC = segue.destinationViewController as? TeamCreationViewController
             teamCreationVC?.completion = { (team, project) in
                 self.displayedDataSource.append(team)
