@@ -11,7 +11,7 @@ import CloudKit
 
 public class ABModelCloudKit : ABModel {
     public class func recordType() -> String {
-        return NSStringFromClass(self)
+        return NSStringFromClass(self).componentsSeparatedByString(".").last != nil ? NSStringFromClass(self).componentsSeparatedByString(".").last! : ""
     }
     public var record : CKRecord!
     public var recordId : CKRecordID!
