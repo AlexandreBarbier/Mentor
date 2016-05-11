@@ -42,6 +42,12 @@ class ColorGenerator {
         
     }
     
+    func reset() {
+        usedSeed.removeAll()
+        currentSeed = -1
+        readyBlock = nil
+    }
+    
     func generateColor(seed:CGFloat) -> UIColor! {
         let maxSeed = CGeneratorConstant.maxSeed
         let h = seed <= maxSeed ? (seed / maxSeed) : ((seed % maxSeed) / maxSeed)

@@ -401,14 +401,8 @@ extension ViewController {
     }
     
     @IBAction func showBrushTools(sender:UIBarButtonItem) {
-        let popover = StoryboardScene.Main.instantiateToolsCollectionVC()
-        popover.delegate = self
-        popover.modalPresentationStyle = .Popover
-        popover.popoverPresentationController?.delegate = popover
-        popover.popoverPresentationController!.sourceView = self.view
-        var rect = self.bottomToolBar.frame
-        rect.size.width = sender.image!.size.width
-        popover.popoverPresentationController?.sourceRect = rect
+        let popover = StoryboardScene.Main.instantiateToolsVC()
+        popover.currentColor = drawableView.color
         self.presentViewController(popover, animated: true, completion: nil)
     }
     /**

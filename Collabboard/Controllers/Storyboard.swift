@@ -64,9 +64,9 @@ struct StoryboardScene {
       return StoryboardScene.Main.TeamVCScene.viewController() as! TeamTableViewController
     }
 
-    case ToolsCollectionVCScene = "ToolsCollectionVC"
-    static func instantiateToolsCollectionVC() -> ToolsCollectionViewController {
-      return StoryboardScene.Main.ToolsCollectionVCScene.viewController() as! ToolsCollectionViewController
+    case ToolsVCScene = "ToolsVC"
+    static func instantiateToolsVC() -> ToolsViewController {
+      return StoryboardScene.Main.ToolsVCScene.viewController() as! ToolsViewController
     }
   }
 }
