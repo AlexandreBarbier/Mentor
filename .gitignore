@@ -40,3 +40,4 @@ profile
 Crashlytics.framework/
 Fabric.framework/
 Pods/
+fastlane
