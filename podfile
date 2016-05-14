@@ -2,7 +2,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target :Collabboard do
-pod 'Firebase'
-pod 'Fabric'
-pod 'Crashlytics'
+  pod 'Firebase'
+  pod 'Fabric'
+  pod 'Crashlytics'
 end

@@ -33,7 +33,7 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
 extension TeamTableViewController {
     func show () {
         guard let user = User.currentUser else {
-            DebugConsoleView.debugView.errorPrint("Team popover no user")
+          
             return
         }
         user.getTeams { (teams, local, error) -> Void in

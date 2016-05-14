@@ -1,4 +1,3 @@
-
 //
 //  ViewController.swift
 //  Mentor
@@ -6,6 +5,7 @@
 //  Created by Alexandre on 11/10/15.
 //  Copyright © 2015 Alexandre Barbier. All rights reserved.
 //
+
 import Foundation
 import UIKit
 import CloudKit
@@ -28,11 +28,12 @@ class ViewController: UIViewController, ToolsViewDelegate {
     @IBOutlet weak var scrollView: DrawableScrollView!
     @IBOutlet weak var drawableView: DrawableView!
     @IBOutlet weak var bottomToolBar: UIToolbar!
+    @IBOutlet weak var teamViewContainer: UIView!
     
     private var interfaceIsVisible = true
     private var canDownloadBG = true
     var imageBG : UIImageView?
-    var connectedUsersView: ConnectedUsersTableViewController!
+    
 }
 
 // MARK: - View lifecycle
@@ -40,10 +41,7 @@ extension ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        connectedUsersView = StoryboardScene.Main.instantiateConnectedUsersVC()
-        let panelSize = CGSize(width: view.frame.size.width , height: view.frame.size.height - 44)
-        connectedUsersView.view.frame = CGRect(origin: CGPoint(x: view.frame.size.width - 58, y: 0), size: panelSize)
-        view.addSubview(connectedUsersView.view)
+        teamViewContainer.layer.transform = CATransform3DMakeTranslation(0, -teamViewContainer.frame.size.height - 80, 0)
         scrollView.drawableView = drawableView
         progressView.progress = 0.0
         drawableView.loadingProgressBlock = {(progress, current, total) in
@@ -51,7 +49,6 @@ extension ViewController {
                 self.progressView.progress = Float(progress)
                 self.progressView.hidden = self.progressView.progress == 1.0
             })
-            
         }
         activity.rounded()
         DebugConsoleView.debugView = DebugConsoleView(inView:view)
@@ -82,16 +79,16 @@ extension ViewController {
         let alpha = 1 - bottomToolBar.alpha
         if alpha == 1 {
             bottomToolBar.hidden = interfaceIsVisible
-            connectedUsersView.view.hidden = interfaceIsVisible
+        
         }
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.bottomToolBar.alpha = alpha
-            self.connectedUsersView.view.alpha = alpha
+        
             
         }) { (finished) -> Void in
             if alpha != 1 {
                 self.bottomToolBar.hidden = self.interfaceIsVisible
-                self.connectedUsersView.view.hidden = self.interfaceIsVisible
+        
             }
         }
         interfaceIsVisible = !interfaceIsVisible
@@ -104,34 +101,22 @@ extension ViewController {
      log the current user into iCloud
      */
     func loginUser() {
-        DebugConsoleView.debugView.print("login method")
         CloudKitManager.availability { (available) -> Void in
             if available {
-                DebugConsoleView.debugView.print("cloudKit available")
                 self.activity.startAnimating()
-                DebugConsoleView.debugView.print("get current user")
                 User.getCurrentUser({ (user, error) -> () in
                     guard let user = user else {
-                        DebugConsoleView.debugView.errorPrint("user nil")
                         let alert = UIAlertController(title: "An error occured", message: "please restart Mentor", preferredStyle: UIAlertControllerStyle.Alert)
                         self.presentViewController(alert, animated: true, completion: nil)
                         return
                     }
-                    self.connectedUsersView.teamCompletion =  { (project, team) in
-                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                            self.initDrawing(team, project: project)
-                        })
-                        
-                    }
                     // here we assume that a user always have at least one team and one project this is ensure by the login process and the fact that if you have only one team or one project you are not able to delete it
                     if user.teams.count == 0 {
-                        DebugConsoleView.debugView.print("team less user")
-                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                             self.performSegueWithIdentifier(StoryboardSegue.Main.CreateTeamSegue.rawValue, sender: self)
                         })
                     }
                     else {
-                        DebugConsoleView.debugView.print("get team")
                         if let lastOpenedteamProject = Project.getLastOpen() {
                             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                                 self.initDrawing(lastOpenedteamProject.team!, project: lastOpenedteamProject.project!)
@@ -155,7 +140,6 @@ extension ViewController {
                 })
             }
             else {
-                DebugConsoleView.debugView.errorPrint("cloudKit unavailable")
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     let alert = UIAlertController(title: "iCloud account required", message: "To use this app you need to be connected to your iCloud account", preferredStyle: UIAlertControllerStyle.Alert)
                     self.presentViewController(alert, animated: true, completion: nil)
@@ -188,7 +172,8 @@ extension ViewController {
 // MARK: - tools view delegate
 
 extension ViewController {
-    func didSelectTools(popover:ToolsCollectionViewController,tool: Tool) {
+    
+    func didSelectTools(popover:ToolsCollectionViewController, tool: Tool) {
         switch tool {
         case .marker :
             marker()
@@ -268,7 +253,7 @@ extension ViewController {
     func initDrawing(team:Team, project:Project) {
         setDrawingColor(team)
         drawableView.project = project
-        connectedUsersView.team = team
+//        connectedUsersView.team = team
         
         initFirebase(team, project: project)
         scrollView.contentSize = drawableView.frame.size
@@ -311,7 +296,6 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         }
         drawableView.project!.saveBackground((imageBG?.image)!,completion: { () in
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                DebugConsoleView.debugView.print("bg uploaded")
                 self.canDownloadBG = false
                 cbFirebase.background!.updateChildValues(["bg":NSNumber(unsignedInt:arc4random_uniform(UInt32(100)))])
             })
@@ -350,7 +334,15 @@ extension ViewController {
         if let identifier = SegueIdentifier(rawValue: segue.identifier!) {
             switch identifier {
             case .ConnectedUserSegue :
-                connectedUsersView = segue.destinationViewController as! ConnectedUsersTableViewController
+                let connectedUsersView = segue.destinationViewController as! ConnectedUsersTableViewController
+                connectedUsersView.team = Project.getLastOpen()!.team!
+                connectedUsersView.teamCompletion =  { (project, team) in
+                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        self.initDrawing(team, project: project)
+                    })
+                    
+                }
+
                 break
             case .CreateTeamSegue :
                 let teamCreationVC = segue.destinationViewController as! TeamCreationViewController
@@ -404,8 +396,24 @@ extension ViewController {
     
     @IBAction func showBrushTools(sender:UIBarButtonItem) {
         let popover = StoryboardScene.Main.instantiateToolsVC()
+        popover.modalPresentationStyle = .FormSheet
+        popover.preferredContentSize = CGSize(width: 300, height: 400)
         popover.currentColor = drawableView.color
         self.presentViewController(popover, animated: true, completion: nil)
+    }
+    
+    @IBAction func showTeam(sender: AnyObject) {
+        if CATransform3DIsIdentity(teamViewContainer.layer.transform) {
+            UIView.animateWithDuration(0.5, animations: { 
+                self.teamViewContainer.layer.transform = CATransform3DMakeTranslation(0, -self.teamViewContainer.frame.size.height - 80, 0)
+            })
+        }
+        else {
+            UIView.animateWithDuration(0.5) {
+                self.teamViewContainer.layer.transform = CATransform3DIdentity
+            }
+        }
+        
     }
     /**
      set the pen tool

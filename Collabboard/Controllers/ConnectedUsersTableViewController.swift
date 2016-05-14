@@ -13,7 +13,6 @@ import UIKit
 
 class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet weak var openButton: UIButton!
     @IBOutlet var tableView:UITableView!
     @IBOutlet weak var teamContainer: UIView!
     @IBOutlet weak var segmentControl: UISegmentedControl!
@@ -22,11 +21,8 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
     private var shown = false
     private var teamTableVC: TeamTableViewController!
     
-    var teamCompletion:((project:Project, team:Team)->Void)? {
-        didSet {
-            teamTableVC.completion = teamCompletion
-        }
-    }
+    var teamCompletion:((project:Project, team:Team)->Void)?
+    
     var displayedDataSource : [User] = [] {
         didSet {
             NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
@@ -36,9 +32,7 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
     }
     var team : Team! {
         didSet {
-            segmentControl.setTitle(team.name, forSegmentAtIndex: 0)
-            segmentControl.setTitle("Teams", forSegmentAtIndex: 1)
-            teamTableVC.show()
+            
             team.getUsers { (users, error) -> Void in
                 if error != nil {
                     return
@@ -53,13 +47,10 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
 extension ConnectedUsersTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(ConnectedUsersTableViewController.pangesture(_:)))
-        view.addGestureRecognizer(pan)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        openButton.backgroundColor = UIColor.lightGrayColor()
-        openButton.roundedLeft(openButton.frame.width / 2)
+        segmentControl.setTitle(team.name, forSegmentAtIndex: 0)
+        segmentControl.setTitle("Teams", forSegmentAtIndex: 1)
+        teamTableVC.show()
+        teamTableVC.completion = teamCompletion
     }
     
     override func didReceiveMemoryWarning() {
@@ -73,39 +64,6 @@ extension ConnectedUsersTableViewController {
         if segue.identifier == StoryboardSegue.Main.TeamContainerVC.rawValue {
             let nav = segue.destinationViewController as! UINavigationController
             teamTableVC = nav.viewControllers.first as! TeamTableViewController
-        }
-    }
-}
-
-// MARK: - Gestures
-extension ConnectedUsersTableViewController {
-    func pangesture(pan:UIPanGestureRecognizer) {
-        let x = pan.translationInView(view).x
-        
-        switch pan.state {
-        case .Began :
-            previous = 0
-            break
-        case .Ended :
-            if view.layer.frame.origin.x > view.frame.width / 2.0 {
-                UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1.0, options: .CurveEaseInOut, animations: { () -> Void in
-                    self.view.layer.transform = CATransform3DIdentity
-                    }, completion: nil)
-            }
-            else {
-                UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1.0, options: .CurveEaseInOut, animations: { () -> Void in
-                    self.view.layer.transform = CATransform3DMakeTranslation(-(self.view.frame.size.width - 58), 0, 0)
-                    }, completion: nil)
-            }
-            break
-        case .Changed :
-            if view.layer.frame.origin.x >= 0 && view.layer.frame.origin.x <= view.frame.size.width - 58 {
-                view.layer.transform = CATransform3DConcat(view.layer.transform, CATransform3DMakeTranslation(x - previous, 0, 0))
-                previous = x
-            }
-            break
-        default :
-            break
         }
     }
 }
