@@ -126,7 +126,9 @@ extension ViewController {
                     // here we assume that a user always have at least one team and one project this is ensure by the login process and the fact that if you have only one team or one project you are not able to delete it
                     if user.teams.count == 0 {
                         DebugConsoleView.debugView.print("team less user")
-                        self.performSegueWithIdentifier(StoryboardSegue.Main.CreateTeamSegue.rawValue, sender: self)
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            self.performSegueWithIdentifier(StoryboardSegue.Main.CreateTeamSegue.rawValue, sender: self)
+                        })
                     }
                     else {
                         DebugConsoleView.debugView.print("get team")

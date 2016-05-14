@@ -1,6 +1,8 @@
 platform :ios, '8.0'
 use_frameworks!
 
-pod 'FirebaseUI/Core', '~> 0.3'
+target :Collabboard do
+pod 'Firebase'
 pod 'Fabric'
 pod 'Crashlytics'
+end

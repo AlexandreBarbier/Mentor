@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2546C40E604B0EB87F8DE1B6 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD7D9B4A09BE7B703315063 /* Pods.framework */; };
+		184BB10B58C49C36575784DD /* Pods_Collabboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E35B7671164317CAE5259CE /* Pods_Collabboard.framework */; };
 		8D058ADE1C17314F00A2D076 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D058ADD1C17314F00A2D076 /* Point.swift */; };
 		8D05D6751C187963008B7A7E /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D05D6741C187963008B7A7E /* Drawing.swift */; };
 		8D0D6DC41C441AF10018CE41 /* ColorGenerationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0D6DC31C441AF10018CE41 /* ColorGenerationViewController.swift */; };
@@ -121,6 +121,7 @@
 /* Begin PBXFileReference section */
 		1DD7D9B4A09BE7B703315063 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4380ABFB308544EA9213838A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		48D02644EE54D2A559F65FF0 /* Pods-Collabboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Collabboard.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Collabboard/Pods-Collabboard.debug.xcconfig"; sourceTree = "<group>"; };
 		73667D4011EA8419CDA7F1FF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8D058ADD1C17314F00A2D076 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		8D05D6741C187963008B7A7E /* Drawing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
@@ -149,6 +150,7 @@
 		8DD8976D1C19760E007DA303 /* DrawingPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingPath.swift; sourceTree = "<group>"; };
 		8DE74F481C21A97800B60F0D /* DrawableScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawableScrollView.swift; sourceTree = "<group>"; };
 		8DEB6EEA1C2060D200B9BF9F /* UserTeamColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTeamColor.swift; sourceTree = "<group>"; };
+		9E35B7671164317CAE5259CE /* Pods_Collabboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Collabboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC307FF31BF1F69300C28D5D /* Collabboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Collabboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC307FF61BF1F69300C28D5D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AC307FF81BF1F69300C28D5D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 		AC3080001BF1F69300C28D5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC3080021BF1F69300C28D5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC778DE81BF1F86E00669BD7 /* DrawableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawableView.swift; sourceTree = "<group>"; };
+		ADAF43C211E74118C7C52F2B /* Pods-Collabboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Collabboard.release.xcconfig"; path = "Pods/Target Support Files/Pods-Collabboard/Pods-Collabboard.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,7 +170,7 @@
 				8DBD19491C15C9F30073BE8B /* CloudKit.framework in Frameworks */,
 				8D9E8E1F1C621AAD0076030A /* ABModel.framework in Frameworks */,
 				8D9E8E1B1C621AAD0076030A /* ABUIKit.framework in Frameworks */,
-				2546C40E604B0EB87F8DE1B6 /* Pods.framework in Frameworks */,
+				184BB10B58C49C36575784DD /* Pods_Collabboard.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,6 +182,8 @@
 			children = (
 				73667D4011EA8419CDA7F1FF /* Pods.debug.xcconfig */,
 				4380ABFB308544EA9213838A /* Pods.release.xcconfig */,
+				48D02644EE54D2A559F65FF0 /* Pods-Collabboard.debug.xcconfig */,
+				ADAF43C211E74118C7C52F2B /* Pods-Collabboard.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -248,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				1DD7D9B4A09BE7B703315063 /* Pods.framework */,
+				9E35B7671164317CAE5259CE /* Pods_Collabboard.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -331,12 +337,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AC3080051BF1F69300C28D5D /* Build configuration list for PBXNativeTarget "Collabboard" */;
 			buildPhases = (
-				E01446F582D91E6CC4FF2B61 /* Check Pods Manifest.lock */,
+				E01446F582D91E6CC4FF2B61 /* 📦 Check Pods Manifest.lock */,
 				AC307FEF1BF1F69300C28D5D /* Sources */,
 				AC307FF01BF1F69300C28D5D /* Frameworks */,
 				AC307FF11BF1F69300C28D5D /* Resources */,
-				6D9149C2C995F3B2D4B0289E /* Embed Pods Frameworks */,
-				3B302D6B681A5BB131F7B109 /* Copy Pods Resources */,
+				6D9149C2C995F3B2D4B0289E /* 📦 Embed Pods Frameworks */,
+				3B302D6B681A5BB131F7B109 /* 📦 Copy Pods Resources */,
 				8D759DD21C3FE70900E793B6 /* Fabric run */,
 				8D9E8DFB1C6219AD0076030A /* Embed Frameworks */,
 			);
@@ -451,34 +457,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3B302D6B681A5BB131F7B109 /* Copy Pods Resources */ = {
+		3B302D6B681A5BB131F7B109 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Collabboard/Pods-Collabboard-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6D9149C2C995F3B2D4B0289E /* Embed Pods Frameworks */ = {
+		6D9149C2C995F3B2D4B0289E /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Collabboard/Pods-Collabboard-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8D759DD21C3FE70900E793B6 /* Fabric run */ = {
@@ -495,14 +501,14 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 32dc190aeef47e3e7971889471a1b8779c32ad54 83f9580156b0b2a49d43c853be4c737e668a01d42e42436d24844f7e23e60019";
 		};
-		E01446F582D91E6CC4FF2B61 /* Check Pods Manifest.lock */ = {
+		E01446F582D91E6CC4FF2B61 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -683,7 +689,7 @@
 		};
 		AC3080061BF1F69300C28D5D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 73667D4011EA8419CDA7F1FF /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 48D02644EE54D2A559F65FF0 /* Pods-Collabboard.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Collabboard/Mentor.entitlements;
@@ -698,7 +704,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Collabboard/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-DDEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.abarbier.mentor;
+				PRODUCT_BUNDLE_IDENTIFIER = com.abarbier.draftlink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -706,7 +712,7 @@
 		};
 		AC3080071BF1F69300C28D5D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4380ABFB308544EA9213838A /* Pods.release.xcconfig */;
+			baseConfigurationReference = ADAF43C211E74118C7C52F2B /* Pods-Collabboard.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Collabboard/Mentor.entitlements;
@@ -721,7 +727,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Collabboard/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-DRELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = com.abarbier.mentor;
+				PRODUCT_BUNDLE_IDENTIFIER = com.abarbier.draftlink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
