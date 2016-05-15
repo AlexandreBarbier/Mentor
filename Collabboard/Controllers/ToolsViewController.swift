@@ -8,23 +8,53 @@
 
 import UIKit
 
+enum Tool : Int {
+    case pen, marker
+    
+    func getIcon() -> UIImage? {
+        switch self {
+        case .pen:
+            return UIImage(named: "ic_tools_pen")
+        case .marker:
+            return UIImage(named: "ic_tools_marker")
+        }
+    }
+    
+    func toString() -> String {
+        switch self {
+        case .pen:
+            return "pen"
+        case .marker:
+            return "marker"
+        }
+    }
+}
+
+protocol ToolsViewDelegate {
+    func toolsViewDidSelectTools(toolsView:ToolsViewController, tool:Tool)
+    func toolsViewChangeUserColor(toolsView:ToolsViewController, color:UIColor)
+    func toolsViewChangeBrushSize(toolsView:ToolsViewController, size:CGFloat)
+}
+
 class ToolsViewController: UIViewController {
     @IBOutlet weak var colorIndicatorView: UIView!
     @IBOutlet weak var toolsCollectionView: UICollectionView!
     @IBOutlet weak var colorCollectionView: UICollectionView!
     @IBOutlet weak var sizeSlider: UISlider!
     
-    private var toolsDataSource = ["pen", "marker"]
+    private var toolsDataSource : [Tool] = [.pen, .marker]
     private var colorDataSource:[UIColor] = []
     
+    var delegate : ToolsViewDelegate!
     var currentColor:UIColor!
+    var selectedTool:Tool!
 }
 
 // MARK: - View lifecycle
 extension ToolsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        colorIndicatorView.rounded(4)
+        colorIndicatorView.rounded()
         colorIndicatorView.backgroundColor = currentColor
         ColorGenerator.CGSharedInstance.readyBlock = { (ready) in
             self.colorDataSource = Array<UIColor>(count: 12, repeatedValue: UIColor.whiteColor())
@@ -42,7 +72,15 @@ extension ToolsViewController {
 extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func configureToolsCellForIndexPath(cell: UICollectionViewCell, index: NSIndexPath) {
-        cell.backgroundView = UIImageView(image: UIImage(named: toolsDataSource[index.row]))
+        let tool = toolsDataSource[index.row]
+        if tool == selectedTool {
+            toolsCollectionView.selectItemAtIndexPath(index, animated: false, scrollPosition: .None)
+            cell.tintColor = UIColor.blueColor()
+        }
+        else {
+            cell.tintColor = UIColor.blackColor()
+        }
+        cell.backgroundView = UIImageView(image: tool.getIcon()?.imageWithRenderingMode(.AlwaysTemplate))
     }
     
     func configureColorCellForIndexPath(cell: UICollectionViewCell, index: NSIndexPath) {
@@ -78,12 +116,24 @@ extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSou
         return cell
     }
     
+    func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+        if collectionView == toolsCollectionView {
+            let cell = collectionView.cellForItemAtIndexPath(indexPath)!
+            cell.tintColor = UIColor.blackColor()
+        }
+    }
+    
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if collectionView == toolsCollectionView {
-            
+            let cell = collectionView.cellForItemAtIndexPath(indexPath)!
+            selectedTool = toolsDataSource[indexPath.row]
+            cell.tintColor = UIColor.blueColor()
+            delegate.toolsViewDidSelectTools(self, tool:Tool(rawValue: indexPath.row)!)
         }
         else {
-            colorIndicatorView.backgroundColor = colorDataSource[indexPath.row]
+            let color = colorDataSource[indexPath.row]
+            colorIndicatorView.backgroundColor = color
+            delegate.toolsViewChangeUserColor(self, color: color)
         }
     }
 }

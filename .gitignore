@@ -41,5 +41,7 @@ Crashlytics.framework/
 Fabric.framework/
 Pods/
 fastlane
-Collabboard.app.dSYM.zip
-Collabboard.ipa
+*.zip
+*.ipa
+*.cer
+*.mobileprovision

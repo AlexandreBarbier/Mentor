@@ -459,6 +459,16 @@ extension DrawableView {
 
 // MARK: - tools methods
 extension DrawableView {
+    
+    func getCurrentTool() -> Tool {
+        if (pen) {
+            return .pen
+        }
+        else {
+            return .marker
+        }
+    }
+    
     func clear() {
         history.forEach { (val: (layer: CALayer, dPath: DrawingPath)) -> () in
             val.dPath.remove()

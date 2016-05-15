@@ -13,7 +13,6 @@
 		8D0D6DC41C441AF10018CE41 /* ColorGenerationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0D6DC31C441AF10018CE41 /* ColorGenerationViewController.swift */; };
 		8D11201A1C1ED23F000E041B /* TeamTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1120191C1ED23F000E041B /* TeamTableViewController.swift */; };
 		8D11201E1C1EFEB9000E041B /* ProjectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */; };
-		8D11790E1C75DB4200DBAD99 /* ToolsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D11790D1C75DB4200DBAD99 /* ToolsCollectionViewController.swift */; };
 		8D13B4F61C1ACAC6005F7325 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D13B4F51C1ACAC6005F7325 /* Constants.swift */; };
 		8D3CF1931C159514006D23C7 /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */; };
 		8D4981E81C65EC6700BC6067 /* ConnectedUsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */; };
@@ -128,7 +127,6 @@
 		8D0D6DC31C441AF10018CE41 /* ColorGenerationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorGenerationViewController.swift; sourceTree = "<group>"; };
 		8D1120191C1ED23F000E041B /* TeamTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamTableViewController.swift; sourceTree = "<group>"; };
 		8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectTableViewController.swift; sourceTree = "<group>"; };
-		8D11790D1C75DB4200DBAD99 /* ToolsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolsCollectionViewController.swift; sourceTree = "<group>"; };
 		8D13B4F51C1ACAC6005F7325 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtension.swift; sourceTree = "<group>"; };
 		8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectedUsersTableViewController.swift; sourceTree = "<group>"; };
@@ -314,7 +312,6 @@
 				8D0D6DC31C441AF10018CE41 /* ColorGenerationViewController.swift */,
 				8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */,
 				8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */,
-				8D11790D1C75DB4200DBAD99 /* ToolsCollectionViewController.swift */,
 				8DB6D07C1CDF526100B73529 /* ToolsViewController.swift */,
 			);
 			path = Controllers;
@@ -544,7 +541,6 @@
 				8D9679CE1C453603009B2299 /* TeamCreationViewController.swift in Sources */,
 				8DEB6EEB1C2060D200B9BF9F /* UserTeamColor.swift in Sources */,
 				8DBD195D1C15D1C60073BE8B /* User.swift in Sources */,
-				8D11790E1C75DB4200DBAD99 /* ToolsCollectionViewController.swift in Sources */,
 				8D4981E81C65EC6700BC6067 /* ConnectedUsersTableViewController.swift in Sources */,
 				8DE74F491C21A97800B60F0D /* DrawableScrollView.swift in Sources */,
 				8D91FD0B1C6B5AD60088F0FA /* DrawableTextView.swift in Sources */,

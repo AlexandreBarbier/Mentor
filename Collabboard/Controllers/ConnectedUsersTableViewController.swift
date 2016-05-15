@@ -32,7 +32,6 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
     }
     var team : Team! {
         didSet {
-            
             team.getUsers { (users, error) -> Void in
                 if error != nil {
                     return

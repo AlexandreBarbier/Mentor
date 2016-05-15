@@ -22,7 +22,7 @@ private enum SegueIdentifier : String {
     case ConnectedUserSegue
 }
 
-class ViewController: UIViewController, ToolsViewDelegate {
+class ViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var activity: UIActivityIndicatorView!
     @IBOutlet weak var scrollView: DrawableScrollView!
@@ -169,11 +169,53 @@ extension ViewController {
     }
 }
 
-// MARK: - tools view delegate
-
-extension ViewController {
+// MARK: - Tools
+extension ViewController : ToolsViewDelegate {
     
-    func didSelectTools(popover:ToolsCollectionViewController, tool: Tool) {
+    private func configureDrawableView(lineWidth:CGFloat, text: Bool, pen: Bool, marker:Bool, eraser: Bool) {
+        drawableView.lineWidth = lineWidth
+        drawableView.marker = marker
+        drawableView.pen = pen
+        drawableView.text = text
+        drawableView.eraser = eraser
+    }
+    
+    /**
+     eraser
+     
+     - parameter sender: the button that send the action
+     */
+    @IBAction func eraser(sender:AnyObject) {
+        drawableView.eraser = true
+    }
+
+    /**
+     set the pen tool
+     
+     - parameter sender: the button that send the action
+     */
+    func pen() {
+        configureDrawableView(2.0, text: false, pen: true, marker: false, eraser: false)
+    }
+    /**
+     set the marker tool
+     
+     - parameter sender: the button that send the action
+     */
+    func marker() {
+        configureDrawableView(15.0, text: false, pen: false, marker: true, eraser: false)
+    }
+    
+    /**
+     set the text tool
+     
+     - parameter sender: the button that send the action
+     */
+    @IBAction func textTool(sender:AnyObject) {
+        configureDrawableView(0.0, text: true, pen: false, marker: false, eraser: false)
+    }
+
+    func toolsViewDidSelectTools(toolsView:ToolsViewController, tool: Tool) {
         switch tool {
         case .marker :
             marker()
@@ -182,16 +224,16 @@ extension ViewController {
             pen()
             break
         }
-        popover.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func changeBrushSize(popover:ToolsCollectionViewController, size: CGFloat) {
+    func toolsViewChangeBrushSize(toolsView:ToolsViewController, size: CGFloat) {
         drawableView.lineWidth = size
-        popover.dismissViewControllerAnimated(true, completion: nil)
+        //toolsView.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func changeUserColor(popover:ToolsCollectionViewController, color: UIColor) {
-        popover.dismissViewControllerAnimated(true, completion: nil)
+    func toolsViewChangeUserColor(toolsView:ToolsViewController, color: UIColor) {
+        //toolsView.dismissViewControllerAnimated(true, completion: nil)
+        //TODO: change user color
     }
 }
 
@@ -253,8 +295,6 @@ extension ViewController {
     func initDrawing(team:Team, project:Project) {
         setDrawingColor(team)
         drawableView.project = project
-//        connectedUsersView.team = team
-        
         initFirebase(team, project: project)
         scrollView.contentSize = drawableView.frame.size
         setBG(project)
@@ -328,7 +368,6 @@ extension ViewController {
 }
 
 // MARK: - Navigation
-
 extension ViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let identifier = SegueIdentifier(rawValue: segue.identifier!) {
@@ -367,35 +406,19 @@ extension ViewController {
                     
                 }
                 break
-                
             }
         }
     }
 }
 
 
-// MARK: - tools method
+// MARK: - Actions
 extension ViewController {
-    
-    private func configureDrawableView(lineWidth:CGFloat, text: Bool, pen: Bool, marker:Bool, eraser: Bool) {
-        drawableView.lineWidth = lineWidth
-        drawableView.marker = marker
-        drawableView.pen = pen
-        drawableView.text = text
-        drawableView.eraser = eraser
-    }
-    
-    /**
-     eraser
-     
-     - parameter sender: the button that send the action
-     */
-    @IBAction func eraser(sender:AnyObject) {
-        drawableView.eraser = true
-    }
     
     @IBAction func showBrushTools(sender:UIBarButtonItem) {
         let popover = StoryboardScene.Main.instantiateToolsVC()
+        popover.delegate = self
+        popover.selectedTool = drawableView.getCurrentTool()
         popover.modalPresentationStyle = .FormSheet
         popover.preferredContentSize = CGSize(width: 300, height: 400)
         popover.currentColor = drawableView.color
@@ -403,41 +426,18 @@ extension ViewController {
     }
     
     @IBAction func showTeam(sender: AnyObject) {
+        let button = sender as! UIBarButtonItem
         if CATransform3DIsIdentity(teamViewContainer.layer.transform) {
+            button.image = UIImage(named: "ic_team")
             UIView.animateWithDuration(0.5, animations: { 
                 self.teamViewContainer.layer.transform = CATransform3DMakeTranslation(0, -self.teamViewContainer.frame.size.height - 80, 0)
             })
         }
         else {
+            button.image = UIImage(named: "ic_team_selected")
             UIView.animateWithDuration(0.5) {
                 self.teamViewContainer.layer.transform = CATransform3DIdentity
             }
         }
-        
-    }
-    /**
-     set the pen tool
-     
-     - parameter sender: the button that send the action
-     */
-    func pen() {
-        configureDrawableView(2.0, text: false, pen: true, marker: false, eraser: false)
-    }
-    /**
-     set the marker tool
-     
-     - parameter sender: the button that send the action
-     */
-    func marker() {
-        configureDrawableView(15.0, text: false, pen: false, marker: true, eraser: false)
-    }
-    
-    /**
-     set the text tool
-     
-     - parameter sender: the button that send the action
-     */
-    @IBAction func textTool(sender:AnyObject) {
-        configureDrawableView(0.0, text: true, pen: false, marker: false, eraser: false)
     }
 }
