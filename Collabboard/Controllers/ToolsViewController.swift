@@ -14,18 +14,18 @@ enum Tool : Int {
     func getIcon() -> UIImage? {
         switch self {
         case .pen:
-            return UIImage(named: "ic_tools_pen")
+            return UIImage.Asset.Ic_tools_pen.image
         case .marker:
-            return UIImage(named: "ic_tools_marker")
+            return UIImage.Asset.Ic_tools_marker.image
         }
     }
     
     func getItemIcon() -> UIImage? {
         switch self {
         case .pen:
-            return UIImage(named: "ic_pen")
+            return UIImage.Asset.Ic_pen.image
         case .marker:
-            return UIImage(named: "ic_marker")
+            return UIImage.Asset.Ic_marker.image
         }
     }
     

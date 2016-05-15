@@ -77,6 +77,7 @@ struct StoryboardSegue {
   }
   enum Main: String, StoryboardSegueType {
     case CellSegue = "CellSegue"
+    case ConnectedUserSegue = "ConnectedUserSegue"
     case CreateTeamSegue = "CreateTeamSegue"
     case TeamCreationSegue = "TeamCreationSegue"
     case TeamContainerVC = "teamContainerVC"

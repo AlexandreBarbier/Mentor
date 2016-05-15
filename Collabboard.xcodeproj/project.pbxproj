@@ -16,6 +16,8 @@
 		8D13B4F61C1ACAC6005F7325 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D13B4F51C1ACAC6005F7325 /* Constants.swift */; };
 		8D3CF1931C159514006D23C7 /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */; };
 		8D4981E81C65EC6700BC6067 /* ConnectedUsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */; };
+		8D6DF5721CE8BC51008B7E95 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF5701CE8BC51008B7E95 /* Images.swift */; };
+		8D6DF5731CE8BC51008B7E95 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF5711CE8BC51008B7E95 /* Storyboard.swift */; };
 		8D91F2C11C7B38C3001D6A4E /* ColorGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F2C01C7B38C3001D6A4E /* ColorGenerator.swift */; };
 		8D91FD051C6876E20088F0FA /* CBFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91FD041C6876E20088F0FA /* CBFirebase.swift */; };
 		8D91FD091C6B31650088F0FA /* TouchThroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91FD081C6B31650088F0FA /* TouchThroughView.swift */; };
@@ -26,7 +28,6 @@
 		8D9E8E1C1C621AAD0076030A /* ABUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E141C621A600076030A /* ABUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8D9E8E1F1C621AAD0076030A /* ABModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E021C621A4F0076030A /* ABModel.framework */; };
 		8D9E8E201C621AAD0076030A /* ABModel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E021C621A4F0076030A /* ABModel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8DA753DC1CDE45A6005F6BB2 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA753DB1CDE45A6005F6BB2 /* Storyboard.swift */; };
 		8DB6D07D1CDF526100B73529 /* ToolsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB6D07C1CDF526100B73529 /* ToolsViewController.swift */; };
 		8DBD19491C15C9F30073BE8B /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DBD19481C15C9F30073BE8B /* CloudKit.framework */; };
 		8DBD194C1C15CAC50073BE8B /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD194B1C15CAC50073BE8B /* Project.swift */; };
@@ -130,6 +131,8 @@
 		8D13B4F51C1ACAC6005F7325 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtension.swift; sourceTree = "<group>"; };
 		8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectedUsersTableViewController.swift; sourceTree = "<group>"; };
+		8D6DF5701CE8BC51008B7E95 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		8D6DF5711CE8BC51008B7E95 /* Storyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
 		8D91F2C01C7B38C3001D6A4E /* ColorGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorGenerator.swift; sourceTree = "<group>"; };
 		8D91FD041C6876E20088F0FA /* CBFirebase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBFirebase.swift; sourceTree = "<group>"; };
 		8D91FD081C6B31650088F0FA /* TouchThroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchThroughView.swift; sourceTree = "<group>"; };
@@ -138,7 +141,6 @@
 		8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamCreationViewController.swift; sourceTree = "<group>"; };
 		8D9E8DFC1C621A4F0076030A /* ABModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ABModel.xcodeproj; path = SwiftLib/ABModel/ABModel.xcodeproj; sourceTree = "<group>"; };
 		8D9E8E0E1C621A600076030A /* ABUIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ABUIKit.xcodeproj; path = SwiftLib/ABModel/../ABUIKit/ABUIKit.xcodeproj; sourceTree = "<group>"; };
-		8DA753DB1CDE45A6005F6BB2 /* Storyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
 		8DB6D07C1CDF526100B73529 /* ToolsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolsViewController.swift; sourceTree = "<group>"; };
 		8DBD19471C15C9ED0073BE8B /* Mentor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Mentor.entitlements; sourceTree = "<group>"; };
 		8DBD19481C15C9F30073BE8B /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -189,6 +191,8 @@
 		8D13B4F41C1ACA98005F7325 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				8D6DF5701CE8BC51008B7E95 /* Images.swift */,
+				8D6DF5711CE8BC51008B7E95 /* Storyboard.swift */,
 				8D13B4F51C1ACAC6005F7325 /* Constants.swift */,
 				8D91FD041C6876E20088F0FA /* CBFirebase.swift */,
 				8D91FD081C6B31650088F0FA /* TouchThroughView.swift */,
@@ -305,7 +309,6 @@
 		AC778DE71BF1F81D00669BD7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8DA753DB1CDE45A6005F6BB2 /* Storyboard.swift */,
 				8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */,
 				8D1120191C1ED23F000E041B /* TeamTableViewController.swift */,
 				AC307FF81BF1F69300C28D5D /* ViewController.swift */,
@@ -524,7 +527,7 @@
 				8D058ADE1C17314F00A2D076 /* Point.swift in Sources */,
 				8D91F2C11C7B38C3001D6A4E /* ColorGenerator.swift in Sources */,
 				8D13B4F61C1ACAC6005F7325 /* Constants.swift in Sources */,
-				8DA753DC1CDE45A6005F6BB2 /* Storyboard.swift in Sources */,
+				8D6DF5731CE8BC51008B7E95 /* Storyboard.swift in Sources */,
 				8D11201A1C1ED23F000E041B /* TeamTableViewController.swift in Sources */,
 				8DBD195B1C15CDEC0073BE8B /* Team.swift in Sources */,
 				8D0D6DC41C441AF10018CE41 /* ColorGenerationViewController.swift in Sources */,
@@ -542,6 +545,7 @@
 				8DEB6EEB1C2060D200B9BF9F /* UserTeamColor.swift in Sources */,
 				8DBD195D1C15D1C60073BE8B /* User.swift in Sources */,
 				8D4981E81C65EC6700BC6067 /* ConnectedUsersTableViewController.swift in Sources */,
+				8D6DF5721CE8BC51008B7E95 /* Images.swift in Sources */,
 				8DE74F491C21A97800B60F0D /* DrawableScrollView.swift in Sources */,
 				8D91FD0B1C6B5AD60088F0FA /* DrawableTextView.swift in Sources */,
 			);

@@ -445,13 +445,13 @@ extension ViewController {
     @IBAction func showTeam(sender: AnyObject) {
         let button = sender as! UIBarButtonItem
         if CATransform3DIsIdentity(teamViewContainer.layer.transform) {
-            button.image = UIImage(named: "ic_team")
+            button.image = UIImage.Asset.Ic_team.image
             UIView.animateWithDuration(0.5, animations: {
                 self.teamViewContainer.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
             })
         }
         else {
-            button.image = UIImage(named: "ic_team_selected")
+            button.image = UIImage.Asset.Ic_team_selected.image
             UIView.animateWithDuration(0.5) {
                 self.teamViewContainer.layer.transform = CATransform3DIdentity
             }

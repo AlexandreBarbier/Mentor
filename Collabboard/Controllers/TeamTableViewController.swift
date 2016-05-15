@@ -65,7 +65,7 @@ extension TeamTableViewController {
         }
         let team = displayedDataSource[indexPath.row]
         if team.currentUserIsAdmin {
-            cell!.imageView?.image = UIImage(named: "ProfileBlackIcon")
+            cell!.imageView?.image = UIImage.Asset.ProfileBlackIcon.image
         }
         else {
             cell!.imageView?.image = nil
