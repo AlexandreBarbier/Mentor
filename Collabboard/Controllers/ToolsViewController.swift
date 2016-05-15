@@ -20,6 +20,15 @@ enum Tool : Int {
         }
     }
     
+    func getItemIcon() -> UIImage? {
+        switch self {
+        case .pen:
+            return UIImage(named: "ic_pen")
+        case .marker:
+            return UIImage(named: "ic_marker")
+        }
+    }
+    
     func toString() -> String {
         switch self {
         case .pen:

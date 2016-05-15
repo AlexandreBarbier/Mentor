@@ -136,21 +136,21 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="qzg-oT-BHx"/>
-                                    <barButtonItem image="ic_text" id="y7G-lL-2ld">
+                                    <barButtonItem tag="1" image="ic_text" id="y7G-lL-2ld">
                                         <color key="tintColor" red="0.1843137255" green="0.1843137255" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="textTool:" destination="BYZ-38-t0r" id="WOM-un-RuQ"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="91m-uJ-a0U"/>
-                                    <barButtonItem image="ic_rubber" id="SaV-2O-YUB">
+                                    <barButtonItem tag="2" image="ic_rubber" id="SaV-2O-YUB">
                                         <color key="tintColor" red="0.1843137255" green="0.1843137255" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="eraser:" destination="BYZ-38-t0r" id="ega-Gn-o6Z"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="1cf-9f-n1W"/>
-                                    <barButtonItem image="ic_images" id="y5M-IB-KO4">
+                                    <barButtonItem tag="3" image="ic_images" id="y5M-IB-KO4">
                                         <color key="tintColor" red="0.1843137255" green="0.1843137255" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="importBG:" destination="BYZ-38-t0r" id="BmO-Gr-EqH"/>
@@ -215,6 +215,11 @@
                         <outlet property="progressView" destination="8bn-v9-XUi" id="jPJ-K7-tBr"/>
                         <outlet property="scrollView" destination="6kI-HS-PAE" id="We6-3b-smD"/>
                         <outlet property="teamViewContainer" destination="zis-Y4-gmw" id="vZU-2i-Y2B"/>
+                        <outlet property="topToolbar" destination="zfg-7f-8jw" id="dny-Z5-X2b"/>
+                        <outletCollection property="bottomBarButtons" destination="vU9-wE-Bw7" id="FYx-cg-cZX"/>
+                        <outletCollection property="bottomBarButtons" destination="y7G-lL-2ld" id="Lfj-By-GUX"/>
+                        <outletCollection property="bottomBarButtons" destination="SaV-2O-YUB" id="sR0-cl-jIY"/>
+                        <outletCollection property="bottomBarButtons" destination="y5M-IB-KO4" id="hfs-8H-fl6"/>
                         <segue destination="i2V-SE-h5H" kind="presentation" identifier="CreateTeamSegue" id="oGq-SH-4He"/>
                     </connections>
                 </viewController>
@@ -330,13 +335,13 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Form" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Iz-fT-Dy6">
                                 <rect key="frame" x="40" y="177" width="40" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Br-tv-PHb">
                                 <rect key="frame" x="40" y="267" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>

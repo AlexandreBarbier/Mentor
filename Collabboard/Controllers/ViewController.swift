@@ -29,9 +29,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var drawableView: DrawableView!
     @IBOutlet weak var bottomToolBar: UIToolbar!
     @IBOutlet weak var teamViewContainer: UIView!
+    @IBOutlet weak var topToolbar: UIToolbar!
     
+    @IBOutlet var bottomBarButtons: [UIBarButtonItem]!
     private var interfaceIsVisible = true
     private var canDownloadBG = true
+    private var selectedTool = 0
     var imageBG : UIImageView?
     
 }
@@ -41,7 +44,8 @@ extension ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        teamViewContainer.layer.transform = CATransform3DMakeTranslation(0, -teamViewContainer.frame.size.height - 80, 0)
+        selectTool(0)
+        teamViewContainer.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
         scrollView.drawableView = drawableView
         progressView.progress = 0.0
         drawableView.loadingProgressBlock = {(progress, current, total) in
@@ -79,16 +83,21 @@ extension ViewController {
         let alpha = 1 - bottomToolBar.alpha
         if alpha == 1 {
             bottomToolBar.hidden = interfaceIsVisible
-        
+            topToolbar.hidden = interfaceIsVisible
+            progressView.hidden = interfaceIsVisible
+            
         }
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.bottomToolBar.alpha = alpha
-        
+            self.topToolbar.alpha = alpha
+            self.progressView.alpha = alpha
             
         }) { (finished) -> Void in
             if alpha != 1 {
                 self.bottomToolBar.hidden = self.interfaceIsVisible
-        
+                self.topToolbar.hidden = self.interfaceIsVisible
+                self.progressView.hidden = self.interfaceIsVisible
+                
             }
         }
         interfaceIsVisible = !interfaceIsVisible
@@ -112,7 +121,7 @@ extension ViewController {
                     }
                     // here we assume that a user always have at least one team and one project this is ensure by the login process and the fact that if you have only one team or one project you are not able to delete it
                     if user.teams.count == 0 {
-                            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                             self.performSegueWithIdentifier(StoryboardSegue.Main.CreateTeamSegue.rawValue, sender: self)
                         })
                     }
@@ -180,50 +189,25 @@ extension ViewController : ToolsViewDelegate {
         drawableView.eraser = eraser
     }
     
-    /**
-     eraser
-     
-     - parameter sender: the button that send the action
-     */
-    @IBAction func eraser(sender:AnyObject) {
-        drawableView.eraser = true
-    }
-
-    /**
-     set the pen tool
-     
-     - parameter sender: the button that send the action
-     */
-    func pen() {
-        configureDrawableView(2.0, text: false, pen: true, marker: false, eraser: false)
-    }
-    /**
-     set the marker tool
-     
-     - parameter sender: the button that send the action
-     */
-    func marker() {
-        configureDrawableView(15.0, text: false, pen: false, marker: true, eraser: false)
-    }
-    
-    /**
-     set the text tool
-     
-     - parameter sender: the button that send the action
-     */
-    @IBAction func textTool(sender:AnyObject) {
-        configureDrawableView(0.0, text: true, pen: false, marker: false, eraser: false)
-    }
-
-    func toolsViewDidSelectTools(toolsView:ToolsViewController, tool: Tool) {
+    func selectDrawingTool(tool:Tool) {
         switch tool {
         case .marker :
-            marker()
+            configureDrawableView(15.0, text: false, pen: false, marker: true, eraser: false)
             break
         case .pen :
-            pen()
+            configureDrawableView(2.0, text: false, pen: true, marker: false, eraser: false)
             break
         }
+    }
+    
+    
+    func toolsViewDidSelectTools(toolsView:ToolsViewController, tool: Tool) {
+        bottomBarButtons.forEach({ (item) in
+            if item.tag == 0 {
+                item.image = tool.getItemIcon()
+            }
+        })
+        selectDrawingTool(tool)
     }
     
     func toolsViewChangeBrushSize(toolsView:ToolsViewController, size: CGFloat) {
@@ -306,18 +290,6 @@ extension ViewController {
 extension ViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     /**
-     import a background image
-     
-     - parameter sender: the button that send the action
-     */
-    @IBAction func importBG(sender:AnyObject) {
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.sourceType = .PhotoLibrary
-        presentViewController(pickerController, animated: true, completion: nil)
-    }
-    
-    /**
      image picker controller delegate method
      
      - parameter picker: image picker
@@ -381,7 +353,7 @@ extension ViewController {
                     })
                     
                 }
-
+                
                 break
             case .CreateTeamSegue :
                 let teamCreationVC = segue.destinationViewController as! TeamCreationViewController
@@ -411,26 +383,71 @@ extension ViewController {
     }
 }
 
-
 // MARK: - Actions
 extension ViewController {
     
+    func selectTool(index: Int) {
+        selectedTool = index
+        bottomToolBar.items!.forEach { (item) in
+            item.tintColor = item.tag == index ?  UIColor.blueColor() : UIColor.blackColor()
+        }
+    }
+    
     @IBAction func showBrushTools(sender:UIBarButtonItem) {
-        let popover = StoryboardScene.Main.instantiateToolsVC()
-        popover.delegate = self
-        popover.selectedTool = drawableView.getCurrentTool()
-        popover.modalPresentationStyle = .FormSheet
-        popover.preferredContentSize = CGSize(width: 300, height: 400)
-        popover.currentColor = drawableView.color
-        self.presentViewController(popover, animated: true, completion: nil)
+        if selectedTool != sender.tag {
+            selectTool(sender.tag)
+            selectDrawingTool(drawableView.getCurrentTool())
+        }
+        else {
+            selectTool(sender.tag)
+            let popover = StoryboardScene.Main.instantiateToolsVC()
+            popover.delegate = self
+            popover.selectedTool = drawableView.getCurrentTool()
+            popover.modalPresentationStyle = .FormSheet
+            popover.preferredContentSize = CGSize(width: 300, height: 400)
+            popover.currentColor = drawableView.color
+            self.presentViewController(popover, animated: true, completion: nil)
+        }
+    }
+    
+    /**
+     eraser
+     
+     - parameter sender: the button that send the action
+     */
+    @IBAction func eraser(sender:UIBarButtonItem) {
+        selectTool(sender.tag)
+        drawableView.eraser = true
+    }
+    
+    /**
+     set the text tool
+     
+     - parameter sender: the button that send the action
+     */
+    @IBAction func textTool(sender:UIBarButtonItem) {
+        selectTool(sender.tag)
+        configureDrawableView(0.0, text: true, pen: false, marker: false, eraser: false)
+    }
+    
+    /**
+     import a background image
+     
+     - parameter sender: the button that send the action
+     */
+    @IBAction func importBG(sender:UIBarButtonItem) {
+        let pickerController = UIImagePickerController()
+        pickerController.delegate = self
+        pickerController.sourceType = .PhotoLibrary
+        presentViewController(pickerController, animated: true, completion: nil)
     }
     
     @IBAction func showTeam(sender: AnyObject) {
         let button = sender as! UIBarButtonItem
         if CATransform3DIsIdentity(teamViewContainer.layer.transform) {
             button.image = UIImage(named: "ic_team")
-            UIView.animateWithDuration(0.5, animations: { 
-                self.teamViewContainer.layer.transform = CATransform3DMakeTranslation(0, -self.teamViewContainer.frame.size.height - 80, 0)
+            UIView.animateWithDuration(0.5, animations: {
+                self.teamViewContainer.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
             })
         }
         else {
