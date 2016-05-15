@@ -30,8 +30,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var bottomToolBar: UIToolbar!
     @IBOutlet weak var teamViewContainer: UIView!
     @IBOutlet weak var topToolbar: UIToolbar!
-    
     @IBOutlet var bottomBarButtons: [UIBarButtonItem]!
+    @IBOutlet weak var logoItem: UIBarButtonItem!
+    
+    private var connectedUsersView : ConnectedUsersTableViewController?
     private var interfaceIsVisible = true
     private var canDownloadBG = true
     private var selectedTool = 0
@@ -44,6 +46,7 @@ extension ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        logoItem.image = UIImage.Asset.Topbar_logo.image.imageWithRenderingMode(.AlwaysOriginal)
         selectTool(0)
         teamViewContainer.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
         scrollView.drawableView = drawableView
@@ -74,17 +77,16 @@ extension ViewController {
 extension ViewController {
     
     @IBAction func hideInterface(sender: AnyObject) {
-        if drawableView.text {
+        if drawableView.getCurrentTool() == .text {
             let tap = sender as! UITapGestureRecognizer
             drawableView.addText(tap)
-            drawableView.text = false
             return
         }
         let alpha = 1 - bottomToolBar.alpha
         if alpha == 1 {
             bottomToolBar.hidden = interfaceIsVisible
             topToolbar.hidden = interfaceIsVisible
-            progressView.hidden = interfaceIsVisible
+            progressView.hidden = interfaceIsVisible ? interfaceIsVisible : self.progressView.progress == 1.0
             
         }
         UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -96,7 +98,7 @@ extension ViewController {
             if alpha != 1 {
                 self.bottomToolBar.hidden = self.interfaceIsVisible
                 self.topToolbar.hidden = self.interfaceIsVisible
-                self.progressView.hidden = self.interfaceIsVisible
+                self.progressView.hidden = self.interfaceIsVisible ? self.interfaceIsVisible : self.progressView.progress == 1.0
                 
             }
         }
@@ -112,7 +114,7 @@ extension ViewController {
     func loginUser() {
         CloudKitManager.availability { (available) -> Void in
             if available {
-                self.activity.startAnimating()
+                //self.activity.startAnimating()
                 User.getCurrentUser({ (user, error) -> () in
                     guard let user = user else {
                         let alert = UIAlertController(title: "An error occured", message: "please restart Mentor", preferredStyle: UIAlertControllerStyle.Alert)
@@ -140,6 +142,19 @@ extension ViewController {
                                                 self.initDrawing(team, project: project)
                                             }
                                         })
+                                        if let connectedUser = self.connectedUsersView {
+                                            connectedUser.team = team
+                                            connectedUser.teamCompletion =  { (project, team) in
+                                                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                                                    self.initDrawing(team, project: project)
+                                                })
+                                            }
+                                            connectedUser.reload()
+                                            NSOperationQueue.mainQueue().addOperationWithBlock({ 
+                                                self.activity.stopAnimating()
+                                            })
+                                            
+                                        }
                                     }
                                 }
                             })
@@ -181,23 +196,19 @@ extension ViewController {
 // MARK: - Tools
 extension ViewController : ToolsViewDelegate {
     
-    private func configureDrawableView(lineWidth:CGFloat, text: Bool, pen: Bool, marker:Bool, eraser: Bool) {
-        drawableView.lineWidth = lineWidth
-        drawableView.marker = marker
-        drawableView.pen = pen
-        drawableView.text = text
-        drawableView.eraser = eraser
+    private func configureDrawableView(tool:Tool) {
+        drawableView.currentTool = tool
+    }
+    
+    func selectTool(index: Int) {
+        selectedTool = index
+        bottomToolBar.items!.forEach { (item) in
+            item.tintColor = item.tag == index ?  UIColor.blueColor() : UIColor.blackColor()
+        }
     }
     
     func selectDrawingTool(tool:Tool) {
-        switch tool {
-        case .marker :
-            configureDrawableView(15.0, text: false, pen: false, marker: true, eraser: false)
-            break
-        case .pen :
-            configureDrawableView(2.0, text: false, pen: true, marker: false, eraser: false)
-            break
-        }
+        configureDrawableView(tool)
     }
     
     
@@ -212,11 +223,9 @@ extension ViewController : ToolsViewDelegate {
     
     func toolsViewChangeBrushSize(toolsView:ToolsViewController, size: CGFloat) {
         drawableView.lineWidth = size
-        //toolsView.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func toolsViewChangeUserColor(toolsView:ToolsViewController, color: UIColor) {
-        //toolsView.dismissViewControllerAnimated(true, completion: nil)
         //TODO: change user color
     }
 }
@@ -327,33 +336,23 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
     }
 }
 
-// MARK: - Drawing settings
-extension ViewController {
-    
-    func setBrushSize(sender:UIButton) {
-        drawableView.lineWidth = 3.0
-    }
-    
-    func setEraser(sender:UIButton) {
-        drawableView.eraser = !drawableView.eraser
-    }
-}
-
 // MARK: - Navigation
 extension ViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let identifier = SegueIdentifier(rawValue: segue.identifier!) {
             switch identifier {
             case .ConnectedUserSegue :
-                let connectedUsersView = segue.destinationViewController as! ConnectedUsersTableViewController
-                connectedUsersView.team = Project.getLastOpen()!.team!
-                connectedUsersView.teamCompletion =  { (project, team) in
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                        self.initDrawing(team, project: project)
-                    })
-                    
+                connectedUsersView = segue.destinationViewController as? ConnectedUsersTableViewController
+                if let team = Project.getLastOpen() {
+                    self.connectedUsersView!.team = team.team
+                    self.connectedUsersView!.teamCompletion =  { (project, team) in
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            self.initDrawing(team, project: project)
+                        })
+                    }
+                    self.connectedUsersView!.reload()
                 }
-                
+                self.activity.stopAnimating()
                 break
             case .CreateTeamSegue :
                 let teamCreationVC = segue.destinationViewController as! TeamCreationViewController
@@ -386,17 +385,10 @@ extension ViewController {
 // MARK: - Actions
 extension ViewController {
     
-    func selectTool(index: Int) {
-        selectedTool = index
-        bottomToolBar.items!.forEach { (item) in
-            item.tintColor = item.tag == index ?  UIColor.blueColor() : UIColor.blackColor()
-        }
-    }
-    
     @IBAction func showBrushTools(sender:UIBarButtonItem) {
         if selectedTool != sender.tag {
             selectTool(sender.tag)
-            selectDrawingTool(drawableView.getCurrentTool())
+            selectDrawingTool(drawableView.brushTool)
         }
         else {
             selectTool(sender.tag)
@@ -417,7 +409,7 @@ extension ViewController {
      */
     @IBAction func eraser(sender:UIBarButtonItem) {
         selectTool(sender.tag)
-        drawableView.eraser = true
+        configureDrawableView(.eraser)
     }
     
     /**
@@ -427,7 +419,7 @@ extension ViewController {
      */
     @IBAction func textTool(sender:UIBarButtonItem) {
         selectTool(sender.tag)
-        configureDrawableView(0.0, text: true, pen: false, marker: false, eraser: false)
+        configureDrawableView(.text)
     }
     
     /**

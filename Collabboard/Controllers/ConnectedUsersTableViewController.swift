@@ -30,9 +30,9 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
             }
         }
     }
-    var team : Team! {
+    var team : Team? {
         didSet {
-            team.getUsers { (users, error) -> Void in
+            team!.getUsers { (users, error) -> Void in
                 if error != nil {
                     return
                 }
@@ -46,10 +46,17 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
 extension ConnectedUsersTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        segmentControl.setTitle(team.name, forSegmentAtIndex: 0)
-        segmentControl.setTitle("Teams", forSegmentAtIndex: 1)
-        teamTableVC.show()
-        teamTableVC.completion = teamCompletion
+        reload()
+    }
+    
+    
+    func reload() {
+        if let team = team, segmentControl = segmentControl {
+            segmentControl.setTitle(team.name, forSegmentAtIndex: 0)
+            segmentControl.setTitle("Teams", forSegmentAtIndex: 1)
+            teamTableVC.show()
+            teamTableVC.completion = teamCompletion
+        }
     }
     
     override func didReceiveMemoryWarning() {

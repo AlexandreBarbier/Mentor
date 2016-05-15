@@ -17,7 +17,7 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
     
     private var displayedDataSource = [Team]()  {
         didSet {
-            title = "Team\(displayedDataSource.count > 1 ? "s": "")"
+            title = "Team\(displayedDataSource.count > 1 ? "s" : "")"
         }
     }
     private var computedHeight : Double {

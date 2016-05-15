@@ -9,7 +9,7 @@
 import UIKit
 
 enum Tool : Int {
-    case pen, marker
+    case pen, marker, eraser, text
     
     func getIcon() -> UIImage? {
         switch self {
@@ -17,6 +17,9 @@ enum Tool : Int {
             return UIImage.Asset.Ic_tools_pen.image
         case .marker:
             return UIImage.Asset.Ic_tools_marker.image
+        case .eraser, .text:
+            return nil
+            
         }
     }
     
@@ -26,6 +29,28 @@ enum Tool : Int {
             return UIImage.Asset.Ic_pen.image
         case .marker:
             return UIImage.Asset.Ic_marker.image
+        case .eraser, .text:
+            return nil
+        }
+    }
+    
+    func configure(view: DrawableView) {
+        switch self {
+        case .pen:
+            view.brushTool = self
+            view.color = view.color.colorWithAlphaComponent(1.0)
+            view.lineWidth = 2.0
+            break
+        case .marker:
+            view.brushTool = self
+            view.color = view.color.colorWithAlphaComponent(1.0).colorWithAlphaComponent(0.4)
+            view.lineWidth = 15.0
+            break
+        case .eraser:
+            break
+        case .text:
+            view.color = view.color.colorWithAlphaComponent(1.0)
+            break
         }
     }
     
@@ -35,6 +60,10 @@ enum Tool : Int {
             return "pen"
         case .marker:
             return "marker"
+        case .eraser:
+            return "eraser"
+        case .text:
+            return "text"
         }
     }
 }

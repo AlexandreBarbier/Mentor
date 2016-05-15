@@ -11,7 +11,7 @@ import CloudKit
 import Firebase
 import ABUIKit
 
-//TODO: manage multi size screen (simple solution : create a view with the max screen size)
+// TODO: manage multi size screen (simple solution : create a view with the max screen size)
 /// this is the view used to draw everything
 class DrawableView: UIView, UIGestureRecognizerDelegate {
     private var markerAlpha : CGFloat = 0.4
@@ -26,7 +26,12 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
     private var blue : CGFloat = 0.0
     private var colorAlpha : CGFloat = 0.0
     private var archivedColor : NSData!
-    
+    var brushTool : Tool = .pen
+    var currentTool : Tool = .pen {
+        didSet {
+            currentTool.configure(self)
+        }
+    }
     var loadingProgressBlock : ((progress:Double, current:Double, total:Double) -> Void)?
     
     var color = UIColor.greenColor() {
@@ -36,34 +41,34 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         }
     }
     
-    var eraser = false
-    var marker = false {
-        didSet {
-            if marker {
-                self.color = self.color.colorWithAlphaComponent(markerAlpha)
-                pen = false
-                text = false
-            }
-        }
-    }
-    var pen = false {
-        didSet {
-            if pen {
-                self.color = self.color.colorWithAlphaComponent(1.0)
-                marker = false
-                text = false
-            }
-        }
-    }
-    var text = false {
-        didSet {
-            if text {
-                self.color = self.color.colorWithAlphaComponent(1.0)
-                marker = false
-                pen = false
-            }
-        }
-    }
+   // var eraser = false
+//    var marker = false {
+//        didSet {
+//            if marker {
+//                self.color = self.color.colorWithAlphaComponent(markerAlpha)
+//                pen = false
+//                text = false
+//            }
+//        }
+//    }
+//    var pen = false {
+//        didSet {
+//            if pen {
+//                self.color = self.color.colorWithAlphaComponent(1.0)
+//                marker = false
+//                text = false
+//            }
+//        }
+//    }
+//    var text = false {
+//        didSet {
+//            if text {
+//                self.color = self.color.colorWithAlphaComponent(1.0)
+//                marker = false
+//                pen = false
+//            }
+//        }
+//    }
     
     var drawing : Drawing? {
         didSet {
@@ -76,8 +81,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                 //firebase initialisation
                 initFirebase()
                 // current drawing tool save
-                let p = self.pen
-                let m = self.marker
+                let p = currentTool
                 // get all paths of the current drawing. The closure is called sequencially (path by path)
                 let totalPaths = Double(self.drawing!.paths.count)
                 var pathPrinted : Double = 1
@@ -96,10 +100,10 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                         }
                         // marker or pen path
                         if paths.pen {
-                            self.pen = true
+                            self.currentTool = .pen
                         }
                         else {
-                            self.marker = true
+                            self.currentTool = .marker
                         }
                         // the pa
                         if paths.text != nil && paths.text == "" {
@@ -119,8 +123,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                             self.loadingProgressBlock!(progress: (pathPrinted / totalPaths), current:pathPrinted, total:totalPaths)
                             pathPrinted += 1
                             // reset user tools
-                            self.pen = p
-                            self.marker = m
+                            self.currentTool = p
                             self.path.lineWidth = self.lineWidth
                         }
                         else {
@@ -190,7 +193,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         super.awakeFromNib()
         touchCircle.lineWidth = 1
         lineWidth = 2.0
-        pen = true
+        currentTool = .pen
         self.opaque = false
         self.backgroundColor = UIColor.clearColor()
     }
@@ -209,15 +212,19 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         layer.path = path
         layer.name = layerName
         layer.lineWidth = self.path.lineWidth
-        if pen {
+        switch currentTool {
+        case .pen:
             layer.lineCap  = kCALineCapRound
             layer.lineJoin = kCALineJoinRound
-        }
-        layer.fillColor = UIColor.clearColor().CGColor
-        if marker {
+            break
+        case .marker:
             layer.lineCap  = kCALineCapSquare
             layer.lineJoin = kCALineJoinBevel
+            break
+        default:
+            break
         }
+        layer.fillColor = UIColor.clearColor().CGColor
         layer.strokeColor = color == nil ? self.color.CGColor : color!.CGColor
         self.superview!.layer.insertSublayer(layer, below: self.layer)
         return layer
@@ -225,7 +232,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
     
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
-        if eraser {
+        if currentTool == .eraser {
             UIColor.whiteColor().setFill()
             touchCircle.fill()
         }
@@ -352,19 +359,17 @@ extension DrawableView {
                     cPath.interpolatePointsWithHermite(cPoint)
                     var alpha : CGFloat = 1.0
                     let lineW = self.lineWidth
-                    let ma = self.marker
-                    let pe = self.pen
+                    let ma = self.currentTool
                     if mark {
-                        self.marker = mark
-                        alpha = self.markerAlpha
+                        self.currentTool = .marker
+                        alpha = 0.4
                     }
                     else {
-                        self.pen = true
+                        self.currentTool = .pen
                     }
                     self.lineWidth = lw
                     self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: alpha))
-                    self.pen = pe
-                    self.marker = ma
+                    self.currentTool = ma
                     self.lineWidth = lineW
                 }
             })
@@ -399,7 +404,7 @@ extension DrawableView {
         }
         touchCircle.removeAllPoints()
         touchCircle.addArcWithCenter(currentPoint, radius: 5.0, startAngle: 0.0, endAngle: 2*CGFloat(M_PI), clockwise: true)
-        if eraser {
+        if currentTool == .eraser {
             self.removeAtPoint(currentPoint)
             self.setNeedsDisplay()
             if panGesture.state == .Ended {
@@ -419,12 +424,12 @@ extension DrawableView {
         case .Ended, .Cancelled, .Failed:
             let dPath = DrawingPath.create(self.drawing!, completion:nil)
             dPath.color = self.archivedColor
-            dPath.pen = self.pen
+            dPath.pen = currentTool == .pen
             dPath.lineWidth = self.lineWidth
             let recPoints = Point.createBatch(interPolationPoints, dPath: dPath)
             NSOperationQueue().addOperationWithBlock({ () -> Void in
                 cbFirebase.drawing!.updateChildValues([FirebaseKey.points:  self.interPolationPoints.map({ (point) -> [[String:AnyObject]] in
-                    return [[FirebaseKey.drawingUser:"\(User.currentUser!.recordId.recordName)"],[FirebaseKey.x:NSNumber(float: Float(point.x))], [FirebaseKey.y:NSNumber(float: Float(point.y))], [FirebaseKey.red:NSNumber(float: Float(self.red))],[FirebaseKey.green:NSNumber(float: Float(self.green))],[FirebaseKey.blue:NSNumber(float: Float(self.blue))],[FirebaseKey.pathName:dPath.recordId.recordName],[FirebaseKey.marker:self.marker], [FirebaseKey.lineWidth:self.lineWidth]]
+                    return [[FirebaseKey.drawingUser:"\(User.currentUser!.recordId.recordName)"],[FirebaseKey.x:NSNumber(float: Float(point.x))], [FirebaseKey.y:NSNumber(float: Float(point.y))], [FirebaseKey.red:NSNumber(float: Float(self.red))],[FirebaseKey.green:NSNumber(float: Float(self.green))],[FirebaseKey.blue:NSNumber(float: Float(self.blue))],[FirebaseKey.pathName:dPath.recordId.recordName],[FirebaseKey.marker:self.currentTool == .marker], [FirebaseKey.lineWidth:self.lineWidth]]
                 })
                     ])
             })
@@ -450,7 +455,7 @@ extension DrawableView {
     
     func addText(tapGesture:UITapGestureRecognizer) {
         let currentPoint = tapGesture.locationInView(self)
-        if text {
+        if currentTool == .text {
             let textV = DrawableTextView.create(currentPoint, text: "put text", color: color)
             self.addSubview(textV)
         }
@@ -461,12 +466,7 @@ extension DrawableView {
 extension DrawableView {
     
     func getCurrentTool() -> Tool {
-        if (pen) {
-            return .pen
-        }
-        else {
-            return .marker
-        }
+        return currentTool
     }
     
     func clear() {

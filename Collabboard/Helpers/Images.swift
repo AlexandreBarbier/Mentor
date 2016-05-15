@@ -9,6 +9,7 @@ extension UIImage {
     case Ic_images = "ic_images"
     case Ic_marker = "ic_marker"
     case Ic_pen = "ic_pen"
+    case Ic_quote = "ic_quote"
     case Ic_rubber = "ic_rubber"
     case Ic_team = "ic_team"
     case Ic_team_selected = "ic_team_selected"
@@ -17,6 +18,7 @@ extension UIImage {
     case Ic_tools_pen = "ic_tools_pen"
     case ProfileBlackIcon = "ProfileBlackIcon"
     case Settings = "settings"
+    case Topbar_logo = "topbar_logo"
 
     var image: UIImage {
       return UIImage(asset: self)

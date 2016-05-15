@@ -116,6 +116,7 @@
                                     <constraint firstAttribute="height" constant="44" id="BIh-rX-vpD"/>
                                 </constraints>
                                 <items>
+                                    <barButtonItem enabled="NO" image="topbar_logo" style="plain" id="VH6-mK-N31"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="POu-Xk-48O"/>
                                     <barButtonItem image="ic_team" id="FEc-Nf-hfs">
                                         <color key="tintColor" red="0.1843137255" green="0.1843137255" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
@@ -124,6 +125,7 @@
                                         </connections>
                                     </barButtonItem>
                                 </items>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </toolbar>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OGS-3b-1qY">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
@@ -212,14 +214,15 @@
                         <outlet property="activity" destination="b0f-Av-GDU" id="vHF-aT-vi2"/>
                         <outlet property="bottomToolBar" destination="OGS-3b-1qY" id="uLo-Bg-6Pt"/>
                         <outlet property="drawableView" destination="HvS-Lm-mUq" id="GIQ-sW-6o4"/>
+                        <outlet property="logoItem" destination="VH6-mK-N31" id="S13-4C-moc"/>
                         <outlet property="progressView" destination="8bn-v9-XUi" id="jPJ-K7-tBr"/>
                         <outlet property="scrollView" destination="6kI-HS-PAE" id="We6-3b-smD"/>
                         <outlet property="teamViewContainer" destination="zis-Y4-gmw" id="vZU-2i-Y2B"/>
                         <outlet property="topToolbar" destination="zfg-7f-8jw" id="dny-Z5-X2b"/>
-                        <outletCollection property="bottomBarButtons" destination="vU9-wE-Bw7" id="FYx-cg-cZX"/>
-                        <outletCollection property="bottomBarButtons" destination="y7G-lL-2ld" id="Lfj-By-GUX"/>
-                        <outletCollection property="bottomBarButtons" destination="SaV-2O-YUB" id="sR0-cl-jIY"/>
-                        <outletCollection property="bottomBarButtons" destination="y5M-IB-KO4" id="hfs-8H-fl6"/>
+                        <outletCollection property="bottomBarButtons" destination="vU9-wE-Bw7" collectionClass="NSMutableArray" id="FYx-cg-cZX"/>
+                        <outletCollection property="bottomBarButtons" destination="y7G-lL-2ld" collectionClass="NSMutableArray" id="Lfj-By-GUX"/>
+                        <outletCollection property="bottomBarButtons" destination="SaV-2O-YUB" collectionClass="NSMutableArray" id="sR0-cl-jIY"/>
+                        <outletCollection property="bottomBarButtons" destination="y5M-IB-KO4" collectionClass="NSMutableArray" id="hfs-8H-fl6"/>
                         <segue destination="i2V-SE-h5H" kind="presentation" identifier="CreateTeamSegue" id="oGq-SH-4He"/>
                     </connections>
                 </viewController>
@@ -630,10 +633,11 @@
     </scenes>
     <resources>
         <image name="ic_close" width="16" height="16"/>
-        <image name="ic_images" width="27" height="27"/>
-        <image name="ic_pen" width="15" height="25"/>
-        <image name="ic_rubber" width="37" height="25"/>
-        <image name="ic_team" width="35" height="25"/>
-        <image name="ic_text" width="19" height="21"/>
+        <image name="ic_images" width="20" height="20"/>
+        <image name="ic_pen" width="24" height="24"/>
+        <image name="ic_rubber" width="24" height="24"/>
+        <image name="ic_team" width="40" height="29"/>
+        <image name="ic_text" width="24" height="24"/>
+        <image name="topbar_logo" width="162" height="36"/>
     </resources>
 </document>

@@ -49,7 +49,7 @@ public class SocialTextView : UITextView {
     }
     
     public override func canPerformAction(action: Selector, withSender sender: AnyObject!) -> Bool {
-        print(action)
+        
         if (action == Selector("copy")) {
             return super.canPerformAction(action, withSender: sender)
         }
