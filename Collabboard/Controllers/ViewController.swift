@@ -49,7 +49,7 @@ extension ViewController {
         topToolbar.tintColor = UIColor.draftLinkGreyColor()
         logoItem.image = UIImage.Asset.Topbar_logo.image.imageWithRenderingMode(.AlwaysOriginal)
         selectTool(0)
-        teamViewContainer.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
+        
         scrollView.drawableView = drawableView
         progressView.progress = 0.0
         drawableView.loadingProgressBlock = {(progress, current, total) in
@@ -151,7 +151,7 @@ extension ViewController {
                                                 })
                                             }
                                             connectedUser.reload()
-                                            NSOperationQueue.mainQueue().addOperationWithBlock({ 
+                                            NSOperationQueue.mainQueue().addOperationWithBlock({
                                                 self.activity.stopAnimating()
                                             })
                                             
@@ -345,6 +345,7 @@ extension ViewController {
             case .ConnectedUserSegue :
                 connectedUsersView = segue.destinationViewController as? ConnectedUsersTableViewController
                 if let team = Project.getLastOpen() {
+                    self.connectedUsersView!.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
                     self.connectedUsersView!.team = team.team
                     self.connectedUsersView!.teamCompletion =  { (project, team) in
                         NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
@@ -437,19 +438,28 @@ extension ViewController {
     
     @IBAction func showTeam(sender: AnyObject) {
         let button = sender as! UIBarButtonItem
-        if CATransform3DIsIdentity(teamViewContainer.layer.transform) {
+        if !self.teamViewContainer.hidden {
             button.image = UIImage.Asset.Ic_team.image.imageWithRenderingMode(.AlwaysTemplate)
             connectedUsersView!.segmentControl.selectedSegmentIndex = 0
             connectedUsersView!.segmentControlChanged(connectedUsersView!.segmentControl)
+            self.teamViewContainer.hidden = false
             UIView.animateWithDuration(0.5, animations: {
-                self.teamViewContainer.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
+                self.connectedUsersView!.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
+                self.teamViewContainer.backgroundColor = UIColor.draftLinkGreyColor().colorWithAlphaComponent(0.0)
+                }, completion: { (finished) in
+                    if finished {
+                        self.teamViewContainer.hidden = true
+                    }
             })
         }
         else {
             button.image = UIImage.Asset.Ic_team_selected.image.imageWithRenderingMode(.AlwaysTemplate)
+            teamViewContainer.backgroundColor = UIColor.draftLinkGreyColor().colorWithAlphaComponent(0.0)
+            self.teamViewContainer.hidden = false
             UIView.animateWithDuration(0.5) {
-                self.teamViewContainer.layer.transform = CATransform3DIdentity
-            }
+                self.connectedUsersView!.view.layer.transform = CATransform3DIdentity
+                self.teamViewContainer.backgroundColor = UIColor.draftLinkGreyColor().colorWithAlphaComponent(0.8)
+                }
         }
     }
 }

@@ -53,7 +53,7 @@ extension ConnectedUsersTableViewController {
         segmentControl.tintColor = UIColor.draftLinkBlueColor()
         segmentControl.backgroundColor = UIColor.draftLinkGreyColor()
         backSegmentationView.backgroundColor = UIColor.draftLinkGreyColor()
-        view.backgroundColor = UIColor.draftLinkGreyColor().colorWithAlphaComponent(0.8)
+        view.backgroundColor = UIColor.clearColor()
     }
     
     func reload() {
