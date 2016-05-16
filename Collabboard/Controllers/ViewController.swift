@@ -443,6 +443,7 @@ extension ViewController {
             connectedUsersView!.segmentControl.selectedSegmentIndex = 0
             connectedUsersView!.segmentControlChanged(connectedUsersView!.segmentControl)
             self.teamViewContainer.hidden = false
+            
             UIView.animateWithDuration(0.5, animations: {
                 self.connectedUsersView!.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
                 self.teamViewContainer.backgroundColor = UIColor.draftLinkGreyColor().colorWithAlphaComponent(0.0)
