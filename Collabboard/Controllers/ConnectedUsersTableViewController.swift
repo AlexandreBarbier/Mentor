@@ -13,9 +13,11 @@ import UIKit
 
 class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var backSegmentationView: UIView!
     @IBOutlet var tableView:UITableView!
     @IBOutlet weak var teamContainer: UIView!
     @IBOutlet weak var segmentControl: UISegmentedControl!
+    @IBOutlet weak var tongButton: UIButton!
     
     private var previous:CGFloat = 0.0
     private var shown = false
@@ -46,9 +48,13 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
 extension ConnectedUsersTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        tongButton.roundedBottom(25)
         reload()
+        segmentControl.tintColor = UIColor.draftLinkBlueColor()
+        segmentControl.backgroundColor = UIColor.draftLinkGreyColor()
+        backSegmentationView.backgroundColor = UIColor.draftLinkGreyColor()
+        view.backgroundColor = UIColor.draftLinkGreyColor().colorWithAlphaComponent(0.8)
     }
-    
     
     func reload() {
         if let team = team, segmentControl = segmentControl {
@@ -99,7 +105,7 @@ extension ConnectedUsersTableViewController {
             segmentControl.selectedSegmentIndex = 0
             segmentControlChanged(self.segmentControl)
             UIView.animateWithDuration(0.5) { () -> Void in
-                self.view.layer.transform = CATransform3DMakeTranslation(-(self.view.frame.size.width - 58), 0, 0)
+                self.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
             }
         }
         else {

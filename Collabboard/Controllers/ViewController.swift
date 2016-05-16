@@ -46,6 +46,7 @@ extension ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        topToolbar.tintColor = UIColor.draftLinkGreyColor()
         logoItem.image = UIImage.Asset.Topbar_logo.image.imageWithRenderingMode(.AlwaysOriginal)
         selectTool(0)
         teamViewContainer.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
@@ -203,7 +204,7 @@ extension ViewController : ToolsViewDelegate {
     func selectTool(index: Int) {
         selectedTool = index
         bottomToolBar.items!.forEach { (item) in
-            item.tintColor = item.tag == index ?  UIColor.blueColor() : UIColor.blackColor()
+            item.tintColor = item.tag == index ?  UIColor.draftLinkBlueColor() : UIColor.draftLinkGreyColor()
         }
     }
     
@@ -437,13 +438,15 @@ extension ViewController {
     @IBAction func showTeam(sender: AnyObject) {
         let button = sender as! UIBarButtonItem
         if CATransform3DIsIdentity(teamViewContainer.layer.transform) {
-            button.image = UIImage.Asset.Ic_team.image
+            button.image = UIImage.Asset.Ic_team.image.imageWithRenderingMode(.AlwaysTemplate)
+            connectedUsersView!.segmentControl.selectedSegmentIndex = 0
+            connectedUsersView!.segmentControlChanged(connectedUsersView!.segmentControl)
             UIView.animateWithDuration(0.5, animations: {
                 self.teamViewContainer.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
             })
         }
         else {
-            button.image = UIImage.Asset.Ic_team_selected.image
+            button.image = UIImage.Asset.Ic_team_selected.image.imageWithRenderingMode(.AlwaysTemplate)
             UIView.animateWithDuration(0.5) {
                 self.teamViewContainer.layer.transform = CATransform3DIdentity
             }

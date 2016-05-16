@@ -16,7 +16,6 @@ extension UIImage {
     case Ic_text = "ic_text"
     case Ic_tools_marker = "ic_tools_marker"
     case Ic_tools_pen = "ic_tools_pen"
-    case ProfileBlackIcon = "ProfileBlackIcon"
     case Settings = "settings"
     case Topbar_logo = "topbar_logo"
 

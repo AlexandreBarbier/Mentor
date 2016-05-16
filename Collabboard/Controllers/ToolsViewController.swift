@@ -113,10 +113,10 @@ extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSou
         let tool = toolsDataSource[index.row]
         if tool == selectedTool {
             toolsCollectionView.selectItemAtIndexPath(index, animated: false, scrollPosition: .None)
-            cell.tintColor = UIColor.blueColor()
+            cell.tintColor = UIColor.draftLinkBlueColor()
         }
         else {
-            cell.tintColor = UIColor.blackColor()
+            cell.tintColor = UIColor.draftLinkGreyColor()
         }
         cell.backgroundView = UIImageView(image: tool.getIcon()?.imageWithRenderingMode(.AlwaysTemplate))
     }
@@ -157,7 +157,7 @@ extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
         if collectionView == toolsCollectionView {
             let cell = collectionView.cellForItemAtIndexPath(indexPath)!
-            cell.tintColor = UIColor.blackColor()
+            cell.tintColor = UIColor.draftLinkGreyColor()
         }
     }
     
@@ -165,7 +165,7 @@ extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSou
         if collectionView == toolsCollectionView {
             let cell = collectionView.cellForItemAtIndexPath(indexPath)!
             selectedTool = toolsDataSource[indexPath.row]
-            cell.tintColor = UIColor.blueColor()
+            cell.tintColor = UIColor.draftLinkBlueColor()
             delegate.toolsViewDidSelectTools(self, tool:Tool(rawValue: indexPath.row)!)
         }
         else {

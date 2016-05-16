@@ -15,6 +15,7 @@
 		8D11201E1C1EFEB9000E041B /* ProjectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */; };
 		8D13B4F61C1ACAC6005F7325 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D13B4F51C1ACAC6005F7325 /* Constants.swift */; };
 		8D3CF1931C159514006D23C7 /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */; };
+		8D485B1C1CE9B39400465E69 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D485B1B1CE9B39400465E69 /* Color.swift */; };
 		8D4981E81C65EC6700BC6067 /* ConnectedUsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */; };
 		8D6DF5721CE8BC51008B7E95 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF5701CE8BC51008B7E95 /* Images.swift */; };
 		8D6DF5731CE8BC51008B7E95 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF5711CE8BC51008B7E95 /* Storyboard.swift */; };
@@ -130,6 +131,7 @@
 		8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectTableViewController.swift; sourceTree = "<group>"; };
 		8D13B4F51C1ACAC6005F7325 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtension.swift; sourceTree = "<group>"; };
+		8D485B1B1CE9B39400465E69 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectedUsersTableViewController.swift; sourceTree = "<group>"; };
 		8D6DF5701CE8BC51008B7E95 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		8D6DF5711CE8BC51008B7E95 /* Storyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				8D91FD041C6876E20088F0FA /* CBFirebase.swift */,
 				8D91FD081C6B31650088F0FA /* TouchThroughView.swift */,
 				8D91F2C01C7B38C3001D6A4E /* ColorGenerator.swift */,
+				8D485B1B1CE9B39400465E69 /* Color.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -540,6 +543,7 @@
 				8DBD194C1C15CAC50073BE8B /* Project.swift in Sources */,
 				8D3CF1931C159514006D23C7 /* UIBezierPathExtension.swift in Sources */,
 				8DB6D07D1CDF526100B73529 /* ToolsViewController.swift in Sources */,
+				8D485B1C1CE9B39400465E69 /* Color.swift in Sources */,
 				8D11201E1C1EFEB9000E041B /* ProjectTableViewController.swift in Sources */,
 				8D9679CE1C453603009B2299 /* TeamCreationViewController.swift in Sources */,
 				8DEB6EEB1C2060D200B9BF9F /* UserTeamColor.swift in Sources */,
