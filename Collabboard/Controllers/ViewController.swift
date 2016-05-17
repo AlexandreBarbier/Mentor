@@ -398,7 +398,7 @@ extension ViewController {
             popover.delegate = self
             popover.selectedTool = drawableView.getCurrentTool()
             popover.modalPresentationStyle = .FormSheet
-            popover.preferredContentSize = CGSize(width: 300, height: 400)
+            popover.preferredContentSize = CGSize(width: 375, height: 500)
             popover.currentColor = drawableView.color
             self.presentViewController(popover, animated: true, completion: nil)
         }
