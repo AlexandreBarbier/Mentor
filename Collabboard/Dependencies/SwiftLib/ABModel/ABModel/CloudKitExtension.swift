@@ -271,9 +271,11 @@ public class CloudKitManager {
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     completion(available: true)
                 })
-                
                 break
-            case .CouldNotDetermine,.NoAccount,.Restricted :
+            case .CouldNotDetermine :
+                CloudKitManager.availability(completion)
+                break
+            case .NoAccount, .Restricted :
                 CloudKitManager.isAvailable = false
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     completion(available: false)
