@@ -10,9 +10,9 @@ import UIKit
 
 class ColorGenerationViewController: UIViewController {
     
-    @IBOutlet weak var backView: UIView!
-    @IBOutlet weak var generateColorTouch: UIButton!
-    @IBOutlet weak var chooseColorButton: UIButton!
+    @IBOutlet var backView: UIView!
+    @IBOutlet var generateColorTouch: UIButton!
+    @IBOutlet var chooseColorButton: UIButton!
     
     var chosenColor : UIColor!
     var teamName : String = ""

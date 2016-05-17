@@ -9,11 +9,10 @@
 import UIKit
 import ABUIKit
 
-class TeamTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class TeamTableViewController: UIViewController {
     
-    @IBOutlet weak var tableView: UITableView!
-    
-    @IBOutlet weak var colorChooser: UIView!
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var colorChooser: UIView!
     
     private var displayedDataSource = [Team]()  {
         didSet {
@@ -33,7 +32,6 @@ class TeamTableViewController: UIViewController, UITableViewDataSource, UITableV
 extension TeamTableViewController {
     func show () {
         guard let user = User.currentUser else {
-          
             return
         }
         user.getTeams { (teams, local, error) -> Void in
@@ -49,7 +47,7 @@ extension TeamTableViewController {
 }
 
 // MARK: - Tableview delegate
-extension TeamTableViewController {
+extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate  {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }

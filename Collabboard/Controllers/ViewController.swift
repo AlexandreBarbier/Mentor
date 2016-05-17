@@ -11,8 +11,7 @@ import UIKit
 import CloudKit
 import ABUIKit
 import ABModel
-import Firebase
-
+import FirebaseDatabase
 // MARK: - ViewController declaration
 // TODO: fix resizing when rotate
 
@@ -23,15 +22,16 @@ private enum SegueIdentifier : String {
 }
 
 class ViewController: UIViewController {
-    @IBOutlet weak var progressView: UIProgressView!
-    @IBOutlet weak var activity: UIActivityIndicatorView!
-    @IBOutlet weak var scrollView: DrawableScrollView!
-    @IBOutlet weak var drawableView: DrawableView!
-    @IBOutlet weak var bottomToolBar: UIToolbar!
-    @IBOutlet weak var teamViewContainer: UIView!
-    @IBOutlet weak var topToolbar: UIToolbar!
+    @IBOutlet var progressView: UIProgressView!
+    @IBOutlet var activity: UIActivityIndicatorView!
+    @IBOutlet var scrollView: DrawableScrollView!
+    @IBOutlet var drawableView: DrawableView!
+    @IBOutlet var bottomToolBar: UIToolbar!
+    @IBOutlet var teamViewContainer: UIView!
+    @IBOutlet var topToolbar: UIToolbar!
     @IBOutlet var bottomBarButtons: [UIBarButtonItem]!
-    @IBOutlet weak var logoItem: UIBarButtonItem!
+    @IBOutlet var logoItem: UIBarButtonItem!
+    @IBOutlet var showTeamButton: UIBarButtonItem!
     
     private var connectedUsersView : ConnectedUsersTableViewController?
     private var interfaceIsVisible = true
@@ -50,6 +50,8 @@ extension ViewController {
         logoItem.image = UIImage.Asset.Topbar_logo.image.imageWithRenderingMode(.AlwaysOriginal)
         selectTool(0)
         teamViewContainer.hidden = true
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.hideTeamController(_:)))
+//        teamViewContainer.addGestureRecognizer(tapGesture)
         scrollView.drawableView = drawableView
         progressView.progress = 0.0
         drawableView.loadingProgressBlock = {(progress, current, total) in
@@ -71,11 +73,16 @@ extension ViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
+    
 }
 
 // MARK: - Gestures
 
 extension ViewController {
+    
+    func hideTeamController(sender: AnyObject) {
+        showTeam(self.showTeamButton)
+    }
     
     @IBAction func hideInterface(sender: AnyObject) {
         if drawableView.getCurrentTool() == .text {
@@ -113,63 +120,48 @@ extension ViewController {
      log the current user into iCloud
      */
     func loginUser() {
-        
-        CloudKitManager.availability { (available, alert) -> Void in
-            if available {
-                //self.activity.startAnimating()
-                User.getCurrentUser({ (user, error) -> () in
-                    guard let user = user else {
-                        let alert = UIAlertController(title: "An error occured", message: "please restart Mentor", preferredStyle: UIAlertControllerStyle.Alert)
-                        self.presentViewController(alert, animated: true, completion: nil)
-                        return
-                    }
-                    // here we assume that a user always have at least one team and one project this is ensure by the login process and the fact that if you have only one team or one project you are not able to delete it
-                    if user.teams.count == 0 {
-                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                            self.performSegueWithIdentifier(StoryboardSegue.Main.CreateTeamSegue.rawValue, sender: self)
-                        })
-                    }
-                    else {
-                        if let lastOpenedteamProject = Project.getLastOpen() {
-                            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                self.initDrawing(lastOpenedteamProject.team!, project: lastOpenedteamProject.project!)
-                            })
-                        }
-                        else {
-                            user.getTeams({ (teams, local, error) -> Void in
+        guard let user = User.currentUser else {
+            let alert = UIAlertController(title: "An error occured", message: "please restart Mentor", preferredStyle: UIAlertControllerStyle.Alert)
+            self.presentViewController(alert, animated: true, completion: nil)
+            return
+        }
+        if let connectedUser = self.connectedUsersView {
+            connectedUser.teamCompletion =  { (project, team) in
+                connectedUser.team = team
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    self.initDrawing(team, project: project)
+                    self.showTeam(self.showTeamButton)
+                })
+            }
+            if let lastOpenedteamProject = Project.getLastOpen() {
+                connectedUser.team = lastOpenedteamProject.team!
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    self.initDrawing(lastOpenedteamProject.team!, project: lastOpenedteamProject.project!)
+                    self.activity.stopAnimating()
+                })
+            }
+            else {
+                user.getTeams({ (teams, local, error) -> Void in
+                    if !local {
+                        if let team = teams.first {
+                            connectedUser.team = team
+                            team.getProjects({ (projects, local, error) -> Void in
                                 if !local {
-                                    if let team = teams.first {
-                                        team.getProjects({ (projects, local, error) -> Void in
-                                            if let project = projects.first {
-                                                self.initDrawing(team, project: project)
-                                            }
+                                    if let project = projects.first {
+                                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                                            self.initDrawing(team, project: project)
+                                            project.setLastOpenForTeam(team)
+                                            self.activity.stopAnimating()
                                         })
-                                        if let connectedUser = self.connectedUsersView {
-                                            connectedUser.team = team
-                                            connectedUser.teamCompletion =  { (project, team) in
-                                                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                                    self.initDrawing(team, project: project)
-                                                })
-                                            }
-                                            connectedUser.reload()
-                                            NSOperationQueue.mainQueue().addOperationWithBlock({
-                                                self.activity.stopAnimating()
-                                            })
-                                            
-                                        }
                                     }
                                 }
                             })
-                            self.activity.stopAnimating()
                         }
                     }
                 })
             }
-            else {
-                  self.presentViewController(alert!, animated: true, completion: nil)
-            }
-        }
-    }
+        }}
+    
     
     /**
      firebase initialisation for background change
@@ -178,7 +170,7 @@ extension ViewController {
      */
     func initFirebase(team: Team, project:Project) -> Void {
         cbFirebase.setupWithTeam(team, project: project)
-        cbFirebase.firebaseBackgroundObserverHandle = cbFirebase.background!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
+        cbFirebase.firebaseBackgroundObserverHandle = cbFirebase.background!.observeEventType(FIRDataEventType.ChildChanged, withBlock: { (snap) -> Void in
             if self.canDownloadBG {
                 self.drawableView.project!.refresh({ (updateObject:Project?) -> Void in
                     if let update = updateObject {
@@ -459,7 +451,7 @@ extension ViewController {
             UIView.animateWithDuration(0.5) {
                 self.connectedUsersView!.view.layer.transform = CATransform3DIdentity
                 self.teamViewContainer.backgroundColor = UIColor.draftLinkGreyColor().colorWithAlphaComponent(0.8)
-                }
+            }
         }
     }
 }

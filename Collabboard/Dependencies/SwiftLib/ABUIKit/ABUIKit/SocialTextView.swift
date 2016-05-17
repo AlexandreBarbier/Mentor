@@ -50,7 +50,7 @@ public class SocialTextView : UITextView {
     
     public override func canPerformAction(action: Selector, withSender sender: AnyObject!) -> Bool {
         
-        if (action == Selector("copy")) {
+        if (action == #selector(UIMenuController.copy(_:))) {
             return super.canPerformAction(action, withSender: sender)
         }
         return false

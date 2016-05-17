@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -217,6 +216,7 @@
                         <outlet property="logoItem" destination="VH6-mK-N31" id="S13-4C-moc"/>
                         <outlet property="progressView" destination="8bn-v9-XUi" id="jPJ-K7-tBr"/>
                         <outlet property="scrollView" destination="6kI-HS-PAE" id="We6-3b-smD"/>
+                        <outlet property="showTeamButton" destination="FEc-Nf-hfs" id="KaW-Jh-eaW"/>
                         <outlet property="teamViewContainer" destination="zis-Y4-gmw" id="vZU-2i-Y2B"/>
                         <outlet property="topToolbar" destination="zfg-7f-8jw" id="dny-Z5-X2b"/>
                         <outletCollection property="bottomBarButtons" destination="vU9-wE-Bw7" collectionClass="NSMutableArray" id="FYx-cg-cZX"/>

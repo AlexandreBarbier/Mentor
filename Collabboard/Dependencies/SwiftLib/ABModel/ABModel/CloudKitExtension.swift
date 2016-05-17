@@ -264,6 +264,11 @@ public class CloudKitManager {
     public static var isAvailable : Bool = false
     public static var cloudkitQueue = NSOperationQueue()
     
+    public class func userAlreadyConnectThisDevice() -> Bool {
+        return NSUserDefaults().boolForKey("userConnect")
+        //NSUserDefaults().setBool(true, forKey: "userConnect")
+    }
+    
     public class func availability(completion:(available:Bool, alert: UIAlertController?) -> Void) {
         CloudKitManager.container.accountStatusWithCompletionHandler { (status, error) -> Void in
             switch status {

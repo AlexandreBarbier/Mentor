@@ -75,10 +75,10 @@ protocol ToolsViewDelegate {
 }
 
 class ToolsViewController: UIViewController {
-    @IBOutlet weak var colorIndicatorView: UIView!
-    @IBOutlet weak var toolsCollectionView: UICollectionView!
-    @IBOutlet weak var colorCollectionView: UICollectionView!
-    @IBOutlet weak var sizeSlider: UISlider!
+    @IBOutlet var colorIndicatorView: UIView!
+    @IBOutlet var toolsCollectionView: UICollectionView!
+    @IBOutlet var colorCollectionView: UICollectionView!
+    @IBOutlet var sizeSlider: UISlider!
     
     private var toolsDataSource : [Tool] = [.pen, .marker]
     private var colorDataSource:[UIColor] = []

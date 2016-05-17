@@ -13,12 +13,12 @@ import UIKit
 
 class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet weak var backSegmentationView: UIView!
+    @IBOutlet var backSegmentationView: UIView!
     @IBOutlet var tableView:UITableView!
-    @IBOutlet weak var teamContainer: UIView!
-    @IBOutlet weak var segmentControl: UISegmentedControl!
+    @IBOutlet var teamContainer: UIView!
+    @IBOutlet var segmentControl: UISegmentedControl!
     
-    private var previous:CGFloat = 0.0
+    private var previous: CGFloat = 0.0
     private var shown = false
     private var teamTableVC: TeamTableViewController!
     
@@ -47,11 +47,16 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
 extension ConnectedUsersTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        reload()
         segmentControl.tintColor = UIColor.draftLinkBlueColor()
         segmentControl.backgroundColor = UIColor.draftLinkGreyColor()
         backSegmentationView.backgroundColor = UIColor.draftLinkGreyColor()
         view.backgroundColor = UIColor.clearColor()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        reload()
+        segmentControl.selectedSegmentIndex = 1
     }
     
     func reload() {

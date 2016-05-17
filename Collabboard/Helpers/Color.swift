@@ -17,4 +17,7 @@ extension UIColor {
     static func draftLinkGreyColor() -> UIColor {
         return UIColor(red:0.176, green:0.247, blue:0.275, alpha: 1)
     }
+    static func draftLinkDarkBlueColor() -> UIColor {
+        return UIColor(red: 0, green: 0.18, blue: 0.329, alpha: 1)
+    }
 }

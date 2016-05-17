@@ -8,7 +8,7 @@
 
 import UIKit
 import CloudKit
-import Firebase
+import FirebaseDatabase
 import ABUIKit
 
 // TODO: manage multi size screen (simple solution : create a view with the max screen size)
@@ -298,7 +298,7 @@ extension DrawableView {
      
      */
     func initFirebase() {
-        cbFirebase.firebaseDrawingObserverHandle = cbFirebase.drawing!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
+        cbFirebase.firebaseDrawingObserverHandle = cbFirebase.drawing!.observeEventType(FIRDataEventType.ChildChanged, withBlock: { (snap) -> Void in
             let arr = snap.value as! [[Dictionary<String, AnyObject>]]
             let firstPoint = arr.first!
             var red : CGFloat = 0.0
@@ -377,7 +377,7 @@ extension DrawableView {
         }) { (error) -> Void in
             
         }
-        cbFirebase.firebaseDeleteObserverHandle = cbFirebase.delete!.observeEventType(FEventType.ChildChanged, withBlock: { (snap) -> Void in
+        cbFirebase.firebaseDeleteObserverHandle = cbFirebase.delete!.observeEventType(FIRDataEventType.ChildChanged, withBlock: { (snap) -> Void in
             let value = snap.value as! [[String:String]]
             if value.first![FirebaseKey.drawingUser] != User.currentUser!.recordId.recordName {
                 self.removeLayerWithName(value.first![FirebaseKey.delete]!)

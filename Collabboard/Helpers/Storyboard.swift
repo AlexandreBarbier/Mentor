@@ -69,6 +69,9 @@ struct StoryboardScene {
       return StoryboardScene.Main.ToolsVCScene.viewController() as! ToolsViewController
     }
   }
+  enum OnBoarding: StoryboardSceneType {
+    static let storyboardName = "OnBoarding"
+  }
 }
 
 struct StoryboardSegue {
@@ -81,5 +84,9 @@ struct StoryboardSegue {
     case CreateTeamSegue = "CreateTeamSegue"
     case TeamCreationSegue = "TeamCreationSegue"
     case TeamContainerVC = "teamContainerVC"
+  }
+  enum OnBoarding: String, StoryboardSegueType {
+    case CreateTeamSegue = "CreateTeamSegue"
+    case ShowDraftSegue = "ShowDraftSegue"
   }
 }

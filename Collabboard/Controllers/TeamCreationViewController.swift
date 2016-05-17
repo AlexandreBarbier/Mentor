@@ -10,11 +10,11 @@ import UIKit
 
 class TeamCreationViewController: UIViewController {
     
-    @IBOutlet weak var projectNameTF: UITextField!
-    @IBOutlet weak var teamNameTF: UITextField!
-    @IBOutlet weak var userNameTF: UITextField!
-    @IBOutlet weak var userNameLabel: UILabel!
-    @IBOutlet weak var activity: UIActivityIndicatorView!
+    @IBOutlet var projectNameTF: UITextField!
+    @IBOutlet var teamNameTF: UITextField!
+    @IBOutlet var userNameTF: UITextField!
+    @IBOutlet var userNameLabel: UILabel!
+    @IBOutlet var activity: UIActivityIndicatorView!
     
     private var colorController : ColorGenerationViewController!
     
@@ -89,7 +89,7 @@ extension TeamCreationViewController {
             User.currentUser!.username = userName
         }
         self.activity.startAnimating()
-        Team.create(teamName,color: self.colorController.chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
+        Team.create(teamName, color: self.colorController.chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
             Project.create(projectName, team: team, completion: { (project, team) -> Void in
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     User.currentUser!.addTeam(team, color: self.colorController.chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: {

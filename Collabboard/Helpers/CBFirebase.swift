@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseDatabase
 
 struct FirebaseKey {
     static let red = "r"
@@ -27,10 +27,10 @@ struct FirebaseKey {
 let cbFirebase = CBFirebase()
 
 class CBFirebase: NSObject {
-    var drawing : Firebase!
-    var delete : Firebase!
-    var background : Firebase!
-    var users : Firebase!
+    var drawing : FIRDatabaseReference!
+    var delete : FIRDatabaseReference!
+    var background : FIRDatabaseReference!
+    var users : FIRDatabaseReference!
     
     var firebaseDrawingObserverHandle : UInt = 0
     var firebaseDeleteObserverHandle : UInt = 0
@@ -59,31 +59,27 @@ class CBFirebase: NSObject {
         if let users = users {
             users.removeObserverWithHandle(firebaseDrawingObserverHandle)
         }
-        users = Firebase(url: "\(Constants.NetworkURL.firebase.rawValue)\(project.recordName)/\(team.recordId.recordName)/")
-    }
-    
-    func connectUserToTeam() {
-        
+        users = FIRDatabase.database().referenceWithPath("\(project.recordName)/\(team.recordId.recordName)/")
     }
     
     func initDrawing(project:Project) {
         if let drawing = drawing {
             drawing.removeObserverWithHandle(firebaseDrawingObserverHandle)
         }
-        drawing = Firebase(url: "\(Constants.NetworkURL.firebase.rawValue)\(project.recordName)/drawing/")
+        drawing = FIRDatabase.database().referenceWithPath("\(project.recordName)/drawing/")
     }
     
     func initDelete(project:Project) {
         if let delete = delete {
             delete.removeObserverWithHandle(firebaseDeleteObserverHandle)
         }
-        delete = Firebase(url: "\(Constants.NetworkURL.firebase.rawValue)\(project.recordName)/delete")
+        delete = FIRDatabase.database().referenceWithPath("\(project.recordName)/delete")
     }
     
     func initBackground(project:Project) {
         if let background = background {
             background.removeObserverWithHandle(firebaseBackgroundObserverHandle)
         }
-        background = Firebase(url: "\(Constants.NetworkURL.firebase.rawValue)\(project.recordName)/back")
+        background = FIRDatabase.database().referenceWithPath("\(project.recordName)/back")
     }
 }
