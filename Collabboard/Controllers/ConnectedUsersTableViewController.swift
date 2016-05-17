@@ -17,7 +17,6 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
     @IBOutlet var tableView:UITableView!
     @IBOutlet weak var teamContainer: UIView!
     @IBOutlet weak var segmentControl: UISegmentedControl!
-    @IBOutlet weak var tongButton: UIButton!
     
     private var previous:CGFloat = 0.0
     private var shown = false
@@ -48,7 +47,6 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
 extension ConnectedUsersTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        tongButton.roundedBottom(25)
         reload()
         segmentControl.tintColor = UIColor.draftLinkBlueColor()
         segmentControl.backgroundColor = UIColor.draftLinkGreyColor()
