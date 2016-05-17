@@ -113,7 +113,8 @@ extension ViewController {
      log the current user into iCloud
      */
     func loginUser() {
-        CloudKitManager.availability { (available) -> Void in
+        
+        CloudKitManager.availability { (available, alert) -> Void in
             if available {
                 //self.activity.startAnimating()
                 User.getCurrentUser({ (user, error) -> () in
@@ -165,10 +166,7 @@ extension ViewController {
                 })
             }
             else {
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    let alert = UIAlertController(title: "iCloud account required", message: "To use this app you need to be connected to your iCloud account", preferredStyle: UIAlertControllerStyle.Alert)
-                    self.presentViewController(alert, animated: true, completion: nil)
-                })
+                  self.presentViewController(alert!, animated: true, completion: nil)
             }
         }
     }

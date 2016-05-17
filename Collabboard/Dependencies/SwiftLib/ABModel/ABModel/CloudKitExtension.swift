@@ -263,22 +263,34 @@ public class CloudKitManager {
     public static var privateDB = CloudKitManager.container.privateCloudDatabase
     public static var isAvailable : Bool = false
     public static var cloudkitQueue = NSOperationQueue()
-    public class func availability(completion:(available:Bool) -> Void) {
+    
+    public class func availability(completion:(available:Bool, alert: UIAlertController?) -> Void) {
         CloudKitManager.container.accountStatusWithCompletionHandler { (status, error) -> Void in
             switch status {
             case .Available:
                 CloudKitManager.isAvailable = true
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    completion(available: true)
+                    completion(available: true, alert: nil)
                 })
                 break
             case .CouldNotDetermine :
-                CloudKitManager.availability(completion)
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    let alert = UIAlertController(title: "An error occured while connecting to your iCloud account", message: error!.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
+                    completion(available: false, alert: alert)
+                })
                 break
-            case .NoAccount, .Restricted :
+            case .NoAccount:
                 CloudKitManager.isAvailable = false
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    completion(available: false)
+                    let alert = UIAlertController(title: "iCloud account required", message: "To use this app you need to be connected to your iCloud account", preferredStyle: UIAlertControllerStyle.Alert)
+                    completion(available: false, alert: alert)
+                })
+                break
+            case .Restricted :
+                CloudKitManager.isAvailable = false
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    let alert = UIAlertController(title: "iCloud capabilities required", message: "To use this app you need to be connected to your iCloud account and set iCloud Drive enable", preferredStyle: UIAlertControllerStyle.Alert)
+                    completion(available: false, alert: alert)
                 })
                 break
             }
