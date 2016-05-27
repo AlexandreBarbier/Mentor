@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             CloudKitManager.availability({ (available, alert) in
                 if available {
                     if CloudKitManager.userAlreadyConnectThisDevice() {
+                        Answers.logLoginWithMethod("Login", success: true, customAttributes: nil)
                         User.getCurrentUser({ (user, error) -> () in
                             NSOperationQueue.mainQueue().addOperationWithBlock({
                                 let vc = StoryboardScene.Main.initialViewController()
@@ -43,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     else {
                         User.getCurrentUser({ (user, error) -> () in
                             guard let user = user else {
+                                Answers.logSignUpWithMethod("Error", success: NSNumber(bool: true), customAttributes: nil)
                                 let alert = UIAlertController(title: "An error occured", message: "please restart DraftLink", preferredStyle: UIAlertControllerStyle.Alert)
                                 if let currentVC = window.rootViewController {
                                     NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
@@ -53,12 +55,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             }
                             if user.teams.count == 0 {
                                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                    Answers.logSignUpWithMethod("newUser", success: nil, customAttributes: nil)
+                                    Answers.logSignUpWithMethod("New user", success: true, customAttributes: nil)
                                     let vc = StoryboardScene.OnBoarding.initialViewController()
                                     window.rootViewController = vc
                                 })
                             }
                             else {
+                                Answers.logLoginWithMethod("New device", success: true, customAttributes: nil)
                                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                                     let vc = StoryboardScene.Main.initialViewController()
                                     window.rootViewController = vc

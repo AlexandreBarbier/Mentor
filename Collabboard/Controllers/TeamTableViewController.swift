@@ -79,11 +79,14 @@ extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate  
 extension TeamTableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == StoryboardSegue.Main.CellSegue.rawValue {
-            let projectVC = segue.destinationViewController as? ProjectTableViewController
+            
             let index = self.tableView.indexPathForCell(sender as! UITableViewCell)
-            projectVC!.completion = completion
-            projectVC!.displayedDataSource = [Project]()
-            projectVC!.team = displayedDataSource[index!.row]
+            let _ : ProjectTableViewController = {
+                $0.completion = completion
+                $0.displayedDataSource = [Project]()
+                $0.team = displayedDataSource[index!.row]
+                return $0
+            } (segue.destinationViewController as! ProjectTableViewController)
         }
         
         if segue.identifier == StoryboardSegue.Main.TeamCreationSegue.rawValue {

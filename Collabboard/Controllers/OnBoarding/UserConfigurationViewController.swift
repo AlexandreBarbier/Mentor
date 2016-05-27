@@ -74,6 +74,7 @@ extension UserConfigurationViewController : UICollectionViewDataSource, UICollec
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ColorCellIdentifier", forIndexPath: indexPath) as! ColorSelectionCell
         cell.backgroundColor = colorArray[indexPath.row]
         if indexPath.row == chosenColor {
@@ -117,12 +118,16 @@ extension UserConfigurationViewController {
 extension UserConfigurationViewController {
     
     @IBAction func onCreateTouch(sender: AnyObject) {
+        
         User.currentUser!.username = usernameTextfield.text!
         Team.create(teamName, color: colorArray[chosenColor], colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
+        
             Project.create(self.projectName, team: team, completion: { (project, team) -> Void in
+                
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     
                     User.currentUser!.addTeam(team, color: self.colorArray[self.chosenColor], colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: {
+                        
                         NSOperationQueue.mainQueue().addOperationWithBlock({
                             project.setLastOpenForTeam(team)
                             NSUserDefaults().setBool(true, forKey: "userConnect")

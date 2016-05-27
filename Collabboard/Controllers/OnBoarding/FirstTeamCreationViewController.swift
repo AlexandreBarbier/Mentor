@@ -19,6 +19,7 @@ class FirstTeamCreationViewController: UIViewController {
 extension FirstTeamCreationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         createButton.backgroundColor = UIColor.draftLinkBlueColor()
         createButton.rounded(5)
         createButton.tintColor = UIColor.whiteColor()
@@ -72,9 +73,11 @@ extension FirstTeamCreationViewController {
         if let segueId = StoryboardSegue.OnBoarding(rawValue: segue.identifier!) {
             switch segueId {
             case .CreateTeamSegue:
-                let userConfigVC = segue.destinationViewController as! UserConfigurationViewController
-                userConfigVC.teamName = teamTextView.text!
-                userConfigVC.projectName = projectTextView.text!
+                let _ : UserConfigurationViewController = {
+                    $0.teamName = teamTextView.text!
+                    $0.projectName = projectTextView.text!
+                    return $0
+                } (segue.destinationViewController as! UserConfigurationViewController)
                 break
             default:
                 break
