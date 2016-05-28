@@ -9,14 +9,15 @@
 import UIKit
 
 class ColorGenerator {
+    static let CGSharedInstance = ColorGenerator()
+    
     private struct CGeneratorConstant {
-        static let maxSeed : CGFloat = 12.0
+        static let maxSeed : CGFloat = 11.0
         static let saturation : CGFloat = 1.0
     }
     private var satSeed : CGFloat = 1.0
     private var usedSeed = [CGFloat]()
     
-    static let CGSharedInstance = ColorGenerator()
     var currentSeed : CGFloat = -1.0
     var readyBlock : ((ready:Bool)->Void)?
     var team : Team! {
