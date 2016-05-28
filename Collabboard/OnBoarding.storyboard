@@ -20,26 +20,27 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_onboarding" translatesAutoresizingMaskIntoConstraints="NO" id="4qA-eT-F0s">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6LB-UQ-rkq">
-                                <rect key="frame" x="285" y="285" width="30" height="30"/>
-                                <color key="backgroundColor" red="0.08235294118" green="0.80000000000000004" blue="0.13725490200000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Skip"/>
-                                <connections>
-                                    <segue destination="vAK-op-AMg" kind="show" id="mv6-Fs-eKR"/>
-                                </connections>
-                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E1V-fj-rJi">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="6LB-UQ-rkq" firstAttribute="centerX" secondItem="gd2-Pu-ZMt" secondAttribute="centerX" id="3Bg-Ht-N7J"/>
                             <constraint firstItem="4qA-eT-F0s" firstAttribute="top" secondItem="CSw-Yw-LNI" secondAttribute="bottom" id="4RE-jP-Tz8"/>
                             <constraint firstItem="4qA-eT-F0s" firstAttribute="leading" secondItem="gd2-Pu-ZMt" secondAttribute="leading" id="Kzf-6W-qHA"/>
                             <constraint firstAttribute="trailing" secondItem="4qA-eT-F0s" secondAttribute="trailing" id="NIh-e9-H2d"/>
-                            <constraint firstItem="6LB-UQ-rkq" firstAttribute="centerY" secondItem="gd2-Pu-ZMt" secondAttribute="centerY" id="nTu-u3-DeN"/>
+                            <constraint firstItem="E1V-fj-rJi" firstAttribute="top" secondItem="gd2-Pu-ZMt" secondAttribute="top" id="OnI-hw-W54"/>
+                            <constraint firstItem="E1V-fj-rJi" firstAttribute="leading" secondItem="gd2-Pu-ZMt" secondAttribute="leading" id="deY-Nh-ASH"/>
+                            <constraint firstAttribute="bottom" secondItem="E1V-fj-rJi" secondAttribute="bottom" id="eUm-Ml-Dlk"/>
+                            <constraint firstAttribute="trailing" secondItem="E1V-fj-rJi" secondAttribute="trailing" id="hnm-tl-bSw"/>
                             <constraint firstItem="8Nr-t7-q9E" firstAttribute="top" secondItem="4qA-eT-F0s" secondAttribute="bottom" id="uk7-sw-tLP"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="scrollView" destination="E1V-fj-rJi" id="2KT-U3-duT"/>
+                        <segue destination="vAK-op-AMg" kind="show" identifier="SkipSegue" id="J5m-3r-IIQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HPC-3p-MrC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -60,7 +61,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_onboarding" translatesAutoresizingMaskIntoConstraints="NO" id="1P6-DH-pCI">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="create your first team" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ud0-pq-RPc">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="create your first team" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ud0-pq-RPc">
                                 <rect key="frame" x="218" y="127" width="164" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -122,7 +123,7 @@
                                     <segue destination="V4w-WR-cRq" kind="show" identifier="CreateTeamSegue" id="zbv-8B-Yfg"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Start" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cxz-2C-QU2">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cxz-2C-QU2">
                                 <rect key="frame" x="281" y="70" width="38" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
