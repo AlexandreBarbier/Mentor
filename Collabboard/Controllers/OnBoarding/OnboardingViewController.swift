@@ -13,25 +13,29 @@ class OnboardingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-
-        // Do any additional setup after loading the view.
     }
  
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         var frame = self.view.bounds
-        let welcomView = WelcomView.instantiate()
-        welcomView.frame = frame
-        welcomView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        let welcomView : WelcomView = {
+            $0.frame = frame
+            $0.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+            return $0
+        }(WelcomView.instantiate())
+       
         frame.origin.x = frame.width
-        let getStartedView = GetStartedView.instantiate()
-        getStartedView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        getStartedView.frame = frame
-        getStartedView.skipButton.addTarget(self, action: #selector(OnboardingViewController.skip), forControlEvents: .TouchUpInside)
+        
+        let getStartedView : GetStartedView = {
+            $0.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+            $0.frame = frame
+            $0.skipButton.addTarget(self, action: #selector(OnboardingViewController.skip), forControlEvents: .TouchUpInside)
+            return $0
+        }(GetStartedView.instantiate())
+        
         scrollView.addSubview(welcomView)
         scrollView.addSubview(getStartedView)
-        scrollView.pagingEnabled = true
         scrollView.contentSize = CGSize(width: 2 * scrollView.frame.width, height: scrollView.frame.height)
     }
     

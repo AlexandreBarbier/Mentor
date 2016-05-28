@@ -35,6 +35,7 @@ extension UserConfigurationViewController {
         usernameTextfield.setup(border: UIColor.draftLinkBlueColor(), innerColor: UIColor.draftLinkDarkBlueColor(), cornerRadius: 5)
         usernameTextfield.rounded(5)
         createButton.backgroundColor = UIColor.draftLinkBlueColor()
+        createButton.rounded(5)
         
         ColorGenerator.CGSharedInstance.currentSeed = 0.0
         
@@ -118,8 +119,10 @@ extension UserConfigurationViewController {
 extension UserConfigurationViewController {
     
     @IBAction func onCreateTouch(sender: AnyObject) {
-        
-        User.currentUser!.username = usernameTextfield.text!
+        guard let user = User.currentUser where usernameTextfield.text != "" else {
+            return
+        }
+        user.username = usernameTextfield.text!
         Team.create(teamName, color: colorArray[chosenColor], colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
         
             Project.create(self.projectName, team: team, completion: { (project, team) -> Void in
