@@ -19,7 +19,10 @@ class ColorSelectionCell : UICollectionViewCell {
 class UserConfigurationViewController: UIViewController {
     @IBOutlet var usernameTextfield: DFTextField!
     @IBOutlet var colorCollectionView: UICollectionView!
+    @IBOutlet var getStartedLabel: UILabel!
     @IBOutlet var createButton: UIButton!
+    @IBOutlet var pickColorLabel: UILabel!
+    @IBOutlet var createYourProfileLabel: UILabel!
     
     var teamName = ""
     var projectName = ""
@@ -31,10 +34,20 @@ class UserConfigurationViewController: UIViewController {
 extension UserConfigurationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getStartedLabel.textColor = UIColor.draftLinkBlueColor()
+        getStartedLabel.font = UIFont.Kalam(.Bold, size: 30)
+        pickColorLabel.textColor = UIColor.draftLinkDarkBlueColor()
+        pickColorLabel.font = UIFont.Roboto(.Regular, size: 20)
+        createYourProfileLabel.textColor = UIColor.draftLinkDarkBlueColor()
+        createYourProfileLabel.font = UIFont.Roboto(.Regular, size: 24)
+        
         usernameTextfield.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
         usernameTextfield.setup(border: UIColor.draftLinkBlueColor(), innerColor: UIColor.draftLinkDarkBlueColor(), cornerRadius: 5)
         usernameTextfield.rounded(5)
         createButton.backgroundColor = UIColor.draftLinkBlueColor()
+        createButton.rounded(5)
+        createButton.titleLabel?.font = UIFont.Roboto(.Regular, size: 20)
         
         ColorGenerator.CGSharedInstance.currentSeed = 0.0
         
@@ -50,7 +63,6 @@ extension UserConfigurationViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }
 
@@ -118,8 +130,10 @@ extension UserConfigurationViewController {
 extension UserConfigurationViewController {
     
     @IBAction func onCreateTouch(sender: AnyObject) {
-        
-        User.currentUser!.username = usernameTextfield.text!
+        guard let user = User.currentUser where usernameTextfield.text != "" else {
+            return
+        }
+        user.username = usernameTextfield.text!
         Team.create(teamName, color: colorArray[chosenColor], colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
         
             Project.create(self.projectName, team: team, completion: { (project, team) -> Void in

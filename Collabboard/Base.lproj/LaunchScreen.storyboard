@@ -19,11 +19,16 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_onboarding" translatesAutoresizingMaskIntoConstraints="NO" id="YsX-QB-ghQ">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_draftlink" translatesAutoresizingMaskIntoConstraints="NO" id="3Uq-yc-68Z">
+                                <rect key="frame" x="212" y="219" width="176" height="163"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="YsX-QB-ghQ" secondAttribute="trailing" id="Lp7-cW-vwW"/>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="YsX-QB-ghQ" secondAttribute="bottom" id="SAm-VU-hfs"/>
+                            <constraint firstItem="3Uq-yc-68Z" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ZwA-nH-JHg"/>
+                            <constraint firstItem="3Uq-yc-68Z" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="b69-gZ-az2"/>
                             <constraint firstItem="YsX-QB-ghQ" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" id="kJy-Ss-EC5"/>
                             <constraint firstItem="YsX-QB-ghQ" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="oZo-kG-4X0"/>
                         </constraints>
@@ -37,5 +42,6 @@
     </scenes>
     <resources>
         <image name="bg_onboarding" width="540" height="960"/>
+        <image name="logo_draftlink" width="176" height="163"/>
     </resources>
 </document>

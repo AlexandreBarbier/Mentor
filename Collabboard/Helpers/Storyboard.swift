@@ -88,5 +88,6 @@ struct StoryboardSegue {
   enum OnBoarding: String, StoryboardSegueType {
     case CreateTeamSegue = "CreateTeamSegue"
     case ShowDraftSegue = "ShowDraftSegue"
+    case SkipSegue = "SkipSegue"
   }
 }

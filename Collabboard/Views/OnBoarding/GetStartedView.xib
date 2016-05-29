@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIViewController" customModule="Collabboard" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="iN0-l3-epB" id="1Mu-QB-DfS"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="GetStartedView" customModule="Collabboard" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's get started !" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SqL-zx-1rH">
+                    <rect key="frame" x="233" y="145" width="135" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lmI-Ow-afz">
+                    <rect key="frame" x="245" y="214" width="111" height="41"/>
+                    <string key="text">Create Teams 
+&amp; Projects</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a team for each person or group of people tou wold like to work with." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="29Y-2L-Oyw">
+                    <rect key="frame" x="157" y="332" width="287" height="61"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a project for each collaboration you would like to have within one team" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="zid-fG-Q4t">
+                    <rect key="frame" x="151" y="413" width="298" height="41"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jdw-Z1-YQM">
+                    <rect key="frame" x="180" y="299" width="240" height="1"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="240" id="BUc-Bq-N99"/>
+                        <constraint firstAttribute="height" constant="1" id="Eez-U6-nhr"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RhY-zz-4BL">
+                    <rect key="frame" x="272" y="470" width="57" height="30"/>
+                    <state key="normal" title="Skip &gt;&gt; "/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="29Y-2L-Oyw" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="9ig-as-bgh"/>
+                <constraint firstItem="Jdw-Z1-YQM" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="F4p-jp-pyD"/>
+                <constraint firstItem="29Y-2L-Oyw" firstAttribute="top" secondItem="Jdw-Z1-YQM" secondAttribute="bottom" constant="32" id="PH6-6B-HOu"/>
+                <constraint firstItem="lmI-Ow-afz" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="PW0-Hx-T4B"/>
+                <constraint firstItem="RhY-zz-4BL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Tro-GF-ITC"/>
+                <constraint firstItem="SqL-zx-1rH" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="X2t-vN-Gl6"/>
+                <constraint firstItem="zid-fG-Q4t" firstAttribute="top" secondItem="29Y-2L-Oyw" secondAttribute="bottom" constant="20" id="X7Q-FP-NQN"/>
+                <constraint firstItem="Jdw-Z1-YQM" firstAttribute="top" secondItem="lmI-Ow-afz" secondAttribute="bottom" constant="44" id="Xkh-G7-j7m"/>
+                <constraint firstItem="Jdw-Z1-YQM" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="YdL-W8-jXc"/>
+                <constraint firstItem="zid-fG-Q4t" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="auJ-DD-oRM"/>
+                <constraint firstItem="lmI-Ow-afz" firstAttribute="top" secondItem="SqL-zx-1rH" secondAttribute="bottom" constant="48" id="hhS-21-L6y"/>
+                <constraint firstItem="RhY-zz-4BL" firstAttribute="top" secondItem="zid-fG-Q4t" secondAttribute="bottom" constant="16" id="wFq-1q-pSr"/>
+            </constraints>
+            <connections>
+                <outlet property="firstDescriptionLabel" destination="29Y-2L-Oyw" id="pkC-HE-o7r"/>
+                <outlet property="getStartedLabel" destination="SqL-zx-1rH" id="Pl7-hF-Jio"/>
+                <outlet property="secondDescriptionLabel" destination="zid-fG-Q4t" id="QYo-pW-hOC"/>
+                <outlet property="skipButton" destination="RhY-zz-4BL" id="M9L-dn-0RA"/>
+                <outlet property="subtitleLabel" destination="lmI-Ow-afz" id="a77-Bx-ycO"/>
+            </connections>
+        </view>
+    </objects>
+</document>
