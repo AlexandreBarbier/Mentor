@@ -14,26 +14,28 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's get started" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SqL-zx-1rH">
-                    <rect key="frame" x="237" y="178" width="126" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's get started !" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SqL-zx-1rH">
+                    <rect key="frame" x="233" y="145" width="135" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Team &amp; Projects" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lmI-Ow-afz">
-                    <rect key="frame" x="210" y="247" width="181" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lmI-Ow-afz">
+                    <rect key="frame" x="245" y="214" width="111" height="41"/>
+                    <string key="text">Create Teams 
+&amp; Projects</string>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29Y-2L-Oyw">
-                    <rect key="frame" x="282" y="308" width="37" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a team for each person or group of people tou wold like to work with." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="29Y-2L-Oyw">
+                    <rect key="frame" x="157" y="332" width="287" height="61"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zid-fG-Q4t">
-                    <rect key="frame" x="286" y="349" width="29" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a project for each collaboration you would like to have within one team" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="zid-fG-Q4t">
+                    <rect key="frame" x="151" y="413" width="298" height="41"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
@@ -47,27 +49,31 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RhY-zz-4BL">
-                    <rect key="frame" x="285" y="536" width="30" height="30"/>
-                    <state key="normal" title="Skip"/>
+                    <rect key="frame" x="272" y="470" width="57" height="30"/>
+                    <state key="normal" title="Skip &gt;&gt; "/>
                 </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="RhY-zz-4BL" secondAttribute="bottom" constant="34" id="6zl-ne-a4a"/>
                 <constraint firstItem="29Y-2L-Oyw" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="9ig-as-bgh"/>
                 <constraint firstItem="Jdw-Z1-YQM" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="F4p-jp-pyD"/>
-                <constraint firstItem="29Y-2L-Oyw" firstAttribute="top" secondItem="Jdw-Z1-YQM" secondAttribute="bottom" constant="8" id="PH6-6B-HOu"/>
+                <constraint firstItem="29Y-2L-Oyw" firstAttribute="top" secondItem="Jdw-Z1-YQM" secondAttribute="bottom" constant="32" id="PH6-6B-HOu"/>
                 <constraint firstItem="lmI-Ow-afz" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="PW0-Hx-T4B"/>
                 <constraint firstItem="RhY-zz-4BL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Tro-GF-ITC"/>
                 <constraint firstItem="SqL-zx-1rH" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="X2t-vN-Gl6"/>
                 <constraint firstItem="zid-fG-Q4t" firstAttribute="top" secondItem="29Y-2L-Oyw" secondAttribute="bottom" constant="20" id="X7Q-FP-NQN"/>
-                <constraint firstItem="Jdw-Z1-YQM" firstAttribute="top" secondItem="lmI-Ow-afz" secondAttribute="bottom" constant="31" id="Xkh-G7-j7m"/>
+                <constraint firstItem="Jdw-Z1-YQM" firstAttribute="top" secondItem="lmI-Ow-afz" secondAttribute="bottom" constant="44" id="Xkh-G7-j7m"/>
                 <constraint firstItem="Jdw-Z1-YQM" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="YdL-W8-jXc"/>
                 <constraint firstItem="zid-fG-Q4t" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="auJ-DD-oRM"/>
                 <constraint firstItem="lmI-Ow-afz" firstAttribute="top" secondItem="SqL-zx-1rH" secondAttribute="bottom" constant="48" id="hhS-21-L6y"/>
+                <constraint firstItem="RhY-zz-4BL" firstAttribute="top" secondItem="zid-fG-Q4t" secondAttribute="bottom" constant="16" id="wFq-1q-pSr"/>
             </constraints>
             <connections>
+                <outlet property="firstDescriptionLabel" destination="29Y-2L-Oyw" id="pkC-HE-o7r"/>
+                <outlet property="getStartedLabel" destination="SqL-zx-1rH" id="Pl7-hF-Jio"/>
+                <outlet property="secondDescriptionLabel" destination="zid-fG-Q4t" id="QYo-pW-hOC"/>
                 <outlet property="skipButton" destination="RhY-zz-4BL" id="M9L-dn-0RA"/>
+                <outlet property="subtitleLabel" destination="lmI-Ow-afz" id="a77-Bx-ycO"/>
             </connections>
         </view>
     </objects>

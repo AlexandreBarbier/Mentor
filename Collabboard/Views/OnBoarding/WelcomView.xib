@@ -23,16 +23,16 @@
                     </constraints>
                 </view>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_draftlink" translatesAutoresizingMaskIntoConstraints="NO" id="HF5-CE-nsf">
-                    <rect key="frame" x="212" y="87" width="176" height="163"/>
+                    <rect key="frame" x="212" y="63" width="176" height="163"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WELCOM TO DRAFTLINK" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fd8-fA-O76">
-                    <rect key="frame" x="203" y="271" width="195" height="21"/>
+                    <rect key="frame" x="203" y="247" width="195" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0qM-rq-RYT">
-                    <rect key="frame" x="256" y="333" width="88" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Here we transform your mobile device into a powerful whiteboard for real-time collaboration" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="0qM-rq-RYT">
+                    <rect key="frame" x="153" y="333" width="295" height="61"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
@@ -41,7 +41,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="fd8-fA-O76" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="0Vs-2q-8eN"/>
-                <constraint firstItem="8RQ-pn-dK6" firstAttribute="top" secondItem="fd8-fA-O76" secondAttribute="bottom" constant="8" id="7Ri-2F-XJj"/>
+                <constraint firstItem="8RQ-pn-dK6" firstAttribute="top" secondItem="fd8-fA-O76" secondAttribute="bottom" constant="32" id="7Ri-2F-XJj"/>
                 <constraint firstItem="0qM-rq-RYT" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="BeE-Fl-84g"/>
                 <constraint firstItem="0qM-rq-RYT" firstAttribute="top" secondItem="8RQ-pn-dK6" secondAttribute="bottom" constant="32" id="I2K-1g-M6D"/>
                 <constraint firstItem="fd8-fA-O76" firstAttribute="top" secondItem="HF5-CE-nsf" secondAttribute="bottom" constant="21" id="Nrd-Bp-nBm"/>
@@ -49,6 +49,10 @@
                 <constraint firstItem="8RQ-pn-dK6" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="odu-Ek-rqC"/>
                 <constraint firstItem="HF5-CE-nsf" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="t7N-0Y-bdh"/>
             </constraints>
+            <connections>
+                <outlet property="descriptionLabel" destination="0qM-rq-RYT" id="yQe-zV-Dmi"/>
+                <outlet property="welcomLabel" destination="fd8-fA-O76" id="gYY-Gd-tbu"/>
+            </connections>
         </view>
     </objects>
     <resources>

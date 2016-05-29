@@ -10,6 +10,9 @@ import UIKit
 
 class FirstTeamCreationViewController: UIViewController {
 
+    @IBOutlet var backgroundView: UIImageView!
+    @IBOutlet var descriptionLabel: UILabel!
+    @IBOutlet var getStartedLabel: UILabel!
     @IBOutlet var createButton: UIButton!
     @IBOutlet var projectTextView: DFTextField!
     @IBOutlet var teamTextView: DFTextField!
@@ -19,7 +22,11 @@ class FirstTeamCreationViewController: UIViewController {
 extension FirstTeamCreationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.sendSubviewToBack(backgroundView)
+        getStartedLabel.textColor = UIColor.draftLinkBlueColor()
+        getStartedLabel.font = UIFont.Kalam(.Bold, size: 30)
+        descriptionLabel.textColor = UIColor.draftLinkDarkBlueColor()
+        descriptionLabel.font = UIFont.Roboto(.Regular, size: 24)
         createButton.backgroundColor = UIColor.draftLinkBlueColor()
         createButton.rounded(5)
         createButton.tintColor = UIColor.whiteColor()
@@ -33,6 +40,10 @@ extension FirstTeamCreationViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        print(getStartedLabel.frame)
     }
 }
 
