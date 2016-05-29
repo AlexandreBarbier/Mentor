@@ -25,59 +25,67 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRApp.configure()
         Fabric.with([Crashlytics.self])
         
-        if let window = self.window {
-//            let vc = StoryboardScene.OnBoarding.initialViewController()
-//            window.rootViewController = vc
-//        
-// 
-            CloudKitManager.availability({ (available, alert) in
-                if available {
-                    if CloudKitManager.userAlreadyConnectThisDevice() {
-                        Answers.logLoginWithMethod("Login", success: true, customAttributes: nil)
-                        User.getCurrentUser({ (user, error) -> () in
-                            NSOperationQueue.mainQueue().addOperationWithBlock({
-                                let vc = StoryboardScene.Main.initialViewController()
-                                window.rootViewController = vc
-                            })
-                        })
+        if let window = self.window, rootVC = window.rootViewController {
+            let vc = StoryboardScene.OnBoarding.initialViewController()
+            let imgView = rootVC.view.viewWithTag(1)
+            UIView.animateWithDuration(0.3, animations: {
+                imgView?.layer.transform = CATransform3DMakeTranslation(0, -100, 0)
+                }, completion: { (finished) in
+                    if finished {
+                        window.rootViewController = vc
                     }
-                    else {
-                        User.getCurrentUser({ (user, error) -> () in
-                            guard let user = user else {
-                                Answers.logSignUpWithMethod("Error", success: NSNumber(bool: true), customAttributes: nil)
-                                let alert = UIAlertController(title: "An error occured", message: "please restart DraftLink", preferredStyle: UIAlertControllerStyle.Alert)
-                                if let currentVC = window.rootViewController {
-                                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                        currentVC.presentViewController(alert, animated: true, completion: nil)
-                                    })
-                                }
-                                return
-                            }
-                            if user.teams.count == 0 {
-                                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                    Answers.logSignUpWithMethod("New user", success: true, customAttributes: nil)
-                                    let vc = StoryboardScene.OnBoarding.initialViewController()
-                                    window.rootViewController = vc
-                                })
-                            }
-                            else {
-                                Answers.logLoginWithMethod("New device", success: true, customAttributes: nil)
-                                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                                    let vc = StoryboardScene.Main.initialViewController()
-                                    window.rootViewController = vc
-                                })
-                            }
-                        })
-                    }
-                }
-                else {
-                    if let currentVC = window.rootViewController {
-                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                            currentVC.presentViewController(alert!, animated: true, completion: nil)
-                        })
-                    }
-                }
             })
+            
+            
+
+//            CloudKitManager.availability({ (available, alert) in
+//                if available {
+//                    if CloudKitManager.userAlreadyConnectThisDevice() {
+//                        Answers.logLoginWithMethod("Login", success: true, customAttributes: nil)
+//                        User.getCurrentUser({ (user, error) -> () in
+//                            NSOperationQueue.mainQueue().addOperationWithBlock({
+//                                let vc = StoryboardScene.Main.initialViewController()
+//                                window.rootViewController = vc
+//                            })
+//                        })
+//                    }
+//                    else {
+//                        User.getCurrentUser({ (user, error) -> () in
+//                            guard let user = user else {
+//                                Answers.logSignUpWithMethod("Error", success: NSNumber(bool: true), customAttributes: nil)
+//                                let alert = UIAlertController(title: "An error occured", message: "please restart DraftLink", preferredStyle: UIAlertControllerStyle.Alert)
+//                                if let currentVC = window.rootViewController {
+//                                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+//                                        currentVC.presentViewController(alert, animated: true, completion: nil)
+//                                    })
+//                                }
+//                                return
+//                            }
+//                            if user.teams.count == 0 {
+//                                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+//                                    Answers.logSignUpWithMethod("New user", success: true, customAttributes: nil)
+//                                    let vc = StoryboardScene.OnBoarding.initialViewController()
+//                                    window.rootViewController = vc
+//                                })
+//                            }
+//                            else {
+//                                Answers.logLoginWithMethod("New device", success: true, customAttributes: nil)
+//                                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+//                                    let vc = StoryboardScene.Main.initialViewController()
+//                                    window.rootViewController = vc
+//                                })
+//                            }
+//                        })
+//                    }
+//                }
+//                else {
+//                    if let currentVC = window.rootViewController {
+//                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+//                            currentVC.presentViewController(alert!, animated: true, completion: nil)
+//                        })
+//                    }
+//                }
+//            })
         }
  
         return true

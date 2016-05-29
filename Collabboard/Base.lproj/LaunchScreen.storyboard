@@ -19,7 +19,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_onboarding" translatesAutoresizingMaskIntoConstraints="NO" id="YsX-QB-ghQ">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_draftlink" translatesAutoresizingMaskIntoConstraints="NO" id="3Uq-yc-68Z">
+                            <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_draftlink" translatesAutoresizingMaskIntoConstraints="NO" id="3Uq-yc-68Z">
                                 <rect key="frame" x="212" y="219" width="176" height="163"/>
                             </imageView>
                         </subviews>
