@@ -41,10 +41,6 @@ extension FirstTeamCreationViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        print(getStartedLabel.frame)
-    }
 }
 
 extension FirstTeamCreationViewController : UITextFieldDelegate {
