@@ -92,9 +92,13 @@ extension ViewController {
         }
         let alpha = 1 - bottomToolBar.alpha
         if alpha == 1 {
-            bottomToolBar.hidden = interfaceIsVisible
-            topToolbar.hidden = interfaceIsVisible
-            progressView.hidden = interfaceIsVisible ? interfaceIsVisible : self.progressView.progress == 1.0
+            interfaceIsVisible = {
+                bottomToolBar.hidden = $0
+                topToolbar.hidden = $0
+                progressView.hidden = $0 ? $0 : self.progressView.progress == 1.0
+                return $0
+            }(interfaceIsVisible)
+            
             
         }
         UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -216,8 +220,10 @@ extension ViewController : ToolsViewDelegate {
         drawableView.lineWidth = size
     }
     
-    func toolsViewChangeUserColor(toolsView:ToolsViewController, color: UIColor) {
-        //TODO: change user color
+    func toolsViewChangeUserColor(toolsView:ToolsViewController, color: UIColor, colorSeed:CGFloat) {
+        User.currentUser!.updateColorForTeam(connectedUsersView!.team!, color: color, colorSeed: colorSeed) { 
+            self.drawableView.color = color
+        }
     }
 }
 
@@ -230,7 +236,7 @@ extension ViewController {
      - parameter team: current team
      */
     func setDrawingColor(team:Team) {
-        User.currentUser!.getTeamColor(team, completion: { (teamColor,userTeamColor:UserTeamColor, error) -> Void in
+        User.currentUser!.getTeamColors(team, completion: { (teamColor, userTeamColor:UserTeamColor, error) -> Void in
             self.drawableView.color = teamColor == nil ? UIColor.greenColor() : teamColor
         })
     }
@@ -244,11 +250,13 @@ extension ViewController {
             if let bg = project.background {
                 if self.imageBG == nil {
                     if let data = NSData(contentsOfFile: bg.fileURL.path!) {
-                        self.imageBG = UIImageView(image: UIImage(data: data))
-                        self.imageBG!.autoresizingMask = [.FlexibleHeight,.FlexibleHeight]
-                        self.scrollView.insertSubview(self.imageBG!, atIndex: 0)
-                        self.imageBG!.contentMode = .ScaleAspectFill
-                        self.imageBG!.frame = self.drawableView.frame
+                        self.imageBG = {
+                            $0.autoresizingMask = [.FlexibleHeight,.FlexibleHeight]
+                            self.scrollView.insertSubview($0, atIndex: 0)
+                            $0.contentMode = .ScaleAspectFill
+                            $0.frame = self.drawableView.frame
+                            return $0
+                        }(UIImageView(image: UIImage(data: data)))
                     }
                 }
                 else {
@@ -297,11 +305,14 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
      */
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if imageBG == nil {
-            imageBG = UIImageView(image: info[UIImagePickerControllerOriginalImage] as? UIImage)
-            imageBG!.contentMode = .ScaleAspectFill
-            imageBG!.frame = view.bounds
-            imageBG!.autoresizingMask = [.FlexibleHeight,.FlexibleHeight]
-            scrollView.insertSubview(imageBG!, atIndex: 0)
+            imageBG = {
+                $0.contentMode = .ScaleAspectFill
+                $0.frame = view.bounds
+                $0.autoresizingMask = [.FlexibleHeight,.FlexibleHeight]
+                scrollView.insertSubview($0, atIndex: 0)
+                return $0
+            }(UIImageView(image: info[UIImagePickerControllerOriginalImage] as? UIImage))
+            
         }
         else {
             imageBG?.image = info[UIImagePickerControllerOriginalImage] as? UIImage
@@ -366,7 +377,6 @@ extension ViewController {
                         teamVC!.dismissViewControllerAnimated(true, completion: nil)
                         self.initDrawing(team, project: project)
                     })
-                    
                 }
                 break
             }
@@ -384,12 +394,15 @@ extension ViewController {
         }
         else {
             selectTool(sender.tag)
-            let popover = StoryboardScene.Main.instantiateToolsVC()
-            popover.delegate = self
-            popover.selectedTool = drawableView.getCurrentTool()
-            popover.modalPresentationStyle = .FormSheet
-            popover.preferredContentSize = CGSize(width: 375, height: 500)
-            popover.currentColor = drawableView.color
+            let popover : ToolsViewController = {
+                $0.delegate = self
+                $0.selectedTool = drawableView.getCurrentTool()
+                $0.modalPresentationStyle = .FormSheet
+                $0.preferredContentSize = CGSize(width: 375, height: 500)
+                $0.currentColor = drawableView.color
+                return $0
+            }(StoryboardScene.Main.instantiateToolsVC())
+           
             self.presentViewController(popover, animated: true, completion: nil)
         }
     }

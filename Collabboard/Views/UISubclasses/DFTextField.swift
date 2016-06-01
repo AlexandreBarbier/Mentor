@@ -14,18 +14,19 @@ class DFTextField: UITextField {
     @IBInspectable
     var icon : UIImage? {
         didSet {
-            if let icon = icon {
-                let img = UIImageView(image: icon.imageWithRenderingMode(.AlwaysTemplate))
-                leftView = UIView(frame: CGRect(origin: CGPointZero, size: CGSize(width: img.frame.width + 16 + padding.left, height: self.frame.height)))
-                let y = (leftView!.frame.height - img.frame.height) / 2
-                img.frame = CGRect(origin: CGPoint(x: 8, y: y), size: img.frame.size)
-                let sepView = UIView(frame: CGRect(x: (img.center.x * 2) - 1, y: 6, width: 1, height: leftView!.frame.height - 12))
-                sepView.backgroundColor = borderColor
-                leftView!.addSubview(img)
-                leftView!.addSubview(sepView)
-                self.leftView = leftView
-                
+            guard let icon = icon else {
+                return
             }
+            
+            let img = UIImageView(image: icon.imageWithRenderingMode(.AlwaysTemplate))
+            leftView = UIView(frame: CGRect(origin: CGPointZero, size: CGSize(width: img.frame.width + 16 + padding.left, height: self.frame.height)))
+            let y = (leftView!.frame.height - img.frame.height) / 2
+            img.frame = CGRect(origin: CGPoint(x: 8, y: y), size: img.frame.size)
+            let sepView = UIView(frame: CGRect(x: (img.center.x * 2) - 1, y: 6, width: 1, height: leftView!.frame.height - 12))
+            sepView.backgroundColor = borderColor
+            leftView!.addSubview(img)
+            leftView!.addSubview(sepView)
+            
         }
     }
     
@@ -62,7 +63,7 @@ class DFTextField: UITextField {
     func setup(icon: UIImage? = nil, border: UIColor? = nil, innerColor: UIColor? = nil, cornerRadius: CGFloat? = nil) {
         leftViewMode = .Always
         if let border = border {
-            self.borderColor = border
+            borderColor = border
         }
         if let icon = icon {
             self.icon = icon

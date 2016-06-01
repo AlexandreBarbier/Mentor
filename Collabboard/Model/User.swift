@@ -42,12 +42,13 @@ class User : ABModelCloudKit {
             User.currentUser =  NSKeyedUnarchiver.unarchiveObjectWithData(user) as? User
             completion(user: User.currentUser, error: nil)
             User.currentUser!.refresh({ (updatedObj:User?) -> Void in
-                if let update = updatedObj {
-                    User.currentUser = update
-                    let data = NSKeyedArchiver.archivedDataWithRootObject(update)
-                    NSUserDefaults.standardUserDefaults().setObject(data, forKey: Constants.UserDefaultsKeys.currentUser)
-                    NSUserDefaults.standardUserDefaults().synchronize()
+                guard let update = updatedObj else {
+                    return
                 }
+                User.currentUser = update
+                let data = NSKeyedArchiver.archivedDataWithRootObject(update)
+                NSUserDefaults.standardUserDefaults().setObject(data, forKey: Constants.UserDefaultsKeys.currentUser)
+                NSUserDefaults.standardUserDefaults().synchronize()
             })
         }
         else {
@@ -87,7 +88,6 @@ class User : ABModelCloudKit {
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     cp(record: rec, error: error)
                 })
-                
             }
         }
     }
@@ -112,12 +112,12 @@ class User : ABModelCloudKit {
     }
     
     func getColors(completion:(teamColor:[UserTeamColor], error:NSError?) -> Void) {
-        super.getReferences(teamColor,completion: { (results:[UserTeamColor], error) -> Void in
+        super.getReferences(teamColor, completion: { (results:[UserTeamColor], error) -> Void in
             completion(teamColor: results, error: error)
         })
     }
     
-    func getTeamColor(team:Team, completion:(teamColor:UIColor,userTeamColor:UserTeamColor, error:NSError?) -> Void) {
+    func getTeamColors(team:Team, completion:(teamColor:UIColor, userTeamColor:UserTeamColor, error:NSError?) -> Void) {
         self.getColors { (teamColor, error) -> Void in
             teamColor.forEach({ (utColor) -> () in
                 if utColor.teamName == team.recordId.recordName {
@@ -127,11 +127,27 @@ class User : ABModelCloudKit {
         }
     }
     
+    func updateColorForTeam(team: Team, color:UIColor, colorSeed:CGFloat, completion: () -> Void) {
+        self.getTeamColors(team) { (teamColor, userTeamColor, error) in
+            guard error == nil else {
+                return
+            }
+            userTeamColor.color = NSKeyedArchiver.archivedDataWithRootObject(color)
+            userTeamColor.colorSeed = colorSeed
+            userTeamColor.publicSave({ (record, error) in
+                print(error)
+                team.publicSave()
+                completion()
+            })
+        }
+    }
+    
     func addTeam(team:Team, color:UIColor, colorSeed:CGFloat, completion:(()-> Void)? = nil) {
+        
+        team.users.append(CKReference(record: self.toRecord(), action: .None))
+        self.teams.append(CKReference(record: team.toRecord(), action: .None))
         UserTeamColor.create(team, colorSeed: colorSeed, color: color, completion: {(utColor:UserTeamColor, error:NSError?) in
-            self.teamColor.append(CKReference(record: utColor.toRecord(), action: .None))
-            team.users.append(CKReference(record: self.toRecord(), action: .None))
-            self.teams.append(CKReference(record: team.toRecord(), action: .None))
+            self.teamColor.append(CKReference(record: utColor.toRecord(), action: .None))    
             self.saveBulk([utColor.toRecord(), team.toRecord()], completion:  completion)
             self.localSave()
         })

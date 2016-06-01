@@ -12,7 +12,7 @@ class DrawableScrollView: UIScrollView {
     
     var drawableView:DrawableView! {
         didSet {
-            drawableView.autoresizingMask = [.FlexibleWidth,.FlexibleHeight]
+            drawableView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
             let pan = UIPanGestureRecognizer(target: drawableView, action: #selector(DrawableView.panGesture(_:)))
             pan.maximumNumberOfTouches = 1
             setNeedsLayout()

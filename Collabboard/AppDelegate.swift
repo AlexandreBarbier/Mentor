@@ -19,75 +19,68 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    var debugView:DebugConsoleView!
+    var debugView: DebugConsoleView!
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         FIRApp.configure()
         Fabric.with([Crashlytics.self])
         
-        if let window = self.window, rootVC = window.rootViewController {
-            let vc = StoryboardScene.OnBoarding.initialViewController()
-            let imgView = rootVC.view.viewWithTag(1)
-            UIView.animateWithDuration(0.3, animations: {
-                imgView?.layer.transform = CATransform3DMakeTranslation(0, -100, 0)
-                }, completion: { (finished) in
-                    if finished {
+        if let window = self.window, rootVC = window.rootViewController, imgView = rootVC.view.viewWithTag(1) {
+            
+            let ending = { (vc:UIViewController!, animated:Bool) in
+                NSOperationQueue.mainQueue().addOperationWithBlock({
+                    if animated {
+                        UIView.animateWithDuration(0.3, animations: {
+                            imgView.layer.transform = CATransform3DMakeTranslation(0, -115, 0)
+                            }, completion: { (finished) in
+                                if finished {
+                                   window.rootViewController = vc
+                                }
+                        })
+                    }
+                    else {
                         window.rootViewController = vc
                     }
+                })
+            }
+            
+            CloudKitManager.availability({ (available, alert) in
+                if available {
+                    if CloudKitManager.userAlreadyConnectThisDevice() {
+                        Answers.logLoginWithMethod("Login", success: true, customAttributes: nil)
+                        User.getCurrentUser({ (user, error) -> () in
+                            ending(StoryboardScene.Main.initialViewController(), false)
+                        })
+                    }
+                    else {
+                        User.getCurrentUser({ (user, error) -> () in
+                            guard let user = user else {
+                                Answers.logSignUpWithMethod("Error", success: NSNumber(bool: true), customAttributes: nil)
+                                let alert = UIAlertController(title: "An error occured", message: "please restart DraftLink", preferredStyle: UIAlertControllerStyle.Alert)
+                                
+                                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                                    rootVC.presentViewController(alert, animated: true, completion: nil)
+                                })
+                                return
+                            }
+                            if user.teams.count == 0 {
+                                Answers.logSignUpWithMethod("New user", success: true, customAttributes: nil)
+                                ending(StoryboardScene.OnBoarding.initialViewController(), true)
+                            }
+                            else {
+                                Answers.logLoginWithMethod("New device", success: true, customAttributes: nil)
+                                ending(StoryboardScene.Main.initialViewController(), false)
+                            }
+                        })
+                    }
+                }
+                else {
+                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        rootVC.presentViewController(alert!, animated: true, completion: nil)
+                    })
+                }
             })
-            
-            
-
-//            CloudKitManager.availability({ (available, alert) in
-//                if available {
-//                    if CloudKitManager.userAlreadyConnectThisDevice() {
-//                        Answers.logLoginWithMethod("Login", success: true, customAttributes: nil)
-//                        User.getCurrentUser({ (user, error) -> () in
-//                            NSOperationQueue.mainQueue().addOperationWithBlock({
-//                                let vc = StoryboardScene.Main.initialViewController()
-//                                window.rootViewController = vc
-//                            })
-//                        })
-//                    }
-//                    else {
-//                        User.getCurrentUser({ (user, error) -> () in
-//                            guard let user = user else {
-//                                Answers.logSignUpWithMethod("Error", success: NSNumber(bool: true), customAttributes: nil)
-//                                let alert = UIAlertController(title: "An error occured", message: "please restart DraftLink", preferredStyle: UIAlertControllerStyle.Alert)
-//                                if let currentVC = window.rootViewController {
-//                                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-//                                        currentVC.presentViewController(alert, animated: true, completion: nil)
-//                                    })
-//                                }
-//                                return
-//                            }
-//                            if user.teams.count == 0 {
-//                                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-//                                    Answers.logSignUpWithMethod("New user", success: true, customAttributes: nil)
-//                                    let vc = StoryboardScene.OnBoarding.initialViewController()
-//                                    window.rootViewController = vc
-//                                })
-//                            }
-//                            else {
-//                                Answers.logLoginWithMethod("New device", success: true, customAttributes: nil)
-//                                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-//                                    let vc = StoryboardScene.Main.initialViewController()
-//                                    window.rootViewController = vc
-//                                })
-//                            }
-//                        })
-//                    }
-//                }
-//                else {
-//                    if let currentVC = window.rootViewController {
-//                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-//                            currentVC.presentViewController(alert!, animated: true, completion: nil)
-//                        })
-//                    }
-//                }
-//            })
         }
- 
         return true
     }
     
@@ -98,7 +91,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         
     }
-    
     
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -121,6 +113,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
-    
 }

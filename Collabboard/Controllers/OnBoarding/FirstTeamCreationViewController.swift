@@ -23,19 +23,37 @@ extension FirstTeamCreationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.sendSubviewToBack(backgroundView)
-        getStartedLabel.textColor = UIColor.draftLinkBlueColor()
-        getStartedLabel.font = UIFont.Kalam(.Bold, size: 30)
-        descriptionLabel.textColor = UIColor.draftLinkDarkBlueColor()
-        descriptionLabel.font = UIFont.Roboto(.Regular, size: 24)
-        createButton.backgroundColor = UIColor.draftLinkBlueColor()
-        createButton.rounded(5)
-        createButton.tintColor = UIColor.whiteColor()
         
-        projectTextView.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-        projectTextView.setup(UIImage.Asset.Ic_project_mini.image, border: UIColor.draftLinkBlueColor(), innerColor: UIColor.draftLinkDarkBlueColor(),  cornerRadius: 5.0)
+        getStartedLabel = {
+            $0.textColor = UIColor.draftLinkBlueColor()
+            $0.font = UIFont.Kalam(.Bold, size: 30)
+            return $0
+        }(getStartedLabel)
         
-        teamTextView.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-        teamTextView.setup(UIImage.Asset.Ic_team_mini.image, border: UIColor.draftLinkBlueColor(), innerColor: UIColor.draftLinkDarkBlueColor(), cornerRadius: 5.0)
+        descriptionLabel = {
+            $0.textColor = UIColor.draftLinkDarkBlueColor()
+            $0.font = UIFont.Roboto(.Regular, size: 24)
+            return $0
+        }(descriptionLabel)
+        
+        createButton = {
+            $0.backgroundColor = UIColor.draftLinkBlueColor()
+            $0.rounded(5)
+            $0.tintColor = UIColor.whiteColor()
+            return $0
+        }(createButton)
+        
+        projectTextView = {
+            $0.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+            $0.setup(UIImage.Asset.Ic_project_mini.image, border: UIColor.draftLinkBlueColor(), innerColor: UIColor.draftLinkDarkBlueColor(),  cornerRadius: 5.0)
+            return $0
+        }(projectTextView)
+        
+        teamTextView = {
+            $0.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+            $0.setup(UIImage.Asset.Ic_team_mini.image, border: UIColor.draftLinkBlueColor(), innerColor: UIColor.draftLinkDarkBlueColor(), cornerRadius: 5.0)
+            return $0
+        }(teamTextView)
     }
     
     override func didReceiveMemoryWarning() {

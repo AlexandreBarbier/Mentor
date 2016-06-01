@@ -52,7 +52,7 @@ extension UserConfigurationViewController {
         ColorGenerator.CGSharedInstance.currentSeed = 0.0
         
         for _ in 0 ..< 5 {
-            self.colorArray.append(ColorGenerator.CGSharedInstance.getNextColor()!)
+            self.colorArray.append(ColorGenerator.CGSharedInstance.getNextColor()!.color)
             NSOperationQueue.mainQueue().addOperationWithBlock({
                 self.colorCollectionView.reloadData()
                 
@@ -135,18 +135,13 @@ extension UserConfigurationViewController {
         }
         user.username = usernameTextfield.text!
         Team.create(teamName, color: colorArray[chosenColor], colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
-        
+            
             Project.create(self.projectName, team: team, completion: { (project, team) -> Void in
-                
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    
-                    User.currentUser!.addTeam(team, color: self.colorArray[self.chosenColor], colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: {
-                        
-                        NSOperationQueue.mainQueue().addOperationWithBlock({
-                            project.setLastOpenForTeam(team)
-                            NSUserDefaults().setBool(true, forKey: "userConnect")
-                            self.performSegue(StoryboardSegue.OnBoarding.ShowDraftSegue)
-                        })
+                    NSOperationQueue.mainQueue().addOperationWithBlock({
+                        project.setLastOpenForTeam(team)
+                        NSUserDefaults().setBool(true, forKey: "userConnect")
+                        self.performSegue(StoryboardSegue.OnBoarding.ShowDraftSegue)
                     })
                 })
             })

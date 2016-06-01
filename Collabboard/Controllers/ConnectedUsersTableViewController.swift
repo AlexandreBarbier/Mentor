@@ -47,8 +47,13 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
 extension ConnectedUsersTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        segmentControl.tintColor = UIColor.draftLinkBlueColor()
-        segmentControl.backgroundColor = UIColor.draftLinkGreyColor()
+        
+        segmentControl = {
+            $0.tintColor = UIColor.draftLinkBlueColor()
+            $0.backgroundColor = UIColor.draftLinkGreyColor()
+            return $0
+        }(segmentControl)
+        
         backSegmentationView.backgroundColor = UIColor.draftLinkGreyColor()
         view.backgroundColor = UIColor.clearColor()
     }
@@ -104,18 +109,17 @@ extension ConnectedUsersTableViewController {
 // MARK: - Actions
 extension ConnectedUsersTableViewController {
     @IBAction func show(sender: AnyObject) {
+        var transform = CATransform3DIdentity
         if !shown {
             segmentControl.selectedSegmentIndex = 0
             segmentControlChanged(self.segmentControl)
-            UIView.animateWithDuration(0.5) { () -> Void in
-                self.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
-            }
+            transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
         }
-        else {
-            UIView.animateWithDuration(0.5) { () -> Void in
-                self.view.layer.transform = CATransform3DIdentity
-            }
+        
+        UIView.animateWithDuration(0.5) { () -> Void in
+            self.view.layer.transform = transform
         }
+        
         shown = !shown
     }
     

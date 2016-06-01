@@ -25,7 +25,7 @@ class ColorGenerator {
             currentSeed = -1.0
             team.getUsers { (users, error) -> Void in
                 for user in users {
-                    user.getTeamColor(self.team, completion: { (teamColor, utColor, error) -> Void in
+                    user.getTeamColors(self.team, completion: { (teamColor, utColor, error) -> Void in
                         self.usedSeed.append(utColor.colorSeed)
                         if utColor.colorSeed > self.currentSeed {
                             self.currentSeed = utColor.colorSeed
@@ -56,7 +56,7 @@ class ColorGenerator {
         return UIColor(hue: h, saturation: CGeneratorConstant.saturation, brightness: satSeed, alpha: 1.0)
     }
     
-    func getNextColor() -> UIColor? {
+    func getNextColor() -> (color:UIColor, colorSeed:CGFloat)? {
         if let _ = readyBlock {
             guard currentSeed != -1 else {
                 return nil
@@ -66,6 +66,6 @@ class ColorGenerator {
         while usedSeed.contains(currentSeed) {
             currentSeed += 1
         }
-        return generateColor(currentSeed)
+        return (generateColor(currentSeed), currentSeed)
     }
 }

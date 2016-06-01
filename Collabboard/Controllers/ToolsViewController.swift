@@ -70,7 +70,7 @@ enum Tool : Int {
 
 protocol ToolsViewDelegate {
     func toolsViewDidSelectTools(toolsView:ToolsViewController, tool:Tool)
-    func toolsViewChangeUserColor(toolsView:ToolsViewController, color:UIColor)
+    func toolsViewChangeUserColor(toolsView:ToolsViewController, color:UIColor, colorSeed:CGFloat)
     func toolsViewChangeBrushSize(toolsView:ToolsViewController, size:CGFloat)
 }
 
@@ -81,21 +81,23 @@ class ToolsViewController: UIViewController {
     @IBOutlet var sizeSlider: UISlider!
     
     private var toolsDataSource : [Tool] = [.pen, .marker]
-    private var colorDataSource:[UIColor] = []
+    private var colorDataSource:[(color:UIColor, colorSeed:CGFloat)] = []
     
     var delegate : ToolsViewDelegate!
     var currentColor:UIColor!
     var selectedTool:Tool!
+    
 }
 
 // MARK: - View lifecycle
 extension ToolsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         colorIndicatorView.rounded()
         colorIndicatorView.backgroundColor = currentColor
         ColorGenerator.CGSharedInstance.readyBlock = { (ready) in
-            self.colorDataSource = Array<UIColor>(count: 12, repeatedValue: UIColor.whiteColor())
+            self.colorDataSource = Array<(color:UIColor, colorSeed:CGFloat)>(count: 12, repeatedValue: (UIColor.whiteColor(), 0))
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                 self.colorCollectionView.reloadData()
             })
@@ -123,12 +125,12 @@ extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func configureColorCellForIndexPath(cell: UICollectionViewCell, index: NSIndexPath) {
         cell.rounded(4)
-        if colorDataSource[index.row] == UIColor.whiteColor() {
-            cell.backgroundColor = ColorGenerator.CGSharedInstance.getNextColor()
-            colorDataSource[index.row] = cell.backgroundColor!
+        if colorDataSource[index.row].color == UIColor.whiteColor() {
+            colorDataSource[index.row] = ColorGenerator.CGSharedInstance.getNextColor()!
+            cell.backgroundColor = colorDataSource[index.row].color
         }
         else {
-            cell.backgroundColor = colorDataSource[index.row]
+            cell.backgroundColor = colorDataSource[index.row].color
         }
     }
     
@@ -169,9 +171,9 @@ extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSou
             delegate.toolsViewDidSelectTools(self, tool:Tool(rawValue: indexPath.row)!)
         }
         else {
-            let color = colorDataSource[indexPath.row]
-            colorIndicatorView.backgroundColor = color
-            delegate.toolsViewChangeUserColor(self, color: color)
+            let generate = colorDataSource[indexPath.row]
+            colorIndicatorView.backgroundColor = generate.color
+            delegate.toolsViewChangeUserColor(self, color: generate.color, colorSeed: generate.colorSeed)
         }
     }
 }

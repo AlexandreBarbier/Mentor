@@ -33,5 +33,4 @@ class GetStartedView: UIView {
         
         return getSView
     }
-
 }

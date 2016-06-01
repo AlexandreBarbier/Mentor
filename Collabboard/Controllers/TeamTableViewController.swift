@@ -35,9 +35,11 @@ extension TeamTableViewController {
             return
         }
         user.getTeams { (teams, local, error) -> Void in
+            
             if let error = error {
                 DebugConsoleView.debugView.errorPrint("get teams error \(error)")
             }
+        
             self.displayedDataSource = teams
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                 self.tableView.reloadData()

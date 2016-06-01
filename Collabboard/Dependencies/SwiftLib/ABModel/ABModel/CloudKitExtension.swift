@@ -11,7 +11,7 @@ import CloudKit
 
 public class ABModelCloudKit : ABModel {
     public class func recordType() -> String {
-        return NSStringFromClass(self).componentsSeparatedByString(".").last != nil ? NSStringFromClass(self).componentsSeparatedByString(".").last! : ""
+        return ""
     }
     public var record : CKRecord!
     public var recordId : CKRecordID!
@@ -122,7 +122,7 @@ public class ABModelCloudKit : ABModel {
         var rec = [self.toRecord()]
         rec.appendContentsOf(records)
         let saveOp = CKModifyRecordsOperation(recordsToSave: rec, recordIDsToDelete: nil)
-
+        
         if let cmp = completion {
             saveOp.completionBlock = {
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
@@ -135,7 +135,7 @@ public class ABModelCloudKit : ABModel {
     
     public class func saveBulk(records:[CKRecord],completion:(() -> Void)?) {
         let saveOp = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
-
+        
         if let cmp = completion {
             saveOp.completionBlock = {
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
@@ -196,7 +196,6 @@ public class ABModelCloudKit : ABModel {
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     completion(record:nil,error:error)
                 })
-                
                 return
             }
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
@@ -231,10 +230,9 @@ public class ABModelCloudKit : ABModel {
         if let completion = completion {
             op.fetchRecordsCompletionBlock = { (recordDictionary, error) in
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                for (key, value) in recordDictionary! {
-                    results.append(T(record:value, recordId:key))
-                }
-
+                    for (key, value) in recordDictionary! {
+                        results.append(T(record:value, recordId:key))
+                    }
                     completion(results:results, error:nil)
                 })
             }

@@ -62,7 +62,7 @@ extension Project {
         if let teamProjectData = NSUserDefaults.standardUserDefaults().arrayForKey(Constants.UserDefaultsKeys.lastOpenedProject) {
             let project = NSKeyedUnarchiver.unarchiveObjectWithData(teamProjectData[0] as! NSData) as? Project
             let team = NSKeyedUnarchiver.unarchiveObjectWithData(teamProjectData[1] as! NSData) as? Team
-            return (project,team)
+            return (project, team)
         }
         return nil
     }
@@ -75,8 +75,12 @@ extension Project {
     func setLastOpenForTeam(team:Team) {
         let projectData = NSKeyedArchiver.archivedDataWithRootObject(self)
         let teamData = NSKeyedArchiver.archivedDataWithRootObject(team)
-        NSUserDefaults.standardUserDefaults().setObject([projectData,teamData], forKey:Constants.UserDefaultsKeys.lastOpenedProject)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        let _: NSUserDefaults = {
+            $0.setObject([projectData, teamData], forKey: Constants.UserDefaultsKeys.lastOpenedProject)
+            $0.synchronize()
+            return $0
+        }(NSUserDefaults.standardUserDefaults())
+        
     }
     
     func getDrawing(completion:(drawing:Drawing?, error:NSError?) -> Void) {
@@ -99,10 +103,11 @@ extension Project {
     func saveBackground(image:UIImage, completion:() -> Void) {
         let docDirPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
         let filePath =  "\(docDirPath)/\(recordName).png"
-        let myData =  UIImagePNGRepresentation(image)
-        myData?.writeToFile(filePath, atomically: true)
-        self.background = CKAsset(fileURL:NSURL(fileURLWithPath:filePath))
-        self.publicSave { (record, error) -> Void in
+        if let myData =  UIImagePNGRepresentation(image){
+            myData.writeToFile(filePath, atomically: true)
+        }
+        background = CKAsset(fileURL:NSURL(fileURLWithPath:filePath))
+        publicSave { (record, error) -> Void in
             completion()
         }
     }

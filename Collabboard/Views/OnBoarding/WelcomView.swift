@@ -10,7 +10,6 @@ import UIKit
 
 class WelcomView: UIView {
     @IBOutlet var welcomLabel: UILabel!
-    
     @IBOutlet var descriptionLabel: UILabel!
     
     static func instantiate() -> WelcomView {
@@ -24,13 +23,4 @@ class WelcomView: UIView {
         
         return welcomV
     }
-    
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
-
 }

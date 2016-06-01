@@ -33,8 +33,11 @@ extension ColorGenerationViewController {
         ColorGenerator.CGSharedInstance.readyBlock = { (ready:Bool) in
             self.chooseColor()
         }
-        generateColorTouch.rounded(5.0)
-        generateColorTouch.backgroundColor = UIColor.clearColor()
+        generateColorTouch = {
+            $0.rounded(5.0)
+            $0.backgroundColor = UIColor.clearColor()
+            return $0
+        }(generateColorTouch)       
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -52,7 +55,7 @@ extension ColorGenerationViewController {
 // MARK: - Helpers
 extension ColorGenerationViewController {
     func chooseColor() {
-        let colorRGB = ColorGenerator.CGSharedInstance.getNextColor()
+        let colorRGB = ColorGenerator.CGSharedInstance.getNextColor()!.color
         chosenColor = colorRGB
         UIView.animateWithDuration(0.3) { () -> Void in
             self.backView.backgroundColor = self.chosenColor

@@ -41,35 +41,6 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         }
     }
     
-   // var eraser = false
-//    var marker = false {
-//        didSet {
-//            if marker {
-//                self.color = self.color.colorWithAlphaComponent(markerAlpha)
-//                pen = false
-//                text = false
-//            }
-//        }
-//    }
-//    var pen = false {
-//        didSet {
-//            if pen {
-//                self.color = self.color.colorWithAlphaComponent(1.0)
-//                marker = false
-//                text = false
-//            }
-//        }
-//    }
-//    var text = false {
-//        didSet {
-//            if text {
-//                self.color = self.color.colorWithAlphaComponent(1.0)
-//                marker = false
-//                pen = false
-//            }
-//        }
-//    }
-    
     var drawing : Drawing? {
         didSet {
             DebugConsoleView.debugView.print("set drawing")
@@ -77,68 +48,70 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
              *  when we set the drawing we can draw everything that's on the server (this is called when we load
              *  a new project)
              */
-            if (drawing != nil) {
-                //firebase initialisation
-                initFirebase()
-                // current drawing tool save
-                let p = currentTool
-                // get all paths of the current drawing. The closure is called sequencially (path by path)
-                let totalPaths = Double(self.drawing!.paths.count)
-                var pathPrinted : Double = 1
-                self.drawing!.getPaths({ (paths, error) -> Void in
-                    // get path's points, order them and convert them to CGPoint
-                    paths.getPoints({ (points, error) -> Void in
-                        let cPoint = points.sort({ (p1, p2) -> Bool in
-                            return p1.position < p2.position
-                        }).map({ (point) -> CGPoint in
-                            CGPoint(x:CGFloat(point.x.floatValue), y:CGFloat(point.y.floatValue))
-                        })
-                        // set path color
-                        var color:UIColor? = nil
-                        if let col = paths.color {
-                            color = NSKeyedUnarchiver.unarchiveObjectWithData(col) as? UIColor
-                        }
-                        // marker or pen path
-                        if paths.pen {
-                            self.currentTool = .pen
-                        }
-                        else {
-                            self.currentTool = .marker
-                        }
-                        // the pa
-                        if paths.text != nil && paths.text == "" {
-                            // path redrawing
-                            let cPath = UIBezierPath()
-                            cPath.interpolatePointsWithHermite(cPoint)
-                            // path linewidth
-                            self.path.lineWidth = paths.lineWidth
-                            // if I draw this path I can delete it
-                            if paths.user == User.currentUser!.recordId.recordName {
-                                self.addPath(cPath.CGPath, layerName: "\(paths.recordId.recordName)",color: color)
-                            }
-                            else {
-                                self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(paths.recordId.recordName)",color: color)
-                            }
-                            
-                            self.loadingProgressBlock!(progress: (pathPrinted / totalPaths), current:pathPrinted, total:totalPaths)
-                            pathPrinted += 1
-                            // reset user tools
-                            self.currentTool = p
-                            self.path.lineWidth = self.lineWidth
-                        }
-                        else {
-                            let text = DrawableTextView.create(cPoint.first!, text: paths.text!, color: color!)
-                            self.addSubview(text)
-                        }
-                    })
-                })
+            guard let drawing = drawing else {
+                return
             }
+            
+            //firebase initialisation
+            initFirebase()
+            // current drawing tool save
+            let p = currentTool
+            // get all paths of the current drawing. The closure is called sequencially (path by path)
+            let totalPaths = Double(drawing.paths.count)
+            var pathPrinted : Double = 1
+            drawing.getPaths({ (paths, error) -> Void in
+                
+                // get path's points, order them and convert them to CGPoint
+                paths.getPoints({ (points, error) -> Void in
+                    let cPoint = points.sort({ (p1, p2) -> Bool in
+                        return p1.position < p2.position
+                    }).map({ (point) -> CGPoint in
+                        CGPoint(x:CGFloat(point.x.floatValue), y:CGFloat(point.y.floatValue))
+                    })
+                    
+                    // set path color
+                    var color:UIColor? = nil
+                    if let col = paths.color {
+                        color = NSKeyedUnarchiver.unarchiveObjectWithData(col) as? UIColor
+                    }
+                    // marker or pen path
+                    self.currentTool = paths.pen ? .pen : .marker
+                    
+                    // the path text
+                    if paths.text != nil && paths.text == "" {
+                        // path redrawing
+                        let cPath = UIBezierPath()
+                        cPath.interpolatePointsWithHermite(cPoint)
+                        // path linewidth
+                        self.path.lineWidth = paths.lineWidth
+                        // if I draw this path I can delete it
+                        var layerName = "\(FirebaseKey.undeletable).\(paths.recordId.recordName)"
+                        if paths.user == User.currentUser!.recordId.recordName {
+                            layerName = "\(paths.recordId.recordName)"
+                        }
+                        
+                        self.addPath(cPath.CGPath, layerName: layerName,color: color)
+                        
+                        self.loadingProgressBlock!(progress: (pathPrinted / totalPaths), current:pathPrinted, total:totalPaths)
+                        pathPrinted += 1
+                        // reset user tools
+                        self.currentTool = p
+                        self.path.lineWidth = self.lineWidth
+                    }
+                    else {
+                        pathPrinted += 1
+                        let text = DrawableTextView.create(cPoint.first!, text: paths.text!, color: color!)
+                        self.addSubview(text)
+                    }
+                })
+            })
+            
         }
     }
     
     var project : Project? {
         didSet {
-            guard var sublayers = self.superview!.layer.sublayers else {
+            guard var sublayers = self.superview!.layer.sublayers, let project = project else {
                 return
             }
             // clear history
@@ -151,12 +124,12 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                 }
                 return true
             }
-            let size = CGSize(width: CGFloat(project!.width.floatValue), height: CGFloat(project!.height.floatValue))
+            let size = CGSize(width: CGFloat(project.width.floatValue), height: CGFloat(project.height.floatValue))
             self.frame = CGRect(origin: self.frame.origin, size: size)
             if size.width < UIScreen.mainScreen().bounds.width {
                 self.border(UIColor.draftLinkGreyColor(), width: 1.0)
             }
-            project!.getDrawing { (drawing, error) -> Void in
+            project.getDrawing { (drawing, error) -> Void in
                 guard let drawing = drawing else {
                     DebugConsoleView.debugView.errorPrint("empty drawing you should retry in few seconds")
                     return
@@ -194,8 +167,8 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         touchCircle.lineWidth = 1
         lineWidth = 2.0
         currentTool = .pen
-        self.opaque = false
-        self.backgroundColor = UIColor.clearColor()
+        opaque = false
+        backgroundColor = UIColor.clearColor()
     }
     
     /**
@@ -208,24 +181,27 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
      - returns: the new layer
      */
     func addPath(path:CGPath, layerName:String, color: UIColor? = nil) -> CALayer {
-        let layer = CAShapeLayer(layer: self.layer)
-        layer.path = path
-        layer.name = layerName
-        layer.lineWidth = self.path.lineWidth
-        switch currentTool {
-        case .pen:
-            layer.lineCap  = kCALineCapRound
-            layer.lineJoin = kCALineJoinRound
-            break
-        case .marker:
-            layer.lineCap  = kCALineCapSquare
-            layer.lineJoin = kCALineJoinBevel
-            break
-        default:
-            break
-        }
-        layer.fillColor = UIColor.clearColor().CGColor
-        layer.strokeColor = color == nil ? self.color.CGColor : color!.CGColor
+        let layer : CAShapeLayer = {
+            $0.path = path
+            $0.name = layerName
+            $0.lineWidth = self.path.lineWidth
+            switch currentTool {
+            case .pen:
+                $0.lineCap  = kCALineCapRound
+                $0.lineJoin = kCALineJoinRound
+                break
+            case .marker:
+                $0.lineCap  = kCALineCapSquare
+                $0.lineJoin = kCALineJoinBevel
+                break
+            default:
+                break
+            }
+            $0.fillColor = UIColor.clearColor().CGColor
+            $0.strokeColor = color == nil ? self.color.CGColor : color!.CGColor
+            return $0
+        }(CAShapeLayer(layer: self.layer))
+        
         self.superview!.layer.insertSublayer(layer, below: self.layer)
         return layer
     }
@@ -245,58 +221,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
 
 // MARK: - Firebase initialisation
 extension DrawableView {
-    /**
-     initialisation of firebase
-     there is 2 firebase events we want to observe :
-     1) when a user draw something
-     - in that case the object received from firebase is an array containing all the points of the new path
-     and all the informations relative to that path
-     array : [
-     [
-     [0] =  {
-     // user who draw the path
-     drawingUser = "_360c5dfd1b920a7108d1340c2ba14cd7"
-     }
-     [1] =  {
-     // x coordinate
-     x = 170
-     }
-     [2] = {
-     // y coordinate
-     y = 127
-     }
-     [3] = {
-     // red componant
-     red = 0.2
-     }
-     [4] = {
-     // green componant
-     green = 1
-     }
-     [5] = {
-     // blue componant
-     blue = 0
-     }
-     [6] = {
-     // path name
-     pathName = ""
-     }
-     [7] = {
-     // if the user used the marker tool
-     marker = false
-     }
-     [8] = {
-     // line width used
-     lineWidth = 2
-     }
-     ]
-     ...
-     ]
-     
-     
-     2) when a user delete a path
-     
-     */
+    
     func initFirebase() {
         cbFirebase.firebaseDrawingObserverHandle = cbFirebase.drawing!.observeEventType(FIRDataEventType.ChildChanged, withBlock: { (snap) -> Void in
             let arr = snap.value as! [[Dictionary<String, AnyObject>]]
@@ -360,12 +285,10 @@ extension DrawableView {
                     var alpha : CGFloat = 1.0
                     let lineW = self.lineWidth
                     let ma = self.currentTool
+                    self.currentTool = .pen
                     if mark {
                         self.currentTool = .marker
                         alpha = 0.4
-                    }
-                    else {
-                        self.currentTool = .pen
                     }
                     self.lineWidth = lw
                     self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: alpha))

@@ -33,12 +33,14 @@ class DrawingPath: ABModelCloudKit {
     }
     
     class func create(drawing:Drawing, completion:((success:Bool, dPath:DrawingPath) -> Void)?) -> DrawingPath {
-        let drawingPath = DrawingPath()
+        let drawingPath : DrawingPath = {
+            drawing.paths.append(CKReference(record: $0.record, action: CKReferenceAction.None))
+            if let currentUser = User.currentUser {
+                $0.user = currentUser.recordId.recordName
+            }
+            return $0
+        }(DrawingPath())
 
-        drawing.paths.append(CKReference(record: drawingPath.record, action: CKReferenceAction.None))
-        if let currentUser = User.currentUser {
-            drawingPath.user = currentUser.recordId.recordName
-        }
         drawing.publicSave({ (record, error) -> Void in
             if let completion = completion {
                 completion(success: error == nil, dPath: drawingPath)
@@ -51,8 +53,12 @@ class DrawingPath: ABModelCloudKit {
     
     override func remove() {
         super.remove()
-        NSUserDefaults.standardUserDefaults().setObject(nil, forKey: localKey())
-        NSUserDefaults.standardUserDefaults().synchronize()
+        let _ : NSUserDefaults = {
+            $0.setObject(nil, forKey: localKey())
+            $0.synchronize()
+            return $0
+        } (NSUserDefaults.standardUserDefaults())
+        
     }
     
     class func removeWithName(name:String) {
@@ -75,7 +81,11 @@ class DrawingPath: ABModelCloudKit {
     
     func localSave(point:[Point]) {
         let data = NSKeyedArchiver.archivedDataWithRootObject(point)
-        NSUserDefaults.standardUserDefaults().setObject(data, forKey:localKey())
-        NSUserDefaults.standardUserDefaults().synchronize()
+        let _ : NSUserDefaults = {
+            $0.setObject(data, forKey:localKey())
+            $0.synchronize()
+            return $0
+        } (NSUserDefaults.standardUserDefaults())
+        
     }
 }

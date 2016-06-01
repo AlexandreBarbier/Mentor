@@ -19,13 +19,17 @@ class UserTeamColor: ABModelCloudKit {
     }
     
     class func create(team:Team, colorSeed:CGFloat, color:UIColor, completion:((utColor:UserTeamColor, error:NSError?)->Void)? = nil) -> UserTeamColor {
-        let utColor = UserTeamColor()
-        utColor.colorSeed = colorSeed
-        utColor.teamName = team.recordId.recordName
-        utColor.color = NSKeyedArchiver.archivedDataWithRootObject(color)
+        
+        let utColor: UserTeamColor = {
+            $0.colorSeed = colorSeed
+            $0.teamName = team.recordId.recordName
+            $0.color = NSKeyedArchiver.archivedDataWithRootObject(color)
+            return $0
+        }(UserTeamColor())
+        
         utColor.publicSave({ (record, error) -> Void in
             utColor.record = record
-            completion?(utColor: utColor,error: error)
+            completion?(utColor: utColor, error: error)
         })
         
         return utColor

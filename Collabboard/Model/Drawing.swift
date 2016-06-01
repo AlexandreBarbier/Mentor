@@ -11,8 +11,10 @@ import ABModel
 import CloudKit
 
 class Drawing: ABModelCloudKit {
+    
     var project = ""
     var paths : [CKReference] = [CKReference]()
+    
     override class func recordType() -> String {
         return "Drawing"
     }

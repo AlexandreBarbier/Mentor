@@ -14,9 +14,12 @@ class OnboardingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        pageControl = {
+            $0.pageIndicatorTintColor = UIColor.draftLinkGreyColor()
+            $0.currentPageIndicatorTintColor = UIColor.draftLinkBlueColor()
+            return $0
+        }(pageControl)
         
-        pageControl.pageIndicatorTintColor = UIColor.draftLinkGreyColor()
-        pageControl.currentPageIndicatorTintColor = UIColor.draftLinkBlueColor()
     }
  
     override func viewDidLayoutSubviews() {
@@ -39,9 +42,13 @@ class OnboardingViewController: UIViewController {
             return $0
         }(GetStartedView.instantiate())
         
-        scrollView.addSubview(welcomView)
-        scrollView.addSubview(getStartedView)
-        scrollView.contentSize = CGSize(width: 2 * scrollView.frame.width, height: scrollView.frame.height)
+        scrollView = {
+            $0.addSubview(welcomView)
+            $0.addSubview(getStartedView)
+            $0.contentSize = CGSize(width: 2 * $0.frame.width, height: $0.frame.height)
+            return $0
+        }(scrollView)
+        
     }
     
     func skip() {
