@@ -35,6 +35,7 @@ class CBFirebase: NSObject {
     var firebaseDrawingObserverHandle : UInt = 0
     var firebaseDeleteObserverHandle : UInt = 0
     var firebaseBackgroundObserverHandle : UInt = 0
+    var firebaseUserObserverHandle : UInt = 0
     
     var project : Project! {
         didSet {
@@ -57,7 +58,7 @@ class CBFirebase: NSObject {
     
     func initUser(team:Team) {
         if let users = users {
-            users.removeObserverWithHandle(firebaseDrawingObserverHandle)
+            users.removeObserverWithHandle(firebaseUserObserverHandle)
         }
         users = FIRDatabase.database().referenceWithPath("\(project.recordName)/\(team.recordId.recordName)/")
     }

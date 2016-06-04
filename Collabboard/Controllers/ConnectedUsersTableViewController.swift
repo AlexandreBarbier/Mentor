@@ -10,6 +10,7 @@
 
 
 import UIKit
+import FirebaseDatabase
 
 class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -31,13 +32,41 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
             }
         }
     }
+    
     var team : Team? {
         didSet {
             team!.getUsers { (users, error) -> Void in
                 if error != nil {
                     return
                 }
+                if let cbUsers = cbFirebase.users {
+                    cbUsers.updateChildValues([User.currentUser!.recordId.recordName:false])
+                }
                 self.displayedDataSource = users
+                cbFirebase.users.observeSingleEventOfType(FIRDataEventType.Value, withBlock: { (snapshot) in
+                    print("Full snap \(snapshot)")
+                })
+                cbFirebase.firebaseUserObserverHandle = cbFirebase.users.observeEventType(FIRDataEventType.ChildChanged) { (snap: FIRDataSnapshot) -> Void in
+                    
+                    NSOperationQueue.mainQueue().addOperationWithBlock({
+                        let index = self.displayedDataSource.indexOf({ (user) -> Bool in
+                            if user.recordId.recordName == snap.key {
+                                return true
+                            }
+                            return false
+                        })
+                        let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index!, inSection: 0)) as! UserTableViewCell
+                        
+                        if snap.key != User.currentUser!.recordId.recordName {
+                            let connected = snap.value as! Bool
+                            cell.presenceIndicatorView.backgroundColor = connected ? UIColor.greenColor():UIColor.redColor()
+                        }
+                        else {
+                            cell.presenceIndicatorView.backgroundColor = UIColor.greenColor()
+                        }
+                    })
+                }
+                cbFirebase.users.updateChildValues([User.currentUser!.recordId.recordName:true])
             }
         }
     }
@@ -47,7 +76,7 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
 extension ConnectedUsersTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.registerNib(UINib(nibName: "UserTableViewCell", bundle: nil), forCellReuseIdentifier: "UserTableViewCell")
         segmentControl = {
             $0.tintColor = UIColor.draftLinkBlueColor()
             $0.backgroundColor = UIColor.draftLinkGreyColor()
@@ -100,8 +129,12 @@ extension ConnectedUsersTableViewController {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("connectedUserCell", forIndexPath: indexPath)
-        cell.textLabel!.text = displayedDataSource[indexPath.row].username
+        let cell = tableView.dequeueReusableCellWithIdentifier("UserTableViewCell", forIndexPath: indexPath) as! UserTableViewCell
+        let user = displayedDataSource[indexPath.row]
+        cell.usernameLabel.text = user.username
+        user.getTeamColors(team!) { (teamColor, userTeamColor, error) in
+            cell.avatarView.backgroundColor = teamColor
+        }
         return cell
     }
 }

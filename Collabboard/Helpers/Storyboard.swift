@@ -79,10 +79,10 @@ struct StoryboardSegue {
     case ColorSegue = "ColorSegue"
   }
   enum Main: String, StoryboardSegueType {
-    case CellSegue = "CellSegue"
     case ConnectedUserSegue = "ConnectedUserSegue"
     case CreateTeamSegue = "CreateTeamSegue"
     case TeamCreationSegue = "TeamCreationSegue"
+    case TeamCellSegue = "teamCellSegue"
     case TeamContainerVC = "teamContainerVC"
   }
   enum OnBoarding: String, StoryboardSegueType {

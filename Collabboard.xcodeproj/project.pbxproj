@@ -19,12 +19,18 @@
 		8D11201E1C1EFEB9000E041B /* ProjectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */; };
 		8D13B4F61C1ACAC6005F7325 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D13B4F51C1ACAC6005F7325 /* Constants.swift */; };
 		8D2A787F1CED952F00C3F778 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D2A787E1CED952F00C3F778 /* GoogleService-Info.plist */; };
+		8D2F0CBB1D0EEDFC0065B7CF /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2F0CB91D0EEDFC0065B7CF /* UserTableViewCell.swift */; };
+		8D2F0CBC1D0EEDFC0065B7CF /* UserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D2F0CBA1D0EEDFC0065B7CF /* UserTableViewCell.xib */; };
 		8D3CF1931C159514006D23C7 /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */; };
 		8D485B1C1CE9B39400465E69 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D485B1B1CE9B39400465E69 /* Color.swift */; };
 		8D4981E81C65EC6700BC6067 /* ConnectedUsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */; };
 		8D6DF5721CE8BC51008B7E95 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF5701CE8BC51008B7E95 /* Images.swift */; };
 		8D6DF5731CE8BC51008B7E95 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF5711CE8BC51008B7E95 /* Storyboard.swift */; };
 		8D70D6911CF0BABE00B3754D /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D70D6901CF0BABE00B3754D /* OnboardingViewController.swift */; };
+		8D7FCC6A1D09690300C9485F /* ProjectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7FCC681D09690300C9485F /* ProjectTableViewCell.swift */; };
+		8D7FCC6B1D09690300C9485F /* ProjectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D7FCC691D09690300C9485F /* ProjectTableViewCell.xib */; };
+		8D7FCC6E1D09691300C9485F /* TeamTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7FCC6C1D09691300C9485F /* TeamTableViewCell.swift */; };
+		8D7FCC6F1D09691300C9485F /* TeamTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D7FCC6D1D09691300C9485F /* TeamTableViewCell.xib */; };
 		8D91F2C11C7B38C3001D6A4E /* ColorGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F2C01C7B38C3001D6A4E /* ColorGenerator.swift */; };
 		8D91FD051C6876E20088F0FA /* CBFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91FD041C6876E20088F0FA /* CBFirebase.swift */; };
 		8D91FD091C6B31650088F0FA /* TouchThroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91FD081C6B31650088F0FA /* TouchThroughView.swift */; };
@@ -161,12 +167,18 @@
 		8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectTableViewController.swift; sourceTree = "<group>"; };
 		8D13B4F51C1ACAC6005F7325 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8D2A787E1CED952F00C3F778 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8D2F0CB91D0EEDFC0065B7CF /* UserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
+		8D2F0CBA1D0EEDFC0065B7CF /* UserTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewCell.xib; sourceTree = "<group>"; };
 		8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtension.swift; sourceTree = "<group>"; };
 		8D485B1B1CE9B39400465E69 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectedUsersTableViewController.swift; sourceTree = "<group>"; };
 		8D6DF5701CE8BC51008B7E95 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		8D6DF5711CE8BC51008B7E95 /* Storyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
 		8D70D6901CF0BABE00B3754D /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		8D7FCC681D09690300C9485F /* ProjectTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectTableViewCell.swift; sourceTree = "<group>"; };
+		8D7FCC691D09690300C9485F /* ProjectTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectTableViewCell.xib; sourceTree = "<group>"; };
+		8D7FCC6C1D09691300C9485F /* TeamTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamTableViewCell.swift; sourceTree = "<group>"; };
+		8D7FCC6D1D09691300C9485F /* TeamTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeamTableViewCell.xib; sourceTree = "<group>"; };
 		8D91F2C01C7B38C3001D6A4E /* ColorGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorGenerator.swift; sourceTree = "<group>"; };
 		8D91FD041C6876E20088F0FA /* CBFirebase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBFirebase.swift; sourceTree = "<group>"; };
 		8D91FD081C6B31650088F0FA /* TouchThroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchThroughView.swift; sourceTree = "<group>"; };
@@ -316,6 +328,19 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		8D7FCC651D0968B700C9485F /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				8D7FCC681D09690300C9485F /* ProjectTableViewCell.swift */,
+				8D7FCC691D09690300C9485F /* ProjectTableViewCell.xib */,
+				8D7FCC6C1D09691300C9485F /* TeamTableViewCell.swift */,
+				8D7FCC6D1D09691300C9485F /* TeamTableViewCell.xib */,
+				8D2F0CB91D0EEDFC0065B7CF /* UserTableViewCell.swift */,
+				8D2F0CBA1D0EEDFC0065B7CF /* UserTableViewCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		8D9E8DFD1C621A4F0076030A /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -409,6 +434,7 @@
 		AC778DE61BF1F80B00669BD7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8D7FCC651D0968B700C9485F /* Cells */,
 				8DA5F3DC1CF9BC7000A37E33 /* OnBoarding */,
 				8D008E3C1CF07C0000005B59 /* UISubclasses */,
 				8DE74F481C21A97800B60F0D /* DrawableScrollView.swift */,
@@ -450,12 +476,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AC3080051BF1F69300C28D5D /* Build configuration list for PBXNativeTarget "Collabboard" */;
 			buildPhases = (
-				E01446F582D91E6CC4FF2B61 /* 📦 Check Pods Manifest.lock */,
+				E01446F582D91E6CC4FF2B61 /* [CP] Check Pods Manifest.lock */,
 				AC307FEF1BF1F69300C28D5D /* Sources */,
 				AC307FF01BF1F69300C28D5D /* Frameworks */,
 				AC307FF11BF1F69300C28D5D /* Resources */,
-				6D9149C2C995F3B2D4B0289E /* 📦 Embed Pods Frameworks */,
-				3B302D6B681A5BB131F7B109 /* 📦 Copy Pods Resources */,
+				6D9149C2C995F3B2D4B0289E /* [CP] Embed Pods Frameworks */,
+				3B302D6B681A5BB131F7B109 /* [CP] Copy Pods Resources */,
 				8D759DD21C3FE70900E793B6 /* Fabric run */,
 				8D9E8DFB1C6219AD0076030A /* Embed Frameworks */,
 			);
@@ -561,6 +587,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DD2366A1CFAFC0000B7C8B6 /* Kalam-Bold.ttf in Resources */,
+				8D7FCC6F1D09691300C9485F /* TeamTableViewCell.xib in Resources */,
+				8D2F0CBC1D0EEDFC0065B7CF /* UserTableViewCell.xib in Resources */,
 				8DD2366B1CFAFC0000B7C8B6 /* Kalam-Light.ttf in Resources */,
 				8DD2366C1CFAFC0000B7C8B6 /* Kalam-Regular.ttf in Resources */,
 				8DD2366D1CFAFC0000B7C8B6 /* Roboto-Black.ttf in Resources */,
@@ -579,6 +607,7 @@
 				AC307FFE1BF1F69300C28D5D /* Assets.xcassets in Resources */,
 				8D9679CA1C4535B8009B2299 /* CreationStoryboard.storyboard in Resources */,
 				8DA5F3E21CF9BCD600A37E33 /* WelcomView.xib in Resources */,
+				8D7FCC6B1D09690300C9485F /* ProjectTableViewCell.xib in Resources */,
 				AC307FFC1BF1F69300C28D5D /* Main.storyboard in Resources */,
 				8DA5F3E71CF9C50B00A37E33 /* GetStartedView.xib in Resources */,
 				8D0179F31CEB7FE3008B7B9D /* OnBoarding.storyboard in Resources */,
@@ -589,14 +618,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3B302D6B681A5BB131F7B109 /* 📦 Copy Pods Resources */ = {
+		3B302D6B681A5BB131F7B109 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -604,14 +633,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Collabboard/Pods-Collabboard-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6D9149C2C995F3B2D4B0289E /* 📦 Embed Pods Frameworks */ = {
+		6D9149C2C995F3B2D4B0289E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -633,14 +662,14 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 32dc190aeef47e3e7971889471a1b8779c32ad54 83f9580156b0b2a49d43c853be4c737e668a01d42e42436d24844f7e23e60019";
 		};
-		E01446F582D91E6CC4FF2B61 /* 📦 Check Pods Manifest.lock */ = {
+		E01446F582D91E6CC4FF2B61 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -666,6 +695,7 @@
 				8DBD195B1C15CDEC0073BE8B /* Team.swift in Sources */,
 				8D70D6911CF0BABE00B3754D /* OnboardingViewController.swift in Sources */,
 				8D0D6DC41C441AF10018CE41 /* ColorGenerationViewController.swift in Sources */,
+				8D7FCC6E1D09691300C9485F /* TeamTableViewCell.swift in Sources */,
 				AC778DE91BF1F86E00669BD7 /* DrawableView.swift in Sources */,
 				AC307FF91BF1F69300C28D5D /* ViewController.swift in Sources */,
 				8D91FD051C6876E20088F0FA /* CBFirebase.swift in Sources */,
@@ -678,9 +708,11 @@
 				8DB6D07D1CDF526100B73529 /* ToolsViewController.swift in Sources */,
 				8D485B1C1CE9B39400465E69 /* Color.swift in Sources */,
 				8D11201E1C1EFEB9000E041B /* ProjectTableViewController.swift in Sources */,
+				8D7FCC6A1D09690300C9485F /* ProjectTableViewCell.swift in Sources */,
 				8DD2367A1CFAFC1A00B7C8B6 /* Font.swift in Sources */,
 				8D9679CE1C453603009B2299 /* TeamCreationViewController.swift in Sources */,
 				8DEB6EEB1C2060D200B9BF9F /* UserTeamColor.swift in Sources */,
+				8D2F0CBB1D0EEDFC0065B7CF /* UserTableViewCell.swift in Sources */,
 				8D017A041CEB9A03008B7B9D /* FirstTeamCreationViewController.swift in Sources */,
 				8DBD195D1C15D1C60073BE8B /* User.swift in Sources */,
 				8D4981E81C65EC6700BC6067 /* ConnectedUsersTableViewController.swift in Sources */,

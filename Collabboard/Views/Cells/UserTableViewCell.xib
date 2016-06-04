@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="KGk-i7-Jjw" customClass="UserTableViewCell" customModule="Collabboard" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_team_mini" translatesAutoresizingMaskIntoConstraints="NO" id="Owb-AR-beH">
+                        <rect key="frame" x="8" y="0.0" width="44" height="44"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="44" id="5wN-oG-Iap"/>
+                            <constraint firstAttribute="height" constant="44" id="M0F-TN-XFJ"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Hz-o3-JLx">
+                        <rect key="frame" x="60" y="11" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Iq-vK-H6v">
+                        <rect key="frame" x="289" y="14" width="15" height="15"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="15" id="BiP-6e-pdL"/>
+                            <constraint firstAttribute="height" constant="15" id="XQy-1g-SVa"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Owb-AR-beH" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="2vl-d4-OBR"/>
+                    <constraint firstItem="9Hz-o3-JLx" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Pse-sS-K2H"/>
+                    <constraint firstItem="Owb-AR-beH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Ql3-vv-dBB"/>
+                    <constraint firstItem="Owb-AR-beH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="cNt-pR-aYO"/>
+                    <constraint firstAttribute="trailing" secondItem="4Iq-vK-H6v" secondAttribute="trailing" constant="16" id="mOk-SA-Coz"/>
+                    <constraint firstItem="4Iq-vK-H6v" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ukw-zn-E3G"/>
+                    <constraint firstItem="9Hz-o3-JLx" firstAttribute="leading" secondItem="Owb-AR-beH" secondAttribute="trailing" constant="8" id="y7r-rY-QqQ"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="Ql3-vv-dBB"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="avatarView" destination="Owb-AR-beH" id="oqR-3p-6oL"/>
+                <outlet property="presenceIndicatorView" destination="4Iq-vK-H6v" id="Kbr-ip-1BZ"/>
+                <outlet property="usernameLabel" destination="9Hz-o3-JLx" id="fvX-Mv-SHW"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_team_mini" width="26" height="19"/>
+    </resources>
+</document>

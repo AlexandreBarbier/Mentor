@@ -12,7 +12,7 @@ class ProjectTableViewController: UITableViewController {
     
     private var computedHeight : Double {
         get {
-            return Double((displayedDataSource.count * 50) == 0 ? 50: (displayedDataSource.count * 50))
+            return Double((displayedDataSource.count * 50) == 0 ? 50 : (displayedDataSource.count * 50))
         }
     }
     
@@ -34,6 +34,13 @@ class ProjectTableViewController: UITableViewController {
     }
 }
 
+extension ProjectTableViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.registerNib(UINib.init(nibName: "ProjectTableViewCell", bundle: nil), forCellReuseIdentifier: "ProjectTableViewCell")
+    }
+}
+
 // MARK: - Table view data source
 extension ProjectTableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -45,10 +52,10 @@ extension ProjectTableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("projectCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("ProjectTableViewCell", forIndexPath: indexPath) as! ProjectTableViewCell
         
-        cell.textLabel?.text = displayedDataSource[indexPath.row].name
-        cell.detailTextLabel?.text = displayedDataSource[indexPath.row].infos
+        cell.projectNameLabel.text = displayedDataSource[indexPath.row].name
+        cell.infoLabel.text = displayedDataSource[indexPath.row].infos
         
         return cell
     }

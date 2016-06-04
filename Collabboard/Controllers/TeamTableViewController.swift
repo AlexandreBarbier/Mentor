@@ -28,6 +28,14 @@ class TeamTableViewController: UIViewController {
     var completion:((project:Project, team:Team)->Void)?
 }
 
+// MARK: - view lifecycle
+extension TeamTableViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.registerNib(UINib(nibName: "TeamTableViewCell", bundle: nil), forCellReuseIdentifier: "TeamTableViewCell")
+    }
+}
+
 // MARK: - Helper
 extension TeamTableViewController {
     func show () {
@@ -35,7 +43,6 @@ extension TeamTableViewController {
             return
         }
         user.getTeams { (teams, local, error) -> Void in
-            
             if let error = error {
                 DebugConsoleView.debugView.errorPrint("get teams error \(error)")
             }
@@ -59,30 +66,32 @@ extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate  
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("teamCell")
-        if cell == nil {
-            cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "teamCell")
-        }
+        let cell = tableView.dequeueReusableCellWithIdentifier("TeamTableViewCell") as! TeamTableViewCell
         let team = displayedDataSource[indexPath.row]
         if team.currentUserIsAdmin {
-            cell!.imageView?.image = UIImage.Asset.Ic_team.image
+            cell.iconImageView.image = UIImage.Asset.Ic_team.image
         }
         else {
-            cell!.imageView?.image = nil
+            cell.iconImageView.image = nil
         }
-        cell!.textLabel!.text = "\(team.name)"
-        cell!.detailTextLabel!.text = "token : \(displayedDataSource[indexPath.row].token)"
-        cell!.textLabel?.numberOfLines = 0
-        return cell!
+        cell.teamNameLabel.text = "\(team.name)"
+        cell.tokenLabel.text = "token : \(displayedDataSource[indexPath.row].token)"
+        
+        return cell
+    }
+    
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        performSegue(StoryboardSegue.Main.TeamCellSegue, sender: tableView.cellForRowAtIndexPath(indexPath))
     }
 }
 
 // MARK: - Navigation
 extension TeamTableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == StoryboardSegue.Main.CellSegue.rawValue {
+        if segue.identifier == StoryboardSegue.Main.TeamCellSegue.rawValue {
             
-            let index = self.tableView.indexPathForCell(sender as! UITableViewCell)
+            let index = self.tableView.indexPathForCell(sender as! TeamTableViewCell)
             let _ : ProjectTableViewController = {
                 $0.completion = completion
                 $0.displayedDataSource = [Project]()

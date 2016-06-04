@@ -38,7 +38,7 @@ class ViewController: UIViewController {
     private var canDownloadBG = true
     private var selectedTool = 0
     var imageBG : UIImageView?
-    
+    var teamViewContainerBackView:UIView!
 }
 
 // MARK: - View lifecycle
@@ -50,8 +50,14 @@ extension ViewController {
         logoItem.image = UIImage.Asset.Topbar_logo.image.imageWithRenderingMode(.AlwaysOriginal)
         selectTool(0)
         teamViewContainer.hidden = true
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.hideTeamController(_:)))
-//        teamViewContainer.addGestureRecognizer(tapGesture)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.hideTeamController(_:)))
+        teamViewContainerBackView = {
+            $0.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+            $0.addGestureRecognizer(tapGesture)
+            return $0
+        } (UIView(frame: teamViewContainer.bounds))
+        teamViewContainer.addSubview(teamViewContainerBackView)
         scrollView.drawableView = drawableView
         progressView.progress = 0.0
         drawableView.loadingProgressBlock = {(progress, current, total) in
@@ -345,6 +351,7 @@ extension ViewController {
             switch identifier {
             case .ConnectedUserSegue :
                 connectedUsersView = segue.destinationViewController as? ConnectedUsersTableViewController
+                
                 if let team = Project.getLastOpen() {
                     
                     self.connectedUsersView!.team = team.team
@@ -441,15 +448,16 @@ extension ViewController {
     
     @IBAction func showTeam(sender: AnyObject) {
         let button = sender as! UIBarButtonItem
-        if !self.teamViewContainer.hidden {
+        teamViewContainer.sendSubviewToBack(teamViewContainerBackView)
+        if !teamViewContainer.hidden {
             button.image = UIImage.Asset.Ic_team.image.imageWithRenderingMode(.AlwaysTemplate)
             connectedUsersView!.segmentControl.selectedSegmentIndex = 0
             connectedUsersView!.segmentControlChanged(connectedUsersView!.segmentControl)
-            self.teamViewContainer.hidden = false
+            teamViewContainer.hidden = false
             
             UIView.animateWithDuration(0.5, animations: {
                 self.connectedUsersView!.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
-                self.teamViewContainer.backgroundColor = UIColor.draftLinkGreyColor().colorWithAlphaComponent(0.0)
+                self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGreyColor().colorWithAlphaComponent(0.0)
                 }, completion: { (finished) in
                     if finished {
                         self.teamViewContainer.hidden = true
@@ -463,7 +471,7 @@ extension ViewController {
             connectedUsersView!.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
             UIView.animateWithDuration(0.5) {
                 self.connectedUsersView!.view.layer.transform = CATransform3DIdentity
-                self.teamViewContainer.backgroundColor = UIColor.draftLinkGreyColor().colorWithAlphaComponent(0.8)
+                self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGreyColor().colorWithAlphaComponent(0.8)
             }
         }
     }
