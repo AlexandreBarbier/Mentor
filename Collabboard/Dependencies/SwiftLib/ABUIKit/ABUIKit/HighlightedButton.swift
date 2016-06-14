@@ -9,12 +9,12 @@
 import UIKit
 
 public class HighlightedButton : UIButton {
-   @IBInspectable public var highlightedColor : UIColor {
+    @IBInspectable public var highlightedColor : UIColor {
         didSet {
             self.setTitleColor(highlightedColor, forState: UIControlState.Normal)
         }
     }
-   @IBInspectable public var bgColor:UIColor {
+    @IBInspectable public var bgColor:UIColor {
         didSet {
             self.setTitleColor(bgColor, forState: UIControlState.Highlighted)
             self.backgroundColor = bgColor
@@ -26,17 +26,17 @@ public class HighlightedButton : UIButton {
         self.backgroundColor = bgColor
         self.setTitleColor(self.bgColor, forState: UIControlState.Highlighted)
         self.setTitleColor(self.highlightedColor, forState: UIControlState.Normal)
-
+        
     }
     
-   public override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         highlightedColor = UIColor.whiteColor()
         bgColor = UIColor.blackColor().colorWithAlphaComponent(0.9)
         super.init(frame: frame)
-    
+        
         self.setTitleColor(self.bgColor, forState: UIControlState.Highlighted)
         self.setTitleColor(self.highlightedColor, forState: UIControlState.Normal)
-
+        
     }
     public required init(coder aDecoder: NSCoder) {
         highlightedColor = UIColor.whiteColor()
@@ -44,18 +44,18 @@ public class HighlightedButton : UIButton {
         super.init(coder: aDecoder)!
     }
     
-    public override var highlighted : Bool {set {
-        super.highlighted = newValue
-        if (newValue)
-        {
-            self.backgroundColor = self.highlightedColor
+    public override var highlighted : Bool {
+        set {
+            super.highlighted = newValue
+            if (newValue) {
+                self.backgroundColor = self.highlightedColor
+            }
+            else {
+                self.backgroundColor = self.bgColor
+            }
         }
-        else {
-            self.backgroundColor = self.bgColor
+        get {
+            return super.highlighted
         }
-    }
-    get {
-        return super.highlighted
-    }
     }
 }
