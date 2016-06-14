@@ -35,8 +35,13 @@ extension UIViewController {
 }
 
 struct StoryboardScene {
-  enum CreationStoryboard: StoryboardSceneType {
+  enum CreationStoryboard: String, StoryboardSceneType {
     static let storyboardName = "CreationStoryboard"
+
+    case ProjectCreationVCScene = "ProjectCreationVC"
+    static func instantiateProjectCreationVC() -> ProjectCreationViewController {
+      return StoryboardScene.CreationStoryboard.ProjectCreationVCScene.viewController() as! ProjectCreationViewController
+    }
   }
   enum LaunchScreen: StoryboardSceneType {
     static let storyboardName = "LaunchScreen"
@@ -81,6 +86,7 @@ struct StoryboardSegue {
   enum Main: String, StoryboardSegueType {
     case ConnectedUserSegue = "ConnectedUserSegue"
     case CreateTeamSegue = "CreateTeamSegue"
+    case ProjectCreationSegue = "ProjectCreationSegue"
     case TeamCreationSegue = "TeamCreationSegue"
     case TeamCellSegue = "teamCellSegue"
     case TeamContainerVC = "teamContainerVC"

@@ -55,6 +55,7 @@ extension ColorGenerationViewController {
 // MARK: - Helpers
 extension ColorGenerationViewController {
     func chooseColor() {
+        
         let colorRGB = ColorGenerator.CGSharedInstance.getNextColor()!.color
         chosenColor = colorRGB
         UIView.animateWithDuration(0.3) { () -> Void in

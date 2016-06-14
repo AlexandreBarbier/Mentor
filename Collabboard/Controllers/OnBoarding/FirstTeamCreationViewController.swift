@@ -25,19 +25,19 @@ extension FirstTeamCreationViewController {
         view.sendSubviewToBack(backgroundView)
         
         getStartedLabel = {
-            $0.textColor = UIColor.draftLinkBlueColor()
+            $0.textColor = UIColor.draftLinkBlue()
             $0.font = UIFont.Kalam(.Bold, size: 30)
             return $0
         }(getStartedLabel)
         
         descriptionLabel = {
-            $0.textColor = UIColor.draftLinkDarkBlueColor()
+            $0.textColor = UIColor.draftLinkDarkBlue()
             $0.font = UIFont.Roboto(.Regular, size: 24)
             return $0
         }(descriptionLabel)
         
         createButton = {
-            $0.backgroundColor = UIColor.draftLinkBlueColor()
+            $0.backgroundColor = UIColor.draftLinkBlue()
             $0.rounded(5)
             $0.tintColor = UIColor.whiteColor()
             return $0
@@ -45,13 +45,13 @@ extension FirstTeamCreationViewController {
         
         projectTextView = {
             $0.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-            $0.setup(UIImage.Asset.Ic_project_mini.image, border: UIColor.draftLinkBlueColor(), innerColor: UIColor.draftLinkDarkBlueColor(),  cornerRadius: 5.0)
+            $0.setup(UIImage.Asset.Ic_project_mini.image, border: UIColor.draftLinkBlue(), innerColor: UIColor.draftLinkDarkBlue(),  cornerRadius: 5.0)
             return $0
         }(projectTextView)
         
         teamTextView = {
             $0.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-            $0.setup(UIImage.Asset.Ic_team_mini.image, border: UIColor.draftLinkBlueColor(), innerColor: UIColor.draftLinkDarkBlueColor(), cornerRadius: 5.0)
+            $0.setup(UIImage.Asset.Ic_team_mini.image, border: UIColor.draftLinkBlue(), innerColor: UIColor.draftLinkDarkBlue(), cornerRadius: 5.0)
             return $0
         }(teamTextView)
     }

@@ -9,7 +9,6 @@
 import UIKit
 
 extension UIFont {
-    
     enum Weight: String {
         case Bold, BoldItalic,
             Light, LightItalic,

@@ -84,6 +84,11 @@ extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate  
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         performSegue(StoryboardSegue.Main.TeamCellSegue, sender: tableView.cellForRowAtIndexPath(indexPath))
     }
+    
+   func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let v = AdditionFooterView.instanciate(withConfiguration: .Team, delegate: self)
+        return v
+    }
 }
 
 // MARK: - Navigation

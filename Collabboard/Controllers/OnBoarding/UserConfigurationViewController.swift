@@ -35,17 +35,17 @@ extension UserConfigurationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getStartedLabel.textColor = UIColor.draftLinkBlueColor()
+        getStartedLabel.textColor = UIColor.draftLinkBlue()
         getStartedLabel.font = UIFont.Kalam(.Bold, size: 30)
-        pickColorLabel.textColor = UIColor.draftLinkDarkBlueColor()
+        pickColorLabel.textColor = UIColor.draftLinkDarkBlue()
         pickColorLabel.font = UIFont.Roboto(.Regular, size: 20)
-        createYourProfileLabel.textColor = UIColor.draftLinkDarkBlueColor()
+        createYourProfileLabel.textColor = UIColor.draftLinkDarkBlue()
         createYourProfileLabel.font = UIFont.Roboto(.Regular, size: 24)
         
         usernameTextfield.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-        usernameTextfield.setup(border: UIColor.draftLinkBlueColor(), innerColor: UIColor.draftLinkDarkBlueColor(), cornerRadius: 5)
+        usernameTextfield.setup(border: UIColor.draftLinkBlue(), innerColor: UIColor.draftLinkDarkBlue(), cornerRadius: 5)
         usernameTextfield.rounded(5)
-        createButton.backgroundColor = UIColor.draftLinkBlueColor()
+        createButton.backgroundColor = UIColor.draftLinkBlue()
         createButton.rounded(5)
         createButton.titleLabel?.font = UIFont.Roboto(.Regular, size: 20)
         

@@ -397,7 +397,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="550"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8P4-4r-CyC">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="50" translatesAutoresizingMaskIntoConstraints="NO" id="8P4-4r-CyC">
                                 <rect key="frame" x="0.0" y="42" width="600" height="336"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -487,7 +487,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="336"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xnJ-40-pCj">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="50" translatesAutoresizingMaskIntoConstraints="NO" id="xnJ-40-pCj">
                                 <rect key="frame" x="0.0" y="44" width="600" height="248"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -526,16 +526,11 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="oBa-hc-k0E">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="zMD-LU-4p3">
-                            <connections>
-                                <segue destination="8i3-wB-Ro4" kind="show" identifier="TeamCreationSegue" id="gab-uj-FN5"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="oBa-hc-k0E"/>
                     <connections>
                         <outlet property="tableView" destination="xnJ-40-pCj" id="4iw-Qb-FC7"/>
                         <segue destination="oqb-9f-avE" kind="show" identifier="teamCellSegue" id="Xt3-D1-FPd"/>
+                        <segue destination="8i3-wB-Ro4" kind="show" identifier="TeamCreationSegue" id="7BM-Qv-TaD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oCG-Ou-5eE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -554,7 +549,7 @@
         <scene sceneID="iD3-GF-6lf">
             <objects>
                 <tableViewController id="oqb-9f-avE" customClass="ProjectTableViewController" customModule="Collabboard" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" id="qzW-iF-mm5">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="50" id="qzW-iF-mm5">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="336"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -564,17 +559,22 @@
                             <outlet property="delegate" destination="oqb-9f-avE" id="dvq-Yy-ci2"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="CLl-E6-nCb">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="cZu-2a-neb">
-                            <connections>
-                                <action selector="createTouch:" destination="oqb-9f-avE" id="gWk-qA-1VQ"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="CLl-E6-nCb"/>
+                    <connections>
+                        <segue destination="sG2-Da-z5F" kind="show" identifier="ProjectCreationSegue" id="bX7-fK-aGg"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m2L-eT-i9u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3072" y="-228"/>
+        </scene>
+        <!--ProjectCreationVC-->
+        <scene sceneID="jAd-8g-DfZ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="CreationStoryboard" referencedIdentifier="ProjectCreationVC" id="sG2-Da-z5F" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="t64-ik-5Au" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3677.5" y="-530"/>
         </scene>
     </scenes>
     <resources>

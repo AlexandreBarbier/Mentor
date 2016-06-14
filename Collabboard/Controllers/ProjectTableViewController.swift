@@ -41,6 +41,20 @@ extension ProjectTableViewController {
     }
 }
 
+extension ProjectTableViewController {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == StoryboardSegue.Main.ProjectCreationSegue.rawValue {
+            let vc = segue.destinationViewController as! ProjectCreationViewController
+            vc.team = self.team
+            vc.completion = {(project:Project, team:Team) in
+                self.displayedDataSource.append(project)
+                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+                self.completion?(project: project,team: team)
+            }
+        }
+    }
+}
+
 // MARK: - Table view data source
 extension ProjectTableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -63,6 +77,11 @@ extension ProjectTableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         displayedDataSource[indexPath.row].setLastOpenForTeam(team)
         completion?(project: displayedDataSource[indexPath.row], team: team)
+    }
+    
+    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let v = AdditionFooterView.instanciate(withConfiguration: .Project, delegate: self)
+        return v
     }
 }
 

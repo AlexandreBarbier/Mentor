@@ -39,12 +39,21 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
                 if error != nil {
                     return
                 }
-                if let cbUsers = cbFirebase.users {
-                    cbUsers.updateChildValues([User.currentUser!.recordId.recordName:false])
-                }
                 self.displayedDataSource = users
+                
                 cbFirebase.users.observeSingleEventOfType(FIRDataEventType.Value, withBlock: { (snapshot) in
-                    print("Full snap \(snapshot)")
+                    guard let snapshotDictionary = snapshot.value as? Dictionary<String, Bool> else {
+                        return
+                    }
+                    for i in 0 ..< self.displayedDataSource.count {
+                        if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as? UserTableViewCell {
+                            let user = self.displayedDataSource[i]
+                            
+                            if let connected = snapshotDictionary[user.recordId.recordName]?.boolValue {
+                                cell.presenceIndicatorView.backgroundColor = connected ? UIColor.greenColor():UIColor.redColor()
+                            }
+                        }
+                    }
                 })
                 cbFirebase.firebaseUserObserverHandle = cbFirebase.users.observeEventType(FIRDataEventType.ChildChanged) { (snap: FIRDataSnapshot) -> Void in
                     
@@ -55,14 +64,9 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
                             }
                             return false
                         })
-                        let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index!, inSection: 0)) as! UserTableViewCell
-                        
-                        if snap.key != User.currentUser!.recordId.recordName {
+                        if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index!, inSection: 0)) as? UserTableViewCell {
                             let connected = snap.value as! Bool
                             cell.presenceIndicatorView.backgroundColor = connected ? UIColor.greenColor():UIColor.redColor()
-                        }
-                        else {
-                            cell.presenceIndicatorView.backgroundColor = UIColor.greenColor()
                         }
                     })
                 }
@@ -78,12 +82,12 @@ extension ConnectedUsersTableViewController {
         super.viewDidLoad()
         tableView.registerNib(UINib(nibName: "UserTableViewCell", bundle: nil), forCellReuseIdentifier: "UserTableViewCell")
         segmentControl = {
-            $0.tintColor = UIColor.draftLinkBlueColor()
-            $0.backgroundColor = UIColor.draftLinkGreyColor()
+            $0.tintColor = UIColor.draftLinkBlue()
+            $0.backgroundColor = UIColor.draftLinkGrey()
             return $0
         }(segmentControl)
         
-        backSegmentationView.backgroundColor = UIColor.draftLinkGreyColor()
+        backSegmentationView.backgroundColor = UIColor.draftLinkGrey()
         view.backgroundColor = UIColor.clearColor()
     }
     
@@ -119,7 +123,7 @@ extension ConnectedUsersTableViewController {
 
 // MARK: - TableView delegate
 extension ConnectedUsersTableViewController {
-    // MARK: - Table view data source
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -136,6 +140,11 @@ extension ConnectedUsersTableViewController {
             cell.avatarView.backgroundColor = teamColor
         }
         return cell
+    }
+    
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let v = AdditionFooterView.instanciate(withConfiguration: .Users, delegate: self)
+        return v
     }
 }
 

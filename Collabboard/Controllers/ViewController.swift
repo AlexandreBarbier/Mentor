@@ -46,7 +46,7 @@ extension ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        topToolbar.tintColor = UIColor.draftLinkGreyColor()
+        topToolbar.tintColor = UIColor.draftLinkGrey()
         logoItem.image = UIImage.Asset.Topbar_logo.image.imageWithRenderingMode(.AlwaysOriginal)
         selectTool(0)
         teamViewContainer.hidden = true
@@ -204,7 +204,7 @@ extension ViewController : ToolsViewDelegate {
     func selectTool(index: Int) {
         selectedTool = index
         bottomToolBar.items!.forEach { (item) in
-            item.tintColor = item.tag == index ?  UIColor.draftLinkBlueColor() : UIColor.draftLinkGreyColor()
+            item.tintColor = item.tag == index ?  UIColor.draftLinkBlue() : UIColor.draftLinkGrey()
         }
     }
     
@@ -457,7 +457,7 @@ extension ViewController {
             
             UIView.animateWithDuration(0.5, animations: {
                 self.connectedUsersView!.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
-                self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGreyColor().colorWithAlphaComponent(0.0)
+                self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGrey().colorWithAlphaComponent(0.0)
                 }, completion: { (finished) in
                     if finished {
                         self.teamViewContainer.hidden = true
@@ -466,12 +466,12 @@ extension ViewController {
         }
         else {
             button.image = UIImage.Asset.Ic_team_selected.image.imageWithRenderingMode(.AlwaysTemplate)
-            teamViewContainer.backgroundColor = UIColor.draftLinkGreyColor().colorWithAlphaComponent(0.0)
+            teamViewContainer.backgroundColor = UIColor.draftLinkGrey().colorWithAlphaComponent(0.0)
             self.teamViewContainer.hidden = false
             connectedUsersView!.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
             UIView.animateWithDuration(0.5) {
                 self.connectedUsersView!.view.layer.transform = CATransform3DIdentity
-                self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGreyColor().colorWithAlphaComponent(0.8)
+                self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGrey().colorWithAlphaComponent(0.8)
             }
         }
     }

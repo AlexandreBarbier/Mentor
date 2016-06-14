@@ -58,6 +58,9 @@ class CBFirebase: NSObject {
     
     func initUser(team:Team) {
         if let users = users {
+            if let cbUsers = cbFirebase.users {
+                cbUsers.updateChildValues([User.currentUser!.recordId.recordName:false])
+            }
             users.removeObserverWithHandle(firebaseUserObserverHandle)
         }
         users = FIRDatabase.database().referenceWithPath("\(project.recordName)/\(team.recordId.recordName)/")

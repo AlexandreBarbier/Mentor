@@ -50,6 +50,9 @@
 		8DBD194C1C15CAC50073BE8B /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD194B1C15CAC50073BE8B /* Project.swift */; };
 		8DBD195B1C15CDEC0073BE8B /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD195A1C15CDEC0073BE8B /* Team.swift */; };
 		8DBD195D1C15D1C60073BE8B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD195C1C15D1C60073BE8B /* User.swift */; };
+		8DCD90651D1167E400E36D7E /* AdditionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCD90641D1167E400E36D7E /* AdditionFooterView.swift */; };
+		8DCD90671D1167FB00E36D7E /* AdditionFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DCD90661D1167FB00E36D7E /* AdditionFooterView.xib */; };
+		8DCD906B1D118BB700E36D7E /* ProjectCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCD906A1D118BB700E36D7E /* ProjectCreationViewController.swift */; };
 		8DD2366A1CFAFC0000B7C8B6 /* Kalam-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DD236591CFAFB6D00B7C8B6 /* Kalam-Bold.ttf */; };
 		8DD2366B1CFAFC0000B7C8B6 /* Kalam-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DD2365A1CFAFB6D00B7C8B6 /* Kalam-Light.ttf */; };
 		8DD2366C1CFAFC0000B7C8B6 /* Kalam-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DD2365B1CFAFB6D00B7C8B6 /* Kalam-Regular.ttf */; };
@@ -170,11 +173,11 @@
 		8D2F0CB91D0EEDFC0065B7CF /* UserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		8D2F0CBA1D0EEDFC0065B7CF /* UserTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewCell.xib; sourceTree = "<group>"; };
 		8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtension.swift; sourceTree = "<group>"; };
-		8D485B1B1CE9B39400465E69 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
-		8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectedUsersTableViewController.swift; sourceTree = "<group>"; };
+		8D485B1B1CE9B39400465E69 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Color.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ConnectedUsersTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		8D6DF5701CE8BC51008B7E95 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		8D6DF5711CE8BC51008B7E95 /* Storyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
-		8D70D6901CF0BABE00B3754D /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		8D70D6901CF0BABE00B3754D /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = OnboardingViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		8D7FCC681D09690300C9485F /* ProjectTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectTableViewCell.swift; sourceTree = "<group>"; };
 		8D7FCC691D09690300C9485F /* ProjectTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectTableViewCell.xib; sourceTree = "<group>"; };
 		8D7FCC6C1D09691300C9485F /* TeamTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamTableViewCell.swift; sourceTree = "<group>"; };
@@ -191,12 +194,15 @@
 		8DA5F3E11CF9BCD600A37E33 /* WelcomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WelcomView.xib; sourceTree = "<group>"; };
 		8DA5F3E31CF9C4EE00A37E33 /* GetStartedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetStartedView.swift; sourceTree = "<group>"; };
 		8DA5F3E61CF9C50B00A37E33 /* GetStartedView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GetStartedView.xib; sourceTree = "<group>"; };
-		8DB6D07C1CDF526100B73529 /* ToolsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolsViewController.swift; sourceTree = "<group>"; };
+		8DB6D07C1CDF526100B73529 /* ToolsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ToolsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		8DBD19471C15C9ED0073BE8B /* Mentor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Mentor.entitlements; sourceTree = "<group>"; };
 		8DBD19481C15C9F30073BE8B /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		8DBD194B1C15CAC50073BE8B /* Project.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		8DBD195A1C15CDEC0073BE8B /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		8DBD195C1C15D1C60073BE8B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		8DCD90641D1167E400E36D7E /* AdditionFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionFooterView.swift; sourceTree = "<group>"; };
+		8DCD90661D1167FB00E36D7E /* AdditionFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdditionFooterView.xib; sourceTree = "<group>"; };
+		8DCD906A1D118BB700E36D7E /* ProjectCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectCreationViewController.swift; sourceTree = "<group>"; };
 		8DD236591CFAFB6D00B7C8B6 /* Kalam-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kalam-Bold.ttf"; sourceTree = "<group>"; };
 		8DD2365A1CFAFB6D00B7C8B6 /* Kalam-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kalam-Light.ttf"; sourceTree = "<group>"; };
 		8DD2365B1CFAFB6D00B7C8B6 /* Kalam-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kalam-Regular.ttf"; sourceTree = "<group>"; };
@@ -219,12 +225,12 @@
 		9E35B7671164317CAE5259CE /* Pods_Collabboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Collabboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC307FF31BF1F69300C28D5D /* Collabboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Collabboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC307FF61BF1F69300C28D5D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AC307FF81BF1F69300C28D5D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		AC307FF81BF1F69300C28D5D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AC307FFB1BF1F69300C28D5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AC307FFD1BF1F69300C28D5D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC3080001BF1F69300C28D5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC3080021BF1F69300C28D5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AC778DE81BF1F86E00669BD7 /* DrawableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawableView.swift; sourceTree = "<group>"; };
+		AC778DE81BF1F86E00669BD7 /* DrawableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DrawableView.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		ADAF43C211E74118C7C52F2B /* Pods-Collabboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Collabboard.release.xcconfig"; path = "Pods/Target Support Files/Pods-Collabboard/Pods-Collabboard.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -384,6 +390,24 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		8DCD90631D11679800E36D7E /* FooterViews */ = {
+			isa = PBXGroup;
+			children = (
+				8DCD90641D1167E400E36D7E /* AdditionFooterView.swift */,
+				8DCD90661D1167FB00E36D7E /* AdditionFooterView.xib */,
+			);
+			path = FooterViews;
+			sourceTree = "<group>";
+		};
+		8DCD90691D118B7100E36D7E /* Creations */ = {
+			isa = PBXGroup;
+			children = (
+				8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */,
+				8DCD906A1D118BB700E36D7E /* ProjectCreationViewController.swift */,
+			);
+			path = Creations;
+			sourceTree = "<group>";
+		};
 		A0D3A4118E105A9B28EDEC64 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -434,6 +458,7 @@
 		AC778DE61BF1F80B00669BD7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8DCD90631D11679800E36D7E /* FooterViews */,
 				8D7FCC651D0968B700C9485F /* Cells */,
 				8DA5F3DC1CF9BC7000A37E33 /* OnBoarding */,
 				8D008E3C1CF07C0000005B59 /* UISubclasses */,
@@ -447,12 +472,12 @@
 		AC778DE71BF1F81D00669BD7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8DCD90691D118B7100E36D7E /* Creations */,
 				8D017A021CEB99BF008B7B9D /* OnBoarding */,
 				8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */,
 				8D1120191C1ED23F000E041B /* TeamTableViewController.swift */,
 				AC307FF81BF1F69300C28D5D /* ViewController.swift */,
 				8D0D6DC31C441AF10018CE41 /* ColorGenerationViewController.swift */,
-				8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */,
 				8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */,
 				8DB6D07C1CDF526100B73529 /* ToolsViewController.swift */,
 			);
@@ -587,6 +612,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DD2366A1CFAFC0000B7C8B6 /* Kalam-Bold.ttf in Resources */,
+				8DCD90671D1167FB00E36D7E /* AdditionFooterView.xib in Resources */,
 				8D7FCC6F1D09691300C9485F /* TeamTableViewCell.xib in Resources */,
 				8D2F0CBC1D0EEDFC0065B7CF /* UserTableViewCell.xib in Resources */,
 				8DD2366B1CFAFC0000B7C8B6 /* Kalam-Light.ttf in Resources */,
@@ -689,6 +715,7 @@
 				8D058ADE1C17314F00A2D076 /* Point.swift in Sources */,
 				8D91F2C11C7B38C3001D6A4E /* ColorGenerator.swift in Sources */,
 				8DA5F3E01CF9BCB900A37E33 /* WelcomView.swift in Sources */,
+				8DCD90651D1167E400E36D7E /* AdditionFooterView.swift in Sources */,
 				8D13B4F61C1ACAC6005F7325 /* Constants.swift in Sources */,
 				8D6DF5731CE8BC51008B7E95 /* Storyboard.swift in Sources */,
 				8D11201A1C1ED23F000E041B /* TeamTableViewController.swift in Sources */,
@@ -708,6 +735,7 @@
 				8DB6D07D1CDF526100B73529 /* ToolsViewController.swift in Sources */,
 				8D485B1C1CE9B39400465E69 /* Color.swift in Sources */,
 				8D11201E1C1EFEB9000E041B /* ProjectTableViewController.swift in Sources */,
+				8DCD906B1D118BB700E36D7E /* ProjectCreationViewController.swift in Sources */,
 				8D7FCC6A1D09690300C9485F /* ProjectTableViewCell.swift in Sources */,
 				8DD2367A1CFAFC1A00B7C8B6 /* Font.swift in Sources */,
 				8D9679CE1C453603009B2299 /* TeamCreationViewController.swift in Sources */,

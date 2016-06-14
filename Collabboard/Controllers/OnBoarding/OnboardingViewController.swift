@@ -15,8 +15,8 @@ class OnboardingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         pageControl = {
-            $0.pageIndicatorTintColor = UIColor.draftLinkGreyColor()
-            $0.currentPageIndicatorTintColor = UIColor.draftLinkBlueColor()
+            $0.pageIndicatorTintColor = UIColor.draftLinkGrey()
+            $0.currentPageIndicatorTintColor = UIColor.draftLinkBlue()
             return $0
         }(pageControl)
         
