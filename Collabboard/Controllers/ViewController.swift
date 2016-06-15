@@ -339,7 +339,9 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
      */
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         imageBG?.image = nil
-        drawableView.project!.publicSave()
+        if let project = drawableView.project {
+            project.publicSave()
+        }
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
 }
