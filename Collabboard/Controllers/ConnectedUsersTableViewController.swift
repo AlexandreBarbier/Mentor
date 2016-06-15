@@ -40,41 +40,42 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
                     return
                 }
                 self.displayedDataSource = users
-                
-                cbFirebase.users.observeSingleEventOfType(FIRDataEventType.Value, withBlock: { (snapshot) in
-                    guard let snapshotDictionary = snapshot.value as? Dictionary<String, Bool> else {
-                        return
-                    }
-                    for i in 0 ..< self.displayedDataSource.count {
-                        if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as? UserTableViewCell {
-                            let user = self.displayedDataSource[i]
-                            
-                            if let connected = snapshotDictionary[user.recordId.recordName]?.boolValue {
-                                cell.presenceIndicatorView.backgroundColor = connected ? UIColor.greenColor():UIColor.redColor()
-                            }
-                            else {
-                                cell.presenceIndicatorView.backgroundColor = UIColor.draftLinkGrey()
-                            }
+                if cbFirebase.users != nil {
+                    cbFirebase.users.observeSingleEventOfType(FIRDataEventType.Value, withBlock: { (snapshot) in
+                        guard let snapshotDictionary = snapshot.value as? Dictionary<String, Bool> else {
+                            return
                         }
-                    }
-                })
-                cbFirebase.firebaseUserObserverHandle = cbFirebase.users.observeEventType(FIRDataEventType.ChildChanged) { (snap: FIRDataSnapshot) -> Void in
-                    
-                    NSOperationQueue.mainQueue().addOperationWithBlock({
-                        let index = self.displayedDataSource.indexOf({ (user) -> Bool in
-                            if user.recordId.recordName == snap.key {
-                                return true
-                            }
-                            return false
-                        })
-                        if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index!, inSection: 0)) as? UserTableViewCell {
-                            if let connected = snap.value as? Bool {
-                                cell.presenceIndicatorView.backgroundColor = connected ? UIColor.greenColor():UIColor.redColor()
+                        for i in 0 ..< self.displayedDataSource.count {
+                            if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as? UserTableViewCell {
+                                let user = self.displayedDataSource[i]
+                                
+                                if let connected = snapshotDictionary[user.recordId.recordName]?.boolValue {
+                                    cell.presenceIndicatorView.backgroundColor = connected ? UIColor.greenColor():UIColor.redColor()
+                                }
+                                else {
+                                    cell.presenceIndicatorView.backgroundColor = UIColor.draftLinkGrey()
+                                }
                             }
                         }
                     })
+                    cbFirebase.firebaseUserObserverHandle = cbFirebase.users.observeEventType(FIRDataEventType.ChildChanged) { (snap: FIRDataSnapshot) -> Void in
+                        
+                        NSOperationQueue.mainQueue().addOperationWithBlock({
+                            let index = self.displayedDataSource.indexOf({ (user) -> Bool in
+                                if user.recordId.recordName == snap.key {
+                                    return true
+                                }
+                                return false
+                            })
+                            if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index!, inSection: 0)) as? UserTableViewCell {
+                                if let connected = snap.value as? Bool {
+                                    cell.presenceIndicatorView.backgroundColor = connected ? UIColor.greenColor():UIColor.redColor()
+                                }
+                            }
+                        })
+                    }
+                    cbFirebase.users.updateChildValues([User.currentUser!.recordId.recordName:true])
                 }
-                cbFirebase.users.updateChildValues([User.currentUser!.recordId.recordName:true])
             }
         }
     }
