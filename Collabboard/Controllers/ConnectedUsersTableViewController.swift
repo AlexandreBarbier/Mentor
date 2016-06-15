@@ -67,9 +67,11 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
                                 }
                                 return false
                             })
-                            if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index!, inSection: 0)) as? UserTableViewCell {
-                                if let connected = snap.value as? Bool {
-                                    cell.presenceIndicatorView.backgroundColor = connected ? UIColor.greenColor():UIColor.redColor()
+                            if index != nil {
+                                if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index!, inSection: 0)) as? UserTableViewCell {
+                                    if let connected = snap.value as? Bool {
+                                        cell.presenceIndicatorView.backgroundColor = connected ? UIColor.greenColor():UIColor.redColor()
+                                    }
                                 }
                             }
                         })
