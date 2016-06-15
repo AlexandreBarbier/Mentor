@@ -84,24 +84,3 @@ extension ProjectTableViewController {
         return v
     }
 }
-
-// MARK: - Actions
-extension ProjectTableViewController {
-    @IBAction func createTouch(sender: AnyObject) {
-        let alert = UIAlertController(title: "Project", message: "Create a new project", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addTextFieldWithConfigurationHandler { (textField) -> Void in
-            textField.placeholder = "project name"
-        }
-        alert.addAction(UIAlertAction(title: "Create", style: .Default, handler: { (action) -> Void in
-            if let textF = alert.textFields!.first where textF.text != "" {
-                let project = Project.create(textF.text!, team: self.team, completion: self.completion)
-                self.displayedDataSource.append(project)
-                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
-            }
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-    }
-}

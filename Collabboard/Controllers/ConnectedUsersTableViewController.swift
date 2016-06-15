@@ -52,6 +52,9 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
                             if let connected = snapshotDictionary[user.recordId.recordName]?.boolValue {
                                 cell.presenceIndicatorView.backgroundColor = connected ? UIColor.greenColor():UIColor.redColor()
                             }
+                            else {
+                                cell.presenceIndicatorView.backgroundColor = UIColor.draftLinkGrey()
+                            }
                         }
                     }
                 })
@@ -65,8 +68,9 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
                             return false
                         })
                         if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index!, inSection: 0)) as? UserTableViewCell {
-                            let connected = snap.value as! Bool
-                            cell.presenceIndicatorView.backgroundColor = connected ? UIColor.greenColor():UIColor.redColor()
+                            if let connected = snap.value as? Bool {
+                                cell.presenceIndicatorView.backgroundColor = connected ? UIColor.greenColor():UIColor.redColor()
+                            }
                         }
                     })
                 }
