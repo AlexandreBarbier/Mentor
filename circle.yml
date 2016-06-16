@@ -1,8 +1,7 @@
 machine:
+  pre:
+   -pod install
   xcode:
     version: 7.3
   environment:
     XCODE_WORKSPACE: Collabboard.xcworkspace
-checkout:
-  post:
-    - pod install
