@@ -2,3 +2,6 @@ machine:
   xcode:
     version: 7.3
 
+dependencies:
+  override:
+	pod install
