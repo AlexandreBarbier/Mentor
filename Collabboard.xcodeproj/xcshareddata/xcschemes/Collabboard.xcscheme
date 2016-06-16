@@ -28,6 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AC3E690D19B4C84500681A5A"
+               BuildableName = "ABModelTests.xctest"
+               BlueprintName = "ABModelTests"
+               ReferencedContainer = "container:Collabboard/Dependencies/SwiftLib/ABModel/ABModel.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AC3E696E19B4C8D600681A5A"
+               BuildableName = "ABUIKitTests.xctest"
+               BlueprintName = "ABUIKitTests"
+               ReferencedContainer = "container:Collabboard/Dependencies/SwiftLib/ABUIKit/ABUIKit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
