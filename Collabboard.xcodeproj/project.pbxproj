@@ -45,6 +45,7 @@
 		8DA5F3E21CF9BCD600A37E33 /* WelcomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DA5F3E11CF9BCD600A37E33 /* WelcomView.xib */; };
 		8DA5F3E41CF9C4EE00A37E33 /* GetStartedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA5F3E31CF9C4EE00A37E33 /* GetStartedView.swift */; };
 		8DA5F3E71CF9C50B00A37E33 /* GetStartedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DA5F3E61CF9C50B00A37E33 /* GetStartedView.xib */; };
+		8DAD0D7D1D12AB8D00E7782A /* CollabboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DAD0D7C1D12AB8D00E7782A /* CollabboardTests.swift */; };
 		8DB6D07D1CDF526100B73529 /* ToolsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB6D07C1CDF526100B73529 /* ToolsViewController.swift */; };
 		8DBD19491C15C9F30073BE8B /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DBD19481C15C9F30073BE8B /* CloudKit.framework */; };
 		8DBD194C1C15CAC50073BE8B /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD194B1C15CAC50073BE8B /* Project.swift */; };
@@ -137,6 +138,13 @@
 			remoteGlobalIDString = AC3E690219B4C84500681A5A;
 			remoteInfo = ABModel;
 		};
+		8DAD0D7F1D12AB8D00E7782A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC307FEB1BF1F69300C28D5D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC307FF21BF1F69300C28D5D;
+			remoteInfo = Collabboard;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -194,6 +202,9 @@
 		8DA5F3E11CF9BCD600A37E33 /* WelcomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WelcomView.xib; sourceTree = "<group>"; };
 		8DA5F3E31CF9C4EE00A37E33 /* GetStartedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetStartedView.swift; sourceTree = "<group>"; };
 		8DA5F3E61CF9C50B00A37E33 /* GetStartedView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GetStartedView.xib; sourceTree = "<group>"; };
+		8DAD0D7A1D12AB8D00E7782A /* CollabboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollabboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DAD0D7C1D12AB8D00E7782A /* CollabboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabboardTests.swift; sourceTree = "<group>"; };
+		8DAD0D7E1D12AB8D00E7782A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DB6D07C1CDF526100B73529 /* ToolsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ToolsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		8DBD19471C15C9ED0073BE8B /* Mentor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Mentor.entitlements; sourceTree = "<group>"; };
 		8DBD19481C15C9F30073BE8B /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -235,6 +246,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8DAD0D771D12AB8D00E7782A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AC307FF01BF1F69300C28D5D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -376,6 +394,15 @@
 			path = OnBoarding;
 			sourceTree = "<group>";
 		};
+		8DAD0D7B1D12AB8D00E7782A /* CollabboardTests */ = {
+			isa = PBXGroup;
+			children = (
+				8DAD0D7C1D12AB8D00E7782A /* CollabboardTests.swift */,
+				8DAD0D7E1D12AB8D00E7782A /* Info.plist */,
+			);
+			path = CollabboardTests;
+			sourceTree = "<group>";
+		};
 		8DBD194A1C15CA6D0073BE8B /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -421,6 +448,7 @@
 			isa = PBXGroup;
 			children = (
 				AC307FF51BF1F69300C28D5D /* Collabboard */,
+				8DAD0D7B1D12AB8D00E7782A /* CollabboardTests */,
 				AC307FF41BF1F69300C28D5D /* Products */,
 				06E6CF46489B7F6E1A244BF4 /* Pods */,
 				A0D3A4118E105A9B28EDEC64 /* Frameworks */,
@@ -431,6 +459,7 @@
 			isa = PBXGroup;
 			children = (
 				AC307FF31BF1F69300C28D5D /* Collabboard.app */,
+				8DAD0D7A1D12AB8D00E7782A /* CollabboardTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -497,6 +526,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8DAD0D791D12AB8D00E7782A /* CollabboardTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8DAD0D851D12AB8D00E7782A /* Build configuration list for PBXNativeTarget "CollabboardTests" */;
+			buildPhases = (
+				8DAD0D761D12AB8D00E7782A /* Sources */,
+				8DAD0D771D12AB8D00E7782A /* Frameworks */,
+				8DAD0D781D12AB8D00E7782A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8DAD0D801D12AB8D00E7782A /* PBXTargetDependency */,
+			);
+			name = CollabboardTests;
+			productName = CollabboardTests;
+			productReference = 8DAD0D7A1D12AB8D00E7782A /* CollabboardTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		AC307FF21BF1F69300C28D5D /* Collabboard */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AC3080051BF1F69300C28D5D /* Build configuration list for PBXNativeTarget "Collabboard" */;
@@ -529,10 +576,14 @@
 		AC307FEB1BF1F69300C28D5D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Alexandre Barbier";
 				TargetAttributes = {
+					8DAD0D791D12AB8D00E7782A = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = AC307FF21BF1F69300C28D5D;
+					};
 					AC307FF21BF1F69300C28D5D = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = GSBM8D97ZM;
@@ -571,6 +622,7 @@
 			projectRoot = "";
 			targets = (
 				AC307FF21BF1F69300C28D5D /* Collabboard */,
+				8DAD0D791D12AB8D00E7782A /* CollabboardTests */,
 			);
 		};
 /* End PBXProject section */
@@ -607,6 +659,13 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8DAD0D781D12AB8D00E7782A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AC307FF11BF1F69300C28D5D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -706,6 +765,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8DAD0D761D12AB8D00E7782A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DAD0D7D1D12AB8D00E7782A /* CollabboardTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AC307FEF1BF1F69300C28D5D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -774,6 +841,11 @@
 			name = ABModel;
 			targetProxy = 8D9E8E211C621AAD0076030A /* PBXContainerItemProxy */;
 		};
+		8DAD0D801D12AB8D00E7782A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AC307FF21BF1F69300C28D5D /* Collabboard */;
+			targetProxy = 8DAD0D7F1D12AB8D00E7782A /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -804,6 +876,35 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8DAD0D811D12AB8D00E7782A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = CollabboardTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.abarbier.CollabboardTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Collabboard.app/Collabboard";
+			};
+			name = Debug;
+		};
+		8DAD0D821D12AB8D00E7782A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = CollabboardTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.abarbier.CollabboardTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Collabboard.app/Collabboard";
+			};
+			name = Release;
+		};
 		AC3080031BF1F69300C28D5D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -942,6 +1043,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8DAD0D851D12AB8D00E7782A /* Build configuration list for PBXNativeTarget "CollabboardTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8DAD0D811D12AB8D00E7782A /* Debug */,
+				8DAD0D821D12AB8D00E7782A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		AC307FEE1BF1F69300C28D5D /* Build configuration list for PBXProject "Collabboard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

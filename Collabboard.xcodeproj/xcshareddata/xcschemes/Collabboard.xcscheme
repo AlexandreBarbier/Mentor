@@ -32,20 +32,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AC3E690D19B4C84500681A5A"
-               BuildableName = "ABModelTests.xctest"
-               BlueprintName = "ABModelTests"
-               ReferencedContainer = "container:Collabboard/Dependencies/SwiftLib/ABModel/ABModel.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AC3E696E19B4C8D600681A5A"
-               BuildableName = "ABUIKitTests.xctest"
-               BlueprintName = "ABUIKitTests"
-               ReferencedContainer = "container:Collabboard/Dependencies/SwiftLib/ABUIKit/ABUIKit.xcodeproj">
+               BlueprintIdentifier = "8DAD0D791D12AB8D00E7782A"
+               BuildableName = "CollabboardTests.xctest"
+               BlueprintName = "CollabboardTests"
+               ReferencedContainer = "container:Collabboard.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
