@@ -1050,6 +1050,7 @@
 				8DAD0D821D12AB8D00E7782A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AC307FEE1BF1F69300C28D5D /* Build configuration list for PBXProject "Collabboard" */ = {
 			isa = XCConfigurationList;
