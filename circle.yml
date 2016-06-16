@@ -2,7 +2,6 @@ machine:
   xcode:
     version: 7.3
 
-dependencies:
-  override:
-   - CocoaPods :
-      pod install
+checkout:
+  post:
+    - pod install
