@@ -1,6 +1,6 @@
 machine:
   pre:
-   -pod install
+   - pod install
   xcode:
     version: 7.3
   environment:
