@@ -1,9 +1,0 @@
-machine:
-  xcode:
-    version: 7.3
-  environment:
-    XCODE_WORKSPACE: Collabboard.xcworkspace
-    XCODE_SCHEME: Collabboard
-checkout:
-   post:
-    - pod install
