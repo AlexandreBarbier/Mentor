@@ -39,8 +39,6 @@
 		8D9679CE1C453603009B2299 /* TeamCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */; };
 		8D9E8E1B1C621AAD0076030A /* ABUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E141C621A600076030A /* ABUIKit.framework */; };
 		8D9E8E1C1C621AAD0076030A /* ABUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E141C621A600076030A /* ABUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8D9E8E1F1C621AAD0076030A /* ABModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E021C621A4F0076030A /* ABModel.framework */; };
-		8D9E8E201C621AAD0076030A /* ABModel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E021C621A4F0076030A /* ABModel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8DA5F3E01CF9BCB900A37E33 /* WelcomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA5F3DF1CF9BCB900A37E33 /* WelcomView.swift */; };
 		8DA5F3E21CF9BCD600A37E33 /* WelcomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DA5F3E11CF9BCD600A37E33 /* WelcomView.xib */; };
 		8DA5F3E41CF9C4EE00A37E33 /* GetStartedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA5F3E31CF9C4EE00A37E33 /* GetStartedView.swift */; };
@@ -82,20 +80,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8D9E8E011C621A4F0076030A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8D9E8DFC1C621A4F0076030A /* ABModel.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AC3E690319B4C84500681A5A;
-			remoteInfo = ABModel;
-		};
-		8D9E8E031C621A4F0076030A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8D9E8DFC1C621A4F0076030A /* ABModel.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AC3E690E19B4C84500681A5A;
-			remoteInfo = ABModelTests;
-		};
 		8D9E8E131C621A600076030A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8D9E8E0E1C621A600076030A /* ABUIKit.xcodeproj */;
@@ -117,26 +101,12 @@
 			remoteGlobalIDString = AC3E696319B4C8D600681A5A;
 			remoteInfo = ABUIKit;
 		};
-		8D9E8E191C621A940076030A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8D9E8DFC1C621A4F0076030A /* ABModel.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = AC3E690219B4C84500681A5A;
-			remoteInfo = ABModel;
-		};
 		8D9E8E1D1C621AAD0076030A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8D9E8E0E1C621A600076030A /* ABUIKit.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = AC3E696319B4C8D600681A5A;
 			remoteInfo = ABUIKit;
-		};
-		8D9E8E211C621AAD0076030A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8D9E8DFC1C621A4F0076030A /* ABModel.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = AC3E690219B4C84500681A5A;
-			remoteInfo = ABModel;
 		};
 		8DAD0D7F1D12AB8D00E7782A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -155,7 +125,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				8D9E8E1C1C621AAD0076030A /* ABUIKit.framework in Embed Frameworks */,
-				8D9E8E201C621AAD0076030A /* ABModel.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,7 +165,6 @@
 		8D91FD0A1C6B5AD60088F0FA /* DrawableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawableTextView.swift; sourceTree = "<group>"; };
 		8D9679C91C4535B8009B2299 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CreationStoryboard.storyboard; sourceTree = "<group>"; };
 		8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamCreationViewController.swift; sourceTree = "<group>"; };
-		8D9E8DFC1C621A4F0076030A /* ABModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ABModel.xcodeproj; path = SwiftLib/ABModel/ABModel.xcodeproj; sourceTree = "<group>"; };
 		8D9E8E0E1C621A600076030A /* ABUIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ABUIKit.xcodeproj; path = SwiftLib/ABModel/../ABUIKit/ABUIKit.xcodeproj; sourceTree = "<group>"; };
 		8DA5F3DF1CF9BCB900A37E33 /* WelcomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomView.swift; sourceTree = "<group>"; };
 		8DA5F3E11CF9BCD600A37E33 /* WelcomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WelcomView.xib; sourceTree = "<group>"; };
@@ -258,7 +226,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DBD19491C15C9F30073BE8B /* CloudKit.framework in Frameworks */,
-				8D9E8E1F1C621AAD0076030A /* ABModel.framework in Frameworks */,
 				8D9E8E1B1C621AAD0076030A /* ABUIKit.framework in Frameworks */,
 				184BB10B58C49C36575784DD /* Pods_Collabboard.framework in Frameworks */,
 			);
@@ -363,15 +330,6 @@
 				8D2F0CBA1D0EEDFC0065B7CF /* UserTableViewCell.xib */,
 			);
 			path = Cells;
-			sourceTree = "<group>";
-		};
-		8D9E8DFD1C621A4F0076030A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8D9E8E021C621A4F0076030A /* ABModel.framework */,
-				8D9E8E041C621A4F0076030A /* ABModelTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		8D9E8E0F1C621A600076030A /* Products */ = {
@@ -517,7 +475,6 @@
 			isa = PBXGroup;
 			children = (
 				8D9E8E0E1C621A600076030A /* ABUIKit.xcodeproj */,
-				8D9E8DFC1C621A4F0076030A /* ABModel.xcodeproj */,
 				8DBD19481C15C9F30073BE8B /* CloudKit.framework */,
 			);
 			path = Dependencies;
@@ -561,9 +518,7 @@
 			);
 			dependencies = (
 				8D9E8E181C621A940076030A /* PBXTargetDependency */,
-				8D9E8E1A1C621A940076030A /* PBXTargetDependency */,
 				8D9E8E1E1C621AAD0076030A /* PBXTargetDependency */,
-				8D9E8E221C621AAD0076030A /* PBXTargetDependency */,
 			);
 			name = Collabboard;
 			productName = Mentor;
@@ -611,10 +566,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 8D9E8DFD1C621A4F0076030A /* Products */;
-					ProjectRef = 8D9E8DFC1C621A4F0076030A /* ABModel.xcodeproj */;
-				},
-				{
 					ProductGroup = 8D9E8E0F1C621A600076030A /* Products */;
 					ProjectRef = 8D9E8E0E1C621A600076030A /* ABUIKit.xcodeproj */;
 				},
@@ -628,20 +579,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		8D9E8E021C621A4F0076030A /* ABModel.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ABModel.framework;
-			remoteRef = 8D9E8E011C621A4F0076030A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8D9E8E041C621A4F0076030A /* ABModelTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ABModelTests.xctest;
-			remoteRef = 8D9E8E031C621A4F0076030A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		8D9E8E141C621A600076030A /* ABUIKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -826,20 +763,10 @@
 			name = ABUIKit;
 			targetProxy = 8D9E8E171C621A940076030A /* PBXContainerItemProxy */;
 		};
-		8D9E8E1A1C621A940076030A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ABModel;
-			targetProxy = 8D9E8E191C621A940076030A /* PBXContainerItemProxy */;
-		};
 		8D9E8E1E1C621AAD0076030A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ABUIKit;
 			targetProxy = 8D9E8E1D1C621AAD0076030A /* PBXContainerItemProxy */;
-		};
-		8D9E8E221C621AAD0076030A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ABModel;
-			targetProxy = 8D9E8E211C621AAD0076030A /* PBXContainerItemProxy */;
 		};
 		8DAD0D801D12AB8D00E7782A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
