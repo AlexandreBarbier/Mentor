@@ -4,4 +4,5 @@ machine:
 
 dependencies:
   override:
-   pod install
+   - CocoaPods :
+      pod install
