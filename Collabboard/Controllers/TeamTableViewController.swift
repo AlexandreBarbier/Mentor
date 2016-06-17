@@ -106,8 +106,8 @@ extension TeamTableViewController {
         }
         
         if segue.identifier == StoryboardSegue.Main.TeamCreationSegue.rawValue {
-            let teamCreationVC = segue.destinationViewController as? TeamCreationViewController
-            teamCreationVC?.completion = { (team, project) in
+            let teamCreationVC = segue.destinationViewController as! TeamCreationViewController
+            teamCreationVC.completion = { (team, project) in
                 self.displayedDataSource.append(team)
                 self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
             }

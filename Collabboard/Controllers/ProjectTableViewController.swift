@@ -46,7 +46,7 @@ extension ProjectTableViewController {
         if segue.identifier == StoryboardSegue.Main.ProjectCreationSegue.rawValue {
             let vc = segue.destinationViewController as! ProjectCreationViewController
             vc.team = self.team
-            vc.completion = {(project:Project, team:Team) in
+            vc.completion = { (project:Project, team:Team) in
                 self.displayedDataSource.append(project)
                 self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
                 self.completion?(project: project,team: team)

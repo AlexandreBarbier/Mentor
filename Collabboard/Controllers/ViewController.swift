@@ -33,6 +33,7 @@ class ViewController: UIViewController {
     @IBOutlet var logoItem: UIBarButtonItem!
     @IBOutlet var showTeamButton: UIBarButtonItem!
     
+    @IBOutlet var teamVCTopConstraint: NSLayoutConstraint!
     private var connectedUsersView : ConnectedUsersTableViewController?
     private var interfaceIsVisible = true
     private var canDownloadBG = true
@@ -64,6 +65,13 @@ extension ViewController {
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                 self.progressView.progress = Float(progress)
                 self.progressView.hidden = self.progressView.progress == 1.0
+                if self.progressView.hidden {
+                    self.teamVCTopConstraint.constant = 0.0
+                }
+                else {
+                   self.teamVCTopConstraint.constant = 6.0
+                }
+                
             })
         }
         activity.rounded()

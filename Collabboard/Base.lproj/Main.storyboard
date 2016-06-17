@@ -197,6 +197,7 @@
                             <constraint firstAttribute="trailing" secondItem="6kI-HS-PAE" secondAttribute="trailing" id="a4Q-IY-5EP"/>
                             <constraint firstAttribute="trailing" secondItem="zis-Y4-gmw" secondAttribute="trailing" id="adQ-eb-VO4"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="6kI-HS-PAE" secondAttribute="bottom" id="gMD-Fd-Szv"/>
+                            <constraint firstItem="zis-Y4-gmw" firstAttribute="top" secondItem="zfg-7f-8jw" secondAttribute="bottom" constant="6" id="mkt-Gh-9fi"/>
                             <constraint firstItem="b0f-Av-GDU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="rjd-hn-eFc"/>
                             <constraint firstItem="zfg-7f-8jw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="swP-Dx-NC0"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="OGS-3b-1qY" secondAttribute="bottom" id="yso-ik-9Z7"/>
@@ -206,6 +207,7 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="3NM-PJ-ImE"/>
+                                <exclude reference="WZC-vi-NBV"/>
                             </mask>
                         </variation>
                     </view>
@@ -217,6 +219,7 @@
                         <outlet property="progressView" destination="8bn-v9-XUi" id="jPJ-K7-tBr"/>
                         <outlet property="scrollView" destination="6kI-HS-PAE" id="We6-3b-smD"/>
                         <outlet property="showTeamButton" destination="FEc-Nf-hfs" id="KaW-Jh-eaW"/>
+                        <outlet property="teamVCTopConstraint" destination="mkt-Gh-9fi" id="1EL-lM-i1h"/>
                         <outlet property="teamViewContainer" destination="zis-Y4-gmw" id="vZU-2i-Y2B"/>
                         <outlet property="topToolbar" destination="zfg-7f-8jw" id="dny-Z5-X2b"/>
                         <outletCollection property="bottomBarButtons" destination="vU9-wE-Bw7" collectionClass="NSMutableArray" id="FYx-cg-cZX"/>
@@ -431,6 +434,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="WfB-5k-zdh" firstAttribute="top" secondItem="izy-BW-FF3" secondAttribute="bottom" constant="8" id="0fL-f2-d5r"/>
+                            <constraint firstItem="oZK-f3-fkL" firstAttribute="top" secondItem="gu4-Op-7vt" secondAttribute="topMargin" id="1fe-BY-jGo"/>
                             <constraint firstItem="OU7-cC-XZt" firstAttribute="top" secondItem="WfB-5k-zdh" secondAttribute="bottom" constant="172" id="2NP-Yg-S1Q"/>
                             <constraint firstAttribute="trailing" secondItem="WfB-5k-zdh" secondAttribute="trailing" id="2pe-Gx-R5C"/>
                             <constraint firstItem="oZK-f3-fkL" firstAttribute="top" secondItem="6jR-Vf-rlG" secondAttribute="bottom" id="5H9-gZ-H1z"/>
@@ -446,6 +450,11 @@
                             <constraint firstItem="8P4-4r-CyC" firstAttribute="top" secondItem="izy-BW-FF3" secondAttribute="bottom" constant="8" id="xWd-Ae-j54"/>
                             <constraint firstItem="izy-BW-FF3" firstAttribute="leading" secondItem="gu4-Op-7vt" secondAttribute="leading" constant="8" id="yz2-L0-vLE"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="5H9-gZ-H1z"/>
+                            </mask>
+                        </variation>
                     </view>
                     <value key="contentSizeForViewInPopover" type="size" width="300" height="300"/>
                     <connections>
