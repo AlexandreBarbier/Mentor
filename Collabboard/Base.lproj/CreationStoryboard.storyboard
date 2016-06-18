@@ -16,92 +16,72 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="My first team" borderStyle="roundedRect" placeholder="team name" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AEo-U9-Fbs">
-                                <rect key="frame" x="301" y="174" width="119" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="My first project" borderStyle="roundedRect" placeholder="project name" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5gd-vf-F54">
-                                <rect key="frame" x="301" y="212" width="119" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="My first project" placeholder="project name" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5gd-vf-F54" customClass="DFTextField" customModule="Collabboard" customModuleProvider="target">
+                                <rect key="frame" x="40" y="320" width="520" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="2ej-FV-AhW"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gh8-18-9dP">
-                                <rect key="frame" x="192" y="217" width="101" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ipN-kx-1uN">
-                                <rect key="frame" x="277" y="524" width="46" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ipN-kx-1uN" customClass="DFButton" customModule="Collabboard" customModuleProvider="target">
+                                <rect key="frame" x="40" y="538" width="520" height="30"/>
                                 <state key="normal" title="Create"/>
                                 <connections>
                                     <action selector="createTouch:" destination="JqT-5e-p0A" eventType="touchUpInside" id="UIJ-V3-eOs"/>
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2AH-pW-qOF">
-                                <rect key="frame" x="0.0" y="250" width="600" height="100"/>
+                                <rect key="frame" x="40" y="378" width="520" height="128"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="kgI-rW-WTc"/>
+                                    <constraint firstAttribute="height" constant="128" id="kgI-rW-WTc"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="mGv-8S-IZu"/>
                                 </constraints>
                                 <connections>
                                     <segue destination="Vbm-2I-XYE" kind="embed" identifier="ColorSegue" id="oBu-Kn-tqH"/>
                                 </connections>
                             </containerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Team name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEU-by-uQM">
-                                <rect key="frame" x="192" y="179" width="101" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="user name" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JDC-Mg-YhB">
-                                <rect key="frame" x="301" y="136" width="119" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="user name" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JDC-Mg-YhB" customClass="DFTextField" customModule="Collabboard" customModuleProvider="target">
+                                <rect key="frame" x="40" y="204" width="520" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="eLe-68-Ims"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R0t-il-is3">
-                                <rect key="frame" x="192" y="141" width="101" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="t3j-qO-3s6">
-                                <rect key="frame" x="290" y="290" width="20" height="20"/>
-                            </activityIndicatorView>
+                            <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="My first team" placeholder="team name" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AEo-U9-Fbs" customClass="DFTextField" customModule="Collabboard" customModuleProvider="target">
+                                <rect key="frame" x="40" y="262" width="520" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="thM-Wn-TnA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="JDC-Mg-YhB" firstAttribute="centerY" secondItem="R0t-il-is3" secondAttribute="centerY" id="26m-yg-qo4"/>
-                            <constraint firstItem="Gh8-18-9dP" firstAttribute="leading" secondItem="mEU-by-uQM" secondAttribute="leading" id="2jR-Wh-oDp"/>
                             <constraint firstItem="5gd-vf-F54" firstAttribute="top" secondItem="AEo-U9-Fbs" secondAttribute="bottom" constant="8" id="3S6-qn-prF"/>
                             <constraint firstItem="AEo-U9-Fbs" firstAttribute="leading" secondItem="JDC-Mg-YhB" secondAttribute="leading" id="83t-pX-3kr"/>
-                            <constraint firstItem="JDC-Mg-YhB" firstAttribute="leading" secondItem="R0t-il-is3" secondAttribute="trailing" constant="8" id="Bbk-kC-K1n"/>
-                            <constraint firstItem="t3j-qO-3s6" firstAttribute="centerX" secondItem="hby-QT-1cv" secondAttribute="centerX" id="CCf-Td-L4B"/>
-                            <constraint firstItem="cky-GJ-mfi" firstAttribute="top" secondItem="ipN-kx-1uN" secondAttribute="bottom" constant="46" id="F04-G6-51m"/>
+                            <constraint firstItem="cky-GJ-mfi" firstAttribute="top" secondItem="ipN-kx-1uN" secondAttribute="bottom" constant="32" id="F04-G6-51m"/>
                             <constraint firstItem="AEo-U9-Fbs" firstAttribute="top" secondItem="JDC-Mg-YhB" secondAttribute="bottom" constant="8" id="Fil-kr-ktu"/>
-                            <constraint firstItem="2AH-pW-qOF" firstAttribute="centerY" secondItem="hby-QT-1cv" secondAttribute="centerY" id="L8o-hb-8qa"/>
-                            <constraint firstItem="AEo-U9-Fbs" firstAttribute="leading" secondItem="mEU-by-uQM" secondAttribute="trailing" constant="8" id="Nzl-vH-u6Q"/>
+                            <constraint firstItem="ipN-kx-1uN" firstAttribute="top" secondItem="2AH-pW-qOF" secondAttribute="bottom" constant="32" id="KfF-d4-Kck"/>
                             <constraint firstItem="AEo-U9-Fbs" firstAttribute="trailing" secondItem="JDC-Mg-YhB" secondAttribute="trailing" id="ZQV-dM-Bkz"/>
-                            <constraint firstItem="mEU-by-uQM" firstAttribute="centerX" secondItem="hby-QT-1cv" secondAttribute="centerX" constant="-57.5" id="a0y-53-g9g"/>
-                            <constraint firstItem="t3j-qO-3s6" firstAttribute="centerY" secondItem="hby-QT-1cv" secondAttribute="centerY" id="cVg-98-9RC"/>
-                            <constraint firstItem="mEU-by-uQM" firstAttribute="leading" secondItem="R0t-il-is3" secondAttribute="leading" id="eZ8-mg-NFr"/>
-                            <constraint firstItem="5gd-vf-F54" firstAttribute="centerY" secondItem="Gh8-18-9dP" secondAttribute="centerY" id="ed8-IO-kmF"/>
-                            <constraint firstItem="Gh8-18-9dP" firstAttribute="trailing" secondItem="mEU-by-uQM" secondAttribute="trailing" id="etM-wK-bpg"/>
+                            <constraint firstItem="2AH-pW-qOF" firstAttribute="leading" secondItem="5gd-vf-F54" secondAttribute="leading" id="azT-e7-ZwP"/>
+                            <constraint firstItem="ipN-kx-1uN" firstAttribute="trailing" secondItem="2AH-pW-qOF" secondAttribute="trailing" id="b1Y-gJ-njK"/>
                             <constraint firstItem="5gd-vf-F54" firstAttribute="trailing" secondItem="AEo-U9-Fbs" secondAttribute="trailing" id="fLP-4f-tC1"/>
-                            <constraint firstAttribute="trailing" secondItem="2AH-pW-qOF" secondAttribute="trailing" id="fYO-5u-WiP"/>
-                            <constraint firstItem="2AH-pW-qOF" firstAttribute="leading" secondItem="hby-QT-1cv" secondAttribute="leading" id="ihd-gx-Aba"/>
-                            <constraint firstItem="AEo-U9-Fbs" firstAttribute="centerY" secondItem="mEU-by-uQM" secondAttribute="centerY" id="juE-0J-qg9"/>
-                            <constraint firstItem="ipN-kx-1uN" firstAttribute="centerX" secondItem="hby-QT-1cv" secondAttribute="centerX" id="lBE-vg-S9J"/>
-                            <constraint firstItem="mEU-by-uQM" firstAttribute="trailing" secondItem="R0t-il-is3" secondAttribute="trailing" id="lit-9g-DZF"/>
+                            <constraint firstAttribute="trailing" secondItem="2AH-pW-qOF" secondAttribute="trailing" constant="40" id="fYO-5u-WiP"/>
+                            <constraint firstItem="2AH-pW-qOF" firstAttribute="leading" secondItem="hby-QT-1cv" secondAttribute="leading" constant="40" id="ihd-gx-Aba"/>
+                            <constraint firstItem="AEo-U9-Fbs" firstAttribute="trailing" secondItem="2AH-pW-qOF" secondAttribute="trailing" id="lMT-9E-zqa"/>
+                            <constraint firstItem="5gd-vf-F54" firstAttribute="trailing" secondItem="2AH-pW-qOF" secondAttribute="trailing" id="sQe-Se-DMF"/>
+                            <constraint firstItem="JDC-Mg-YhB" firstAttribute="trailing" secondItem="2AH-pW-qOF" secondAttribute="trailing" id="v8C-K9-yVo"/>
+                            <constraint firstItem="ipN-kx-1uN" firstAttribute="leading" secondItem="2AH-pW-qOF" secondAttribute="leading" id="xY1-Ex-IRs"/>
                             <constraint firstItem="2AH-pW-qOF" firstAttribute="top" secondItem="5gd-vf-F54" secondAttribute="bottom" constant="8" id="yNW-BS-RIL"/>
                             <constraint firstItem="5gd-vf-F54" firstAttribute="leading" secondItem="AEo-U9-Fbs" secondAttribute="leading" id="zXd-Nd-V5H"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="activity" destination="t3j-qO-3s6" id="LYn-Y7-hyQ"/>
                         <outlet property="projectNameTF" destination="5gd-vf-F54" id="5KH-6f-jTT"/>
                         <outlet property="teamNameTF" destination="AEo-U9-Fbs" id="bZz-3z-VEP"/>
-                        <outlet property="userNameLabel" destination="R0t-il-is3" id="iqV-R6-ZbK"/>
                         <outlet property="userNameTF" destination="JDC-Mg-YhB" id="l66-5X-UWj"/>
                     </connections>
                 </viewController>

@@ -14,6 +14,8 @@ class TeamTableViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var colorChooser: UIView!
     
+    var createdTeam: Team?
+    
     private var displayedDataSource = [Team]()  {
         didSet {
             title = "Team\(displayedDataSource.count > 1 ? "s" : "")"
@@ -68,11 +70,12 @@ extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate  
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TeamTableViewCell") as! TeamTableViewCell
         let team = displayedDataSource[indexPath.row]
+            cell.iconImageView.image = UIImage.Asset.Ic_team.image.imageWithRenderingMode(.AlwaysTemplate)
         if team.currentUserIsAdmin {
-            cell.iconImageView.image = UIImage.Asset.Ic_team.image
+            cell.iconImageView.tintColor = UIColor.draftLinkBlue()
         }
         else {
-            cell.iconImageView.image = nil
+            cell.iconImageView.tintColor = UIColor.draftLinkGrey()
         }
         cell.teamNameLabel.text = "\(team.name)"
         cell.tokenLabel.text = "token : \(displayedDataSource[indexPath.row].token)"
@@ -115,6 +118,16 @@ extension TeamTableViewController {
     }
 }
 
+extension TeamTableViewController : ColorGenerationViewControllerDelegate {
+    func didSelectColor(color: UIColor, seed: CGFloat) {
+        User.currentUser!.addTeam(createdTeam!, color: color, colorSeed: seed, completion: {
+            self.displayedDataSource.append(self.createdTeam!)
+            self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+         //   colorAlert.dismissViewControllerAnimated(true, completion: nil)
+        })
+    }
+}
+
 // MARK: - Actions
 extension TeamTableViewController {
     @IBAction func joinTeamTouch(sender:AnyObject) {
@@ -145,15 +158,7 @@ extension TeamTableViewController {
                         return
                     }
                     let colorAlert = StoryboardScene.Main.instantiateColorGeneratorVC()
-                    colorAlert.team = team1
-                    colorAlert.canChoose = true
-                    colorAlert.completion = { (team:Team, color:UIColor, colorSeed:CGFloat) in
-                        User.currentUser!.addTeam(team, color: color, colorSeed: colorSeed, completion: {
-                            self.displayedDataSource.append(team)
-                            self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
-                            colorAlert.dismissViewControllerAnimated(true, completion: nil)
-                        })
-                    }
+                    self.createdTeam = team1
                     self.addChildViewController(colorAlert)
                     colorAlert.view.alpha = 0.0
                     colorAlert.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 200)

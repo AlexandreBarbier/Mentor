@@ -88,6 +88,7 @@ struct StoryboardSegue {
     case CreateTeamSegue = "CreateTeamSegue"
     case ProjectCreationSegue = "ProjectCreationSegue"
     case TeamCreationSegue = "TeamCreationSegue"
+    case LoadColorChooser = "loadColorChooser"
     case TeamCellSegue = "teamCellSegue"
     case TeamContainerVC = "teamContainerVC"
   }

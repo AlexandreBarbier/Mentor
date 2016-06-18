@@ -8,69 +8,94 @@
 
 import UIKit
 
+class ColorCell: UICollectionViewCell {
+    
+    @IBOutlet var quoteImageView: UIImageView!
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        quoteImageView.image = quoteImageView.image?.imageWithRenderingMode(.AlwaysTemplate)
+        quoteImageView.tintColor  = UIColor.whiteColor()
+        quoteImageView.hidden = true
+    }
+}
+
+protocol ColorGenerationViewControllerDelegate {
+    func didSelectColor(color:UIColor, seed:CGFloat)
+}
+
 class ColorGenerationViewController: UIViewController {
     
-    @IBOutlet var backView: UIView!
-    @IBOutlet var generateColorTouch: UIButton!
-    @IBOutlet var chooseColorButton: UIButton!
+    @IBOutlet var colorCollectionView: UICollectionView!
     
-    var chosenColor : UIColor!
-    var teamName : String = ""
-    var completion : ((team:Team,color:UIColor, colorSeed:CGFloat) -> Void)?
-    var canChoose = false
-    
-    var team : Team! {
-        didSet {
-            ColorGenerator.CGSharedInstance.team = team
-        }
-    }
+    private var colorDataSource:[(color:UIColor, colorSeed:CGFloat)] = []
+    private var selectedIndex = -1
+    var delegate:ColorGenerationViewControllerDelegate?
+    var loadFromNil = false
 }
 
 // MARK: - View lifecycle
 extension ColorGenerationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        ColorGenerator.CGSharedInstance.readyBlock = { (ready:Bool) in
-            self.chooseColor()
+        ColorGenerator.CGSharedInstance.readyBlock = { (ready) in
+            self.colorDataSource = Array<(color:UIColor, colorSeed:CGFloat)>(count: 12, repeatedValue: (UIColor.whiteColor(), 0))
+            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                self.colorCollectionView.reloadData()
+            })
         }
-        generateColorTouch = {
-            $0.rounded(5.0)
-            $0.backgroundColor = UIColor.clearColor()
-            return $0
-        }(generateColorTouch)       
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        if team == nil {
-            ColorGenerator.CGSharedInstance.currentSeed = 0.0
-            chooseColor()
+        if !loadFromNil {
+            if let lastOpenedteamProject = Project.getLastOpen() {
+                ColorGenerator.CGSharedInstance.team = lastOpenedteamProject.team!
+            }
         }
-        if !canChoose {
-            chooseColorButton.hidden = true
+        else {
+            ColorGenerator.CGSharedInstance.currentSeed = 0
+            ColorGenerator.CGSharedInstance.readyBlock!(ready:true)
         }
-    }
-}
-
-// MARK: - Helpers
-extension ColorGenerationViewController {
-    func chooseColor() {
         
-        let colorRGB = ColorGenerator.CGSharedInstance.getNextColor()!.color
-        chosenColor = colorRGB
-        UIView.animateWithDuration(0.3) { () -> Void in
-            self.backView.backgroundColor = self.chosenColor
-        }
     }
 }
 
-// MARK: - Actions
-extension ColorGenerationViewController {
-    @IBAction func chooseColorTouch(sender: AnyObject) {
-        completion?(team: team, color: chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed)
+// MARK: - CollectionView
+extension ColorGenerationViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func configureColorCellForIndexPath(cell: UICollectionViewCell, index: NSIndexPath) {
+        cell.rounded(4)
+        if colorDataSource[index.row].color == UIColor.whiteColor() {
+            colorDataSource[index.row] = ColorGenerator.CGSharedInstance.getNextColor()!
+            cell.backgroundColor = colorDataSource[index.row].color
+        }
+        else {
+            cell.backgroundColor = colorDataSource[index.row].color
+        }
     }
     
-    @IBAction func generateColorTouch(sender: AnyObject) {
-        chooseColor()
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return colorDataSource.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("colorCell", forIndexPath: indexPath) as! ColorCell
+        configureColorCellForIndexPath(cell, index: indexPath)
+        cell.quoteImageView.hidden = selectedIndex != indexPath.row
+        return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+        if let delegate = delegate {
+            delegate.didSelectColor(colorDataSource[indexPath.row].color, seed:colorDataSource[indexPath.row].colorSeed)
+        }
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        if let delegate = delegate {
+            selectedIndex = indexPath.row
+            colorCollectionView.reloadData()
+            delegate.didSelectColor(colorDataSource[indexPath.row].color, seed:colorDataSource[indexPath.row].colorSeed)
+        }
     }
 }

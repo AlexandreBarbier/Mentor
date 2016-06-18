@@ -42,6 +42,17 @@ extension ProjectTableViewController {
 }
 
 extension ProjectTableViewController {
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        if identifier == StoryboardSegue.Main.ProjectCreationSegue.rawValue {
+            if team.admin == User.currentUser!.recordId.recordName {
+                return true
+            }
+            return false
+        }
+        return true
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == StoryboardSegue.Main.ProjectCreationSegue.rawValue {
             let vc = segue.destinationViewController as! ProjectCreationViewController

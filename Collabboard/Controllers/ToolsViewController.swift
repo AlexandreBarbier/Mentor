@@ -77,33 +77,38 @@ protocol ToolsViewDelegate {
 class ToolsViewController: UIViewController {
     @IBOutlet var colorIndicatorView: UIView!
     @IBOutlet var toolsCollectionView: UICollectionView!
-    @IBOutlet var colorCollectionView: UICollectionView!
     @IBOutlet var sizeSlider: UISlider!
     
     private var toolsDataSource : [Tool] = [.pen, .marker]
-    private var colorDataSource:[(color:UIColor, colorSeed:CGFloat)] = []
     
     var delegate : ToolsViewDelegate!
     var currentColor:UIColor!
     var selectedTool:Tool!
-    
 }
 
 // MARK: - View lifecycle
 extension ToolsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         colorIndicatorView.rounded()
         colorIndicatorView.backgroundColor = currentColor
-        ColorGenerator.CGSharedInstance.readyBlock = { (ready) in
-            self.colorDataSource = Array<(color:UIColor, colorSeed:CGFloat)>(count: 12, repeatedValue: (UIColor.whiteColor(), 0))
-            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                self.colorCollectionView.reloadData()
-            })
-        }
-        if let lastOpenedteamProject = Project.getLastOpen() {
-            ColorGenerator.CGSharedInstance.team = lastOpenedteamProject.team!
+    }
+}
+
+extension ToolsViewController:ColorGenerationViewControllerDelegate {
+    func didSelectColor(color: UIColor, seed: CGFloat) {
+        colorIndicatorView.backgroundColor = color
+        delegate.toolsViewChangeUserColor(self, color: color, colorSeed: seed)
+    }
+}
+
+extension ToolsViewController {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == StoryboardSegue.Main.LoadColorChooser.rawValue {
+            let dest = segue.destinationViewController as! ColorGenerationViewController
+            dest.delegate = self
+            
         }
     }
 }
@@ -123,36 +128,17 @@ extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSou
         cell.backgroundView = UIImageView(image: tool.getIcon()?.imageWithRenderingMode(.AlwaysTemplate))
     }
     
-    func configureColorCellForIndexPath(cell: UICollectionViewCell, index: NSIndexPath) {
-        cell.rounded(4)
-        if colorDataSource[index.row].color == UIColor.whiteColor() {
-            colorDataSource[index.row] = ColorGenerator.CGSharedInstance.getNextColor()!
-            cell.backgroundColor = colorDataSource[index.row].color
-        }
-        else {
-            cell.backgroundColor = colorDataSource[index.row].color
-        }
-    }
-    
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == toolsCollectionView {
-            return toolsDataSource.count
-        }
-        return colorDataSource.count
+        return toolsDataSource.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        if collectionView == toolsCollectionView {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("toolsCell", forIndexPath: indexPath)
-            configureToolsCellForIndexPath(cell, index: indexPath)
-            return cell
-        }
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("colorCell", forIndexPath: indexPath)
-        configureColorCellForIndexPath(cell, index: indexPath)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("toolsCell", forIndexPath: indexPath)
+        configureToolsCellForIndexPath(cell, index: indexPath)
         return cell
     }
     
@@ -164,24 +150,17 @@ extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if collectionView == toolsCollectionView {
-            let cell = collectionView.cellForItemAtIndexPath(indexPath)!
-            selectedTool = toolsDataSource[indexPath.row]
-            cell.tintColor = UIColor.draftLinkBlue()
-            delegate.toolsViewDidSelectTools(self, tool:Tool(rawValue: indexPath.row)!)
-        }
-        else {
-            let generate = colorDataSource[indexPath.row]
-            colorIndicatorView.backgroundColor = generate.color
-            delegate.toolsViewChangeUserColor(self, color: generate.color, colorSeed: generate.colorSeed)
-        }
+        let cell = collectionView.cellForItemAtIndexPath(indexPath)!
+        selectedTool = toolsDataSource[indexPath.row]
+        cell.tintColor = UIColor.draftLinkBlue()
+        delegate.toolsViewDidSelectTools(self, tool:Tool(rawValue: indexPath.row)!)
     }
 }
 
 extension ToolsViewController {
     
     @IBAction func onCloseTouch(sender: AnyObject) {
-        ColorGenerator.CGSharedInstance.reset() 
+        ColorGenerator.CGSharedInstance.reset()
         dismissViewControllerAnimated(true, completion: nil)
     }
 }

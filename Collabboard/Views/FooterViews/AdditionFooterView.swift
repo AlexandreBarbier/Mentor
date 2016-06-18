@@ -46,6 +46,8 @@ extension AdditionFooterView {
     override func awakeFromNib() {
         super.awakeFromNib()
         addButton.rounded()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(AdditionFooterView.onAddTouch(_:)))
+        addGestureRecognizer(tapGesture)
         addButton.backgroundColor = UIColor.draftLinkGrey()
         titleLabel.font = UIFont.Roboto(.Regular, size: 16)
     }
@@ -61,7 +63,15 @@ extension AdditionFooterView {
             
             break
         case .Project:
-            delegate.performSegue(StoryboardSegue.Main.ProjectCreationSegue, sender:nil)
+            if delegate.shouldPerformSegueWithIdentifier(StoryboardSegue.Main.ProjectCreationSegue.rawValue, sender: nil) {
+                delegate.performSegue(StoryboardSegue.Main.ProjectCreationSegue, sender:nil)
+            }
+            else {
+                    //TODO: alert user
+                let alert = UIAlertController(title: "Error", message: "You cannot create a project in this team since you are not the administrator", preferredStyle: .Alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .Cancel, handler: nil))
+                delegate.presentViewController(alert, animated: true, completion: nil)
+            }
             break
         case .Team:
             delegate.performSegue(StoryboardSegue.Main.TeamCreationSegue, sender:nil)

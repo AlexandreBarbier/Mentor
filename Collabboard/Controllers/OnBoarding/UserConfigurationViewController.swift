@@ -44,7 +44,6 @@ extension UserConfigurationViewController {
         
         usernameTextfield.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
         usernameTextfield.setup(border: UIColor.draftLinkBlue(), innerColor: UIColor.draftLinkDarkBlue(), cornerRadius: 5)
-        usernameTextfield.rounded(5)
         createButton.backgroundColor = UIColor.draftLinkBlue()
         createButton.rounded(5)
         createButton.titleLabel?.font = UIFont.Roboto(.Regular, size: 20)

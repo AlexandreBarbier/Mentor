@@ -10,13 +10,12 @@ import UIKit
 
 class TeamCreationViewController: UIViewController {
     
-    @IBOutlet var projectNameTF: UITextField!
-    @IBOutlet var teamNameTF: UITextField!
-    @IBOutlet var userNameTF: UITextField!
-    @IBOutlet var userNameLabel: UILabel!
-    @IBOutlet var activity: UIActivityIndicatorView!
+    @IBOutlet var projectNameTF: DFTextField!
+    @IBOutlet var teamNameTF: DFTextField!
+    @IBOutlet var userNameTF: DFTextField!
     
     private var colorController : ColorGenerationViewController!
+    private var chosenColor:UIColor?
     
     var completion : ((team:Team, project:Project?) -> Void)?
     var showUser = false
@@ -37,8 +36,14 @@ extension TeamCreationViewController {
         if !showUser {
             teamNameTF.becomeFirstResponder()
             userNameTF.hidden = true
-            userNameLabel.hidden = true
         }
+        teamNameTF.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+        teamNameTF.setup(UIImage.Asset.Ic_team_mini.image, border: UIColor.draftLinkBlue(), innerColor: UIColor.draftLinkDarkBlue(), cornerRadius: 5)
+        projectNameTF.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+        projectNameTF.setup(UIImage.Asset.Ic_project_mini.image, border: UIColor.draftLinkBlue(), innerColor: UIColor.draftLinkDarkBlue(), cornerRadius: 5)
+        userNameTF.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+        userNameTF.setup(border: UIColor.draftLinkBlue(), innerColor: UIColor.draftLinkDarkBlue(), cornerRadius: 5)
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,6 +57,8 @@ extension TeamCreationViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == StoryboardSegue.CreationStoryboard.ColorSegue.rawValue {
             self.colorController = segue.destinationViewController as! ColorGenerationViewController
+            self.colorController.delegate = self
+            self.colorController.loadFromNil = true
         }
     }
 }
@@ -69,6 +76,12 @@ extension TeamCreationViewController: UITextFieldDelegate {
     }
 }
 
+extension TeamCreationViewController: ColorGenerationViewControllerDelegate {
+    func didSelectColor(color: UIColor, seed: CGFloat) {
+        chosenColor = color
+    }
+}
+
 // MARK: - Actions
 extension TeamCreationViewController {
     @IBAction func createTouch(sender: AnyObject) {
@@ -77,7 +90,7 @@ extension TeamCreationViewController {
             //TODO: AlertView field team name empty
             return
         }
-        guard let projectName = self.projectNameTF.text where projectName != "" else {
+        guard let projectName = self.projectNameTF.text, chosenColor = chosenColor where projectName != "" else {
             //TODO: AlertView field project name empty
             return
         }
@@ -88,12 +101,11 @@ extension TeamCreationViewController {
             }
             User.currentUser!.username = userName
         }
-        self.activity.startAnimating()
-        Team.create(teamName, color: self.colorController.chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
+        
+        Team.create(teamName, color: chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
             Project.create(projectName, team: team, completion: { (project, team) -> Void in
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    User.currentUser!.addTeam(team, color: self.colorController.chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: {
-                        self.activity.stopAnimating()
+                    User.currentUser!.addTeam(team, color: chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: {
                         project.setLastOpenForTeam(team)
                         self.completion?(team: team, project:project)
                         self.navigationController?.popToRootViewControllerAnimated(true)
