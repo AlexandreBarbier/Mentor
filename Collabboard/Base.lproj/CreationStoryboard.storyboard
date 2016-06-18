@@ -121,41 +121,51 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="748-uS-gzW">
-                                <rect key="frame" x="175" y="271" width="250" height="59"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lGM-d8-uQC">
-                                        <rect key="frame" x="0.0" y="0.0" width="250" height="21"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fOH-OD-fOf">
-                                                <rect key="frame" x="0.0" y="0.0" width="121" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="name your project" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZsV-sb-ws1">
-                                                <rect key="frame" x="129" y="0.0" width="121" height="21"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
-                                        </subviews>
-                                    </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJ2-IR-oPZ">
-                                        <rect key="frame" x="0.0" y="29" width="250" height="30"/>
-                                        <state key="normal" title="Create"/>
-                                        <connections>
-                                            <action selector="onCreateTouch:" destination="zYH-XX-bEb" eventType="touchUpInside" id="KbZ-At-C3B"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="name your project" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZsV-sb-ws1" customClass="DFTextField" customModule="Collabboard" customModuleProvider="target">
+                                <rect key="frame" x="32" y="278" width="536" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="NKH-9b-htF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="icon" value="ic_project"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderW">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJ2-IR-oPZ" customClass="DFButton" customModule="Collabboard" customModuleProvider="target">
+                                <rect key="frame" x="32" y="526" width="536" height="30"/>
+                                <state key="normal" title="Create"/>
+                                <connections>
+                                    <action selector="onCreateTouch:" destination="zYH-XX-bEb" eventType="touchUpInside" id="KbZ-At-C3B"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="748-uS-gzW" firstAttribute="centerY" secondItem="4bQ-fv-Yz6" secondAttribute="centerY" id="bWO-3F-1io"/>
-                            <constraint firstItem="748-uS-gzW" firstAttribute="centerX" secondItem="4bQ-fv-Yz6" secondAttribute="centerX" id="bxW-SH-83F"/>
+                            <constraint firstItem="ZsV-sb-ws1" firstAttribute="centerY" secondItem="4bQ-fv-Yz6" secondAttribute="centerY" id="8EL-sA-BYU"/>
+                            <constraint firstItem="ZsV-sb-ws1" firstAttribute="leading" secondItem="4bQ-fv-Yz6" secondAttribute="leading" constant="32" id="9OF-XP-ALz"/>
+                            <constraint firstItem="dJ2-IR-oPZ" firstAttribute="centerX" secondItem="4bQ-fv-Yz6" secondAttribute="centerX" id="G42-pb-8Sl"/>
+                            <constraint firstItem="ZsV-sb-ws1" firstAttribute="centerX" secondItem="4bQ-fv-Yz6" secondAttribute="centerX" id="Wac-yx-nuq"/>
+                            <constraint firstAttribute="trailing" secondItem="dJ2-IR-oPZ" secondAttribute="trailing" constant="32" id="f1e-R1-tcg"/>
+                            <constraint firstItem="cvq-dh-VOY" firstAttribute="top" secondItem="dJ2-IR-oPZ" secondAttribute="bottom" constant="44" id="sDJ-5h-6I4"/>
+                            <constraint firstAttribute="trailing" secondItem="ZsV-sb-ws1" secondAttribute="trailing" constant="32" id="xkb-U6-veW"/>
+                            <constraint firstItem="dJ2-IR-oPZ" firstAttribute="leading" secondItem="4bQ-fv-Yz6" secondAttribute="leading" constant="32" id="yaK-Da-6E4"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Wac-yx-nuq"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="createButton" destination="dJ2-IR-oPZ" id="vg6-EE-kqi"/>
@@ -175,4 +185,7 @@
             <point key="canvasLocation" x="543.5" y="454"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ic_project" width="49" height="50"/>
+    </resources>
 </document>

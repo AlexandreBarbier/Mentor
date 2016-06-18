@@ -18,6 +18,7 @@
 		8D11201A1C1ED23F000E041B /* TeamTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1120191C1ED23F000E041B /* TeamTableViewController.swift */; };
 		8D11201E1C1EFEB9000E041B /* ProjectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */; };
 		8D13B4F61C1ACAC6005F7325 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D13B4F51C1ACAC6005F7325 /* Constants.swift */; };
+		8D2456A41D156BAB0071FC49 /* DFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2456A31D156BAB0071FC49 /* DFButton.swift */; };
 		8D2A787F1CED952F00C3F778 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D2A787E1CED952F00C3F778 /* GoogleService-Info.plist */; };
 		8D2F0CBB1D0EEDFC0065B7CF /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2F0CB91D0EEDFC0065B7CF /* UserTableViewCell.swift */; };
 		8D2F0CBC1D0EEDFC0065B7CF /* UserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D2F0CBA1D0EEDFC0065B7CF /* UserTableViewCell.xib */; };
@@ -146,6 +147,7 @@
 		8D1120191C1ED23F000E041B /* TeamTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamTableViewController.swift; sourceTree = "<group>"; };
 		8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectTableViewController.swift; sourceTree = "<group>"; };
 		8D13B4F51C1ACAC6005F7325 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		8D2456A31D156BAB0071FC49 /* DFButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DFButton.swift; sourceTree = "<group>"; };
 		8D2A787E1CED952F00C3F778 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8D2F0CB91D0EEDFC0065B7CF /* UserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		8D2F0CBA1D0EEDFC0065B7CF /* UserTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewCell.xib; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				8D008E3F1CF07C4700005B59 /* DFTextField.swift */,
+				8D2456A31D156BAB0071FC49 /* DFButton.swift */,
 			);
 			path = UISubclasses;
 			sourceTree = "<group>";
@@ -732,6 +735,7 @@
 				8D91FD051C6876E20088F0FA /* CBFirebase.swift in Sources */,
 				8D008E401CF07C4700005B59 /* DFTextField.swift in Sources */,
 				AC307FF71BF1F69300C28D5D /* AppDelegate.swift in Sources */,
+				8D2456A41D156BAB0071FC49 /* DFButton.swift in Sources */,
 				8DD8976E1C19760E007DA303 /* DrawingPath.swift in Sources */,
 				8D05D6751C187963008B7A7E /* Drawing.swift in Sources */,
 				8DBD194C1C15CAC50073BE8B /* Project.swift in Sources */,

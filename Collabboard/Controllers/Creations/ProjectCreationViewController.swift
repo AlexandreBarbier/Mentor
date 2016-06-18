@@ -9,7 +9,7 @@
 import UIKit
 
 class ProjectCreationViewController: UIViewController {
-    @IBOutlet var projectnameTextField: UITextField!
+    @IBOutlet var projectnameTextField: DFTextField!
     @IBOutlet var createButton: UIButton!
     
     var team : Team!
@@ -17,7 +17,11 @@ class ProjectCreationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        projectnameTextField = {
+            $0.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+            $0.setup(UIImage.Asset.Ic_project_mini.image, border: UIColor.draftLinkBlue(), innerColor: UIColor.draftLinkDarkBlue(), cornerRadius: 5.0)
+            return $0
+        }(projectnameTextField)
         // Do any additional setup after loading the view.
     }
     
@@ -31,7 +35,9 @@ class ProjectCreationViewController: UIViewController {
 extension ProjectCreationViewController {
     
     @IBAction func onCreateTouch(sender: AnyObject) {
-        Project.create(projectnameTextField.text!, team: self.team, completion: self.completion)
-        self.navigationController!.popViewControllerAnimated(true)
+        if projectnameTextField.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) != "" {
+            Project.create(projectnameTextField.text!, team: self.team, completion: self.completion)
+            self.navigationController!.popViewControllerAnimated(true)
+        }
     }
 }
