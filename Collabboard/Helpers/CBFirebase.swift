@@ -17,6 +17,7 @@ struct FirebaseKey {
     static let x = "x"
     static let y = "y"
     static let points = "po"
+    static let text = "txt"
     static let delete = "del"
     static let marker = "mark"
     static let lineWidth = "lw"

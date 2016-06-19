@@ -59,6 +59,12 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             // get all paths of the current drawing. The closure is called sequencially (path by path)
             let totalPaths = Double(drawing.paths.count)
             var pathPrinted : Double = 1
+            drawing.getTexts { (text, error) in
+                let textV = DrawableTextView.create(CGPoint(x: CGFloat(text.x.floatValue), y: CGFloat(text.y.floatValue)), text: text.text, color: self.color, drawing: drawing)
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    self.addSubview(textV)
+                })
+            }
             drawing.getPaths({ (paths, error) -> Void in
                 
                 // get path's points, order them and convert them to CGPoint
@@ -74,35 +80,32 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                     if let col = paths.color {
                         color = NSKeyedUnarchiver.unarchiveObjectWithData(col) as? UIColor
                     }
+                   
                     // marker or pen path
                     self.currentTool = paths.pen ? .pen : .marker
                     
-                    // the path text
-                    if paths.text != nil && paths.text == "" {
-                        // path redrawing
-                        let cPath = UIBezierPath()
-                        cPath.interpolatePointsWithHermite(cPoint)
-                        // path linewidth
-                        self.path.lineWidth = paths.lineWidth
-                        // if I draw this path I can delete it
-                        var layerName = "\(FirebaseKey.undeletable).\(paths.recordId.recordName)"
-                        if paths.user == User.currentUser!.recordId.recordName {
-                            layerName = "\(paths.recordId.recordName)"
-                        }
-                        
-                        self.addPath(cPath.CGPath, layerName: layerName,color: color)
-                        
-                        self.loadingProgressBlock!(progress: (pathPrinted / totalPaths), current:pathPrinted, total:totalPaths)
-                        pathPrinted += 1
-                        // reset user tools
-                        self.currentTool = p
-                        self.path.lineWidth = self.lineWidth
+                    
+                    // path redrawing
+                    let cPath = UIBezierPath()
+                    cPath.interpolatePointsWithHermite(cPoint)
+                    
+                    // path linewidth
+                    self.path.lineWidth = paths.lineWidth
+                    
+                    // if I draw this path I can delete it
+                    var layerName = "\(FirebaseKey.undeletable).\(paths.recordId.recordName)"
+                    if paths.user == User.currentUser!.recordId.recordName {
+                        layerName = "\(paths.recordId.recordName)"
                     }
-                    else {
-                        pathPrinted += 1
-                        let text = DrawableTextView.create(cPoint.first!, text: paths.text!, color: color!)
-                        self.addSubview(text)
-                    }
+                    
+                    self.addPath(cPath.CGPath, layerName: layerName, color: color)
+                    
+                    self.loadingProgressBlock!(progress: (pathPrinted / totalPaths), current:pathPrinted, total:totalPaths)
+                    pathPrinted += 1
+                    
+                    // reset user tools
+                    self.currentTool = p
+                    self.path.lineWidth = self.lineWidth
                 })
             })
             
@@ -114,6 +117,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             guard var sublayers = self.superview!.layer.sublayers, let project = project else {
                 return
             }
+            
             // clear history
             history.removeAll()
             historyIndex = 0
@@ -224,80 +228,98 @@ extension DrawableView {
     
     func initFirebase() {
         cbFirebase.firebaseDrawingObserverHandle = cbFirebase.drawing!.observeEventType(FIRDataEventType.ChildChanged, withBlock: { (snap) -> Void in
-            let arr = snap.value as! [[Dictionary<String, AnyObject>]]
-            let firstPoint = arr.first!
-            var red : CGFloat = 0.0
-            var green : CGFloat = 0.0
-            var blue : CGFloat = 0.0
-            var mark : Bool = false
-            var lw : CGFloat = 2.0
-            var name = ""
-            var userName = ""
-            
-            firstPoint.forEach({ (obj) -> () in
-                if let un = obj[FirebaseKey.drawingUser] {
-                    userName = "\(un)"
-                }
-                if let r = obj[FirebaseKey.red] {
-                    red = CGFloat(r.floatValue)
-                }
-                else if let g = obj[FirebaseKey.green] {
-                    green = CGFloat(g.floatValue)
-                }
-                else if let b = obj[FirebaseKey.blue] {
-                    blue = CGFloat(b.floatValue)
-                }
-                else if let pathName = obj[FirebaseKey.pathName] {
-                    name = pathName as! String
-                }
-                else if let ma = obj[FirebaseKey.marker] {
-                    mark = ma as! Bool
-                }
-                else if let line = obj[FirebaseKey.lineWidth] {
-                    lw = CGFloat(line.floatValue)
-                }
-            })
-            
-            let contains = self.history.contains({ (tuple: (layer: CALayer, dPath: DrawingPath)) -> Bool in
-                return name == tuple.layer.name
-            })
-
-            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                if userName != User.currentUser!.recordId.recordName || !contains {
-                    var cPoint =  Array<CGPoint>()
-                    arr.forEach({ (obj) -> () in
-                        var point = CGPointZero
-                        obj.forEach({ (mino) -> () in
-                            if let x = mino[FirebaseKey.x] {
-                                point.x = CGFloat(x.floatValue)
-                            }
-                            else if let y = mino[FirebaseKey.y] {
-                                point.y = CGFloat(y.floatValue)
+            if let arr = snap.value as? [[Dictionary<String, AnyObject>]] {
+                let firstPoint = arr.first!
+                var red : CGFloat = 0.0
+                var green : CGFloat = 0.0
+                var blue : CGFloat = 0.0
+                var mark : Bool = false
+                var lw : CGFloat = 2.0
+                var name = ""
+                var userName = ""
+                
+                firstPoint.forEach({ (obj) -> () in
+                    if let un = obj[FirebaseKey.drawingUser] {
+                        userName = "\(un)"
+                    }
+                    if let r = obj[FirebaseKey.red] {
+                        red = CGFloat(r.floatValue)
+                    }
+                    else if let g = obj[FirebaseKey.green] {
+                        green = CGFloat(g.floatValue)
+                    }
+                    else if let b = obj[FirebaseKey.blue] {
+                        blue = CGFloat(b.floatValue)
+                    }
+                    else if let pathName = obj[FirebaseKey.pathName] {
+                        name = pathName as! String
+                    }
+                    else if let ma = obj[FirebaseKey.marker] {
+                        mark = ma as! Bool
+                    }
+                    else if let line = obj[FirebaseKey.lineWidth] {
+                        lw = CGFloat(line.floatValue)
+                    }
+                })
+                
+                let contains = self.history.contains({ (tuple: (layer: CALayer, dPath: DrawingPath)) -> Bool in
+                    return name == tuple.layer.name
+                })
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    if userName != User.currentUser!.recordId.recordName || !contains {
+                        var cPoint =  Array<CGPoint>()
+                        arr.forEach({ (obj) -> () in
+                            var point = CGPointZero
+                            obj.forEach({ (mino) -> () in
+                                if let x = mino[FirebaseKey.x] {
+                                    point.x = CGFloat(x.floatValue)
+                                }
+                                else if let y = mino[FirebaseKey.y] {
+                                    point.y = CGFloat(y.floatValue)
+                                }
+                            })
+                            if point != CGPointZero {
+                                cPoint.append(point)
                             }
                         })
-                        if point != CGPointZero {
-                            cPoint.append(point)
+                        
+                        let cPath = UIBezierPath()
+                        cPath.removeAllPoints()
+                        cPath.interpolatePointsWithHermite(cPoint)
+                        var alpha : CGFloat = 1.0
+                        let lineW = self.lineWidth
+                        let ma = self.currentTool
+                        self.currentTool = .pen
+                        if mark {
+                            self.currentTool = .marker
+                            alpha = 0.4
                         }
-                    })
-                    
-                    let cPath = UIBezierPath()
-                    cPath.removeAllPoints()
-                    cPath.interpolatePointsWithHermite(cPoint)
-                    var alpha : CGFloat = 1.0
-                    let lineW = self.lineWidth
-                    let ma = self.currentTool
-                    self.currentTool = .pen
-                    if mark {
-                        self.currentTool = .marker
-                        alpha = 0.4
+                        self.lineWidth = lw
+                        self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: alpha))
+                        self.currentTool = ma
+                        self.lineWidth = lineW
                     }
-                    self.lineWidth = lw
-                    self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: alpha))
-                    self.currentTool = ma
-                    self.lineWidth = lineW
+                })
+            }
+            else {
+                print(snap.value)
+                if let txt = snap.value as? Dictionary<String, AnyObject> {
+                    if let username = txt[FirebaseKey.drawingUser] as? String where username != "\(User.currentUser!.recordId.recordName)" {
+                        let text = txt["v"] as? String
+                        let x = CGFloat(txt["x"]! as! NSNumber)
+                        let y = CGFloat(txt["y"]! as! NSNumber)
+                        let red : CGFloat = CGFloat(txt[FirebaseKey.red]! as! NSNumber)
+                        let green : CGFloat = CGFloat(txt[FirebaseKey.green]! as! NSNumber)
+                        let blue : CGFloat = CGFloat(txt[FirebaseKey.blue]! as! NSNumber)
+                        let color = UIColor(red: red, green: green, blue: blue, alpha: 1.0)
+                        let textV = DrawableTextView.create(CGPoint(x: x, y: y), text: text!, color: color,drawing: self.drawing!)
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            self.addSubview(textV)
+                        })
+                    }
                 }
-            })
-            
+            }
         }) { (error) -> Void in
             
         }
@@ -379,7 +401,7 @@ extension DrawableView {
     func addText(tapGesture:UITapGestureRecognizer) {
         let currentPoint = tapGesture.locationInView(self)
         if currentTool == .text {
-            let textV = DrawableTextView.create(currentPoint, text: "put text", color: color)
+            let textV = DrawableTextView.create(currentPoint, text: "put text", color: color, drawing: self.drawing!)
             self.addSubview(textV)
         }
     }

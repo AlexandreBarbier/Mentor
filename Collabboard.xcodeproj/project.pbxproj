@@ -46,6 +46,7 @@
 		8DA5F3E71CF9C50B00A37E33 /* GetStartedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DA5F3E61CF9C50B00A37E33 /* GetStartedView.xib */; };
 		8DAD0D7D1D12AB8D00E7782A /* CollabboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DAD0D7C1D12AB8D00E7782A /* CollabboardTests.swift */; };
 		8DB6D07D1CDF526100B73529 /* ToolsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB6D07C1CDF526100B73529 /* ToolsViewController.swift */; };
+		8DBAEFA01D16E83C006ABCE9 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBAEF9F1D16E83C006ABCE9 /* Text.swift */; };
 		8DBD19491C15C9F30073BE8B /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DBD19481C15C9F30073BE8B /* CloudKit.framework */; };
 		8DBD194C1C15CAC50073BE8B /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD194B1C15CAC50073BE8B /* Project.swift */; };
 		8DBD195B1C15CDEC0073BE8B /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD195A1C15CDEC0073BE8B /* Team.swift */; };
@@ -176,6 +177,7 @@
 		8DAD0D7C1D12AB8D00E7782A /* CollabboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollabboardTests.swift; sourceTree = "<group>"; };
 		8DAD0D7E1D12AB8D00E7782A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DB6D07C1CDF526100B73529 /* ToolsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ToolsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		8DBAEF9F1D16E83C006ABCE9 /* Text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		8DBD19471C15C9ED0073BE8B /* Mentor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Mentor.entitlements; sourceTree = "<group>"; };
 		8DBD19481C15C9F30073BE8B /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		8DBD194B1C15CAC50073BE8B /* Project.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
@@ -418,6 +420,7 @@
 				8DBD195A1C15CDEC0073BE8B /* Team.swift */,
 				8DBD195C1C15D1C60073BE8B /* User.swift */,
 				8DEB6EEA1C2060D200B9BF9F /* UserTeamColor.swift */,
+				8DBAEF9F1D16E83C006ABCE9 /* Text.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -783,6 +786,7 @@
 				8DB6D07D1CDF526100B73529 /* ToolsViewController.swift in Sources */,
 				8D485B1C1CE9B39400465E69 /* Color.swift in Sources */,
 				8D11201E1C1EFEB9000E041B /* ProjectTableViewController.swift in Sources */,
+				8DBAEFA01D16E83C006ABCE9 /* Text.swift in Sources */,
 				8DCD906B1D118BB700E36D7E /* ProjectCreationViewController.swift in Sources */,
 				8D7FCC6A1D09690300C9485F /* ProjectTableViewCell.swift in Sources */,
 				8DD2367A1CFAFC1A00B7C8B6 /* Font.swift in Sources */,

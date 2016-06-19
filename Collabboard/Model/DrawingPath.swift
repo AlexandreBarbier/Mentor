@@ -13,7 +13,6 @@ import CloudKit
 class DrawingPath: ABModelCloudKit {
     var points : [CKReference] = [CKReference]()
     var color : NSData!
-    var text : String? = ""
     var user = ""
     var lineWidth : CGFloat = 2.0
     var pen = true

@@ -14,7 +14,7 @@ class Drawing: ABModelCloudKit {
     
     var project = ""
     var paths : [CKReference] = [CKReference]()
-    
+    var texts : [CKReference] = [CKReference]()
     override class func recordType() -> String {
         return "Drawing"
     }
@@ -23,6 +23,12 @@ class Drawing: ABModelCloudKit {
         if key == "paths" {
             for ref : CKReference in value as! [CKReference] {
                 paths.append(ref)
+            }
+            return true
+        }
+        if key == "texts" {
+            for ref : CKReference in value as! [CKReference] {
+                texts.append(ref)
             }
             return true
         }
@@ -38,6 +44,17 @@ class Drawing: ABModelCloudKit {
             }
         }
         return drawing
+    }
+    
+    func getTexts(completion:(text:Text, error:NSError?) -> Void) -> Void {
+        let currentTexts = texts
+        texts.removeAll()
+        super.getReferences(currentTexts) { (results : Text?, error) in
+            if let result = results {
+                self.texts.append(CKReference(recordID: result.recordId, action: .None))
+                completion(text:result, error: error)
+            }
+        }
     }
     
     func getPaths(completion:(path:DrawingPath, error:NSError?) -> Void) {

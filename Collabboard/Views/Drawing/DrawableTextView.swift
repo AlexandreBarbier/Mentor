@@ -9,15 +9,18 @@
 import UIKit
 
 class DrawableTextView: UITextView, UITextViewDelegate {
-    
-    class func create(origin:CGPoint, text:String, color:UIColor) -> DrawableTextView {
+    var drawing:Drawing!
+    class func create(origin:CGPoint, text:String, color:UIColor, drawing:Drawing) -> DrawableTextView {
+        
         let screenSize = UIScreen.mainScreen().bounds.size
         let maxSize = CGSize(width: screenSize.width - origin.x, height: screenSize.height - origin.y)
+        
         let textView : DrawableTextView = {
             $0.backgroundColor = UIColor.clearColor()
             $0.font = UIFont.Roboto(.Regular, size: 18.0)
             $0.text = text
             $0.textColor = color
+            $0.drawing = drawing
             $0.delegate = $0
             $0.returnKeyType = .Done
             return $0
@@ -30,6 +33,12 @@ class DrawableTextView: UITextView, UITextViewDelegate {
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
             self.resignFirstResponder()
+            var red : CGFloat = 0.0
+            var green : CGFloat = 0.0
+            var blue : CGFloat = 0.0
+            self.textColor!.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+            let _ = Text.create(self.drawing , x: frame.origin.x, y: frame.origin.y, text: self.text, save: true)
+            cbFirebase.drawing.updateChildValues([FirebaseKey.text:["x": frame.origin.x, "y": frame.origin.y, "v": self.text,FirebaseKey.red:NSNumber(float: Float(red)),FirebaseKey.green:NSNumber(float: Float(green)), FirebaseKey.blue:NSNumber(float: Float(blue)),FirebaseKey.drawingUser:"\(User.currentUser!.recordId.recordName)"]])
             return false
         }
         return true
