@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let window = self.window, rootVC = window.rootViewController, imgView = rootVC.view.viewWithTag(1) {
             
-            let ending = { (vc:UIViewController!, animated:Bool) in
+            let ending = { (vc:UIViewController, animated:Bool) in
                 NSOperationQueue.mainQueue().addOperationWithBlock({
                     if animated {
                         UIView.animateWithDuration(0.3, animations: {

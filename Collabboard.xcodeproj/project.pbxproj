@@ -260,8 +260,8 @@
 			isa = PBXGroup;
 			children = (
 				8D017A031CEB9A03008B7B9D /* FirstTeamCreationViewController.swift */,
-				8D017A051CEB9A8E008B7B9D /* UserConfigurationViewController.swift */,
 				8D70D6901CF0BABE00B3754D /* OnboardingViewController.swift */,
+				8D017A051CEB9A8E008B7B9D /* UserConfigurationViewController.swift */,
 			);
 			path = OnBoarding;
 			sourceTree = "<group>";
@@ -335,6 +335,40 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		8D9BBF171D168ABE00848590 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				8D0D6DC31C441AF10018CE41 /* ColorGenerationViewController.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		8D9BBF191D168B2600848590 /* Users */ = {
+			isa = PBXGroup;
+			children = (
+				8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */,
+				8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */,
+				8D1120191C1ED23F000E041B /* TeamTableViewController.swift */,
+			);
+			path = Users;
+			sourceTree = "<group>";
+		};
+		8D9BBF1A1D168B7000848590 /* Accessories */ = {
+			isa = PBXGroup;
+			children = (
+				8DB6D07C1CDF526100B73529 /* ToolsViewController.swift */,
+			);
+			path = Accessories;
+			sourceTree = "<group>";
+		};
+		8D9BBF1B1D168B8F00848590 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				AC307FF81BF1F69300C28D5D /* ViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		8D9E8E0F1C621A600076030A /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -390,8 +424,8 @@
 		8DCD90691D118B7100E36D7E /* Creations */ = {
 			isa = PBXGroup;
 			children = (
-				8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */,
 				8DCD906A1D118BB700E36D7E /* ProjectCreationViewController.swift */,
+				8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */,
 			);
 			path = Creations;
 			sourceTree = "<group>";
@@ -462,14 +496,12 @@
 		AC778DE71BF1F81D00669BD7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8D9BBF1A1D168B7000848590 /* Accessories */,
 				8DCD90691D118B7100E36D7E /* Creations */,
+				8D9BBF1B1D168B8F00848590 /* Main */,
 				8D017A021CEB99BF008B7B9D /* OnBoarding */,
-				8D11201D1C1EFEB9000E041B /* ProjectTableViewController.swift */,
-				8D1120191C1ED23F000E041B /* TeamTableViewController.swift */,
-				AC307FF81BF1F69300C28D5D /* ViewController.swift */,
-				8D0D6DC31C441AF10018CE41 /* ColorGenerationViewController.swift */,
-				8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */,
-				8DB6D07C1CDF526100B73529 /* ToolsViewController.swift */,
+				8D9BBF171D168ABE00848590 /* Shared */,
+				8D9BBF191D168B2600848590 /* Users */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
