@@ -369,6 +369,16 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		8D9BBF1C1D168C9700848590 /* Drawing */ = {
+			isa = PBXGroup;
+			children = (
+				8DE74F481C21A97800B60F0D /* DrawableScrollView.swift */,
+				8D91FD0A1C6B5AD60088F0FA /* DrawableTextView.swift */,
+				AC778DE81BF1F86E00669BD7 /* DrawableView.swift */,
+			);
+			path = Drawing;
+			sourceTree = "<group>";
+		};
 		8D9E8E0F1C621A600076030A /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -462,18 +472,18 @@
 		AC307FF51BF1F69300C28D5D /* Collabboard */ = {
 			isa = PBXGroup;
 			children = (
-				8D70D68D1CF0956B00B3754D /* Resources */,
 				AC307FF61BF1F69300C28D5D /* AppDelegate.swift */,
 				AC307FFD1BF1F69300C28D5D /* Assets.xcassets */,
 				AC778DE71BF1F81D00669BD7 /* Controllers */,
-				8D4981EB1C65EC9C00BC6067 /* StoryBoards */,
 				ACA2D7C21BF64FDE0005E8CE /* Dependencies */,
+				8D2A787E1CED952F00C3F778 /* GoogleService-Info.plist */,
 				8D13B4F41C1ACA98005F7325 /* Helpers */,
 				8D3CF1911C1594F5006D23C7 /* Hermite */,
 				AC3080021BF1F69300C28D5D /* Info.plist */,
-				8D2A787E1CED952F00C3F778 /* GoogleService-Info.plist */,
 				8DBD19471C15C9ED0073BE8B /* Mentor.entitlements */,
 				8DBD194A1C15CA6D0073BE8B /* Model */,
+				8D70D68D1CF0956B00B3754D /* Resources */,
+				8D4981EB1C65EC9C00BC6067 /* StoryBoards */,
 				AC778DE61BF1F80B00669BD7 /* Views */,
 			);
 			path = Collabboard;
@@ -482,13 +492,11 @@
 		AC778DE61BF1F80B00669BD7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				8DCD90631D11679800E36D7E /* FooterViews */,
+				8D9BBF1C1D168C9700848590 /* Drawing */,
 				8D7FCC651D0968B700C9485F /* Cells */,
+				8DCD90631D11679800E36D7E /* FooterViews */,
 				8DA5F3DC1CF9BC7000A37E33 /* OnBoarding */,
 				8D008E3C1CF07C0000005B59 /* UISubclasses */,
-				8DE74F481C21A97800B60F0D /* DrawableScrollView.swift */,
-				AC778DE81BF1F86E00669BD7 /* DrawableView.swift */,
-				8D91FD0A1C6B5AD60088F0FA /* DrawableTextView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
