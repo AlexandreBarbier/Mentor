@@ -458,15 +458,18 @@ extension ViewController {
     
     @IBAction func showTeam(sender: AnyObject) {
         let button = sender as! UIBarButtonItem
+        guard let connectedUsersView = connectedUsersView else {
+            return
+        }
         teamViewContainer.sendSubviewToBack(teamViewContainerBackView)
         if !teamViewContainer.hidden {
             button.image = UIImage.Asset.Ic_team.image.imageWithRenderingMode(.AlwaysTemplate)
-            connectedUsersView!.segmentControl.selectedSegmentIndex = 0
-            connectedUsersView!.segmentControlChanged(connectedUsersView!.segmentControl)
+            connectedUsersView.segmentControl.selectedSegmentIndex = 0
+            connectedUsersView.segmentControlChanged(connectedUsersView.segmentControl)
             teamViewContainer.hidden = false
-            
+            connectedUsersView.reload()
             UIView.animateWithDuration(0.5, animations: {
-                self.connectedUsersView!.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
+                connectedUsersView.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
                 self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGrey().colorWithAlphaComponent(0.0)
                 }, completion: { (finished) in
                     if finished {
@@ -477,8 +480,8 @@ extension ViewController {
         else {
             button.image = UIImage.Asset.Ic_team_selected.image.imageWithRenderingMode(.AlwaysTemplate)
             teamViewContainer.backgroundColor = UIColor.draftLinkGrey().colorWithAlphaComponent(0.0)
-            self.teamViewContainer.hidden = false
-            connectedUsersView!.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
+            teamViewContainer.hidden = false
+            connectedUsersView.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
             UIView.animateWithDuration(0.5) {
                 self.connectedUsersView!.view.layer.transform = CATransform3DIdentity
                 self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGrey().colorWithAlphaComponent(0.8)
