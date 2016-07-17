@@ -105,9 +105,9 @@ extension ConnectedUsersTableViewController {
     }
     
     func reload() {
-        if let team = team, segmentControl = segmentControl {
-            segmentControl.setTitle(team.name, forSegmentAtIndex: 0)
-            segmentControl.setTitle("Teams", forSegmentAtIndex: 1)
+        if let segmentControl = segmentControl {
+            segmentControl.setTitle("Live", forSegmentAtIndex: 0)
+            segmentControl.setTitle("Project management", forSegmentAtIndex: 1)
             teamTableVC.show()
             teamTableVC.completion = teamCompletion
         }

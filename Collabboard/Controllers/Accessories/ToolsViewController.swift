@@ -159,6 +159,11 @@ extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSou
 
 extension ToolsViewController {
     
+    @IBAction func sizeToolChanged(sender: AnyObject) {
+        let slider = sender as! UISlider
+        let size = slider.value * 100 / 15
+        delegate.toolsViewChangeBrushSize(self, size: CGFloat(size))
+    }
     @IBAction func onCloseTouch(sender: AnyObject) {
         ColorGenerator.CGSharedInstance.reset()
         dismissViewControllerAnimated(true, completion: nil)

@@ -26,6 +26,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
     private var blue : CGFloat = 0.0
     private var colorAlpha : CGFloat = 0.0
     private var archivedColor : NSData!
+    
     var brushTool : Tool = .pen
     var currentTool : Tool = .pen {
         didSet {
@@ -84,7 +85,6 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                     // marker or pen path
                     self.currentTool = paths.pen ? .pen : .marker
                     
-                    
                     // path redrawing
                     let cPath = UIBezierPath()
                     cPath.interpolatePointsWithHermite(cPoint)
@@ -99,9 +99,8 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                     }
                     
                     self.addPath(cPath.CGPath, layerName: layerName, color: color)
-                    
                     self.loadingProgressBlock!(progress: (pathPrinted / totalPaths), current:pathPrinted, total:totalPaths)
-                    pathPrinted += 1
+                    pathPrinted = pathPrinted + 1
                     
                     // reset user tools
                     self.currentTool = p
@@ -127,6 +126,11 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                     return false
                 }
                 return true
+            }
+            for sView in self.subviews {
+                if sView is DrawableTextView {
+                    sView.removeFromSuperview()
+                }
             }
             let size = CGSize(width: CGFloat(project.width.floatValue), height: CGFloat(project.height.floatValue))
             self.frame = CGRect(origin: self.frame.origin, size: size)
@@ -303,7 +307,6 @@ extension DrawableView {
                 })
             }
             else {
-                print(snap.value)
                 if let txt = snap.value as? Dictionary<String, AnyObject> {
                     if let username = txt[FirebaseKey.drawingUser] as? String where username != "\(User.currentUser!.recordId.recordName)" {
                         let text = txt["v"] as? String

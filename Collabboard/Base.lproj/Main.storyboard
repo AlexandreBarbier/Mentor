@@ -319,6 +319,9 @@
                             </collectionView>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="51N-w7-BpJ">
                                 <rect key="frame" x="38" y="434" width="524" height="31"/>
+                                <connections>
+                                    <action selector="sizeToolChanged:" destination="h7X-pe-ehK" eventType="valueChanged" id="Ft2-9p-OsH"/>
+                                </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G6n-FT-iBL">
                                 <rect key="frame" x="40" y="405" width="33" height="21"/>

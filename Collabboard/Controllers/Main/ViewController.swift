@@ -47,7 +47,7 @@ extension ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        topToolbar.tintColor = UIColor.draftLinkGrey()
+        topToolbar.tintColor = UIColor.whiteColor()
         logoItem.image = UIImage.Asset.Topbar_logo.image.imageWithRenderingMode(.AlwaysOriginal)
         selectTool(0)
         teamViewContainer.hidden = true
