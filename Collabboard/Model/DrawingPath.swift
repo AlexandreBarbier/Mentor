@@ -12,7 +12,7 @@ import CloudKit
 
 class DrawingPath: ABModelCloudKit {
     var points : [CKReference] = [CKReference]()
-    var color : NSData!
+    var color : Data!
     var user = ""
     var lineWidth : CGFloat = 2.0
     var pen = true
@@ -21,7 +21,7 @@ class DrawingPath: ABModelCloudKit {
         return "DrawingPath"
     }
     
-    override func ignoreKey(key: String, value: AnyObject) -> Bool {
+    override func ignoreKey(_ key: String, value: AnyObject) -> Bool {
         if key == "points" {
             for ref : CKReference in value as! [CKReference] {
                 self.points.append(ref)
@@ -31,9 +31,9 @@ class DrawingPath: ABModelCloudKit {
         return false
     }
     
-    class func create(drawing:Drawing, completion:((success:Bool, dPath:DrawingPath) -> Void)?) -> DrawingPath {
+    class func create(_ drawing:Drawing, completion:((_ success:Bool, _ dPath:DrawingPath) -> Void)?) -> DrawingPath {
         let drawingPath : DrawingPath = {
-            drawing.paths.append(CKReference(record: $0.record, action: CKReferenceAction.None))
+            drawing.paths.append(CKReference(record: $0.record, action: CKReferenceAction.none))
             if let currentUser = User.currentUser {
                 $0.user = currentUser.recordId.recordName
             }
@@ -42,7 +42,7 @@ class DrawingPath: ABModelCloudKit {
 
         drawing.publicSave({ (record, error) -> Void in
             if let completion = completion {
-                completion(success: error == nil, dPath: drawingPath)
+                completion(error == nil, drawingPath)
             }
         })
         return drawingPath
@@ -52,39 +52,39 @@ class DrawingPath: ABModelCloudKit {
     
     override func remove() {
         super.remove()
-        let _ : NSUserDefaults = {
-            $0.setObject(nil, forKey: localKey())
+        let _ : UserDefaults = {
+            $0.set(nil, forKey: localKey())
             $0.synchronize()
             return $0
-        } (NSUserDefaults.standardUserDefaults())
+        } (UserDefaults.standard)
         
     }
     
-    class func removeWithName(name:String) {
+    class func removeWithName(_ name:String) {
         let k = CKRecordID(recordName: name)
         super.removeRecordId(k)
     }
     
-    func getPoints(completion:(points:[Point], error:NSError?) -> Void) {
-        if let pointsData = NSUserDefaults.standardUserDefaults().objectForKey(localKey()) as? NSData {
-            let archivedPoints =  NSKeyedUnarchiver.unarchiveObjectWithData(pointsData) as? [Point]
-            completion(points: archivedPoints!, error: nil)
+    func getPoints(_ completion:@escaping (_ points:[Point], _ error:NSError?) -> Void) {
+        if let pointsData = UserDefaults.standard.object(forKey: localKey()) as? Data {
+            let archivedPoints =  NSKeyedUnarchiver.unarchiveObject(with: pointsData) as? [Point]
+            completion(archivedPoints!, nil)
         }
         else {
             super.getReferences(points, completion: { (results:[Point], error) -> Void in
                 self.localSave(results)
-                completion(points: results, error: error)
+                completion(results, error)
             })
         }
     }
     
-    func localSave(point:[Point]) {
-        let data = NSKeyedArchiver.archivedDataWithRootObject(point)
-        let _ : NSUserDefaults = {
-            $0.setObject(data, forKey:localKey())
+    func localSave(_ point:[Point]) {
+        let data = NSKeyedArchiver.archivedData(withRootObject: point)
+        let _ : UserDefaults = {
+            $0.set(data, forKey:localKey())
             $0.synchronize()
             return $0
-        } (NSUserDefaults.standardUserDefaults())
+        } (UserDefaults.standard)
         
     }
 }

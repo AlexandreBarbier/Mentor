@@ -10,8 +10,8 @@ import UIKit
 
 class TouchThroughView: UIView {
     
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-        let v = super.hitTest(point, withEvent: event)
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let v = super.hitTest(point, with: event)
         if v == self {
             return nil
         }

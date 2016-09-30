@@ -34,18 +34,18 @@ class Project : ABModelCloudKit {
 // MARK: - Creation
 extension Project {
     
-    class func create(name:String, team:Team, completion:((project:Project, team:Team) -> Void)? = nil) -> Project {
+    class func create(_ name:String, team:Team, completion:((_ project:Project, _ team:Team) -> Void)? = nil) -> Project {
         let project = Project()
         project.name = name
         project.recordName = project.recordId!.recordName
         let drawing = Drawing.create(project, save:false)
-        project.drawing = CKReference(record: drawing.record!, action: .DeleteSelf)
-        let size = UIScreen.mainScreen().bounds.size
-        project.width = NSNumber(float: Float(size.width))
-        project.height = NSNumber(float: Float(size.height))
-        team.projects.append(CKReference(record: project.toRecord(), action: CKReferenceAction.None))
+        project.drawing = CKReference(record: drawing.record!, action: .deleteSelf)
+        let size = UIScreen.main.bounds.size
+        project.width = NSNumber(value: Float(size.width) as Float)
+        project.height = NSNumber(value: Float(size.height) as Float)
+        team.projects.append(CKReference(record: project.toRecord(), action: CKReferenceAction.none))
         project.saveBulk([drawing.toRecord(), team.toRecord()]) { () -> Void in
-            completion?(project: project, team:team)
+            completion?(project, team)
         }
         return project
     }
@@ -59,9 +59,9 @@ extension Project {
      - returns: the project and the associated team
      */
     class func getLastOpen() -> (project:Project?, team:Team?)? {
-        if let teamProjectData = NSUserDefaults.standardUserDefaults().arrayForKey(Constants.UserDefaultsKeys.lastOpenedProject) {
-            let project = NSKeyedUnarchiver.unarchiveObjectWithData(teamProjectData[0] as! NSData) as? Project
-            let team = NSKeyedUnarchiver.unarchiveObjectWithData(teamProjectData[1] as! NSData) as? Team
+        if let teamProjectData = UserDefaults.standard.array(forKey: Constants.UserDefaultsKeys.lastOpenedProject) {
+            let project = NSKeyedUnarchiver.unarchiveObject(with: teamProjectData[0] as! Data) as? Project
+            let team = NSKeyedUnarchiver.unarchiveObject(with: teamProjectData[1] as! Data) as? Team
             return (project, team)
         }
         return nil
@@ -72,41 +72,41 @@ extension Project {
      
      - parameter team: the associated team
      */
-    func setLastOpenForTeam(team:Team) {
-        let projectData = NSKeyedArchiver.archivedDataWithRootObject(self)
-        let teamData = NSKeyedArchiver.archivedDataWithRootObject(team)
-        let _: NSUserDefaults = {
-            $0.setObject([projectData, teamData], forKey: Constants.UserDefaultsKeys.lastOpenedProject)
+    func setLastOpenForTeam(_ team:Team) {
+        let projectData = NSKeyedArchiver.archivedData(withRootObject: self)
+        let teamData = NSKeyedArchiver.archivedData(withRootObject: team)
+        let _: UserDefaults = {
+            $0.set([projectData, teamData], forKey: Constants.UserDefaultsKeys.lastOpenedProject)
             $0.synchronize()
             return $0
-        }(NSUserDefaults.standardUserDefaults())
+        }(UserDefaults.standard)
         
     }
     
-    func getDrawing(completion:(drawing:Drawing?, error:NSError?) -> Void) {
+    func getDrawing(_ completion:@escaping (_ drawing:Drawing?, _ error:NSError?) -> Void) {
         super.getReferences([drawing!],completion: { (results:[Drawing], error) -> Void in
-            completion(drawing: results.first, error: error)
+            completion(results.first, error)
         })
     }
     
-    class func get(name:String , completion:(project:Project?, error:NSError?)-> Void) {
+    class func get(_ name:String , completion:@escaping (_ project:Project?, _ error:NSError?)-> Void) {
         Project.getRecord("recordName=\'\(name)\'") { (record, error) in
             guard let record = record else {
-                completion(project: nil, error: error)
+                completion(nil, error)
                 return
             }
             let project = Project(record: record, recordId: record.recordID)
-            completion(project: project, error: nil)
+            completion(project, nil)
         }
     }
     
-    func saveBackground(image:UIImage, completion:() -> Void) {
-        let docDirPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
+    func saveBackground(_ image:UIImage, completion:@escaping () -> Void) {
+        let docDirPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first!
         let filePath =  "\(docDirPath)/\(recordName).png"
         if let myData =  UIImagePNGRepresentation(image){
-            myData.writeToFile(filePath, atomically: true)
+            try? myData.write(to: URL(fileURLWithPath: filePath), options: [.atomic])
         }
-        background = CKAsset(fileURL:NSURL(fileURLWithPath:filePath))
+        background = CKAsset(fileURL:URL(fileURLWithPath:filePath))
         publicSave { (record, error) -> Void in
             completion()
         }

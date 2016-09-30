@@ -21,11 +21,11 @@ class Point: ABModelCloudKit {
         return "Points"
     }
     
-    class func create(x: NSNumber, y: NSNumber, position:Int? = nil, save: Bool, dPath: DrawingPath) -> Point {
+    class func create(_ x: NSNumber, y: NSNumber, position:Int? = nil, save: Bool, dPath: DrawingPath) -> Point {
         let po : Point = {
             $0.x = x
             $0.y = y
-            $0.drawingPath = CKReference(record: dPath.record, action: .DeleteSelf)
+            $0.drawingPath = CKReference(record: dPath.record, action: .deleteSelf)
             if let position = position {
                 $0.position = position
             }
@@ -36,12 +36,12 @@ class Point: ABModelCloudKit {
         return po
     }
     
-    class func createBatch(points: [CGPoint], dPath: DrawingPath) -> (records: [CKRecord], points: [Point]) {
+    class func createBatch(_ points: [CGPoint], dPath: DrawingPath) -> (records: [CKRecord], points: [Point]) {
         var pointsRecord = [CKRecord]()
         var batchPoints = [Point]()
         var i = 0
         for point in points {
-            let po = Point.create(NSNumber(float:Float(point.x)), y: NSNumber(float:Float(point.y)), position: i, save: false, dPath:dPath)
+            let po = Point.create(NSNumber(value: Float(point.x) as Float), y: NSNumber(value: Float(point.y) as Float), position: i, save: false, dPath:dPath)
             i += 1
             batchPoints.append(po)
             pointsRecord.append(po.record!)

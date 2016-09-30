@@ -20,11 +20,11 @@ extension UIFont {
             Thin, ThinItalic
     }
     
-    static func Kalam(weight: Weight, size:CGFloat) -> UIFont? {
+    static func Kalam(_ weight: Weight, size:CGFloat) -> UIFont? {
         return UIFont(name: "Kalam-\(weight.rawValue)", size: size)
     }
     
-    static func Roboto(weight: Weight, size:CGFloat) -> UIFont? {
+    static func Roboto(_ weight: Weight, size:CGFloat) -> UIFont? {
         return UIFont(name: "Roboto-\(weight.rawValue)", size: size)
     }
 }

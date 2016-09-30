@@ -52,39 +52,39 @@ class CBFirebase: NSObject {
         }
     }
     
-    func setupWithTeam(team:Team, project:Project) {
+    func setupWithTeam(_ team:Team, project:Project) {
         self.project = project
         self.team = team
     }
     
-    func initUser(team:Team) {
+    func initUser(_ team:Team) {
         if let users = users {
             if let cbUsers = cbFirebase.users {
                 cbUsers.updateChildValues([User.currentUser!.recordId.recordName:false])
             }
-            users.removeObserverWithHandle(firebaseUserObserverHandle)
+            users.removeObserver(withHandle: firebaseUserObserverHandle)
         }
-        users = FIRDatabase.database().referenceWithPath("\(project.recordName)/\(team.recordId.recordName)/")
+        users = FIRDatabase.database().reference(withPath: "\(project.recordName)/\(team.recordId.recordName)/")
     }
     
-    func initDrawing(project:Project) {
+    func initDrawing(_ project:Project) {
         if let drawing = drawing {
-            drawing.removeObserverWithHandle(firebaseDrawingObserverHandle)
+            drawing.removeObserver(withHandle: firebaseDrawingObserverHandle)
         }
-        drawing = FIRDatabase.database().referenceWithPath("\(project.recordName)/drawing/")
+        drawing = FIRDatabase.database().reference(withPath: "\(project.recordName)/drawing/")
     }
     
-    func initDelete(project:Project) {
+    func initDelete(_ project:Project) {
         if let delete = delete {
-            delete.removeObserverWithHandle(firebaseDeleteObserverHandle)
+            delete.removeObserver(withHandle: firebaseDeleteObserverHandle)
         }
-        delete = FIRDatabase.database().referenceWithPath("\(project.recordName)/delete")
+        delete = FIRDatabase.database().reference(withPath: "\(project.recordName)/delete")
     }
     
-    func initBackground(project:Project) {
+    func initBackground(_ project:Project) {
         if let background = background {
-            background.removeObserverWithHandle(firebaseBackgroundObserverHandle)
+            background.removeObserver(withHandle: firebaseBackgroundObserverHandle)
         }
-        background = FIRDatabase.database().referenceWithPath("\(project.recordName)/back")
+        background = FIRDatabase.database().reference(withPath: "\(project.recordName)/back")
     }
 }

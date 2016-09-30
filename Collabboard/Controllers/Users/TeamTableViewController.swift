@@ -16,25 +16,25 @@ class TeamTableViewController: UIViewController {
     
     var createdTeam: Team?
     
-    private var displayedDataSource = [Team]()  {
+    fileprivate var displayedDataSource = [Team]()  {
         didSet {
             title = "Team\(displayedDataSource.count > 1 ? "s" : "")"
         }
     }
-    private var computedHeight : Double {
+    fileprivate var computedHeight : Double {
         get {
             return Double(displayedDataSource.count * 50)
         }
     }
     
-    var completion:((project:Project, team:Team)->Void)?
+    var completion:((_ project:Project, _ team:Team)->Void)?
 }
 
 // MARK: - view lifecycle
 extension TeamTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.registerNib(UINib(nibName: "TeamTableViewCell", bundle: nil), forCellReuseIdentifier: "TeamTableViewCell")
+        tableView.register(UINib(nibName: "TeamTableViewCell", bundle: nil), forCellReuseIdentifier: "TeamTableViewCell")
     }
 }
 
@@ -50,7 +50,7 @@ extension TeamTableViewController {
             }
         
             self.displayedDataSource = teams
-            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+            OperationQueue.main.addOperation({ () -> Void in
                 self.tableView.reloadData()
             })
         }
@@ -59,18 +59,18 @@ extension TeamTableViewController {
 
 // MARK: - Tableview delegate
 extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate  {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return displayedDataSource.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TeamTableViewCell") as! TeamTableViewCell
-        let team = displayedDataSource[indexPath.row]
-            cell.iconImageView.image = UIImage.Asset.Ic_team.image.imageWithRenderingMode(.AlwaysTemplate)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TeamTableViewCell") as! TeamTableViewCell
+        let team = displayedDataSource[(indexPath as NSIndexPath).row]
+            cell.iconImageView.image = UIImage.Asset.Ic_team.image.withRenderingMode(.alwaysTemplate)
         if team.currentUserIsAdmin {
             cell.iconImageView.tintColor = UIColor.draftLinkBlue()
         }
@@ -78,17 +78,17 @@ extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate  
             cell.iconImageView.tintColor = UIColor.draftLinkGrey()
         }
         cell.teamNameLabel.text = "\(team.name)"
-        cell.tokenLabel.text = "token : \(displayedDataSource[indexPath.row].token)"
+        cell.tokenLabel.text = "token : \(displayedDataSource[(indexPath as NSIndexPath).row].token)"
         
         return cell
     }
     
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegue(StoryboardSegue.Main.TeamCellSegue, sender: tableView.cellForRowAtIndexPath(indexPath))
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(StoryboardSegue.Main.TeamCellSegue, sender: tableView.cellForRow(at: indexPath))
     }
     
-   func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+   func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let v = AdditionFooterView.instanciate(withConfiguration: .Team, delegate: self)
         return v
     }
@@ -96,33 +96,33 @@ extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate  
 
 // MARK: - Navigation
 extension TeamTableViewController {
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == StoryboardSegue.Main.TeamCellSegue.rawValue {
             
-            let index = self.tableView.indexPathForCell(sender as! TeamTableViewCell)
+            let index = self.tableView.indexPath(for: sender as! TeamTableViewCell)
             let _ : ProjectTableViewController = {
                 $0.completion = completion
                 $0.displayedDataSource = [Project]()
-                $0.team = displayedDataSource[index!.row]
+                $0.team = displayedDataSource[(index! as NSIndexPath).row]
                 return $0
-            } (segue.destinationViewController as! ProjectTableViewController)
+            } (segue.destination as! ProjectTableViewController)
         }
         
         if segue.identifier == StoryboardSegue.Main.TeamCreationSegue.rawValue {
-            let teamCreationVC = segue.destinationViewController as! TeamCreationViewController
+            let teamCreationVC = segue.destination as! TeamCreationViewController
             teamCreationVC.completion = { (team, project) in
                 self.displayedDataSource.append(team)
-                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+                self.tableView.insertRows(at: [IndexPath(row: self.displayedDataSource.count - 1, section: 0)], with: UITableViewRowAnimation.automatic)
             }
         }
     }
 }
 
 extension TeamTableViewController : ColorGenerationViewControllerDelegate {
-    func didSelectColor(color: UIColor, seed: CGFloat) {
+    func didSelectColor(_ color: UIColor, seed: CGFloat) {
         User.currentUser!.addTeam(createdTeam!, color: color, colorSeed: seed, completion: {
             self.displayedDataSource.append(self.createdTeam!)
-            self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+            self.tableView.insertRows(at: [IndexPath(row: self.displayedDataSource.count - 1, section: 0)], with: UITableViewRowAnimation.automatic)
          //   colorAlert.dismissViewControllerAnimated(true, completion: nil)
         })
     }
@@ -130,30 +130,30 @@ extension TeamTableViewController : ColorGenerationViewControllerDelegate {
 
 // MARK: - Actions
 extension TeamTableViewController {
-    @IBAction func joinTeamTouch(sender:AnyObject) {
-        let alert = UIAlertController(title: "Team", message: "Join a team", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+    @IBAction func joinTeamTouch(_ sender:AnyObject) {
+        let alert = UIAlertController(title: "Team", message: "Join a team", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addTextField(configurationHandler: { (textField) -> Void in
             textField.placeholder = "Team's token"
         })
-        alert.addAction(UIAlertAction(title: "Join", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+        alert.addAction(UIAlertAction(title: "Join", style: UIAlertActionStyle.default, handler: { (action) -> Void in
             guard let textField = alert.textFields!.first else {
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    alert.dismissViewControllerAnimated(true, completion: nil)
+                OperationQueue.main.addOperation({ () -> Void in
+                    alert.dismiss(animated: true, completion: nil)
                 })
                 return
             }
             switch textField.text! {
             case "" :
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    alert.dismissViewControllerAnimated(false, completion: nil)
+                OperationQueue.main.addOperation({ () -> Void in
+                    alert.dismiss(animated: false, completion: nil)
                 })
                 break
             default :
                 Team.get(textField.text!, completion: { (team, error) -> Void in
                     guard let team1 = team else {
-                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                            alert.dismissViewControllerAnimated(false, completion: nil)
+                        OperationQueue.main.addOperation({ () -> Void in
+                            alert.dismiss(animated: false, completion: nil)
                         })
                         return
                     }
@@ -164,13 +164,13 @@ extension TeamTableViewController {
                     colorAlert.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 200)
                     colorAlert.view.center = self.view.center
                     self.view.addSubview(colorAlert.view)
-                    UIView.animateWithDuration(0.3, animations: { () -> Void in
+                    UIView.animate(withDuration: 0.3, animations: { () -> Void in
                         colorAlert.view.alpha = 1.0
                     })
                 })
                 break
             }
         }))
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
 }

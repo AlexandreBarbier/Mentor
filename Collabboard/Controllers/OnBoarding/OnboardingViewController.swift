@@ -15,8 +15,8 @@ class OnboardingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         pageControl = {
-            $0.pageIndicatorTintColor = UIColor.draftLinkGrey()
-            $0.currentPageIndicatorTintColor = UIColor.draftLinkBlue()
+            $0?.pageIndicatorTintColor = UIColor.draftLinkGrey()
+            $0?.currentPageIndicatorTintColor = UIColor.draftLinkBlue()
             return $0
         }(pageControl)
         
@@ -29,23 +29,23 @@ class OnboardingViewController: UIViewController {
         
         let welcomView : WelcomView = {
             $0.frame = frame
-            $0.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+            $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             return $0
         }(WelcomView.instantiate())
        
         frame.origin.x = frame.width
         
         let getStartedView : GetStartedView = {
-            $0.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+            $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             $0.frame = frame
-            $0.skipButton.addTarget(self, action: #selector(OnboardingViewController.skip), forControlEvents: .TouchUpInside)
+            $0.skipButton.addTarget(self, action: #selector(OnboardingViewController.skip), for: .touchUpInside)
             return $0
         }(GetStartedView.instantiate())
         
         scrollView = {
-            $0.addSubview(welcomView)
-            $0.addSubview(getStartedView)
-            $0.contentSize = CGSize(width: 2 * $0.frame.width, height: $0.frame.height)
+            $0?.addSubview(welcomView)
+            $0?.addSubview(getStartedView)
+            $0?.contentSize = CGSize(width: 2 * ($0?.frame.width)!, height: ($0?.frame.height)!)
             return $0
         }(scrollView)
         
@@ -59,13 +59,13 @@ class OnboardingViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
 }
 
 extension OnboardingViewController : UIScrollViewDelegate {
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         pageControl.currentPage = Int(scrollView.contentOffset.x / view.frame.width)
     }
 }

@@ -17,7 +17,7 @@ class AdditionFooterView: UIView {
         case Users, Team, Project
     }
     
-    private var config : FooterViewConfiguration = .Users
+    fileprivate var config : FooterViewConfiguration = .Users
 }
 
 // MARK: - View lifecycle
@@ -38,7 +38,7 @@ extension AdditionFooterView {
             }
             $0.config = configuration
             return $0
-        }(UINib(nibName: "AdditionFooterView", bundle: nil).instantiateWithOwner(nil, options: nil).first as! AdditionFooterView)
+        }(UINib(nibName: "AdditionFooterView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! AdditionFooterView)
         
         return view
     }
@@ -57,20 +57,20 @@ extension AdditionFooterView {
 // MARK: - Actions
 extension AdditionFooterView {
     
-    @IBAction func onAddTouch(sender: AnyObject) {
+    @IBAction func onAddTouch(_ sender: AnyObject) {
         switch config {
         case .Users:
             
             break
         case .Project:
-            if delegate.shouldPerformSegueWithIdentifier(StoryboardSegue.Main.ProjectCreationSegue.rawValue, sender: nil) {
+            if delegate.shouldPerformSegue(withIdentifier: StoryboardSegue.Main.ProjectCreationSegue.rawValue, sender: nil) {
                 delegate.performSegue(StoryboardSegue.Main.ProjectCreationSegue, sender:nil)
             }
             else {
                     //TODO: alert user
-                let alert = UIAlertController(title: "Error", message: "You cannot create a project in this team since you are not the administrator", preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .Cancel, handler: nil))
-                delegate.presentViewController(alert, animated: true, completion: nil)
+                let alert = UIAlertController(title: "Error", message: "You cannot create a project in this team since you are not the administrator", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                delegate.present(alert, animated: true, completion: nil)
             }
             break
         case .Team:

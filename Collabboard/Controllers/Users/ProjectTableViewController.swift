@@ -10,17 +10,17 @@ import UIKit
 
 class ProjectTableViewController: UITableViewController {
     
-    private var computedHeight : Double {
+    fileprivate var computedHeight : Double {
         get {
             return Double((displayedDataSource.count * 50) == 0 ? 50 : (displayedDataSource.count * 50))
         }
     }
     
-    var completion:((project:Project, team:Team)->Void)?
+    var completion:((_ project:Project, _ team:Team)->Void)?
     var team : Team! {
         didSet {
             team.getProjects { (projects, local, error) -> Void in
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                OperationQueue.main.addOperation({ () -> Void in
                     self.displayedDataSource = projects
                     self.tableView.reloadData()
                 })
@@ -37,13 +37,13 @@ class ProjectTableViewController: UITableViewController {
 extension ProjectTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.registerNib(UINib.init(nibName: "ProjectTableViewCell", bundle: nil), forCellReuseIdentifier: "ProjectTableViewCell")
+        tableView.register(UINib.init(nibName: "ProjectTableViewCell", bundle: nil), forCellReuseIdentifier: "ProjectTableViewCell")
     }
 }
 
 extension ProjectTableViewController {
     
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == StoryboardSegue.Main.ProjectCreationSegue.rawValue {
             if team.admin == User.currentUser!.recordId.recordName {
                 return true
@@ -53,14 +53,14 @@ extension ProjectTableViewController {
         return true
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == StoryboardSegue.Main.ProjectCreationSegue.rawValue {
-            let vc = segue.destinationViewController as! ProjectCreationViewController
+            let vc = segue.destination as! ProjectCreationViewController
             vc.team = self.team
             vc.completion = { (project:Project, team:Team) in
                 self.displayedDataSource.append(project)
-                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.displayedDataSource.count - 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
-                self.completion?(project: project,team: team)
+                self.tableView.insertRows(at: [IndexPath(row: self.displayedDataSource.count - 1, section: 0)], with: UITableViewRowAnimation.automatic)
+                self.completion?(project,team)
             }
         }
     }
@@ -68,29 +68,29 @@ extension ProjectTableViewController {
 
 // MARK: - Table view data source
 extension ProjectTableViewController {
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return displayedDataSource.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ProjectTableViewCell", forIndexPath: indexPath) as! ProjectTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectTableViewCell", for: indexPath) as! ProjectTableViewCell
         
-        cell.projectNameLabel.text = displayedDataSource[indexPath.row].name
-        cell.infoLabel.text = displayedDataSource[indexPath.row].infos
+        cell.projectNameLabel.text = displayedDataSource[(indexPath as NSIndexPath).row].name
+        cell.infoLabel.text = displayedDataSource[(indexPath as NSIndexPath).row].infos
         
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        displayedDataSource[indexPath.row].setLastOpenForTeam(team)
-        completion?(project: displayedDataSource[indexPath.row], team: team)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        displayedDataSource[(indexPath as NSIndexPath).row].setLastOpenForTeam(team)
+        completion?(displayedDataSource[(indexPath as NSIndexPath).row], team)
     }
     
-    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let v = AdditionFooterView.instanciate(withConfiguration: .Project, delegate: self)
         return v
     }

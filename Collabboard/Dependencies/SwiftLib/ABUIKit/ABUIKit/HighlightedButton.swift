@@ -8,45 +8,45 @@
 
 import UIKit
 
-public class HighlightedButton : UIButton {
-    @IBInspectable public var highlightedColor : UIColor {
+open class HighlightedButton : UIButton {
+    @IBInspectable open var highlightedColor : UIColor {
         didSet {
-            self.setTitleColor(highlightedColor, forState: UIControlState.Normal)
+            self.setTitleColor(highlightedColor, for: UIControlState())
         }
     }
-    @IBInspectable public var bgColor:UIColor {
+    @IBInspectable open var bgColor:UIColor {
         didSet {
-            self.setTitleColor(bgColor, forState: UIControlState.Highlighted)
+            self.setTitleColor(bgColor, for: UIControlState.highlighted)
             self.backgroundColor = bgColor
         }
     }
     
-    public override func awakeFromNib() {
+    open override func awakeFromNib() {
         super.awakeFromNib()
         self.backgroundColor = bgColor
-        self.setTitleColor(self.bgColor, forState: UIControlState.Highlighted)
-        self.setTitleColor(self.highlightedColor, forState: UIControlState.Normal)
+        self.setTitleColor(self.bgColor, for: UIControlState.highlighted)
+        self.setTitleColor(self.highlightedColor, for: UIControlState())
         
     }
     
     public override init(frame: CGRect) {
-        highlightedColor = UIColor.whiteColor()
-        bgColor = UIColor.blackColor().colorWithAlphaComponent(0.9)
+        highlightedColor = UIColor.white
+        bgColor = UIColor.black.withAlphaComponent(0.9)
         super.init(frame: frame)
         
-        self.setTitleColor(self.bgColor, forState: UIControlState.Highlighted)
-        self.setTitleColor(self.highlightedColor, forState: UIControlState.Normal)
+        self.setTitleColor(self.bgColor, for: UIControlState.highlighted)
+        self.setTitleColor(self.highlightedColor, for: UIControlState())
         
     }
     public required init(coder aDecoder: NSCoder) {
-        highlightedColor = UIColor.whiteColor()
-        bgColor = UIColor.blackColor().colorWithAlphaComponent(0.9)
+        highlightedColor = UIColor.white
+        bgColor = UIColor.black.withAlphaComponent(0.9)
         super.init(coder: aDecoder)!
     }
     
-    public override var highlighted : Bool {
+    open override var isHighlighted : Bool {
         set {
-            super.highlighted = newValue
+            super.isHighlighted = newValue
             if (newValue) {
                 self.backgroundColor = self.highlightedColor
             }
@@ -55,7 +55,7 @@ public class HighlightedButton : UIButton {
             }
         }
         get {
-            return super.highlighted
+            return super.isHighlighted
         }
     }
 }

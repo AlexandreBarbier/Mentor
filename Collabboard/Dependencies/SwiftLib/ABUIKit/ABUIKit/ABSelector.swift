@@ -8,12 +8,12 @@
 
 import UIKit
 
-@IBDesignable public class ABSelector : UIView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    @IBOutlet weak public var selectorCollectionView: UICollectionView!
-    @IBInspectable public var numberOfItem : Int = 0
-    @IBInspectable public var cellId : String = ""
+@IBDesignable open class ABSelector : UIView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    @IBOutlet weak open var selectorCollectionView: UICollectionView!
+    @IBInspectable open var numberOfItem : Int = 0
+    @IBInspectable open var cellId : String = ""
     
-    private var internalCellId : String {
+    fileprivate var internalCellId : String {
         get {
             if (cellId == "") {
                 fatalError("init(coder:) has not been implemented")
@@ -22,7 +22,7 @@ import UIKit
         }
     }
     
-    @IBInspectable public var radius : CGFloat = 0.0 {
+    @IBInspectable open var radius : CGFloat = 0.0 {
         didSet {
             self.layer.cornerRadius = radius
             self.layer.masksToBounds = true
@@ -33,7 +33,7 @@ import UIKit
         super.init(coder: aDecoder)!
     }
     
-    public override func prepareForInterfaceBuilder() {
+    open override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
     }
     
@@ -41,23 +41,23 @@ import UIKit
         super.init(frame: frame)
     }
     
-    public override func awakeFromNib() {
+    open override func awakeFromNib() {
         super.awakeFromNib()
     }
     
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (self.frame.size.width / CGFloat(numberOfItem)), height: self.frame.size.height)
     }
     
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return numberOfItem
     }
     
-    public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        return selectorCollectionView.dequeueReusableCellWithReuseIdentifier(internalCellId, forIndexPath: indexPath) as UICollectionViewCell
+    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return selectorCollectionView.dequeueReusableCell(withReuseIdentifier: internalCellId, for: indexPath) as UICollectionViewCell
     }
 }

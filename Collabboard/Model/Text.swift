@@ -20,9 +20,9 @@ class Text: ABModelCloudKit {
         return "Texts"
     }
     
-    class func create(drawing:Drawing, x: NSNumber, y: NSNumber, text:String,  position:Int? = nil, save: Bool) -> Text {
+    class func create(_ drawing:Drawing, x: NSNumber, y: NSNumber, text:String,  position:Int? = nil, save: Bool) -> Text {
         let txt : Text = {
-            drawing.texts.append(CKReference(record: $0.record, action: CKReferenceAction.None))
+            drawing.texts.append(CKReference(record: $0.record, action: CKReferenceAction.none))
             $0.x = x
             $0.y = y
             $0.text = text

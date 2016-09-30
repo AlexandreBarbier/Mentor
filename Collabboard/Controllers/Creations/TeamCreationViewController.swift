@@ -14,10 +14,10 @@ class TeamCreationViewController: UIViewController {
     @IBOutlet var teamNameTF: DFTextField!
     @IBOutlet var userNameTF: DFTextField!
     
-    private var colorController : ColorGenerationViewController!
-    private var chosenColor:UIColor?
+    fileprivate var colorController : ColorGenerationViewController!
+    fileprivate var chosenColor:UIColor?
     
-    var completion : ((team:Team, project:Project?) -> Void)?
+    var completion : ((_ team:Team, _ project:Project?) -> Void)?
     var showUser = false
 }
 
@@ -27,7 +27,7 @@ extension TeamCreationViewController {
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         projectNameTF.delegate = self
         teamNameTF.delegate = self
@@ -35,7 +35,7 @@ extension TeamCreationViewController {
         teamNameTF.becomeFirstResponder()
         if !showUser {
             teamNameTF.becomeFirstResponder()
-            userNameTF.hidden = true
+            userNameTF.isHidden = true
         }
         teamNameTF.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
         teamNameTF.setup(UIImage.Asset.Ic_team_mini.image, border: UIColor.draftLinkBlue(), innerColor: UIColor.draftLinkDarkBlue(), cornerRadius: 5)
@@ -54,9 +54,9 @@ extension TeamCreationViewController {
 
 // MARK: - Navigation
 extension TeamCreationViewController {
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == StoryboardSegue.CreationStoryboard.ColorSegue.rawValue {
-            self.colorController = segue.destinationViewController as! ColorGenerationViewController
+            self.colorController = segue.destination as! ColorGenerationViewController
             self.colorController.delegate = self
             self.colorController.loadFromNil = true
         }
@@ -65,9 +65,9 @@ extension TeamCreationViewController {
 
 // MARK: - TextField delegate
 extension TeamCreationViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == self.teamNameTF || textField == self.userNameTF {
-            nextResponder()!.becomeFirstResponder()
+            next!.becomeFirstResponder()
         }
         else {
             view.endEditing(true)
@@ -77,25 +77,25 @@ extension TeamCreationViewController: UITextFieldDelegate {
 }
 
 extension TeamCreationViewController: ColorGenerationViewControllerDelegate {
-    func didSelectColor(color: UIColor, seed: CGFloat) {
+    func didSelectColor(_ color: UIColor, seed: CGFloat) {
         chosenColor = color
     }
 }
 
 // MARK: - Actions
 extension TeamCreationViewController {
-    @IBAction func createTouch(sender: AnyObject) {
+    @IBAction func createTouch(_ sender: AnyObject) {
         
-        guard let teamName = self.teamNameTF.text where teamName != "" else {
+        guard let teamName = self.teamNameTF.text , teamName != "" else {
             //TODO: AlertView field team name empty
             return
         }
-        guard let projectName = self.projectNameTF.text, chosenColor = chosenColor where projectName != "" else {
+        guard let projectName = self.projectNameTF.text, let chosenColor = chosenColor , projectName != "" else {
             //TODO: AlertView field project name empty
             return
         }
         if self.showUser {
-            guard let userName = self.userNameTF.text where !self.userNameTF.hidden && userName != "" else {
+            guard let userName = self.userNameTF.text , !self.userNameTF.isHidden && userName != "" else {
                 //TODO: AlertView field project name empty
                 return
             }
@@ -104,11 +104,11 @@ extension TeamCreationViewController {
         
         Team.create(teamName, color: chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
             Project.create(projectName, team: team, completion: { (project, team) -> Void in
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                OperationQueue.main.addOperation({ () -> Void in
                     User.currentUser!.addTeam(team, color: chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: {
                         project.setLastOpenForTeam(team)
-                        self.completion?(team: team, project:project)
-                        self.navigationController?.popToRootViewControllerAnimated(true)
+                        self.completion?(team, project)
+                        self.navigationController?.popToRootViewController(animated: true)
                     })
                 })
             })

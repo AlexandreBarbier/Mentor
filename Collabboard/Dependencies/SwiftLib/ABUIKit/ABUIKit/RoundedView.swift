@@ -10,7 +10,7 @@ import UIKit
 
 extension UIView {
     
-    public func rounded(radius:CGFloat? = nil) -> Void {
+    public func rounded(_ radius:CGFloat? = nil) -> Void {
         if let radius = radius {
             self.layer.cornerRadius = radius
         }
@@ -28,37 +28,37 @@ extension UIView {
         self.layer.mask = nil
     }
 
-    public func roundedBottom(radius:CGFloat) -> Void {
+    public func roundedBottom(_ radius:CGFloat) -> Void {
         let bottomShape = CAShapeLayer(layer:self.layer)
-        bottomShape.path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: [UIRectCorner.BottomRight , UIRectCorner.BottomLeft] , cornerRadii: CGSizeMake(radius, radius)).CGPath
+        bottomShape.path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: [UIRectCorner.bottomRight , UIRectCorner.bottomLeft] , cornerRadii: CGSize(width: radius, height: radius)).cgPath
         self.layer.mask = bottomShape
         self.layer.masksToBounds = true
     }
     
-    public func roundedTop(radius:CGFloat) -> Void {
+    public func roundedTop(_ radius:CGFloat) -> Void {
         let bottomShape = CAShapeLayer(layer:self.layer)
-        bottomShape.path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: [UIRectCorner.TopRight , UIRectCorner.TopLeft] , cornerRadii: CGSizeMake(radius, radius)).CGPath
+        bottomShape.path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: [UIRectCorner.topRight , UIRectCorner.topLeft] , cornerRadii: CGSize(width: radius, height: radius)).cgPath
         self.layer.mask = bottomShape
         self.layer.masksToBounds = true
     }
     
-    public func roundedLeft(radius:CGFloat) -> Void {
+    public func roundedLeft(_ radius:CGFloat) -> Void {
         let bottomShape = CAShapeLayer(layer:self.layer)
-        bottomShape.path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: [UIRectCorner.TopLeft , UIRectCorner.BottomLeft] , cornerRadii: CGSizeMake(radius, radius)).CGPath
+        bottomShape.path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: [UIRectCorner.topLeft , UIRectCorner.bottomLeft] , cornerRadii: CGSize(width: radius, height: radius)).cgPath
         self.layer.mask = bottomShape
         self.layer.masksToBounds = true
     }
     
-    public func roundedRight(radius:CGFloat) -> Void {
+    public func roundedRight(_ radius:CGFloat) -> Void {
         let bottomShape = CAShapeLayer(layer:self.layer)
-        bottomShape.path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: [UIRectCorner.TopRight , UIRectCorner.BottomRight] , cornerRadii: CGSizeMake(radius, radius)).CGPath
+        bottomShape.path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: [UIRectCorner.topRight , UIRectCorner.bottomRight] , cornerRadii: CGSize(width: radius, height: radius)).cgPath
         self.layer.mask = bottomShape
         self.layer.masksToBounds = true
     }
     
-   public func border(color:UIColor, width : CGFloat) {
+   public func border(_ color:UIColor, width : CGFloat) {
         self.layer.borderWidth = width
-        self.layer.borderColor = color.CGColor
+        self.layer.borderColor = color.cgColor
     }
     
 }

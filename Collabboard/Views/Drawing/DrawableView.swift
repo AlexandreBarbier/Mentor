@@ -14,18 +14,18 @@ import ABUIKit
 // TODO: manage multi size screen (simple solution : create a view with the max screen size)
 /// this is the view used to draw everything
 class DrawableView: UIView, UIGestureRecognizerDelegate {
-    private var markerAlpha : CGFloat = 0.4
-    private var layerIndex = 0
-    private var path = UIBezierPath()
-    private var history = [(layer:CALayer,dPath:DrawingPath)]()
-    private var historyIndex = 0
-    private var interPolationPoints = [CGPoint] ()
-    private var touchCircle = UIBezierPath()
-    private var red : CGFloat = 0.0
-    private var green : CGFloat = 0.0
-    private var blue : CGFloat = 0.0
-    private var colorAlpha : CGFloat = 0.0
-    private var archivedColor : NSData!
+    fileprivate var markerAlpha : CGFloat = 0.4
+    fileprivate var layerIndex = 0
+    fileprivate var path = UIBezierPath()
+    fileprivate var history = [(layer:CALayer,dPath:DrawingPath)]()
+    fileprivate var historyIndex = 0
+    fileprivate var interPolationPoints = [CGPoint] ()
+    fileprivate var touchCircle = UIBezierPath()
+    fileprivate var red : CGFloat = 0.0
+    fileprivate var green : CGFloat = 0.0
+    fileprivate var blue : CGFloat = 0.0
+    fileprivate var colorAlpha : CGFloat = 0.0
+    fileprivate var archivedColor : Data!
     
     var brushTool : Tool = .pen
     var currentTool : Tool = .pen {
@@ -33,12 +33,12 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             currentTool.configure(self)
         }
     }
-    var loadingProgressBlock : ((progress:Double, current:Double, total:Double) -> Void)?
+    var loadingProgressBlock : ((_ progress:Double, _ current:Double, _ total:Double) -> Void)?
     
-    var color = UIColor.greenColor() {
+    var color = UIColor.green {
         didSet {
             self.color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-            self.archivedColor = NSKeyedArchiver.archivedDataWithRootObject(self.color)
+            self.archivedColor = NSKeyedArchiver.archivedData(withRootObject: self.color)
         }
     }
     
@@ -62,7 +62,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             var pathPrinted : Double = 1
             drawing.getTexts { (text, error) in
                 let textV = DrawableTextView.create(CGPoint(x: CGFloat(text.x.floatValue), y: CGFloat(text.y.floatValue)), text: text.text, color: self.color, drawing: drawing)
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                OperationQueue.main.addOperation({ () -> Void in
                     self.addSubview(textV)
                 })
             }
@@ -70,7 +70,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                 
                 // get path's points, order them and convert them to CGPoint
                 paths.getPoints({ (points, error) -> Void in
-                    let cPoint = points.sort({ (p1, p2) -> Bool in
+                    let cPoint = points.sorted(by: { (p1, p2) -> Bool in
                         return p1.position < p2.position
                     }).map({ (point) -> CGPoint in
                         CGPoint(x:CGFloat(point.x.floatValue), y:CGFloat(point.y.floatValue))
@@ -79,7 +79,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                     // set path color
                     var color:UIColor? = nil
                     if let col = paths.color {
-                        color = NSKeyedUnarchiver.unarchiveObjectWithData(col) as? UIColor
+                        color = NSKeyedUnarchiver.unarchiveObject(with: col) as? UIColor
                     }
                    
                     // marker or pen path
@@ -98,8 +98,8 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                         layerName = "\(paths.recordId.recordName)"
                     }
                     
-                    self.addPath(cPath.CGPath, layerName: layerName, color: color)
-                    self.loadingProgressBlock!(progress: (pathPrinted / totalPaths), current:pathPrinted, total:totalPaths)
+                    self.addPath(cPath.cgPath, layerName: layerName, color: color)
+                    self.loadingProgressBlock!((pathPrinted / totalPaths), pathPrinted, totalPaths)
                     pathPrinted = pathPrinted + 1
                     
                     // reset user tools
@@ -134,7 +134,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             }
             let size = CGSize(width: CGFloat(project.width.floatValue), height: CGFloat(project.height.floatValue))
             self.frame = CGRect(origin: self.frame.origin, size: size)
-            if size.width < UIScreen.mainScreen().bounds.width {
+            if size.width < UIScreen.main.bounds.width {
                 self.border(UIColor.draftLinkGrey(), width: 1.0)
             }
             project.getDrawing { (drawing, error) -> Void in
@@ -175,8 +175,8 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         touchCircle.lineWidth = 1
         lineWidth = 2.0
         currentTool = .pen
-        opaque = false
-        backgroundColor = UIColor.clearColor()
+        isOpaque = false
+        backgroundColor = UIColor.clear
     }
     
     /**
@@ -188,7 +188,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
      
      - returns: the new layer
      */
-    func addPath(path:CGPath, layerName:String, color: UIColor? = nil) -> CALayer {
+    func addPath(_ path:CGPath, layerName:String, color: UIColor? = nil) -> CALayer {
         let layer : CAShapeLayer = {
             $0.path = path
             $0.name = layerName
@@ -205,8 +205,8 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             default:
                 break
             }
-            $0.fillColor = UIColor.clearColor().CGColor
-            $0.strokeColor = color == nil ? self.color.CGColor : color!.CGColor
+            $0.fillColor = UIColor.clear.cgColor
+            $0.strokeColor = color == nil ? self.color.cgColor : color!.cgColor
             return $0
         }(CAShapeLayer(layer: self.layer))
         
@@ -214,13 +214,13 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         return layer
     }
     
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         if currentTool == .eraser {
-            UIColor.whiteColor().setFill()
+            UIColor.white.setFill()
             touchCircle.fill()
         }
-        UIColor.lightGrayColor().colorWithAlphaComponent(markerAlpha).setStroke()
+        UIColor.lightGray.withAlphaComponent(markerAlpha).setStroke()
         touchCircle.stroke()
         color.setStroke()
         path.stroke()
@@ -231,7 +231,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
 extension DrawableView {
     
     func initFirebase() {
-        cbFirebase.firebaseDrawingObserverHandle = cbFirebase.drawing!.observeEventType(FIRDataEventType.ChildChanged, withBlock: { (snap) -> Void in
+        cbFirebase.firebaseDrawingObserverHandle = cbFirebase.drawing!.observe(FIRDataEventType.childChanged, with: { (snap) -> Void in
             if let arr = snap.value as? [[Dictionary<String, AnyObject>]] {
                 let firstPoint = arr.first!
                 var red : CGFloat = 0.0
@@ -266,15 +266,15 @@ extension DrawableView {
                     }
                 })
                 
-                let contains = self.history.contains({ (tuple: (layer: CALayer, dPath: DrawingPath)) -> Bool in
+                let contains = self.history.contains(where: { (tuple: (layer: CALayer, dPath: DrawingPath)) -> Bool in
                     return name == tuple.layer.name
                 })
                 
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                OperationQueue.main.addOperation({ () -> Void in
                     if userName != User.currentUser!.recordId.recordName || !contains {
                         var cPoint =  Array<CGPoint>()
                         arr.forEach({ (obj) -> () in
-                            var point = CGPointZero
+                            var point = CGPoint.zero
                             obj.forEach({ (mino) -> () in
                                 if let x = mino[FirebaseKey.x] {
                                     point.x = CGFloat(x.floatValue)
@@ -283,7 +283,7 @@ extension DrawableView {
                                     point.y = CGFloat(y.floatValue)
                                 }
                             })
-                            if point != CGPointZero {
+                            if point != CGPoint.zero {
                                 cPoint.append(point)
                             }
                         })
@@ -300,7 +300,7 @@ extension DrawableView {
                             alpha = 0.4
                         }
                         self.lineWidth = lw
-                        self.addPath(cPath.CGPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: alpha))
+                        self.addPath(cPath.cgPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: alpha))
                         self.currentTool = ma
                         self.lineWidth = lineW
                     }
@@ -308,7 +308,7 @@ extension DrawableView {
             }
             else {
                 if let txt = snap.value as? Dictionary<String, AnyObject> {
-                    if let username = txt[FirebaseKey.drawingUser] as? String where username != "\(User.currentUser!.recordId.recordName)" {
+                    if let username = txt[FirebaseKey.drawingUser] as? String , username != "\(User.currentUser!.recordId.recordName)" {
                         let text = txt["v"] as? String
                         let x = CGFloat(txt["x"]! as! NSNumber)
                         let y = CGFloat(txt["y"]! as! NSNumber)
@@ -317,7 +317,7 @@ extension DrawableView {
                         let blue : CGFloat = CGFloat(txt[FirebaseKey.blue]! as! NSNumber)
                         let color = UIColor(red: red, green: green, blue: blue, alpha: 1.0)
                         let textV = DrawableTextView.create(CGPoint(x: x, y: y), text: text!, color: color,drawing: self.drawing!)
-                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        OperationQueue.main.addOperation({ () -> Void in
                             self.addSubview(textV)
                         })
                     }
@@ -326,13 +326,13 @@ extension DrawableView {
         }) { (error) -> Void in
             
         }
-        cbFirebase.firebaseDeleteObserverHandle = cbFirebase.delete!.observeEventType(FIRDataEventType.ChildChanged, withBlock: { (snap) -> Void in
+        cbFirebase.firebaseDeleteObserverHandle = cbFirebase.delete!.observe(FIRDataEventType.childChanged, with: { (snap) -> Void in
             let value = snap.value as! [[String:String]]
             if value.first![FirebaseKey.drawingUser] != User.currentUser!.recordId.recordName {
                 self.removeLayerWithName(value.first![FirebaseKey.delete]!)
             }
             
-            }, withCancelBlock: { (error) -> Void in
+            }, withCancel: { (error) -> Void in
                 
         })
     }
@@ -340,22 +340,22 @@ extension DrawableView {
 
 // MARK: - Touches handler
 extension DrawableView {
-    
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return !(gestureRecognizer is UITapGestureRecognizer)
-    }
-    
-    func panGesture(panGesture:UIPanGestureRecognizer) {
-        let currentPoint = panGesture.locationInView(self)
+	
+	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+		return !(gestureRecognizer is UITapGestureRecognizer)
+	}
+	
+    func panGesture(_ panGesture:UIPanGestureRecognizer) {
+        let currentPoint = panGesture.location(in: self)
         guard let _ = self.drawing else {
             return
         }
         touchCircle.removeAllPoints()
-        touchCircle.addArcWithCenter(currentPoint, radius: 5.0, startAngle: 0.0, endAngle: 2*CGFloat(M_PI), clockwise: true)
+        touchCircle.addArc(withCenter: currentPoint, radius: 5.0, startAngle: 0.0, endAngle: 2*CGFloat(M_PI), clockwise: true)
         if currentTool == .eraser {
             self.removeAtPoint(currentPoint)
             self.setNeedsDisplay()
-            if panGesture.state == .Ended {
+            if panGesture.state == .ended {
                 touchCircle.removeAllPoints()
             }
             return
@@ -364,31 +364,31 @@ extension DrawableView {
         path.removeAllPoints()
         path.interpolatePointsWithHermite(interPolationPoints)
         switch panGesture.state {
-        case .Began:
-            path.moveToPoint(currentPoint)
+        case .began:
+            path.move(to: currentPoint)
             break
-        case .Changed:
+        case .changed:
             break
-        case .Ended, .Cancelled, .Failed:
+        case .ended, .cancelled, .failed:
             let dPath = DrawingPath.create(self.drawing!, completion:nil)
             dPath.color = self.archivedColor
             dPath.pen = currentTool == .pen
             dPath.lineWidth = self.lineWidth
             let recPoints = Point.createBatch(interPolationPoints, dPath: dPath)
-            NSOperationQueue().addOperationWithBlock({ () -> Void in
+            OperationQueue().addOperation({ () -> Void in
                 cbFirebase.drawing!.updateChildValues([FirebaseKey.points:  self.interPolationPoints.map({ (point) -> [[String:AnyObject]] in
-                    return [[FirebaseKey.drawingUser:"\(User.currentUser!.recordId.recordName)"],[FirebaseKey.x:NSNumber(float: Float(point.x))], [FirebaseKey.y:NSNumber(float: Float(point.y))], [FirebaseKey.red:NSNumber(float: Float(self.red))],[FirebaseKey.green:NSNumber(float: Float(self.green))],[FirebaseKey.blue:NSNumber(float: Float(self.blue))],[FirebaseKey.pathName:dPath.recordId.recordName],[FirebaseKey.marker:self.currentTool == .marker], [FirebaseKey.lineWidth:self.lineWidth]]
+                    return [[FirebaseKey.drawingUser:"\(User.currentUser!.recordId.recordName)" as AnyObject],[FirebaseKey.x:NSNumber(value: Float(point.x))], [FirebaseKey.y:NSNumber(value: Float(point.y))], [FirebaseKey.red:NSNumber(value: Float(self.red))],[FirebaseKey.green:NSNumber(value: Float(self.green))],[FirebaseKey.blue:NSNumber(value: Float(self.blue))],[FirebaseKey.pathName:dPath.recordId.recordName as AnyObject],[FirebaseKey.marker:(self.currentTool == .marker) as AnyObject], [FirebaseKey.lineWidth:self.lineWidth as AnyObject]]
                 })
                     ])
             })
             
-            dPath.points.appendContentsOf(recPoints.records.map({ (record) -> CKReference in
-                CKReference(record: record, action: CKReferenceAction.None)
+            dPath.points.append(contentsOf: recPoints.records.map({ (record) -> CKReference in
+                CKReference(record: record, action: CKReferenceAction.none)
             }))
             dPath.saveBulk(recPoints.records, completion: nil)
             dPath.localSave(recPoints.points)
             interPolationPoints.removeAll()
-            let newLayer = self.addPath(path.CGPath, layerName: dPath.recordId.recordName)
+            let newLayer = self.addPath(path.cgPath, layerName: dPath.recordId.recordName)
             history.append((newLayer, dPath))
             historyIndex = history.count - 1
             path.removeAllPoints()
@@ -401,8 +401,8 @@ extension DrawableView {
         self.setNeedsDisplay()
     }
     
-    func addText(tapGesture:UITapGestureRecognizer) {
-        let currentPoint = tapGesture.locationInView(self)
+    func addText(_ tapGesture:UITapGestureRecognizer) {
+        let currentPoint = tapGesture.location(in: self)
         if currentTool == .text {
             let textV = DrawableTextView.create(currentPoint, text: "put text", color: color, drawing: self.drawing!)
             self.addSubview(textV)
@@ -448,37 +448,37 @@ extension DrawableView {
         }
     }
     
-    func removeLayerWithName(name:String) {
+    func removeLayerWithName(_ name:String) {
         guard let sublayers = self.superview!.layer.sublayers else {
             return
         }
         _ = sublayers.forEach { (layer) -> () in
             if let shapeLayer = layer as? CAShapeLayer  {
-                if shapeLayer.name!.containsString(name) {
+                if shapeLayer.name!.contains(name) {
                     shapeLayer.removeFromSuperlayer()
                 }
             }
         }
     }
     
-    func removeAtPoint(point:CGPoint) {
+    func removeAtPoint(_ point:CGPoint) {
         guard let sublayers = self.superview!.layer.sublayers else {
             return
         }
         _ = sublayers.forEach { (layer) -> () in
             if let shapeLayer = layer as? CAShapeLayer {
                 if let path = shapeLayer.path {
-                    let bezierPath = UIBezierPath(CGPath:path)
-                    if bezierPath.containsPoint(point) {
-                        if !shapeLayer.name!.containsString(FirebaseKey.undeletable) {
+                    let bezierPath = UIBezierPath(cgPath:path)
+                    if bezierPath.contains(point) {
+                        if !shapeLayer.name!.contains(FirebaseKey.undeletable) {
                             cbFirebase.delete!.updateChildValues([FirebaseKey.delete:[[FirebaseKey.delete: shapeLayer.name!],[FirebaseKey.drawingUser:User.currentUser!.recordId.recordName]]])
-                            let index = history.indexOf({ (tuple: (layer: CALayer, dPath: DrawingPath)) -> Bool in
+                            let index = history.index(where: { (tuple: (layer: CALayer, dPath: DrawingPath)) -> Bool in
                                 return tuple.layer == shapeLayer
                             })
                             if let index = index {
                                 let value = history[index]
                                 value.dPath.remove()
-                                history.removeAtIndex(index)
+                                history.remove(at: index)
                                 shapeLayer.removeFromSuperlayer()
                                 return
                             }

@@ -19,7 +19,7 @@ class Drawing: ABModelCloudKit {
         return "Drawing"
     }
     
-    override func ignoreKey(key: String, value: AnyObject) -> Bool {
+    override func ignoreKey(_ key: String, value: AnyObject) -> Bool {
         if key == "paths" {
             for ref : CKReference in value as! [CKReference] {
                 paths.append(ref)
@@ -35,35 +35,35 @@ class Drawing: ABModelCloudKit {
         return false
     }
     
-    class func create(project:Project, completion:((success:Bool,drawing:Drawing) -> Void)? = nil, save:Bool) -> Drawing {
+    class func create(_ project:Project, completion:((_ success:Bool,_ drawing:Drawing) -> Void)? = nil, save:Bool) -> Drawing {
         let drawing = Drawing()
         drawing.project = project.recordId!.recordName
         if save {
             drawing.updateRecord { (record, error) -> Void in
-                completion?(success: error == nil, drawing: drawing)
+                completion?(error == nil, drawing)
             }
         }
         return drawing
     }
     
-    func getTexts(completion:(text:Text, error:NSError?) -> Void) -> Void {
+    func getTexts(_ completion:@escaping (_ text:Text, _ error:NSError?) -> Void) -> Void {
         let currentTexts = texts
         texts.removeAll()
         super.getReferences(currentTexts) { (results : Text?, error) in
             if let result = results {
-                self.texts.append(CKReference(recordID: result.recordId, action: .None))
-                completion(text:result, error: error)
+                self.texts.append(CKReference(recordID: result.recordId, action: .none))
+                completion(result, error)
             }
         }
     }
     
-    func getPaths(completion:(path:DrawingPath, error:NSError?) -> Void) {
+    func getPaths(_ completion:@escaping (_ path:DrawingPath, _ error:NSError?) -> Void) {
         let currentPath = paths
         paths.removeAll()
         super.getReferences(currentPath, perRecordCompletion:{ (results:DrawingPath?, error) -> Void in
             if let result = results {
-                self.paths.append(CKReference(recordID: result.recordId, action: .None))
-                completion(path:result, error: error)
+                self.paths.append(CKReference(recordID: result.recordId, action: .none))
+                completion(result, error)
             }
         })
     }

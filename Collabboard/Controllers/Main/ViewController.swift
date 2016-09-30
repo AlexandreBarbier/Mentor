@@ -34,10 +34,10 @@ class ViewController: UIViewController {
     @IBOutlet var showTeamButton: UIBarButtonItem!
     
     @IBOutlet var teamVCTopConstraint: NSLayoutConstraint!
-    private var connectedUsersView : ConnectedUsersTableViewController?
-    private var interfaceIsVisible = true
-    private var canDownloadBG = true
-    private var selectedTool = 0
+    fileprivate var connectedUsersView : ConnectedUsersTableViewController?
+    fileprivate var interfaceIsVisible = true
+    fileprivate var canDownloadBG = true
+    fileprivate var selectedTool = 0
     var imageBG : UIImageView?
     var teamViewContainerBackView:UIView!
 }
@@ -47,14 +47,14 @@ extension ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        topToolbar.tintColor = UIColor.whiteColor()
-        logoItem.image = UIImage.Asset.Topbar_logo.image.imageWithRenderingMode(.AlwaysOriginal)
+        topToolbar.tintColor = UIColor.white
+        logoItem.image = UIImage.Asset.Topbar_logo.image.withRenderingMode(.alwaysOriginal)
         selectTool(0)
-        teamViewContainer.hidden = true
+        teamViewContainer.isHidden = true
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.hideTeamController(_:)))
         teamViewContainerBackView = {
-            $0.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+            $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             $0.addGestureRecognizer(tapGesture)
             return $0
         } (UIView(frame: teamViewContainer.bounds))
@@ -62,10 +62,10 @@ extension ViewController {
         scrollView.drawableView = drawableView
         progressView.progress = 0.0
         drawableView.loadingProgressBlock = {(progress, current, total) in
-            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+            OperationQueue.main.addOperation({ () -> Void in
                 self.progressView.progress = Float(progress)
-                self.progressView.hidden = self.progressView.progress == 1.0
-                if self.progressView.hidden {
+                self.progressView.isHidden = self.progressView.progress == 1.0
+                if self.progressView.isHidden {
                     self.teamVCTopConstraint.constant = 0.0
                 }
                 else {
@@ -76,7 +76,7 @@ extension ViewController {
         }
         activity.rounded()
         DebugConsoleView.debugView = DebugConsoleView(inView:view)
-        prefersStatusBarHidden()
+        prefersStatusBarHidden
         loginUser()
     }
     
@@ -84,7 +84,7 @@ extension ViewController {
         super.didReceiveMemoryWarning()
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
@@ -94,11 +94,11 @@ extension ViewController {
 
 extension ViewController {
     
-    func hideTeamController(sender: AnyObject) {
+    func hideTeamController(_ sender: AnyObject) {
         showTeam(self.showTeamButton)
     }
     
-    @IBAction func hideInterface(sender: AnyObject) {
+    @IBAction func hideInterface(_ sender: AnyObject) {
         if drawableView.getCurrentTool() == .text {
             let tap = sender as! UITapGestureRecognizer
             drawableView.addText(tap)
@@ -107,27 +107,27 @@ extension ViewController {
         let alpha = 1 - bottomToolBar.alpha
         if alpha == 1 {
             interfaceIsVisible = {
-                bottomToolBar.hidden = $0
-                topToolbar.hidden = $0
-                progressView.hidden = $0 ? $0 : self.progressView.progress == 1.0
+                bottomToolBar.isHidden = $0
+                topToolbar.isHidden = $0
+                progressView.isHidden = $0 ? $0 : self.progressView.progress == 1.0
                 return $0
             }(interfaceIsVisible)
             
             
         }
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
             self.bottomToolBar.alpha = alpha
             self.topToolbar.alpha = alpha
             self.progressView.alpha = alpha
             
-        }) { (finished) -> Void in
+        }, completion: { (finished) -> Void in
             if alpha != 1 {
-                self.bottomToolBar.hidden = self.interfaceIsVisible
-                self.topToolbar.hidden = self.interfaceIsVisible
-                self.progressView.hidden = self.interfaceIsVisible ? self.interfaceIsVisible : self.progressView.progress == 1.0
+                self.bottomToolBar.isHidden = self.interfaceIsVisible
+                self.topToolbar.isHidden = self.interfaceIsVisible
+                self.progressView.isHidden = self.interfaceIsVisible ? self.interfaceIsVisible : self.progressView.progress == 1.0
                 
             }
-        }
+        }) 
         interfaceIsVisible = !interfaceIsVisible
     }
 }
@@ -139,21 +139,21 @@ extension ViewController {
      */
     func loginUser() {
         guard let user = User.currentUser else {
-            let alert = UIAlertController(title: "An error occured", message: "please restart Mentor", preferredStyle: UIAlertControllerStyle.Alert)
-            self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: "An error occured", message: "please restart Mentor", preferredStyle: UIAlertControllerStyle.alert)
+            self.present(alert, animated: true, completion: nil)
             return
         }
         if let connectedUser = self.connectedUsersView {
             connectedUser.teamCompletion =  { (project, team) in
                 connectedUser.team = team
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                OperationQueue.main.addOperation({ () -> Void in
                     self.initDrawing(team, project: project)
                     self.showTeam(self.showTeamButton)
                 })
             }
             if let lastOpenedteamProject = Project.getLastOpen() {
                 connectedUser.team = lastOpenedteamProject.team!
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                OperationQueue.main.addOperation({ () -> Void in
                     self.initDrawing(lastOpenedteamProject.team!, project: lastOpenedteamProject.project!)
                     self.activity.stopAnimating()
                 })
@@ -166,7 +166,7 @@ extension ViewController {
                             team.getProjects({ (projects, local, error) -> Void in
                                 if !local {
                                     if let project = projects.first {
-                                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                                        OperationQueue.main.addOperation({ () -> Void in
                                             self.initDrawing(team, project: project)
                                             project.setLastOpenForTeam(team)
                                             self.activity.stopAnimating()
@@ -186,9 +186,9 @@ extension ViewController {
      
      - parameter project: current project
      */
-    func initFirebase(team: Team, project:Project) -> Void {
+    func initFirebase(_ team: Team, project:Project) -> Void {
         cbFirebase.setupWithTeam(team, project: project)
-        cbFirebase.firebaseBackgroundObserverHandle = cbFirebase.background!.observeEventType(FIRDataEventType.ChildChanged, withBlock: { (snap) -> Void in
+        cbFirebase.firebaseBackgroundObserverHandle = cbFirebase.background!.observe(FIRDataEventType.childChanged, with: { (snap) -> Void in
             if self.canDownloadBG {
                 self.drawableView.project!.refresh({ (updateObject:Project?) -> Void in
                     if let update = updateObject {
@@ -205,23 +205,23 @@ extension ViewController {
 // MARK: - Tools
 extension ViewController : ToolsViewDelegate {
     
-    private func configureDrawableView(tool:Tool) {
+    fileprivate func configureDrawableView(_ tool:Tool) {
         drawableView.currentTool = tool
     }
     
-    func selectTool(index: Int) {
+    func selectTool(_ index: Int) {
         selectedTool = index
         bottomToolBar.items!.forEach { (item) in
             item.tintColor = item.tag == index ?  UIColor.draftLinkBlue() : UIColor.draftLinkGrey()
         }
     }
     
-    func selectDrawingTool(tool:Tool) {
+    func selectDrawingTool(_ tool:Tool) {
         configureDrawableView(tool)
     }
     
     
-    func toolsViewDidSelectTools(toolsView:ToolsViewController, tool: Tool) {
+    func toolsViewDidSelectTools(_ toolsView:ToolsViewController, tool: Tool) {
         bottomBarButtons.forEach({ (item) in
             if item.tag == 0 {
                 item.image = tool.getItemIcon()
@@ -230,11 +230,11 @@ extension ViewController : ToolsViewDelegate {
         selectDrawingTool(tool)
     }
     
-    func toolsViewChangeBrushSize(toolsView:ToolsViewController, size: CGFloat) {
+    func toolsViewChangeBrushSize(_ toolsView:ToolsViewController, size: CGFloat) {
         drawableView.lineWidth = size
     }
     
-    func toolsViewChangeUserColor(toolsView:ToolsViewController, color: UIColor, colorSeed:CGFloat) {
+    func toolsViewChangeUserColor(_ toolsView:ToolsViewController, color: UIColor, colorSeed:CGFloat) {
         User.currentUser!.updateColorForTeam(connectedUsersView!.team!, color: color, colorSeed: colorSeed) { 
             self.drawableView.color = color
         }
@@ -249,9 +249,9 @@ extension ViewController {
      
      - parameter team: current team
      */
-    func setDrawingColor(team:Team) {
+    func setDrawingColor(_ team:Team) {
         User.currentUser!.getTeamColors(team, completion: { (teamColor, userTeamColor:UserTeamColor, error) -> Void in
-            self.drawableView.color = teamColor == nil ? UIColor.greenColor() : teamColor
+            self.drawableView.color = teamColor == nil ? UIColor.green : teamColor
         })
     }
     /**
@@ -259,22 +259,22 @@ extension ViewController {
      
      - parameter project: current project
      */
-    func setBG(project:Project) {
-        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+    func setBG(_ project:Project) {
+        OperationQueue.main.addOperation({ () -> Void in
             if let bg = project.background {
                 if self.imageBG == nil {
-                    if let data = NSData(contentsOfFile: bg.fileURL.path!) {
+                    if let data = try? Data(contentsOf: URL(fileURLWithPath: bg.fileURL.path)) {
                         self.imageBG = {
-                            $0.autoresizingMask = [.FlexibleHeight,.FlexibleHeight]
-                            self.scrollView.insertSubview($0, atIndex: 0)
-                            $0.contentMode = .ScaleAspectFill
+                            $0.autoresizingMask = [.flexibleHeight,.flexibleHeight]
+                            self.scrollView.insertSubview($0, at: 0)
+                            $0.contentMode = .scaleAspectFill
                             $0.frame = self.drawableView.frame
                             return $0
                         }(UIImageView(image: UIImage(data: data)))
                     }
                 }
                 else {
-                    if let imageData = NSData(contentsOfFile: bg.fileURL.path!) {
+                    if let imageData = try? Data(contentsOf: URL(fileURLWithPath: bg.fileURL.path)) {
                         self.imageBG!.image = UIImage(data: imageData)
                         self.imageBG!.frame = self.drawableView.frame
                     }
@@ -298,7 +298,7 @@ extension ViewController {
      - parameter team:    current team
      - parameter project: current project
      */
-    func initDrawing(team:Team, project:Project) {
+    func initDrawing(_ team:Team, project:Project) {
         setDrawingColor(team)
         drawableView.project = project
         initFirebase(team, project: project)
@@ -317,13 +317,13 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
      - parameter picker: image picker
      - parameter info:   data from the image picker
      */
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if imageBG == nil {
             imageBG = {
-                $0.contentMode = .ScaleAspectFill
+                $0.contentMode = .scaleAspectFill
                 $0.frame = view.bounds
-                $0.autoresizingMask = [.FlexibleHeight,.FlexibleHeight]
-                scrollView.insertSubview($0, atIndex: 0)
+                $0.autoresizingMask = [.flexibleHeight,.flexibleHeight]
+                scrollView.insertSubview($0, at: 0)
                 return $0
             }(UIImageView(image: info[UIImagePickerControllerOriginalImage] as? UIImage))
             
@@ -332,41 +332,41 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
             imageBG?.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         }
         drawableView.project!.saveBackground((imageBG?.image)!,completion: { () in
-            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+            OperationQueue.main.addOperation({ () -> Void in
                 self.canDownloadBG = false
-                cbFirebase.background!.updateChildValues(["bg":NSNumber(unsignedInt:arc4random_uniform(UInt32(100)))])
+                cbFirebase.background!.updateChildValues(["bg":NSNumber(value: arc4random_uniform(UInt32(100)) as UInt32)])
             })
         })
         
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
     /**
      image picker controller delegate method
      
      - parameter picker: image picker
      */
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         imageBG?.image = nil
         if let project = drawableView.project {
             project.publicSave()
         }
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 
 // MARK: - Navigation
 extension ViewController {
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = SegueIdentifier(rawValue: segue.identifier!) {
             switch identifier {
             case .ConnectedUserSegue :
-                connectedUsersView = segue.destinationViewController as? ConnectedUsersTableViewController
+                connectedUsersView = segue.destination as? ConnectedUsersTableViewController
                 
                 if let team = Project.getLastOpen() {
                     
                     self.connectedUsersView!.team = team.team
                     self.connectedUsersView!.teamCompletion =  { (project, team) in
-                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        OperationQueue.main.addOperation({ () -> Void in
                             self.initDrawing(team, project: project)
                         })
                     }
@@ -375,23 +375,23 @@ extension ViewController {
                 self.activity.stopAnimating()
                 break
             case .CreateTeamSegue :
-                let teamCreationVC = segue.destinationViewController as! TeamCreationViewController
+                let teamCreationVC = segue.destination as! TeamCreationViewController
                 teamCreationVC.showUser = true
                 teamCreationVC.completion = { (team, project) in
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    OperationQueue.main.addOperation({ () -> Void in
                         self.initDrawing(team, project: project!)
-                        teamCreationVC.dismissViewControllerAnimated(true, completion: nil)
+                        teamCreationVC.dismiss(animated: true, completion: nil)
                         self.activity.stopAnimating()
                     })
                 }
                 break
             case .ShowTeamSegue :
-                let navTeamVC = segue.destinationViewController as? UINavigationController
+                let navTeamVC = segue.destination as? UINavigationController
                 let teamVC = navTeamVC!.viewControllers.first as? TeamTableViewController
                 teamVC?.completion = { (project, team) in
                     
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                        teamVC!.dismissViewControllerAnimated(true, completion: nil)
+                    OperationQueue.main.addOperation({ () -> Void in
+                        teamVC!.dismiss(animated: true, completion: nil)
                         self.initDrawing(team, project: project)
                     })
                 }
@@ -404,7 +404,7 @@ extension ViewController {
 // MARK: - Actions
 extension ViewController {
     
-    @IBAction func showBrushTools(sender:UIBarButtonItem) {
+    @IBAction func showBrushTools(_ sender:UIBarButtonItem) {
         if selectedTool != sender.tag {
             selectTool(sender.tag)
             selectDrawingTool(drawableView.brushTool)
@@ -414,13 +414,13 @@ extension ViewController {
             let popover : ToolsViewController = {
                 $0.delegate = self
                 $0.selectedTool = drawableView.getCurrentTool()
-                $0.modalPresentationStyle = .FormSheet
+                $0.modalPresentationStyle = .formSheet
                 $0.preferredContentSize = CGSize(width: 375, height: 500)
                 $0.currentColor = drawableView.color
                 return $0
             }(StoryboardScene.Main.instantiateToolsVC())
            
-            self.presentViewController(popover, animated: true, completion: nil)
+            self.present(popover, animated: true, completion: nil)
         }
     }
     
@@ -429,7 +429,7 @@ extension ViewController {
      
      - parameter sender: the button that send the action
      */
-    @IBAction func eraser(sender:UIBarButtonItem) {
+    @IBAction func eraser(_ sender:UIBarButtonItem) {
         selectTool(sender.tag)
         configureDrawableView(.eraser)
     }
@@ -439,7 +439,7 @@ extension ViewController {
      
      - parameter sender: the button that send the action
      */
-    @IBAction func textTool(sender:UIBarButtonItem) {
+    @IBAction func textTool(_ sender:UIBarButtonItem) {
         selectTool(sender.tag)
         configureDrawableView(.text)
     }
@@ -449,43 +449,43 @@ extension ViewController {
      
      - parameter sender: the button that send the action
      */
-    @IBAction func importBG(sender:UIBarButtonItem) {
+    @IBAction func importBG(_ sender:UIBarButtonItem) {
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
-        pickerController.sourceType = .PhotoLibrary
-        presentViewController(pickerController, animated: true, completion: nil)
+        pickerController.sourceType = .photoLibrary
+        present(pickerController, animated: true, completion: nil)
     }
     
-    @IBAction func showTeam(sender: AnyObject) {
+    @IBAction func showTeam(_ sender: AnyObject) {
         let button = sender as! UIBarButtonItem
         guard let connectedUsersView = connectedUsersView else {
             return
         }
-        teamViewContainer.sendSubviewToBack(teamViewContainerBackView)
-        if !teamViewContainer.hidden {
-            button.image = UIImage.Asset.Ic_team.image.imageWithRenderingMode(.AlwaysTemplate)
+        teamViewContainer.sendSubview(toBack: teamViewContainerBackView)
+        if !teamViewContainer.isHidden {
+            button.image = UIImage.Asset.Ic_team.image.withRenderingMode(.alwaysTemplate)
             connectedUsersView.segmentControl.selectedSegmentIndex = 0
             connectedUsersView.segmentControlChanged(connectedUsersView.segmentControl)
-            teamViewContainer.hidden = false
+            teamViewContainer.isHidden = false
             connectedUsersView.reload()
-            UIView.animateWithDuration(0.5, animations: {
+            UIView.animate(withDuration: 0.5, animations: {
                 connectedUsersView.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
-                self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGrey().colorWithAlphaComponent(0.0)
+                self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGrey().withAlphaComponent(0.0)
                 }, completion: { (finished) in
                     if finished {
-                        self.teamViewContainer.hidden = true
+                        self.teamViewContainer.isHidden = true
                     }
             })
         }
         else {
-            button.image = UIImage.Asset.Ic_team_selected.image.imageWithRenderingMode(.AlwaysTemplate)
-            teamViewContainer.backgroundColor = UIColor.draftLinkGrey().colorWithAlphaComponent(0.0)
-            teamViewContainer.hidden = false
+            button.image = UIImage.Asset.Ic_team_selected.image.withRenderingMode(.alwaysTemplate)
+            teamViewContainer.backgroundColor = UIColor.draftLinkGrey().withAlphaComponent(0.0)
+            teamViewContainer.isHidden = false
             connectedUsersView.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
-            UIView.animateWithDuration(0.5) {
+            UIView.animate(withDuration: 0.5, animations: {
                 self.connectedUsersView!.view.layer.transform = CATransform3DIdentity
-                self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGrey().colorWithAlphaComponent(0.8)
-            }
+                self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGrey().withAlphaComponent(0.8)
+            }) 
         }
     }
 }

@@ -19,15 +19,15 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
     @IBOutlet var teamContainer: UIView!
     @IBOutlet var segmentControl: UISegmentedControl!
     
-    private var previous: CGFloat = 0.0
-    private var shown = false
-    private var teamTableVC: TeamTableViewController!
+    fileprivate var previous: CGFloat = 0.0
+    fileprivate var shown = false
+    fileprivate var teamTableVC: TeamTableViewController!
     
-    var teamCompletion:((project:Project, team:Team)->Void)?
+    var teamCompletion:((_ project:Project, _ team:Team)->Void)?
     
     var displayedDataSource : [User] = [] {
         didSet {
-            NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            OperationQueue.main.addOperation { () -> Void in
                 self.tableView.reloadData()
             }
         }
@@ -41,16 +41,16 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
                 }
                 self.displayedDataSource = users
                 if cbFirebase.users != nil {
-                    cbFirebase.users.observeSingleEventOfType(FIRDataEventType.Value, withBlock: { (snapshot) in
+                    cbFirebase.users.observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
                         guard let snapshotDictionary = snapshot.value as? Dictionary<String, Bool> else {
                             return
                         }
                         for i in 0 ..< self.displayedDataSource.count {
-                            if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as? UserTableViewCell {
+                            if let cell = self.tableView.cellForRow(at: IndexPath(row: i, section: 0)) as? UserTableViewCell {
                                 let user = self.displayedDataSource[i]
                                 
-                                if let connected = snapshotDictionary[user.recordId.recordName]?.boolValue {
-                                    cell.presenceIndicatorView.backgroundColor = connected ? UIColor.greenColor():UIColor.redColor()
+                                if let connected = snapshotDictionary[user.recordId.recordName] {
+                                    cell.presenceIndicatorView.backgroundColor = connected ? UIColor.green:UIColor.red
                                 }
                                 else {
                                     cell.presenceIndicatorView.backgroundColor = UIColor.draftLinkGrey()
@@ -58,19 +58,19 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
                             }
                         }
                     })
-                    cbFirebase.firebaseUserObserverHandle = cbFirebase.users.observeEventType(FIRDataEventType.ChildChanged) { (snap: FIRDataSnapshot) -> Void in
+                    cbFirebase.firebaseUserObserverHandle = cbFirebase.users.observe(FIRDataEventType.childChanged) { (snap: FIRDataSnapshot) -> Void in
                         
-                        NSOperationQueue.mainQueue().addOperationWithBlock({
-                            let index = self.displayedDataSource.indexOf({ (user) -> Bool in
+                        OperationQueue.main.addOperation({
+                            let index = self.displayedDataSource.index(where: { (user) -> Bool in
                                 if user.recordId.recordName == snap.key {
                                     return true
                                 }
                                 return false
                             })
                             if index != nil {
-                                if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index!, inSection: 0)) as? UserTableViewCell {
+                                if let cell = self.tableView.cellForRow(at: IndexPath(row: index!, section: 0)) as? UserTableViewCell {
                                     if let connected = snap.value as? Bool {
-                                        cell.presenceIndicatorView.backgroundColor = connected ? UIColor.greenColor():UIColor.redColor()
+                                        cell.presenceIndicatorView.backgroundColor = connected ? UIColor.green:UIColor.red
                                     }
                                 }
                             }
@@ -87,18 +87,18 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
 extension ConnectedUsersTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.registerNib(UINib(nibName: "UserTableViewCell", bundle: nil), forCellReuseIdentifier: "UserTableViewCell")
+        tableView.register(UINib(nibName: "UserTableViewCell", bundle: nil), forCellReuseIdentifier: "UserTableViewCell")
         segmentControl = {
-            $0.tintColor = UIColor.draftLinkBlue()
-            $0.backgroundColor = UIColor.draftLinkGrey()
+            $0?.tintColor = UIColor.draftLinkBlue()
+            $0?.backgroundColor = UIColor.draftLinkGrey()
             return $0
         }(segmentControl)
         
         backSegmentationView.backgroundColor = UIColor.draftLinkGrey()
-        view.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clear
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         reload()
         segmentControl.selectedSegmentIndex = 1
@@ -106,8 +106,8 @@ extension ConnectedUsersTableViewController {
     
     func reload() {
         if let segmentControl = segmentControl {
-            segmentControl.setTitle("Live", forSegmentAtIndex: 0)
-            segmentControl.setTitle("Project management", forSegmentAtIndex: 1)
+            segmentControl.setTitle("Live", forSegmentAt: 0)
+            segmentControl.setTitle("Project management", forSegmentAt: 1)
             teamTableVC.show()
             teamTableVC.completion = teamCompletion
         }
@@ -120,9 +120,9 @@ extension ConnectedUsersTableViewController {
 
 // MARK: - Navigation
 extension ConnectedUsersTableViewController {
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == StoryboardSegue.Main.TeamContainerVC.rawValue {
-            let nav = segue.destinationViewController as! UINavigationController
+            let nav = segue.destination as! UINavigationController
             teamTableVC = nav.viewControllers.first as! TeamTableViewController
         }
     }
@@ -130,26 +130,27 @@ extension ConnectedUsersTableViewController {
 
 // MARK: - TableView delegate
 extension ConnectedUsersTableViewController {
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	
+	
+	func numberOfSections(in tableView: UITableView) -> Int {
+		return 1
+	}
+	
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return displayedDataSource.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("UserTableViewCell", forIndexPath: indexPath) as! UserTableViewCell
-        let user = displayedDataSource[indexPath.row]
-        cell.usernameLabel.text = user.username
-        user.getTeamColors(team!) { (teamColor, userTeamColor, error) in
-            cell.avatarView.backgroundColor = teamColor
-        }
-        return cell
-    }
-    
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as! UserTableViewCell
+		let user = displayedDataSource[(indexPath as NSIndexPath).row]
+		cell.usernameLabel.text = user.username
+		user.getTeamColors(team!) { (teamColor, userTeamColor, error) in
+			cell.avatarView.backgroundColor = teamColor
+		}
+		return cell
+	}
+	
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let v = AdditionFooterView.instanciate(withConfiguration: .Users, delegate: self)
         return v
     }
@@ -157,7 +158,7 @@ extension ConnectedUsersTableViewController {
 
 // MARK: - Actions
 extension ConnectedUsersTableViewController {
-    @IBAction func show(sender: AnyObject) {
+    @IBAction func show(_ sender: AnyObject) {
         var transform = CATransform3DIdentity
         if !shown {
             segmentControl.selectedSegmentIndex = 0
@@ -165,20 +166,20 @@ extension ConnectedUsersTableViewController {
             transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
         }
         
-        UIView.animateWithDuration(0.5) { () -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.view.layer.transform = transform
-        }
+        }) 
         
         shown = !shown
     }
     
-    @IBAction func segmentControlChanged(sender: AnyObject) {
+    @IBAction func segmentControlChanged(_ sender: AnyObject) {
         switch segmentControl.selectedSegmentIndex {
         case 0:
-            teamContainer.hidden = true
+            teamContainer.isHidden = true
             break
         case 1:
-            teamContainer.hidden = false
+            teamContainer.isHidden = false
             teamTableVC.show()
             break
         default :

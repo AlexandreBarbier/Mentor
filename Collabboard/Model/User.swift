@@ -11,145 +11,146 @@ import ABModel
 import CloudKit
 
 class User : ABModelCloudKit {
-    internal static var currentUser : User? = nil
-    
-    override class func recordType() -> String {
-        return "Users"
-    }
-    
-    var username:String = ""
-    var teams : [CKReference] = [CKReference]()
-    var teamColor: [CKReference] = [CKReference]()
-    
-    override func ignoreKey(key: String, value: AnyObject) -> Bool {
-        if key == "teams" {
-            for ref : CKReference in value as! [CKReference] {
-                teams.append(ref)
-            }
-            return true
-        }
-        if key == "teamColor" {
-            for ref : CKReference in value as! [CKReference] {
-                teamColor.append(ref)
-            }
-            return true
-        }
-        return false
-    }
-    
-    class func getCurrentUser(completion:(user:User?, error:NSError?)->()) {
-        if let user = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaultsKeys.currentUser) as? NSData {
-            User.currentUser =  NSKeyedUnarchiver.unarchiveObjectWithData(user) as? User
-            completion(user: User.currentUser, error: nil)
-            User.currentUser!.refresh({ (updatedObj:User?) -> Void in
-                guard let update = updatedObj else {
-                    return
-                }
-                User.currentUser = update
-                let data = NSKeyedArchiver.archivedDataWithRootObject(update)
-                NSUserDefaults.standardUserDefaults().setObject(data, forKey: Constants.UserDefaultsKeys.currentUser)
-                NSUserDefaults.standardUserDefaults().synchronize()
-            })
-        }
-        else {
-            CloudKitManager.container.fetchUserRecordIDWithCompletionHandler { (recordId, error) -> Void in
-                guard let recId = recordId else {
-                    completion(user: nil, error: error)
-                    return
-                }
-                CloudKitManager.publicDB.fetchRecordWithID(recId, completionHandler: { (record, error) -> Void in
-                    guard let rec = record else {
-                        completion(user: nil, error: error)
-                        return
-                    }
-                    let usr = User(record: rec, recordId: recordId!)
-                    User.currentUser = usr
-                    User.currentUser!.localSave()
-                    completion(user: usr, error: nil)
-                })
-            }
-        }
-    }
-    
-    override func publicSave(completion: ((record: CKRecord?, error: NSError?) -> Void)? = nil) {
-        super.publicSave { (record, error) -> Void in
-            guard let rec = record else {
-                if let cp = completion {
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                        cp(record: nil, error: error)
-                    })
-                }
-                return
-            }
-            let usr = User(record: rec, recordId: rec.recordID)
-            User.currentUser = usr
-            User.currentUser!.localSave()
-            if let cp = completion {
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    cp(record: rec, error: error)
-                })
-            }
-        }
-    }
-    
-    private func localSave() {
-        let data = NSKeyedArchiver.archivedDataWithRootObject(self)
-        NSUserDefaults.standardUserDefaults().setObject(data, forKey:Constants.UserDefaultsKeys.currentUser)
-        NSUserDefaults.standardUserDefaults().synchronize()
-    }
-    
-    func getTeams(completion:(teams:[Team], local:Bool, error:NSError?) -> Void) {
-        if let teamsData = NSUserDefaults.standardUserDefaults().objectForKey(Constants.UserDefaultsKeys.teamUserKey) as? NSData {
-            let teams = NSKeyedUnarchiver.unarchiveObjectWithData(teamsData) as? [Team]
-            completion(teams: teams!, local: true, error: nil)
-        }
-        super.getReferences(teams,completion: { (results:[Team], error) -> Void in
-            let data = NSKeyedArchiver.archivedDataWithRootObject(results)
-            NSUserDefaults.standardUserDefaults().setObject(data, forKey:Constants.UserDefaultsKeys.teamUserKey)
-            NSUserDefaults.standardUserDefaults().synchronize()
-            completion(teams: results, local: false, error: error)
-        })
-    }
-    
-    func getColors(completion:(teamColor:[UserTeamColor], error:NSError?) -> Void) {
-        super.getReferences(teamColor, completion: { (results:[UserTeamColor], error) -> Void in
-            completion(teamColor: results, error: error)
-        })
-    }
-    
-    func getTeamColors(team:Team, completion:(teamColor:UIColor, userTeamColor:UserTeamColor, error:NSError?) -> Void) {
-        self.getColors { (teamColor, error) -> Void in
-            teamColor.forEach({ (utColor) -> () in
-                if utColor.teamName == team.recordId.recordName {
-                    completion(teamColor: utColor.getColor(), userTeamColor: utColor, error: nil)
-                }
-            })
-        }
-    }
-    
-    func updateColorForTeam(team: Team, color:UIColor, colorSeed:CGFloat, completion: () -> Void) {
-        self.getTeamColors(team) { (teamColor, userTeamColor, error) in
-            guard error == nil else {
-                return
-            }
-            userTeamColor.color = NSKeyedArchiver.archivedDataWithRootObject(color)
-            userTeamColor.colorSeed = colorSeed
-            userTeamColor.publicSave({ (record, error) in
-                print(error)
-                team.publicSave()
-                completion()
-            })
-        }
-    }
-    
-    func addTeam(team:Team, color:UIColor, colorSeed:CGFloat, completion:(()-> Void)? = nil) {
-        
-        team.users.append(CKReference(record: self.toRecord(), action: .None))
-        self.teams.append(CKReference(record: team.toRecord(), action: .None))
-        UserTeamColor.create(team, colorSeed: colorSeed, color: color, completion: {(utColor:UserTeamColor, error:NSError?) in
-            self.teamColor.append(CKReference(record: utColor.toRecord(), action: .None))    
-            self.saveBulk([utColor.toRecord(), team.toRecord()], completion:  completion)
-            self.localSave()
-        })
-    }
+	internal static var currentUser : User? = nil
+	
+	override class func recordType() -> String {
+		return "Users"
+	}
+	
+	var username:String = ""
+	var teams : [CKReference] = [CKReference]()
+	var teamColor: [CKReference] = [CKReference]()
+	
+	override func ignoreKey(_ key: String, value: AnyObject) -> Bool {
+		if key == "teams" {
+			for ref : CKReference in value as! [CKReference] {
+				teams.append(ref)
+			}
+			return true
+		}
+		if key == "teamColor" {
+			for ref : CKReference in value as! [CKReference] {
+				teamColor.append(ref)
+			}
+			return true
+		}
+		return false
+	}
+	
+	class func getCurrentUser(_ completion:@escaping (_ user:User?, _ error:NSError?)->()) {
+		if let user = UserDefaults.standard.object(forKey: Constants.UserDefaultsKeys.currentUser) as? Data {
+			User.currentUser =  NSKeyedUnarchiver.unarchiveObject(with: user) as? User
+			completion(User.currentUser, nil)
+			User.currentUser!.refresh({ (updatedObj:User?) -> Void in
+				guard let update = updatedObj else {
+					return
+				}
+				User.currentUser = update
+				let data = NSKeyedArchiver.archivedData(withRootObject: update)
+				UserDefaults.standard.set(data, forKey: Constants.UserDefaultsKeys.currentUser)
+				UserDefaults.standard.synchronize()
+			})
+		}
+		else {
+			CloudKitManager.container.fetchUserRecordID { (recordId, error) -> Void in
+				guard let recId = recordId else {
+					completion(nil, error as NSError?)
+					return
+				}
+				CloudKitManager.publicDB.fetch(withRecordID: recId, completionHandler: { (record, error) -> Void in
+					guard let rec = record else {
+						completion(nil, error as NSError?)
+						return
+					}
+					let usr = User(record: rec, recordId: recordId!)
+					User.currentUser = usr
+					User.currentUser!.localSave()
+					completion(usr, nil)
+				})
+			}
+		}
+	}
+	
+	
+	override func publicSave(_ completion: ((CKRecord?, Error?) -> Void)?) {
+		super.publicSave { (record, error) -> Void in
+			guard let rec = record else {
+				if let cp = completion {
+					OperationQueue.main.addOperation({ () -> Void in
+						cp(nil, error as NSError?)
+					})
+				}
+				return
+			}
+			let usr = User(record: rec, recordId: rec.recordID)
+			User.currentUser = usr
+			User.currentUser!.localSave()
+			if let cp = completion {
+				OperationQueue.main.addOperation({ () -> Void in
+					cp(rec, error as NSError?)
+				})
+			}
+		}
+	}
+	
+	fileprivate func localSave() {
+		let data = NSKeyedArchiver.archivedData(withRootObject: self)
+		UserDefaults.standard.set(data, forKey:Constants.UserDefaultsKeys.currentUser)
+		UserDefaults.standard.synchronize()
+	}
+	
+	func getTeams(_ completion:@escaping (_ teams:[Team], _ local:Bool, _ error:NSError?) -> Void) {
+		if let teamsData = UserDefaults.standard.object(forKey: Constants.UserDefaultsKeys.teamUserKey) as? Data {
+			let teams = NSKeyedUnarchiver.unarchiveObject(with: teamsData) as? [Team]
+			completion(teams!, true, nil)
+		}
+		super.getReferences(teams,completion: { (results:[Team], error) -> Void in
+			let data = NSKeyedArchiver.archivedData(withRootObject: results)
+			UserDefaults.standard.set(data, forKey:Constants.UserDefaultsKeys.teamUserKey)
+			UserDefaults.standard.synchronize()
+			completion(results, false, error)
+		})
+	}
+	
+	func getColors(_ completion:@escaping (_ teamColor:[UserTeamColor], _ error:NSError?) -> Void) {
+		super.getReferences(teamColor, completion: { (results:[UserTeamColor], error) -> Void in
+			completion(results, error)
+		})
+	}
+	
+	func getTeamColors(_ team:Team, completion:@escaping (_ teamColor:UIColor, _ userTeamColor:UserTeamColor, _ error:NSError?) -> Void) {
+		self.getColors { (teamColor, error) -> Void in
+			teamColor.forEach({ (utColor) -> () in
+				if utColor.teamName == team.recordId.recordName {
+					completion(utColor.getColor(), utColor, nil)
+				}
+			})
+		}
+	}
+	
+	func updateColorForTeam(_ team: Team, color:UIColor, colorSeed:CGFloat, completion: @escaping () -> Void) {
+		self.getTeamColors(team) { (teamColor, userTeamColor, error) in
+			guard error == nil else {
+				return
+			}
+			userTeamColor.color = NSKeyedArchiver.archivedData(withRootObject: color)
+			userTeamColor.colorSeed = colorSeed
+			userTeamColor.publicSave({ (record, error) in
+				print(error)
+				team.publicSave()
+				completion()
+			})
+		}
+	}
+	
+	func addTeam(_ team:Team, color:UIColor, colorSeed:CGFloat, completion:(()-> Void)? = nil) {
+		
+		team.users.append(CKReference(record: self.toRecord(), action: .none))
+		self.teams.append(CKReference(record: team.toRecord(), action: .none))
+		UserTeamColor.create(team, colorSeed: colorSeed, color: color, completion: {(utColor:UserTeamColor, error:NSError?) in
+			self.teamColor.append(CKReference(record: utColor.toRecord(), action: .none))
+			self.saveBulk([utColor.toRecord(), team.toRecord()], completion:  completion)
+			self.localSave()
+		})
+	}
 }

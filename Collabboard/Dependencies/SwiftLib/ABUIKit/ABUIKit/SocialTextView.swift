@@ -8,32 +8,32 @@
 
 import UIKit
 
-public class SocialTextView : UITextView {
+open class SocialTextView : UITextView {
 
-    @IBInspectable public var mentionColor : UIColor = UIColor.redColor()
-    @IBInspectable public var tagsColor : UIColor = UIColor.greenColor()
+    @IBInspectable open var mentionColor : UIColor = UIColor.red
+    @IBInspectable open var tagsColor : UIColor = UIColor.green
     
     
 
-    private let _textQueue_ = NSOperationQueue()
-    private let mentionRegex = try! NSRegularExpression(pattern:"@[A-Za-z0-9_]+", options: NSRegularExpressionOptions.CaseInsensitive)
-    private let tagRegex = try! NSRegularExpression(pattern:"#[A-Za-z0-9_]+", options: NSRegularExpressionOptions.CaseInsensitive)
-    private let defaultAttributes = [String : AnyObject]()
+    fileprivate let _textQueue_ = OperationQueue()
+    fileprivate let mentionRegex = try! NSRegularExpression(pattern:"@[A-Za-z0-9_]+", options: NSRegularExpression.Options.caseInsensitive)
+    fileprivate let tagRegex = try! NSRegularExpression(pattern:"#[A-Za-z0-9_]+", options: NSRegularExpression.Options.caseInsensitive)
+    fileprivate let defaultAttributes = [String : AnyObject]()
     
-    public var mentions = [AnyObject]()
-    public var tags = [AnyObject]()
+    open var mentions = [AnyObject]()
+    open var tags = [AnyObject]()
     
-    public override func awakeFromNib() {
+    open override func awakeFromNib() {
         super.awakeFromNib()
         self.initTextView()
     }
     
-    private func initTextView() -> Void {
+    fileprivate func initTextView() -> Void {
         super.linkTextAttributes = [:]
-        scrollEnabled = false
-        editable = false;
-        userInteractionEnabled = true
-        dataDetectorTypes = UIDataDetectorTypes.All
+        isScrollEnabled = false
+        isEditable = false;
+        isUserInteractionEnabled = true
+        dataDetectorTypes = UIDataDetectorTypes.all
         textContainer.lineFragmentPadding = 0
         textContainerInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
     }
@@ -48,19 +48,19 @@ public class SocialTextView : UITextView {
         initTextView()
     }
     
-    public override func canPerformAction(action: Selector, withSender sender: AnyObject!) -> Bool {
+    open override func canPerformAction(_ action: Selector, withSender sender: Any!) -> Bool {
         
-        if (action == #selector(UIMenuController.copy(_:))) {
+        if (action == #selector(UIMenuController.copy)) {
             return super.canPerformAction(action, withSender: sender)
         }
         return false
     }
     
-    public override var text : String! {
+    open override var text : String! {
         get {return super.text}
         set {
-            mentions = mentionRegex.matchesInString(newValue, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, newValue.characters.count))
-            tags = tagRegex.matchesInString(newValue, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, newValue.characters.count))
+            mentions = mentionRegex.matches(in: newValue, options: NSRegularExpression.MatchingOptions.reportCompletion, range: NSMakeRange(0, newValue.characters.count))
+            tags = tagRegex.matches(in: newValue, options: NSRegularExpression.MatchingOptions.reportCompletion, range: NSMakeRange(0, newValue.characters.count))
             let str = NSMutableAttributedString(string: newValue, attributes: defaultAttributes)
             
             for result in self.mentions {
@@ -68,8 +68,8 @@ public class SocialTextView : UITextView {
                 let range = NSRange(location:res.range.location + 1, length:res.range.length - 1)
                 let lastChar = [unichar](newValue.utf16)[result.range.location - 1]
                 let nsstr = newValue as NSString
-                if (range.location - 1 == 0 || NSCharacterSet.whitespaceAndNewlineCharacterSet().characterIsMember(lastChar)){
-                    str.addAttributes([NSLinkAttributeName :"username://\(nsstr.substringWithRange(range))", NSForegroundColorAttributeName : mentionColor] ,range:result.range)
+                if (range.location - 1 == 0 || CharacterSet.whitespacesAndNewlines.contains(UnicodeScalar(lastChar)!)){
+                    str.addAttributes([NSLinkAttributeName :"username://\(nsstr.substring(with: range))", NSForegroundColorAttributeName : mentionColor] ,range:result.range)
                 }
             }
             for result in self.tags {
@@ -77,8 +77,8 @@ public class SocialTextView : UITextView {
                 let range = NSRange(location:res.range.location + 1, length:res.range.length - 1)
                 let lastChar = [unichar](newValue.utf16)[result.range.location - 1]
                 let nsstr = newValue as NSString
-                if (range.location - 1 == 0 || NSCharacterSet.whitespaceAndNewlineCharacterSet().characterIsMember(lastChar)){
-                    str.addAttributes([NSLinkAttributeName :"tag://\(nsstr.substringWithRange(range))", NSForegroundColorAttributeName : tagsColor] ,range:result.range)
+                if (range.location - 1 == 0 || CharacterSet.whitespacesAndNewlines.contains(UnicodeScalar(lastChar)!)){
+                    str.addAttributes([NSLinkAttributeName :"tag://\(nsstr.substring(with: range))", NSForegroundColorAttributeName : tagsColor] ,range:result.range)
                 }
             }
 

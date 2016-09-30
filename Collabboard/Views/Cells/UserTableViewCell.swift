@@ -18,12 +18,12 @@ class UserTableViewCell: UITableViewCell {
         
         usernameLabel.font = UIFont.Roboto(.Regular, size: 17.0)
         avatarView.rounded()
-        avatarView.image = avatarView.image?.imageWithRenderingMode(.AlwaysTemplate)
+        avatarView.image = avatarView.image?.withRenderingMode(.alwaysTemplate)
         presenceIndicatorView.rounded()
-        presenceIndicatorView.backgroundColor = UIColor.redColor()
+        presenceIndicatorView.backgroundColor = UIColor.red
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     

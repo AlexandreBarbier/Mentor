@@ -8,8 +8,8 @@
 
 import UIKit
 
-public class TransparentTextLabel : UILabel {
-    @IBInspectable public var insetForText : CGFloat = 0.0
+open class TransparentTextLabel : UILabel {
+    @IBInspectable open var insetForText : CGFloat = 0.0
 
 override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -18,14 +18,15 @@ override public init(frame: CGRect) {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    override public func drawTextInRect(rect: CGRect) {
+    override open func drawText(in rect: CGRect) {
         let ctx = UIGraphicsGetCurrentContext()
-        self.textColor = UIColor.clearColor()
-        if (CGColorGetAlpha(self.backgroundColor?.CGColor) > 0.99)
-        {
-            self.backgroundColor = self.backgroundColor?.colorWithAlphaComponent(0.99)
-        }
-        CGContextSetBlendMode(ctx, CGBlendMode.Copy)
+        self.textColor = UIColor.clear
+		if let bgColor = backgroundColor {
+			if bgColor.cgColor.alpha > CGFloat(0.99) {
+				backgroundColor = bgColor.withAlphaComponent(0.99)
+			}
+		}
+        ctx?.setBlendMode(CGBlendMode.copy)
         var finalRect = rect
         
         if (insetForText != 0.0) {
@@ -33,7 +34,7 @@ override public init(frame: CGRect) {
             finalRect.origin.x = finalRect.origin.x + insetForText
         }
         
-        super.drawTextInRect(finalRect)
+        super.drawText(in: finalRect)
     }
 }
 

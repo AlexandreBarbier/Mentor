@@ -14,7 +14,7 @@ extension UIView {
     
     :param: views views to add
     */
-    public func addSubviews(views:[UIView]) {
+    public func addSubviews(_ views:[UIView]) {
         for view:UIView in views {
             self.addSubview(view)
         }

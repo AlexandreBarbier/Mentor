@@ -9,17 +9,17 @@
 import UIKit
 
 public enum ABOrientation : Int, CustomStringConvertible {
-    case Horizontal
-    case Vertical
-    case None
+    case horizontal
+    case vertical
+    case none
     public var description : String {
         get {
             switch self {
-            case .Horizontal :
+            case .horizontal :
                 return "Horizontal"
-            case .Vertical :
+            case .vertical :
                 return "Vertical"
-            case .None :
+            case .none :
                 return "Both"
             }
             
@@ -28,44 +28,44 @@ public enum ABOrientation : Int, CustomStringConvertible {
 }
 
 public enum ABDirection : Int, CustomStringConvertible {
-    case Up
-    case Down
-    case Left
-    case Right
+    case up
+    case down
+    case left
+    case right
     public var description : String {
         get {
             switch self {
-            case .Up :
+            case .up :
                 return "Up"
-            case .Down :
+            case .down :
                 return "Down"
-            case .Left :
+            case .left :
                 return "Left"
-            case .Right :
+            case .right :
                 return "Right"
             }
         }
     }
 }
 
-public class ABExpendableButton: UIView {
-    public var mainOrientation : ABOrientation = .Horizontal
-    public var changedOrientation : ((orientation:ABOrientation) -> Void)?
-    public var openOrientation : ABOrientation = .Horizontal {
+open class ABExpendableButton: UIView {
+    open var mainOrientation : ABOrientation = .horizontal
+    open var changedOrientation : ((_ orientation:ABOrientation) -> Void)?
+    open var openOrientation : ABOrientation = .horizontal {
         didSet {
             if let changeOr = self.changedOrientation {
-                changeOr(orientation: openOrientation)
+                changeOr(openOrientation)
             }
         }
     }
-    var borderColor = UIColor.blackColor()
-    var backColor = UIColor.whiteColor()
+    var borderColor = UIColor.black
+    var backColor = UIColor.white
 
-    public var verticaleDirection : ABDirection = .Down {
+    open var verticaleDirection : ABDirection = .down {
         didSet {
             switch verticaleDirection {
-            case .Up :
-                self.closeButton.autoresizingMask = [self.closeButton.autoresizingMask,UIViewAutoresizing.FlexibleTopMargin]
+            case .up :
+                self.closeButton.autoresizingMask = [self.closeButton.autoresizingMask,UIViewAutoresizing.flexibleTopMargin]
                 
             default :
                 return
@@ -73,39 +73,39 @@ public class ABExpendableButton: UIView {
         }
     }
     
-    public var horizontalDirection : ABDirection = .Left {
+    open var horizontalDirection : ABDirection = .left {
         didSet {
             switch horizontalDirection {
-            case .Left :
-                self.closeButton.autoresizingMask = [self.closeButton.autoresizingMask,UIViewAutoresizing.FlexibleLeftMargin]
+            case .left :
+                self.closeButton.autoresizingMask = [self.closeButton.autoresizingMask,UIViewAutoresizing.flexibleLeftMargin]
             default :
                 return
             }
         }
     }
     
-    private var isClosed = true
-    private var closeButton = UIButton()
-    public var horizontalButtons : Dictionary<UIButton, (sender:UIButton) -> Void> = Dictionary<UIButton, (sender:UIButton) -> Void>()
+    fileprivate var isClosed = true
+    fileprivate var closeButton = UIButton()
+    open var horizontalButtons : Dictionary<UIButton, (_ sender:UIButton) -> Void> = Dictionary<UIButton, (_ sender:UIButton) -> Void>()
     
-    public func addHorizontalButton (buttons:Dictionary<String, (sender:UIButton) -> Void>) -> Void {
+    open func addHorizontalButton (_ buttons:Dictionary<String, (_ sender:UIButton) -> Void>) -> Void {
         for (key, _) in self.horizontalButtons {
             key.removeFromSuperview()
         }
-        self.horizontalButtons.removeAll(keepCapacity: false)
+        self.horizontalButtons.removeAll(keepingCapacity: false)
         let fr = CGRect(x: 8.0,y: 8.0, width: 44.0,height: 44.0)
         for (key, value) in buttons {
             let button = UIButton(frame: fr)
-            button.setImage(UIImage(named: key), forState: UIControlState.Normal)
-            button.addTarget(self, action: #selector(ABExpendableButton.buttonTouched(_:)) , forControlEvents: UIControlEvents.TouchUpInside)
+            button.setImage(UIImage(named: key), for: UIControlState())
+            button.addTarget(self, action: #selector(ABExpendableButton.buttonTouched(_:)) , for: UIControlEvents.touchUpInside)
             button.circle()
-            button.border(self.borderColor, width: UIScreen.mainScreen().scale)
+            button.border(self.borderColor, width: UIScreen.main.scale)
             button.layer.masksToBounds = false
             button.backgroundColor = self.backColor
             self.horizontalButtons.updateValue(value, forKey: button)
             switch horizontalDirection {
-            case .Left :
-                button.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleTopMargin]
+            case .left :
+                button.autoresizingMask = [UIViewAutoresizing.flexibleLeftMargin, UIViewAutoresizing.flexibleTopMargin]
                 
             default :
                 break
@@ -114,27 +114,27 @@ public class ABExpendableButton: UIView {
             self.addSubview(button)
             
         }
-        self.bringSubviewToFront(self.viewWithTag(-1)!)
+        self.bringSubview(toFront: self.viewWithTag(-1)!)
     }
     
-    public var verticalButtons : Dictionary<UIButton, (sender:UIButton) -> Void> = Dictionary<UIButton, (sender:UIButton) -> Void>()
+    open var verticalButtons : Dictionary<UIButton, (_ sender:UIButton) -> Void> = Dictionary<UIButton, (_ sender:UIButton) -> Void>()
     
-    public func addVerticalButton (buttons:Dictionary<String, (sender:UIButton) -> Void>) -> Void {
+    open func addVerticalButton (_ buttons:Dictionary<String, (_ sender:UIButton) -> Void>) -> Void {
         for (key, _) in self.verticalButtons {
             key.removeFromSuperview()
         }
-        self.verticalButtons.removeAll(keepCapacity: false)
+        self.verticalButtons.removeAll(keepingCapacity: false)
         let fr = CGRect(x: 8,y: 8,width: 44,height: 44)
         for (key, value) in buttons {
             let button = UIButton(frame: fr)
-            button.setImage(UIImage(named: key), forState: UIControlState.Normal)
-            button.addTarget(self, action: #selector(ABExpendableButton.buttonTouched(_:)) , forControlEvents: UIControlEvents.TouchUpInside)
+            button.setImage(UIImage(named: key), for: UIControlState())
+            button.addTarget(self, action: #selector(ABExpendableButton.buttonTouched(_:)) , for: UIControlEvents.touchUpInside)
             button.circle()
             button.backgroundColor = self.backColor
-            button.border(UIColor.blackColor(),width: 1.0)
+            button.border(UIColor.black,width: 1.0)
             switch verticaleDirection {
-            case .Up :
-                button.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin , UIViewAutoresizing.FlexibleTopMargin]
+            case .up :
+                button.autoresizingMask = [UIViewAutoresizing.flexibleLeftMargin , UIViewAutoresizing.flexibleTopMargin]
             default :
                 fatalError("No direction that's weird")
             }
@@ -142,18 +142,18 @@ public class ABExpendableButton: UIView {
             self.addSubview(button)
             
         }
-        self.bringSubviewToFront(self.viewWithTag(-1)!)
+        self.bringSubview(toFront: self.viewWithTag(-1)!)
     }
     
-    public func openOtherOrientation() -> Void {
+    open func openOtherOrientation() -> Void {
         if self.isClosed {
             switch self.mainOrientation {
-            case .Horizontal:
-                self.openOrientation = .Vertical
-                self.animateButtons(.Vertical)
-            case .Vertical :
-                self.openOrientation = .Horizontal
-                self.animateButtons(.Horizontal)
+            case .horizontal:
+                self.openOrientation = .vertical
+                self.animateButtons(.vertical)
+            case .vertical :
+                self.openOrientation = .horizontal
+                self.animateButtons(.horizontal)
             default :
                 fatalError("No orientation")
                 
@@ -162,7 +162,7 @@ public class ABExpendableButton: UIView {
         }
     }
     
-    internal func buttonTouched(sender:UIButton) {
+    internal func buttonTouched(_ sender:UIButton) {
         if sender.tag == -1 {
             if !self.isClosed {
                 animateButtons(self.openOrientation)
@@ -179,33 +179,33 @@ public class ABExpendableButton: UIView {
             }
 
         self.close(nil, sender: sender)
-            t!(sender: sender)
+            t!(sender)
             
         }
     }
 
     
-    internal func animateButtons(orientation: ABOrientation) {
+    internal func animateButtons(_ orientation: ABOrientation) {
         if self.isClosed {
             self.isClosed = false
-            UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.6, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
+            UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.6, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
                 
                 var offset : CGFloat = 52.0
                 switch orientation {
-                case .Horizontal:
+                case .horizontal:
                     switch self.horizontalDirection {
-                    case .Left :
+                    case .left :
                         offset = -52.0
-                    case .Right :
+                    case .right :
                         offset = 52.0
                     default :
                         offset = 0
                     }
-                case .Vertical :
+                case .vertical :
                     switch self.verticaleDirection {
-                    case .Up :
+                    case .up :
                         offset = -52.0
-                    case .Down :
+                    case .down :
                         offset = 52.0
                     default :
                         offset = 0
@@ -215,8 +215,8 @@ public class ABExpendableButton: UIView {
                 }
                 
                 switch orientation {
-                case .Horizontal:
-                    if self.horizontalDirection == .Left {
+                case .horizontal:
+                    if self.horizontalDirection == .left {
                         self.layer.transform = CATransform3DMakeTranslation(-(self.superview!.frame.width - self.frame.width), 0, 0)
                     }
                     
@@ -225,16 +225,16 @@ public class ABExpendableButton: UIView {
                         button.layer.transform = CATransform3DMakeTranslation(offset, 0, 0)
                         
                         switch self.horizontalDirection {
-                        case .Left :
+                        case .left :
                             offset -= 52.0
-                        case .Right :
+                        case .right :
                             offset += 52.0
                         default :
                             offset = 0
                         }
                     }
-                case .Vertical:
-                    if self.verticaleDirection == .Up {
+                case .vertical:
+                    if self.verticaleDirection == .up {
                         self.layer.transform = CATransform3DMakeTranslation(0, -(self.superview!.frame.height - self.frame.height), 0)
                     }
                     self.frame.size.height = self.superview!.frame.size.height
@@ -242,9 +242,9 @@ public class ABExpendableButton: UIView {
                         
                         button.layer.transform = CATransform3DMakeTranslation(0, offset, 0)
                         switch self.verticaleDirection {
-                        case .Up :
+                        case .up :
                             offset -= 52.0
-                        case .Down :
+                        case .down :
                             offset += 52.0
                         default :
                             offset = 0
@@ -259,34 +259,34 @@ public class ABExpendableButton: UIView {
         }
         else {
             self.isClosed = true
-            UIView.animateWithDuration(0.3,  animations: { () -> Void in
+            UIView.animate(withDuration: 0.3,  animations: { () -> Void in
                 self.layer.transform = CATransform3DIdentity
                 self.closeButton.layer.transform = CATransform3DIdentity
                 switch orientation {
-                case .Horizontal:
+                case .horizontal:
                     self.frame.size.width = 60
                     for (button, _) in self.horizontalButtons {
                         button.layer.transform = CATransform3DIdentity
                     }
-                case .Vertical:
+                case .vertical:
                     self.frame.size.height = 60
                     for (button, _) in self.verticalButtons {
                         button.layer.transform = CATransform3DIdentity
                     }
-                case .None:
+                case .none:
                     break
                 }
                 
                 
                 }, completion: { (finished) -> Void in
-                    self.openOrientation = ABOrientation.None
+                    self.openOrientation = ABOrientation.none
             })
         }
     }
     
-    public func close(completion:(() -> Void)?, sender : UIButton?) {
+    open func close(_ completion:(() -> Void)?, sender : UIButton?) {
         self.isClosed = true
-        UIView.animateWithDuration(0.3,  animations: { () -> Void in
+        UIView.animate(withDuration: 0.3,  animations: { () -> Void in
             self.layer.transform = CATransform3DIdentity
             self.closeButton.layer.transform = CATransform3DIdentity
             
@@ -308,7 +308,7 @@ public class ABExpendableButton: UIView {
             }, completion: { (finished) -> Void in
                 if finished {
                     if let b = sender {
-                         UIView.animateWithDuration(0.3,  animations: { () -> Void in
+                         UIView.animate(withDuration: 0.3,  animations: { () -> Void in
                             b.layer.transform = CATransform3DIdentity
                             },completion : { (finished)-> Void in
                             
@@ -331,7 +331,7 @@ public class ABExpendableButton: UIView {
     
     public convenience init(orientation : ABOrientation, borderColor:UIColor?, backColor: UIColor?) {
         
-        var frame : CGRect = CGRectZero
+        var frame : CGRect = CGRect.zero
         
         frame.size.width = 60
         frame.size.height = 60
@@ -351,12 +351,12 @@ public class ABExpendableButton: UIView {
             self.backColor = backCol
         }
         closeButton.border(self.borderColor,width: 1.0)
-        closeButton.addTarget(self, action: #selector(ABExpendableButton.buttonTouched(_:)) , forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: #selector(ABExpendableButton.buttonTouched(_:)) , for: UIControlEvents.touchUpInside)
         
-        closeButton.setImage(UIImage(named: "addIcon", inBundle: NSBundle(forClass: ABExpendableButton.self), compatibleWithTraitCollection: nil), forState:UIControlState.Normal)
+        closeButton.setImage(UIImage(named: "addIcon", in: Bundle(for: ABExpendableButton.self), compatibleWith: nil), for:UIControlState())
         closeButton.backgroundColor = self.backColor
         self.addSubview(closeButton)
-        self.userInteractionEnabled  = true
+        self.isUserInteractionEnabled  = true
         self.mainOrientation = orientation
         
     }
@@ -365,21 +365,21 @@ public class ABExpendableButton: UIView {
 // MARK: - Color Button
 extension ABExpendableButton {
 
-    public func addVerticalButton (buttons:Dictionary<UIColor, (sender:UIButton) -> Void>) -> Void {
+    public func addVerticalButton (_ buttons:Dictionary<UIColor, (_ sender:UIButton) -> Void>) -> Void {
         for (key, _) in self.verticalButtons {
             key.removeFromSuperview()
         }
-        self.verticalButtons.removeAll(keepCapacity: false)
+        self.verticalButtons.removeAll(keepingCapacity: false)
         let fr = CGRect(x: 8,y: 8,width: 44,height: 44)
         for (key, value) in buttons {
             let button = UIButton(frame: fr)
             button.backgroundColor = key
-            button.addTarget(self, action: #selector(ABExpendableButton.buttonTouched(_:)) , forControlEvents: UIControlEvents.TouchUpInside)
+            button.addTarget(self, action: #selector(ABExpendableButton.buttonTouched(_:)) , for: UIControlEvents.touchUpInside)
             button.circle()
-            button.border(UIColor.blackColor(),width: 1.0)
+            button.border(UIColor.black,width: 1.0)
             switch verticaleDirection {
-            case .Up :
-                button.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin , UIViewAutoresizing.FlexibleTopMargin]
+            case .up :
+                button.autoresizingMask = [UIViewAutoresizing.flexibleLeftMargin , UIViewAutoresizing.flexibleTopMargin]
             default :
                 break
            //     fatalError("No direction that's weird")
@@ -388,34 +388,34 @@ extension ABExpendableButton {
             self.addSubview(button)
 
         }
-        self.bringSubviewToFront(self.viewWithTag(-1)!)
+        self.bringSubview(toFront: self.viewWithTag(-1)!)
     }
 
 
-    public func addHorizontalButton (buttons:Dictionary<UIColor, (sender:UIButton) -> Void>) -> Void {
+    public func addHorizontalButton (_ buttons:Dictionary<UIColor, (_ sender:UIButton) -> Void>) -> Void {
         for (key, _) in self.horizontalButtons {
             key.removeFromSuperview()
         }
-        self.horizontalButtons.removeAll(keepCapacity: false)
+        self.horizontalButtons.removeAll(keepingCapacity: false)
         let fr = CGRect(x: 8,y: 8,width: 44,height: 44)
         for (key, value) in buttons {
             let button = UIButton(frame: fr)
             button.backgroundColor = key
-            button.addTarget(self, action: #selector(ABExpendableButton.buttonTouched(_:)) , forControlEvents: UIControlEvents.TouchUpInside)
+            button.addTarget(self, action: #selector(ABExpendableButton.buttonTouched(_:)) , for: UIControlEvents.touchUpInside)
             button.circle()
             button.border(self.borderColor,width: 1.0)
             self.horizontalButtons.updateValue(value, forKey: button)
             switch horizontalDirection {
-            case .Left :
-                button.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleTopMargin]
-            case .Right :
-                button.autoresizingMask = [UIViewAutoresizing.FlexibleLeftMargin, UIViewAutoresizing.FlexibleTopMargin]
+            case .left :
+                button.autoresizingMask = [UIViewAutoresizing.flexibleLeftMargin, UIViewAutoresizing.flexibleTopMargin]
+            case .right :
+                button.autoresizingMask = [UIViewAutoresizing.flexibleLeftMargin, UIViewAutoresizing.flexibleTopMargin]
             default :
                 break
             }
             self.addSubview(button)
 
         }
-        self.bringSubviewToFront(self.viewWithTag(-1)!)
+        self.bringSubview(toFront: self.viewWithTag(-1)!)
     }
 }

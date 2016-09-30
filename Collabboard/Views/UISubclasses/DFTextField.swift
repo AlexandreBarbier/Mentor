@@ -18,8 +18,8 @@ class DFTextField: UITextField {
                 return
             }
             
-            let img = UIImageView(image: icon.imageWithRenderingMode(.AlwaysTemplate))
-            leftView = UIView(frame: CGRect(origin: CGPointZero, size: CGSize(width: img.frame.width + 16 + padding.left, height: self.frame.height)))
+            let img = UIImageView(image: icon.withRenderingMode(.alwaysTemplate))
+            leftView = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: img.frame.width + 16 + padding.left, height: self.frame.height)))
             let y = (leftView!.frame.height - img.frame.height) / 2
             img.frame = CGRect(origin: CGPoint(x: 8, y: y), size: img.frame.size)
             let sepView = UIView(frame: CGRect(x: (img.center.x * 2) - 1, y: 6, width: 1, height: leftView!.frame.height - 12))
@@ -30,7 +30,7 @@ class DFTextField: UITextField {
         }
     }
     
-    var padding = UIEdgeInsetsZero
+    var padding = UIEdgeInsets.zero
     
     @IBInspectable
     var cornerRadius : CGFloat = 0.0 {
@@ -46,7 +46,7 @@ class DFTextField: UITextField {
         }
     }
     
-    var innerColor = UIColor.blackColor() {
+    var innerColor = UIColor.black {
         didSet {
             tintColor = innerColor
             textColor = innerColor
@@ -54,14 +54,14 @@ class DFTextField: UITextField {
     }
     
     @IBInspectable
-    var borderColor : UIColor = UIColor.blackColor() {
+    var borderColor : UIColor = UIColor.black {
         didSet {
             self.border(borderColor, width: borderW)
         }
     }
     
-    func setup(icon: UIImage? = nil, border: UIColor? = nil, innerColor: UIColor? = nil, cornerRadius: CGFloat? = nil) {
-        leftViewMode = .Always
+    func setup(_ icon: UIImage? = nil, border: UIColor? = nil, innerColor: UIColor? = nil, cornerRadius: CGFloat? = nil) {
+        leftViewMode = .always
         if let border = border {
             borderColor = border
         }
@@ -69,7 +69,7 @@ class DFTextField: UITextField {
             self.icon = icon
         }
         else {
-            if padding != UIEdgeInsetsZero {
+            if padding != UIEdgeInsets.zero {
                 leftView = UIView(frame: CGRect(x: 0, y: 0, width: padding.left, height: frame.height))
             }
         }

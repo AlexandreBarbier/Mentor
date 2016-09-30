@@ -11,15 +11,15 @@ import UIKit
 class ColorGenerator {
     static let CGSharedInstance = ColorGenerator()
     
-    private struct CGeneratorConstant {
+    fileprivate struct CGeneratorConstant {
         static let maxSeed : CGFloat = 11.0
         static let saturation : CGFloat = 1.0
     }
-    private var satSeed : CGFloat = 1.0
-    private var usedSeed = [CGFloat]()
+    fileprivate var satSeed : CGFloat = 1.0
+    fileprivate var usedSeed = [CGFloat]()
     
     var currentSeed : CGFloat = -1.0
-    var readyBlock : ((ready:Bool)->Void)?
+    var readyBlock : ((_ ready:Bool)->Void)?
     var team : Team! {
         didSet {
             currentSeed = -1.0
@@ -31,7 +31,7 @@ class ColorGenerator {
                             self.currentSeed = utColor.colorSeed
                         }
                         if self.usedSeed.count == self.team.users.count {
-                            self.readyBlock?(ready:true)
+                            self.readyBlock?(true)
                         }
                     })
                 }
@@ -39,7 +39,7 @@ class ColorGenerator {
         }
     }
     
-    private init() {
+    fileprivate init() {
         
     }
     
@@ -49,10 +49,10 @@ class ColorGenerator {
         readyBlock = nil
     }
     
-    func generateColor(seed:CGFloat) -> UIColor! {
+    func generateColor(_ seed:CGFloat) -> UIColor! {
         let maxSeed = CGeneratorConstant.maxSeed
-        let h = seed <= maxSeed ? (seed / maxSeed) : ((seed % maxSeed) / maxSeed)
-        satSeed = seed <= maxSeed ? 1 : 1 - ((seed % maxSeed) / maxSeed)
+        let h = seed <= maxSeed ? (seed / maxSeed) : ((seed.truncatingRemainder(dividingBy: maxSeed)) / maxSeed)
+        satSeed = seed <= maxSeed ? 1 : 1 - ((seed.truncatingRemainder(dividingBy: maxSeed)) / maxSeed)
         return UIColor(hue: h, saturation: CGeneratorConstant.saturation, brightness: satSeed, alpha: 1.0)
     }
     

@@ -11,8 +11,8 @@ import UIKit
 class ColorSelectionCell : UICollectionViewCell {
     @IBOutlet var selectedImage: UIImageView!
     override func awakeFromNib() {
-        selectedImage.image = selectedImage.image?.imageWithRenderingMode(.AlwaysTemplate)
-        selectedImage.tintColor = UIColor.whiteColor()
+        selectedImage.image = selectedImage.image?.withRenderingMode(.alwaysTemplate)
+        selectedImage.tintColor = UIColor.white
     }
 }
 
@@ -52,7 +52,7 @@ extension UserConfigurationViewController {
         
         for _ in 0 ..< 5 {
             self.colorArray.append(ColorGenerator.CGSharedInstance.getNextColor()!.color)
-            NSOperationQueue.mainQueue().addOperationWithBlock({
+            OperationQueue.main.addOperation({
                 self.colorCollectionView.reloadData()
                 
             })
@@ -66,7 +66,7 @@ extension UserConfigurationViewController {
 }
 
 extension UserConfigurationViewController : UITextFieldDelegate {
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField.text != "" {
             textField.resignFirstResponder()
         }
@@ -76,44 +76,44 @@ extension UserConfigurationViewController : UITextFieldDelegate {
 
 // MARK: - Collection view
 extension UserConfigurationViewController : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return colorArray.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ColorCellIdentifier", forIndexPath: indexPath) as! ColorSelectionCell
-        cell.backgroundColor = colorArray[indexPath.row]
-        if indexPath.row == chosenColor {
-            cell.selectedImage.hidden = false
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCellIdentifier", for: indexPath) as! ColorSelectionCell
+        cell.backgroundColor = colorArray[(indexPath as NSIndexPath).row]
+        if (indexPath as NSIndexPath).row == chosenColor {
+            cell.selectedImage.isHidden = false
         }
         else {
-            cell.selectedImage.hidden = true
+            cell.selectedImage.isHidden = true
         }
         cell.rounded()
-        cell.border(UIColor.whiteColor(), width: 2.0)
+        cell.border(UIColor.white, width: 2.0)
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
     
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        chosenColor = indexPath.row
+        chosenColor = (indexPath as NSIndexPath).row
         collectionView.reloadData()
     }
 }
 
 // MARK: - Navigation
 extension UserConfigurationViewController {
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueId = StoryboardSegue.OnBoarding(rawValue: segue.identifier!) {
             switch segueId {
             case .ShowDraftSegue:
@@ -128,18 +128,18 @@ extension UserConfigurationViewController {
 // MARK: - Actions
 extension UserConfigurationViewController {
     
-    @IBAction func onCreateTouch(sender: AnyObject) {
-        guard let user = User.currentUser where usernameTextfield.text != "" else {
+    @IBAction func onCreateTouch(_ sender: AnyObject) {
+        guard let user = User.currentUser , usernameTextfield.text != "" else {
             return
         }
         user.username = usernameTextfield.text!
         Team.create(teamName, color: colorArray[chosenColor], colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
             
             Project.create(self.projectName, team: team, completion: { (project, team) -> Void in
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    NSOperationQueue.mainQueue().addOperationWithBlock({
+                OperationQueue.main.addOperation({ () -> Void in
+                    OperationQueue.main.addOperation({
                         project.setLastOpenForTeam(team)
-                        NSUserDefaults().setBool(true, forKey: "userConnect")
+                        UserDefaults().set(true, forKey: "userConnect")
                         self.performSegue(StoryboardSegue.OnBoarding.ShowDraftSegue)
                     })
                 })
