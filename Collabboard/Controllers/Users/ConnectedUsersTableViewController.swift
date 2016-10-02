@@ -32,7 +32,7 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
             }
         }
     }
-    
+	
     var team : Team? {
         didSet {
             team!.getUsers { (users, error) -> Void in
@@ -81,6 +81,20 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
             }
         }
     }
+	
+	func numberOfSections(in tableView: UITableView) -> Int {
+		return 1
+	}
+	
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as! UserTableViewCell
+		let user = displayedDataSource[(indexPath as NSIndexPath).row]
+		cell.usernameLabel.text = user.username
+		user.getTeamColors(team!) { (teamColor, userTeamColor, error) in
+			cell.avatarView.backgroundColor = teamColor
+		}
+		return cell
+	}
 }
 
 // MARK: - View lifecycle
@@ -131,24 +145,9 @@ extension ConnectedUsersTableViewController {
 // MARK: - TableView delegate
 extension ConnectedUsersTableViewController {
 	
-	
-	func numberOfSections(in tableView: UITableView) -> Int {
-		return 1
-	}
-	
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return displayedDataSource.count
     }
-    
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as! UserTableViewCell
-		let user = displayedDataSource[(indexPath as NSIndexPath).row]
-		cell.usernameLabel.text = user.username
-		user.getTeamColors(team!) { (teamColor, userTeamColor, error) in
-			cell.avatarView.backgroundColor = teamColor
-		}
-		return cell
-	}
 	
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let v = AdditionFooterView.instanciate(withConfiguration: .Users, delegate: self)

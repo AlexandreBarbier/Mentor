@@ -25,8 +25,7 @@ class DrawableTextView: UITextView, UITextViewDelegate {
             $0.returnKeyType = .done
             return $0
         } (DrawableTextView(frame: CGRect(origin: origin, size: maxSize)))
-        
-
+		
         return textView
     }
     
@@ -37,7 +36,7 @@ class DrawableTextView: UITextView, UITextViewDelegate {
             var green : CGFloat = 0.0
             var blue : CGFloat = 0.0
             self.textColor!.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-            let _ = Text.create(self.drawing , x: NSNumber(frame.origin.x), y: frame.origin.y, text: self.text, save: true)
+			let _ = Text.create(self.drawing , x: NSNumber(value:Float(frame.origin.x)), y: NSNumber(value:Float(frame.origin.y)), text: self.text, save: true)
             cbFirebase.drawing.updateChildValues([FirebaseKey.text:["x": frame.origin.x, "y": frame.origin.y, "v": self.text,FirebaseKey.red:NSNumber(value: Float(red)),FirebaseKey.green:NSNumber(value: Float(green)), FirebaseKey.blue:NSNumber(value: Float(blue)),FirebaseKey.drawingUser:"\(User.currentUser!.recordId.recordName)"]])
             return false
         }

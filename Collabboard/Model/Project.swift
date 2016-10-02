@@ -33,7 +33,7 @@ class Project : ABModelCloudKit {
 
 // MARK: - Creation
 extension Project {
-    
+
     class func create(_ name:String, team:Team, completion:((_ project:Project, _ team:Team) -> Void)? = nil) -> Project {
         let project = Project()
         project.name = name

@@ -36,7 +36,7 @@ extension ProjectCreationViewController {
     
     @IBAction func onCreateTouch(_ sender: AnyObject) {
         if projectnameTextField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) != "" {
-            Project.create(projectnameTextField.text!, team: self.team, completion: self.completion)
+           let _ = Project.create(projectnameTextField.text!, team: self.team, completion: self.completion)
             self.navigationController!.popViewController(animated: true)
         }
     }

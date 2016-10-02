@@ -98,7 +98,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                         layerName = "\(paths.recordId.recordName)"
                     }
                     
-                    self.addPath(cPath.cgPath, layerName: layerName, color: color)
+					let _ = self.addPath(cPath.cgPath, layerName: layerName, color: color)
                     self.loadingProgressBlock!((pathPrinted / totalPaths), pathPrinted, totalPaths)
                     pathPrinted = pathPrinted + 1
                     
@@ -300,7 +300,7 @@ extension DrawableView {
                             alpha = 0.4
                         }
                         self.lineWidth = lw
-                        self.addPath(cPath.cgPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: alpha))
+                        let _ = self.addPath(cPath.cgPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: alpha))
                         self.currentTool = ma
                         self.lineWidth = lineW
                     }
@@ -341,7 +341,7 @@ extension DrawableView {
 // MARK: - Touches handler
 extension DrawableView {
 	
-	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+	@objc(gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:) func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
 		return !(gestureRecognizer is UITapGestureRecognizer)
 	}
 	
@@ -375,13 +375,23 @@ extension DrawableView {
             dPath.pen = currentTool == .pen
             dPath.lineWidth = self.lineWidth
             let recPoints = Point.createBatch(interPolationPoints, dPath: dPath)
-            OperationQueue().addOperation({ () -> Void in
-                cbFirebase.drawing!.updateChildValues([FirebaseKey.points:  self.interPolationPoints.map({ (point) -> [[String:AnyObject]] in
-                    return [[FirebaseKey.drawingUser:"\(User.currentUser!.recordId.recordName)" as AnyObject],[FirebaseKey.x:NSNumber(value: Float(point.x))], [FirebaseKey.y:NSNumber(value: Float(point.y))], [FirebaseKey.red:NSNumber(value: Float(self.red))],[FirebaseKey.green:NSNumber(value: Float(self.green))],[FirebaseKey.blue:NSNumber(value: Float(self.blue))],[FirebaseKey.pathName:dPath.recordId.recordName as AnyObject],[FirebaseKey.marker:(self.currentTool == .marker) as AnyObject], [FirebaseKey.lineWidth:self.lineWidth as AnyObject]]
-                })
-                    ])
-            })
-            
+			var dico = [[String: AnyObject]]()
+			dico.append([FirebaseKey.drawingUser:"\(User.currentUser!.recordId.recordName)" as AnyObject])
+			
+			self.interPolationPoints.forEach({ (point) in
+				dico.append([FirebaseKey.x:NSNumber(value: Float(point.x))])
+				dico.append([FirebaseKey.y:NSNumber(value: Float(point.y))])
+			})
+			
+			dico.append([FirebaseKey.red:NSNumber(value: Float(self.red))])
+			dico.append([FirebaseKey.green:NSNumber(value: Float(self.green))])
+			dico.append([FirebaseKey.blue:NSNumber(value: Float(self.blue))])
+			dico.append([FirebaseKey.pathName:dPath.recordId.recordName as AnyObject])
+			dico.append([FirebaseKey.marker:(self.currentTool == .marker) as AnyObject])
+			dico.append([FirebaseKey.lineWidth:self.lineWidth as AnyObject])
+			OperationQueue().addOperation({ () -> Void in
+				                cbFirebase.drawing!.updateChildValues([FirebaseKey.points:dico])
+				})			
             dPath.points.append(contentsOf: recPoints.records.map({ (record) -> CKReference in
                 CKReference(record: record, action: CKReferenceAction.none)
             }))
