@@ -98,7 +98,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                         layerName = "\(paths.recordId.recordName)"
                     }
                     
-					let _ = self.addPath(cPath.cgPath, layerName: layerName, color: color)
+					self.addPath(cPath.cgPath, layerName: layerName, color: color)
                     self.loadingProgressBlock!((pathPrinted / totalPaths), pathPrinted, totalPaths)
                     pathPrinted = pathPrinted + 1
                     
@@ -188,7 +188,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
      
      - returns: the new layer
      */
-    func addPath(_ path:CGPath, layerName:String, color: UIColor? = nil) -> CALayer {
+    @discardableResult func addPath(_ path:CGPath, layerName:String, color: UIColor? = nil) -> CALayer {
         let layer : CAShapeLayer = {
             $0.path = path
             $0.name = layerName
@@ -300,7 +300,7 @@ extension DrawableView {
                             alpha = 0.4
                         }
                         self.lineWidth = lw
-                        let _ = self.addPath(cPath.cgPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: alpha))
+                        self.addPath(cPath.cgPath, layerName: "\(FirebaseKey.undeletable).\(name)", color: UIColor(red: red, green: green, blue: blue, alpha: alpha))
                         self.currentTool = ma
                         self.lineWidth = lineW
                     }

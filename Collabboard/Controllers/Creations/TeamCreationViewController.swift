@@ -108,7 +108,7 @@ extension TeamCreationViewController {
                     User.currentUser!.addTeam(team, color: chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: {
                         project.setLastOpenForTeam(team)
                         self.completion?(team, project)
-                        self.navigationController?.popToRootViewController(animated: true)
+                        let _ = self.navigationController?.popToRootViewController(animated: true)
                     })
                 })
             })

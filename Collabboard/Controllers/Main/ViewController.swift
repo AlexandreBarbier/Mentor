@@ -76,7 +76,7 @@ extension ViewController {
         }
         activity.rounded()
         DebugConsoleView.debugView = DebugConsoleView(inView:view)
-        prefersStatusBarHidden
+//        let _ = prefersStatusBarHidden
         loginUser()
     }
     
@@ -251,7 +251,7 @@ extension ViewController {
      */
     func setDrawingColor(_ team:Team) {
         User.currentUser!.getTeamColors(team, completion: { (teamColor, userTeamColor:UserTeamColor, error) -> Void in
-            self.drawableView.color = teamColor == nil ? UIColor.green : teamColor
+            self.drawableView.color = teamColor == nil ? UIColor.green : teamColor!
         })
     }
     /**

@@ -118,7 +118,7 @@ class User : ABModelCloudKit {
 		})
 	}
 	
-	func getTeamColors(_ team:Team, completion:@escaping (_ teamColor:UIColor, _ userTeamColor:UserTeamColor, _ error:NSError?) -> Void) {
+	func getTeamColors(_ team:Team, completion:@escaping (_ teamColor:UIColor?, _ userTeamColor:UserTeamColor, _ error:NSError?) -> Void) {
 		self.getColors { (teamColor, error) -> Void in
 			teamColor.forEach({ (utColor) -> () in
 				if utColor.teamName == team.recordId.recordName {

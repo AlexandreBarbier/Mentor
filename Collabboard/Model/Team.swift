@@ -58,7 +58,7 @@ extension Team {
 
 // MARK: - Creation
 extension Team {
-    class func create(_ name:String, color:UIColor, colorSeed:CGFloat, completion:(_ success:Bool, _ team:Team) -> Void) -> Team {
+	@discardableResult class func create(_ name:String, color:UIColor, colorSeed:CGFloat, completion:(_ success:Bool, _ team:Team) -> Void) -> Team {
         
         let team: Team = {
             $0.name = name
