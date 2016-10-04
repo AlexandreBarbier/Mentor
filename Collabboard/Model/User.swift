@@ -71,8 +71,7 @@ class User : ABModelCloudKit {
 		}
 	}
 	
-	
-	override func publicSave(_ completion: ((CKRecord?, Error?) -> Void)?) {
+	override func publicSave(_ completion: ((CKRecord?, NSError?) -> Void)?) {
 		super.publicSave { (record, error) -> Void in
 			guard let rec = record else {
 				if let cp = completion {
