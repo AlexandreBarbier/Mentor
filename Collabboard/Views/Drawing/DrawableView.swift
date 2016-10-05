@@ -132,7 +132,14 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                     sView.removeFromSuperview()
                 }
             }
-            let size = CGSize(width: CGFloat(project.width.floatValue), height: CGFloat(project.height.floatValue))
+			let size:CGSize
+			if project.width != nil {
+				size = CGSize(width: CGFloat(project.width.floatValue), height: CGFloat(project.height.floatValue))
+			}
+			else {
+				size = UIScreen.main.bounds.size
+			}
+			
             self.frame = CGRect(origin: self.frame.origin, size: size)
             if size.width < UIScreen.main.bounds.width {
                 self.border(UIColor.draftLinkGrey(), width: 1.0)

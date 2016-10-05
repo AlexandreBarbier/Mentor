@@ -38,8 +38,6 @@
 		8D91FD0B1C6B5AD60088F0FA /* DrawableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D91FD0A1C6B5AD60088F0FA /* DrawableTextView.swift */; };
 		8D9679CA1C4535B8009B2299 /* CreationStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D9679C81C4535B8009B2299 /* CreationStoryboard.storyboard */; };
 		8D9679CE1C453603009B2299 /* TeamCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */; };
-		8D9E8E1B1C621AAD0076030A /* ABUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E141C621A600076030A /* ABUIKit.framework */; };
-		8D9E8E1C1C621AAD0076030A /* ABUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E8E141C621A600076030A /* ABUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8DA5F3E01CF9BCB900A37E33 /* WelcomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA5F3DF1CF9BCB900A37E33 /* WelcomView.swift */; };
 		8DA5F3E21CF9BCD600A37E33 /* WelcomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DA5F3E11CF9BCD600A37E33 /* WelcomView.xib */; };
 		8DA5F3E41CF9C4EE00A37E33 /* GetStartedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA5F3E31CF9C4EE00A37E33 /* GetStartedView.swift */; };
@@ -82,34 +80,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8D9E8E131C621A600076030A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8D9E8E0E1C621A600076030A /* ABUIKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AC3E696419B4C8D600681A5A;
-			remoteInfo = ABUIKit;
-		};
-		8D9E8E151C621A600076030A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8D9E8E0E1C621A600076030A /* ABUIKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AC3E696F19B4C8D600681A5A;
-			remoteInfo = ABUIKitTests;
-		};
-		8D9E8E171C621A940076030A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8D9E8E0E1C621A600076030A /* ABUIKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = AC3E696319B4C8D600681A5A;
-			remoteInfo = ABUIKit;
-		};
-		8D9E8E1D1C621AAD0076030A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8D9E8E0E1C621A600076030A /* ABUIKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = AC3E696319B4C8D600681A5A;
-			remoteInfo = ABUIKit;
-		};
 		8DAD0D7F1D12AB8D00E7782A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AC307FEB1BF1F69300C28D5D /* Project object */;
@@ -126,7 +96,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8D9E8E1C1C621AAD0076030A /* ABUIKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -134,10 +103,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1DD7D9B4A09BE7B703315063 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4380ABFB308544EA9213838A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		48D02644EE54D2A559F65FF0 /* Pods-Collabboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Collabboard.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Collabboard/Pods-Collabboard.debug.xcconfig"; sourceTree = "<group>"; };
-		73667D4011EA8419CDA7F1FF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8D008E3F1CF07C4700005B59 /* DFTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DFTextField.swift; sourceTree = "<group>"; };
 		8D0179F21CEB7FE3008B7B9D /* OnBoarding.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OnBoarding.storyboard; sourceTree = "<group>"; };
 		8D017A031CEB9A03008B7B9D /* FirstTeamCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstTeamCreationViewController.swift; sourceTree = "<group>"; };
@@ -168,7 +134,6 @@
 		8D91FD0A1C6B5AD60088F0FA /* DrawableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawableTextView.swift; sourceTree = "<group>"; };
 		8D9679C91C4535B8009B2299 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/CreationStoryboard.storyboard; sourceTree = "<group>"; };
 		8D9679CD1C453603009B2299 /* TeamCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamCreationViewController.swift; sourceTree = "<group>"; };
-		8D9E8E0E1C621A600076030A /* ABUIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ABUIKit.xcodeproj; path = SwiftLib/ABModel/../ABUIKit/ABUIKit.xcodeproj; sourceTree = "<group>"; };
 		8DA5F3DF1CF9BCB900A37E33 /* WelcomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomView.swift; sourceTree = "<group>"; };
 		8DA5F3E11CF9BCD600A37E33 /* WelcomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WelcomView.xib; sourceTree = "<group>"; };
 		8DA5F3E31CF9C4EE00A37E33 /* GetStartedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetStartedView.swift; sourceTree = "<group>"; };
@@ -230,7 +195,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DBD19491C15C9F30073BE8B /* CloudKit.framework in Frameworks */,
-				8D9E8E1B1C621AAD0076030A /* ABUIKit.framework in Frameworks */,
 				184BB10B58C49C36575784DD /* Pods_Collabboard.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,8 +205,6 @@
 		06E6CF46489B7F6E1A244BF4 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				73667D4011EA8419CDA7F1FF /* Pods.debug.xcconfig */,
-				4380ABFB308544EA9213838A /* Pods.release.xcconfig */,
 				48D02644EE54D2A559F65FF0 /* Pods-Collabboard.debug.xcconfig */,
 				ADAF43C211E74118C7C52F2B /* Pods-Collabboard.release.xcconfig */,
 			);
@@ -381,15 +343,6 @@
 			path = Drawing;
 			sourceTree = "<group>";
 		};
-		8D9E8E0F1C621A600076030A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8D9E8E141C621A600076030A /* ABUIKit.framework */,
-				8D9E8E161C621A600076030A /* ABUIKitTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		8DA5F3DC1CF9BC7000A37E33 /* OnBoarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -446,7 +399,6 @@
 		A0D3A4118E105A9B28EDEC64 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1DD7D9B4A09BE7B703315063 /* Pods.framework */,
 				9E35B7671164317CAE5259CE /* Pods_Collabboard.framework */,
 			);
 			name = Frameworks;
@@ -520,7 +472,6 @@
 		ACA2D7C21BF64FDE0005E8CE /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				8D9E8E0E1C621A600076030A /* ABUIKit.xcodeproj */,
 				8DBD19481C15C9F30073BE8B /* CloudKit.framework */,
 			);
 			path = Dependencies;
@@ -563,8 +514,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				8D9E8E181C621A940076030A /* PBXTargetDependency */,
-				8D9E8E1E1C621AAD0076030A /* PBXTargetDependency */,
 			);
 			name = Collabboard;
 			productName = Mentor;
@@ -612,12 +561,6 @@
 			mainGroup = AC307FEA1BF1F69300C28D5D;
 			productRefGroup = AC307FF41BF1F69300C28D5D /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 8D9E8E0F1C621A600076030A /* Products */;
-					ProjectRef = 8D9E8E0E1C621A600076030A /* ABUIKit.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				AC307FF21BF1F69300C28D5D /* Collabboard */,
@@ -625,23 +568,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		8D9E8E141C621A600076030A /* ABUIKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ABUIKit.framework;
-			remoteRef = 8D9E8E131C621A600076030A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8D9E8E161C621A600076030A /* ABUIKitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ABUIKitTests.xctest;
-			remoteRef = 8D9E8E151C621A600076030A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8DAD0D781D12AB8D00E7782A /* Resources */ = {
@@ -808,16 +734,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		8D9E8E181C621A940076030A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ABUIKit;
-			targetProxy = 8D9E8E171C621A940076030A /* PBXContainerItemProxy */;
-		};
-		8D9E8E1E1C621AAD0076030A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ABUIKit;
-			targetProxy = 8D9E8E1D1C621AAD0076030A /* PBXContainerItemProxy */;
-		};
 		8DAD0D801D12AB8D00E7782A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AC307FF21BF1F69300C28D5D /* Collabboard */;
@@ -980,7 +896,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 48D02644EE54D2A559F65FF0 /* Pods-Collabboard.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Collabboard/Mentor.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1005,7 +921,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ADAF43C211E74118C7C52F2B /* Pods-Collabboard.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Collabboard/Mentor.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

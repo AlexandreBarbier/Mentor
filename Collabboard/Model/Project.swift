@@ -84,7 +84,10 @@ extension Project {
     }
     
     func getDrawing(_ completion:@escaping (_ drawing:Drawing?, _ error:NSError?) -> Void) {
-        super.getReferences([drawing!],completion: { (results:[Drawing], error) -> Void in
+		guard let drawing = drawing else {
+			return
+		}
+        super.getReferences([drawing],completion: { (results:[Drawing], error) -> Void in
             completion(results.first, error)
         })
     }
