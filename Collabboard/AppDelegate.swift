@@ -28,22 +28,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let window = self.window, let rootVC = window.rootViewController, let imgView = rootVC.view.viewWithTag(1) {
             
             let ending = { (vc:UIViewController, animated:Bool) in
-                OperationQueue.main.addOperation({
-                    if animated {
-                        UIView.animate(withDuration: 0.3, animations: {
-                            imgView.layer.transform = CATransform3DMakeTranslation(0, -115, 0)
-                            }, completion: { (finished) in
-                                if finished {
-                                   window.rootViewController = vc
-                                }
-                        })
-                    }
-                    else {
-                        window.rootViewController = vc
-                    }
-                })
+				DispatchQueue.main.async {
+					if animated {
+						UIView.animate(withDuration: 0.3, animations: {
+							imgView.layer.transform = CATransform3DMakeTranslation(0, -115, 0)
+							}, completion: { (finished) in
+								if finished {
+									window.rootViewController = vc
+								}
+						})
+					}
+					else {
+						window.rootViewController = vc
+					}
+				}
             }
-            
+			
             CloudKitManager.availability({ (available, alert) in
                 if available {
                     if CloudKitManager.userAlreadyConnectThisDevice() {

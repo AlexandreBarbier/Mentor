@@ -139,7 +139,7 @@ extension ViewController {
      */
     func loginUser() {
         guard let user = User.currentUser else {
-            let alert = UIAlertController(title: "An error occured", message: "please restart Mentor", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "An error occured", message: "please restart DraftLink", preferredStyle: UIAlertControllerStyle.alert)
             self.present(alert, animated: true, completion: nil)
             return
         }
