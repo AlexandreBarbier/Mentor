@@ -420,9 +420,9 @@ extension DrawableView {
     
     func addText(_ tapGesture:UITapGestureRecognizer) {
         let currentPoint = tapGesture.location(in: self)
-        if currentTool == .text {
-            let textV = DrawableTextView.create(currentPoint, text: "put text", color: color, drawing: self.drawing!)
-            self.addSubview(textV)
+        if currentTool == .text, let drawing = drawing {
+			let textV = DrawableTextView.create(currentPoint, text: "put text", color: color, drawing: drawing)
+			addSubview(textV)
         }
     }
 }

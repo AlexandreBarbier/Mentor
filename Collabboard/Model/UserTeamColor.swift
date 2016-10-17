@@ -29,6 +29,7 @@ class UserTeamColor: ABModelCloudKit {
         
         utColor.publicSave({ (record, error) -> Void in
             utColor.record = record
+            print(error)
             completion?(utColor, error as NSError?)
         })
         
@@ -36,6 +37,9 @@ class UserTeamColor: ABModelCloudKit {
     }
     
     func getColor() -> UIColor {
-        return NSKeyedUnarchiver.unarchiveObject(with: color) as! UIColor
+		if let color = color {
+			return NSKeyedUnarchiver.unarchiveObject(with: color) as! UIColor
+		}
+		return UIColor.black
     }
 }

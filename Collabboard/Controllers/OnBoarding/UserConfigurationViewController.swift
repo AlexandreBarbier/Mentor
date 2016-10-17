@@ -129,20 +129,18 @@ extension UserConfigurationViewController {
 extension UserConfigurationViewController {
     
     @IBAction func onCreateTouch(_ sender: AnyObject) {
-        guard let user = User.currentUser , usernameTextfield.text != "" else {
+        guard let user = User.currentUser ,let username = usernameTextfield.text, username != "" else {
             return
         }
-        user.username = usernameTextfield.text!
+        user.username = username
         Team.create(teamName, color: colorArray[chosenColor], colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
             
             Project.create(self.projectName, team: team, completion: { (project, team) -> Void in
-                OperationQueue.main.addOperation({ () -> Void in
-                    OperationQueue.main.addOperation({
-                        project.setLastOpenForTeam(team)
-                        UserDefaults().set(true, forKey: "userConnect")
-                        self.performSegue(StoryboardSegue.OnBoarding.ShowDraftSegue)
-                    })
-                })
+                DispatchQueue.main.async {
+                    project.setLastOpenForTeam(team)
+                    UserDefaults().set(true, forKey: "userConnect")
+                    self.performSegue(StoryboardSegue.OnBoarding.ShowDraftSegue)
+                }
             })
         })
     }
