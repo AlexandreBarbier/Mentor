@@ -134,7 +134,10 @@ extension UserConfigurationViewController {
         }
         user.username = username
         Team.create(teamName, color: colorArray[chosenColor], colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
-            
+            guard success == true else {
+                print("error team creation")
+                return
+            }
             Project.create(self.projectName, team: team, completion: { (project, team) -> Void in
                 DispatchQueue.main.async {
                     project.setLastOpenForTeam(team)
