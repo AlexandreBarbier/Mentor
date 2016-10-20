@@ -41,8 +41,8 @@ extension Project {
         let drawing = Drawing.create(project, save:false)
         project.drawing = CKReference(record: drawing.record!, action: .deleteSelf)
         let size = UIScreen.main.bounds.size
-        project.width = NSNumber(value: Float(size.width) as Float)
-        project.height = NSNumber(value: Float(size.height) as Float)
+        project.width = NSNumber(value: Double(size.width) as Double)
+        project.height = NSNumber(value: Double(size.height) as Double)
         team.projects.append(CKReference(record: project.toRecord(), action: CKReferenceAction.none))
         project.saveBulk([drawing.toRecord(), team.toRecord()]) { () -> Void in
             completion?(project, team)

@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JqT-5e-p0A">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A320" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="JqT-5e-p0A">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Team Creation View Controller-->
@@ -13,11 +14,10 @@
                         <viewControllerLayoutGuide type="bottom" id="cky-GJ-mfi"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hby-QT-1cv">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="My first project" placeholder="project name" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5gd-vf-F54" customClass="DFTextField" customModule="Collabboard" customModuleProvider="target">
-                                <rect key="frame" x="40" y="320" width="520" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="2ej-FV-AhW"/>
                                 </constraints>
@@ -25,14 +25,12 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ipN-kx-1uN" customClass="DFButton" customModule="Collabboard" customModuleProvider="target">
-                                <rect key="frame" x="40" y="538" width="520" height="30"/>
                                 <state key="normal" title="Create"/>
                                 <connections>
                                     <action selector="createTouch:" destination="JqT-5e-p0A" eventType="touchUpInside" id="UIJ-V3-eOs"/>
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2AH-pW-qOF">
-                                <rect key="frame" x="40" y="378" width="520" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="kgI-rW-WTc"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="mGv-8S-IZu"/>
@@ -42,7 +40,6 @@
                                 </connections>
                             </containerView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="user name" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JDC-Mg-YhB" customClass="DFTextField" customModule="Collabboard" customModuleProvider="target">
-                                <rect key="frame" x="40" y="204" width="520" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="eLe-68-Ims"/>
                                 </constraints>
@@ -50,7 +47,6 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="My first team" placeholder="team name" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AEo-U9-Fbs" customClass="DFTextField" customModule="Collabboard" customModuleProvider="target">
-                                <rect key="frame" x="40" y="262" width="520" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="thM-Wn-TnA"/>
                                 </constraints>
@@ -58,7 +54,7 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
                             </textField>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="5gd-vf-F54" firstAttribute="top" secondItem="AEo-U9-Fbs" secondAttribute="bottom" constant="8" id="3S6-qn-prF"/>
                             <constraint firstItem="AEo-U9-Fbs" firstAttribute="leading" secondItem="JDC-Mg-YhB" secondAttribute="leading" id="83t-pX-3kr"/>
@@ -98,12 +94,11 @@
                         <viewControllerLayoutGuide type="bottom" id="cvq-dh-VOY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="4bQ-fv-Yz6">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="name your project" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZsV-sb-ws1" customClass="DFTextField" customModule="Collabboard" customModuleProvider="target">
-                                <rect key="frame" x="32" y="278" width="536" height="44"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="NKH-9b-htF"/>
                                 </constraints>
@@ -118,12 +113,11 @@
                                         <real key="value" value="2"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJ2-IR-oPZ" customClass="DFButton" customModule="Collabboard" customModuleProvider="target">
-                                <rect key="frame" x="32" y="366" width="536" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="lEG-mZ-8Sx"/>
                                 </constraints>
@@ -133,7 +127,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ZsV-sb-ws1" firstAttribute="centerY" secondItem="4bQ-fv-Yz6" secondAttribute="centerY" id="8EL-sA-BYU"/>
                             <constraint firstItem="ZsV-sb-ws1" firstAttribute="leading" secondItem="4bQ-fv-Yz6" secondAttribute="leading" constant="32" id="9OF-XP-ALz"/>
