@@ -397,8 +397,8 @@ extension DrawableView {
 			dico.append([FirebaseKey.marker:(self.currentTool == .marker) as AnyObject])
 			dico.append([FirebaseKey.lineWidth:self.lineWidth as AnyObject])
 			OperationQueue().addOperation({ () -> Void in
-				                cbFirebase.drawing!.updateChildValues([FirebaseKey.points:dico])
-				})			
+                cbFirebase.drawing!.updateChildValues([FirebaseKey.points:dico])
+            })
             dPath.points.append(contentsOf: recPoints.records.map({ (record) -> CKReference in
                 CKReference(record: record, action: CKReferenceAction.none)
             }))

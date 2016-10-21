@@ -88,8 +88,9 @@ class ToolsViewController: UIViewController {
 
 // MARK: - View lifecycle
 extension ToolsViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         colorIndicatorView.rounded()
         colorIndicatorView.backgroundColor = currentColor
     }
@@ -104,11 +105,15 @@ extension ToolsViewController:ColorGenerationViewControllerDelegate {
 
 extension ToolsViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == StoryboardSegue.Main.LoadColorChooser.rawValue {
-            let dest = segue.destination as! ColorGenerationViewController
-            dest.delegate = self
-            
+        if let identifier = StoryboardSegue.Main(rawValue:segue.identifier!) {
+            switch identifier {
+            case .LoadColorChooser:
+                let dest = segue.destination as! ColorGenerationViewController
+                dest.delegate = self
+                break
+            default:
+                break
+            }
         }
     }
 }
@@ -123,7 +128,7 @@ extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSou
             cell.tintColor = UIColor.draftLinkBlue()
         }
         else {
-			
+            
             cell.tintColor = UIColor.draftLinkGrey()
         }
         cell.backgroundView = UIImageView(image: tool.getIcon()?.withRenderingMode(.alwaysTemplate))
