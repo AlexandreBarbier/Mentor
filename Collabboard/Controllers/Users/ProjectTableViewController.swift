@@ -45,10 +45,7 @@ extension ProjectTableViewController {
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == StoryboardSegue.Main.ProjectCreationSegue.rawValue {
-            if team.admin == User.currentUser!.recordId.recordName {
-                return true
-            }
-            return false
+            return team.admin == User.currentUser!.recordId.recordName
         }
         return true
     }
@@ -91,7 +88,6 @@ extension ProjectTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let v = AdditionFooterView.instanciate(withConfiguration: .Project, delegate: self)
-        return v
+        return AdditionFooterView.instanciate(withConfiguration: .Project, delegate: self)
     }
 }

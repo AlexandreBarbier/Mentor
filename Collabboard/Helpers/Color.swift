@@ -10,14 +10,7 @@ import UIKit
 
 extension UIColor {
  
-    static func draftLinkBlue() -> UIColor {
-        return UIColor(red:0.000, green:0.596, blue:0.820, alpha: 1)
-    }
-    
-    static func draftLinkGrey() -> UIColor {
-        return UIColor(red:0.176, green:0.247, blue:0.275, alpha: 1)
-    }
-    static func draftLinkDarkBlue() -> UIColor {
-        return UIColor(red: 0, green: 0.18, blue: 0.329, alpha: 1)
-    }
+    static var draftLinkBlue : UIColor {get { return UIColor(red:0.000, green:0.596, blue:0.820, alpha: 1) }}
+    static var draftLinkGrey: UIColor {get { return UIColor(red:0.176, green:0.247, blue:0.275, alpha: 1) }}
+    static var draftLinkDarkBlue: UIColor {get { return UIColor(red: 0, green: 0.18, blue: 0.329, alpha: 1) }}
 }

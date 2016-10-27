@@ -142,7 +142,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
 			
             self.frame = CGRect(origin: self.frame.origin, size: size)
             if size.width < UIScreen.main.bounds.width {
-                self.border(UIColor.draftLinkGrey(), width: 1.0)
+                self.border(UIColor.draftLinkGrey, width: 1.0)
             }
             project.getDrawing { (drawing, error) -> Void in
                 guard let drawing = drawing else {

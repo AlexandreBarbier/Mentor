@@ -17,12 +17,39 @@ class ColorSelectionCell : UICollectionViewCell {
 }
 
 class UserConfigurationViewController: UIViewController {
-    @IBOutlet var usernameTextfield: DFTextField!
+    @IBOutlet var usernameTextfield: DFTextField! {
+        didSet {
+            usernameTextfield.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+            usernameTextfield.setup(border: UIColor.draftLinkBlue, innerColor: UIColor.draftLinkDarkBlue, cornerRadius: 5)
+        }
+    }
     @IBOutlet var colorCollectionView: UICollectionView!
-    @IBOutlet var getStartedLabel: UILabel!
-    @IBOutlet var createButton: UIButton!
-    @IBOutlet var pickColorLabel: UILabel!
-    @IBOutlet var createYourProfileLabel: UILabel!
+    @IBOutlet var getStartedLabel: UILabel! {
+        didSet {
+            getStartedLabel.textColor = UIColor.draftLinkBlue
+            getStartedLabel.font = UIFont.Kalam(.Bold, size: 30)
+        }
+    }
+    
+    @IBOutlet var createButton: UIButton! {
+        didSet {
+            createButton.backgroundColor = UIColor.draftLinkBlue
+            createButton.rounded(5)
+            createButton.titleLabel?.font = UIFont.Roboto(.Regular, size: 20)
+        }
+    }
+    @IBOutlet var pickColorLabel: UILabel! {
+        didSet {
+            pickColorLabel.textColor = UIColor.draftLinkDarkBlue
+            pickColorLabel.font = UIFont.Roboto(.Regular, size: 20)
+        }
+    }
+    @IBOutlet var createYourProfileLabel: UILabel! {
+        didSet {
+            createYourProfileLabel.textColor = UIColor.draftLinkDarkBlue
+            createYourProfileLabel.font = UIFont.Roboto(.Regular, size: 24)
+        }
+    }
     
     var teamName = ""
     var projectName = ""
@@ -34,24 +61,10 @@ class UserConfigurationViewController: UIViewController {
 extension UserConfigurationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        getStartedLabel.textColor = UIColor.draftLinkBlue()
-        getStartedLabel.font = UIFont.Kalam(.Bold, size: 30)
-        pickColorLabel.textColor = UIColor.draftLinkDarkBlue()
-        pickColorLabel.font = UIFont.Roboto(.Regular, size: 20)
-        createYourProfileLabel.textColor = UIColor.draftLinkDarkBlue()
-        createYourProfileLabel.font = UIFont.Roboto(.Regular, size: 24)
-        
-        usernameTextfield.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-        usernameTextfield.setup(border: UIColor.draftLinkBlue(), innerColor: UIColor.draftLinkDarkBlue(), cornerRadius: 5)
-        createButton.backgroundColor = UIColor.draftLinkBlue()
-        createButton.rounded(5)
-        createButton.titleLabel?.font = UIFont.Roboto(.Regular, size: 20)
-        
-        ColorGenerator.CGSharedInstance.currentSeed = 0.0
+        ColorGenerator.instance.currentSeed = 0.0
         
         for _ in 0 ..< 5 {
-            self.colorArray.append(ColorGenerator.CGSharedInstance.getNextColor()!.color)
+            self.colorArray.append(ColorGenerator.instance.getNextColor()!.color)
             OperationQueue.main.addOperation({
                 self.colorCollectionView.reloadData()
                 
@@ -129,12 +142,12 @@ extension UserConfigurationViewController {
 extension UserConfigurationViewController {
     
     @IBAction func onCreateTouch(_ sender: AnyObject) {
-        guard let user = User.currentUser ,let username = usernameTextfield.text, username != "" else {
+        guard let user = User.currentUser, let username = usernameTextfield.text, username != "" else {
             return
         }
         user.username = username
-        Team.create(teamName, color: colorArray[chosenColor], colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
-            guard success == true else {
+        Team.create(teamName, color: colorArray[chosenColor], colorSeed: ColorGenerator.instance.currentSeed, completion: { (success, team) -> Void in
+            guard success else {
                 print("error team creation")
                 return
             }

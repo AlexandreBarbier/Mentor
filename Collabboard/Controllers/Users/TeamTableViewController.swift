@@ -72,10 +72,10 @@ extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate  
         let team = displayedDataSource[(indexPath as NSIndexPath).row]
             cell.iconImageView.image = UIImage.Asset.Ic_team.image.withRenderingMode(.alwaysTemplate)
         if team.currentUserIsAdmin {
-            cell.iconImageView.tintColor = UIColor.draftLinkBlue()
+            cell.iconImageView.tintColor = UIColor.draftLinkBlue
         }
         else {
-            cell.iconImageView.tintColor = UIColor.draftLinkGrey()
+            cell.iconImageView.tintColor = UIColor.draftLinkGrey
         }
         cell.teamNameLabel.text = "\(team.name)"
         cell.tokenLabel.text = "token : \(displayedDataSource[(indexPath as NSIndexPath).row].token)"

@@ -53,7 +53,7 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
                                     cell.presenceIndicatorView.backgroundColor = connected ? UIColor.green:UIColor.red
                                 }
                                 else {
-                                    cell.presenceIndicatorView.backgroundColor = UIColor.draftLinkGrey()
+                                    cell.presenceIndicatorView.backgroundColor = UIColor.draftLinkGrey
                                 }
                             }
                         }
@@ -103,12 +103,12 @@ extension ConnectedUsersTableViewController {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "UserTableViewCell", bundle: nil), forCellReuseIdentifier: "UserTableViewCell")
         segmentControl = {
-            $0?.tintColor = UIColor.draftLinkBlue()
-            $0?.backgroundColor = UIColor.draftLinkGrey()
+            $0?.tintColor = UIColor.draftLinkBlue
+            $0?.backgroundColor = UIColor.draftLinkGrey
             return $0
         }(segmentControl)
         
-        backSegmentationView.backgroundColor = UIColor.draftLinkGrey()
+        backSegmentationView.backgroundColor = UIColor.draftLinkGrey
         view.backgroundColor = UIColor.clear
     }
     

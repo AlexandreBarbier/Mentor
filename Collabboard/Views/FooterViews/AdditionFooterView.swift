@@ -48,7 +48,7 @@ extension AdditionFooterView {
         addButton.rounded()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(AdditionFooterView.onAddTouch(_:)))
         addGestureRecognizer(tapGesture)
-        addButton.backgroundColor = UIColor.draftLinkGrey()
+        addButton.backgroundColor = UIColor.draftLinkGrey
         titleLabel.font = UIFont.Roboto(.Regular, size: 16)
     }
 

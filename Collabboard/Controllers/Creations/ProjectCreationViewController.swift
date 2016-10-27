@@ -19,7 +19,7 @@ class ProjectCreationViewController: UIViewController {
         super.viewDidLoad()
         projectnameTextField = {
             $0?.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-            $0?.setup(UIImage.Asset.Ic_project_mini.image, border: UIColor.draftLinkBlue(), innerColor: UIColor.draftLinkDarkBlue(), cornerRadius: 5.0)
+            $0?.setup(UIImage.Asset.Ic_project_mini.image, border: UIColor.draftLinkBlue, innerColor: UIColor.draftLinkDarkBlue, cornerRadius: 5.0)
             return $0
         }(projectnameTextField)
         // Do any additional setup after loading the view.

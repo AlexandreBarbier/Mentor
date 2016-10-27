@@ -16,9 +16,9 @@ class GetStartedView: UIView {
     @IBOutlet var secondDescriptionLabel: UILabel!
     
     static func instantiate() -> GetStartedView {
-        let textColor = UIColor.draftLinkDarkBlue()
+        let textColor = UIColor.draftLinkDarkBlue
         let getSView : GetStartedView = {
-            $0.getStartedLabel.textColor = UIColor.draftLinkBlue()
+            $0.getStartedLabel.textColor = UIColor.draftLinkBlue
             $0.getStartedLabel.font = UIFont.Kalam(.Bold, size: 30)
             $0.subtitleLabel.textColor = textColor
             $0.subtitleLabel.font = UIFont.Roboto(.Regular, size: 24)

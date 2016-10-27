@@ -65,13 +65,7 @@ extension ViewController {
             OperationQueue.main.addOperation({ () -> Void in
                 self.progressView.progress = Float(progress)
                 self.progressView.isHidden = self.progressView.progress == 1.0
-                if self.progressView.isHidden {
-                    self.teamVCTopConstraint.constant = 0.0
-                }
-                else {
-                   self.teamVCTopConstraint.constant = 6.0
-                }
-                
+                self.teamVCTopConstraint.constant = self.progressView.isHidden ? 0.0 : 6.0
             })
         }
         activity.rounded()
@@ -99,8 +93,7 @@ extension ViewController {
     }
     
     @IBAction func hideInterface(_ sender: AnyObject) {
-        if drawableView.getCurrentTool() == .text {
-            let tap = sender as! UITapGestureRecognizer
+        if drawableView.getCurrentTool() == .text, let tap = sender as? UITapGestureRecognizer {
             drawableView.addText(tap)
             return
         }
@@ -112,14 +105,11 @@ extension ViewController {
                 progressView.isHidden = $0 ? $0 : self.progressView.progress == 1.0
                 return $0
             }(interfaceIsVisible)
-            
-            
         }
         UIView.animate(withDuration: 0.3, animations: { () -> Void in
             self.bottomToolBar.alpha = alpha
             self.topToolbar.alpha = alpha
             self.progressView.alpha = alpha
-            
         }, completion: { (finished) -> Void in
             if alpha != 1 {
                 self.bottomToolBar.isHidden = self.interfaceIsVisible
@@ -212,7 +202,7 @@ extension ViewController : ToolsViewDelegate {
     func selectTool(_ index: Int) {
         selectedTool = index
         bottomToolBar.items!.forEach { (item) in
-            item.tintColor = item.tag == index ?  UIColor.draftLinkBlue() : UIColor.draftLinkGrey()
+            item.tintColor = item.tag == index ?  UIColor.draftLinkBlue : UIColor.draftLinkGrey
         }
     }
     
@@ -470,7 +460,7 @@ extension ViewController {
             connectedUsersView.reload()
             UIView.animate(withDuration: 0.5, animations: {
                 connectedUsersView.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
-                self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGrey().withAlphaComponent(0.0)
+                self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGrey.withAlphaComponent(0.0)
                 }, completion: { (finished) in
                     if finished {
                         self.teamViewContainer.isHidden = true
@@ -479,12 +469,12 @@ extension ViewController {
         }
         else {
             button.image = UIImage.Asset.Ic_team_selected.image.withRenderingMode(.alwaysTemplate)
-            teamViewContainer.backgroundColor = UIColor.draftLinkGrey().withAlphaComponent(0.0)
+            teamViewContainer.backgroundColor = UIColor.draftLinkGrey.withAlphaComponent(0.0)
             teamViewContainer.isHidden = false
             connectedUsersView.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)
             UIView.animate(withDuration: 0.5, animations: {
                 self.connectedUsersView!.view.layer.transform = CATransform3DIdentity
-                self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGrey().withAlphaComponent(0.8)
+                self.teamViewContainerBackView.backgroundColor = UIColor.draftLinkGrey.withAlphaComponent(0.8)
             }) 
         }
     }

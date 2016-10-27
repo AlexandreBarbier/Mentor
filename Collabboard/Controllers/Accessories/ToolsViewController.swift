@@ -125,12 +125,8 @@ extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSou
         let tool = toolsDataSource[(index as NSIndexPath).row]
         if tool == selectedTool {
             toolsCollectionView.selectItem(at: index, animated: false, scrollPosition: UICollectionViewScrollPosition())
-            cell.tintColor = UIColor.draftLinkBlue()
         }
-        else {
-            
-            cell.tintColor = UIColor.draftLinkGrey()
-        }
+        cell.tintColor = tool == selectedTool ? UIColor.draftLinkBlue : UIColor.draftLinkGrey
         cell.backgroundView = UIImageView(image: tool.getIcon()?.withRenderingMode(.alwaysTemplate))
     }
     
@@ -151,14 +147,14 @@ extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if collectionView == toolsCollectionView {
             let cell = collectionView.cellForItem(at: indexPath)!
-            cell.tintColor = UIColor.draftLinkGrey()
+            cell.tintColor = UIColor.draftLinkGrey
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)!
         selectedTool = toolsDataSource[(indexPath as NSIndexPath).row]
-        cell.tintColor = UIColor.draftLinkBlue()
+        cell.tintColor = UIColor.draftLinkBlue
         delegate.toolsViewDidSelectTools(self, tool:Tool(rawValue: (indexPath as NSIndexPath).row)!)
     }
 }
@@ -171,7 +167,7 @@ extension ToolsViewController {
         delegate.toolsViewChangeBrushSize(self, size: CGFloat(size))
     }
     @IBAction func onCloseTouch(_ sender: AnyObject) {
-        ColorGenerator.CGSharedInstance.reset()
+        ColorGenerator.instance.reset()
         dismiss(animated: true, completion: nil)
     }
 }

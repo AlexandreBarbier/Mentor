@@ -38,11 +38,11 @@ extension TeamCreationViewController {
             userNameTF.isHidden = true
         }
         teamNameTF.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-        teamNameTF.setup(UIImage.Asset.Ic_team_mini.image, border: UIColor.draftLinkBlue(), innerColor: UIColor.draftLinkDarkBlue(), cornerRadius: 5)
+        teamNameTF.setup(UIImage.Asset.Ic_team_mini.image, border: UIColor.draftLinkBlue, innerColor: UIColor.draftLinkDarkBlue, cornerRadius: 5)
         projectNameTF.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-        projectNameTF.setup(UIImage.Asset.Ic_project_mini.image, border: UIColor.draftLinkBlue(), innerColor: UIColor.draftLinkDarkBlue(), cornerRadius: 5)
+        projectNameTF.setup(UIImage.Asset.Ic_project_mini.image, border: UIColor.draftLinkBlue, innerColor: UIColor.draftLinkDarkBlue, cornerRadius: 5)
         userNameTF.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-        userNameTF.setup(border: UIColor.draftLinkBlue(), innerColor: UIColor.draftLinkDarkBlue(), cornerRadius: 5)
+        userNameTF.setup(border: UIColor.draftLinkBlue, innerColor: UIColor.draftLinkDarkBlue, cornerRadius: 5)
         
     }
     
@@ -102,10 +102,10 @@ extension TeamCreationViewController {
             User.currentUser!.username = userName
         }
         
-        Team.create(teamName, color: chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: { (success, team) -> Void in
+        Team.create(teamName, color: chosenColor, colorSeed: ColorGenerator.instance.currentSeed, completion: { (success, team) -> Void in
             Project.create(projectName, team: team, completion: { (project, team) -> Void in
                 OperationQueue.main.addOperation({ () -> Void in
-                    User.currentUser!.addTeam(team, color: chosenColor, colorSeed: ColorGenerator.CGSharedInstance.currentSeed, completion: {
+                    User.currentUser!.addTeam(team, color: chosenColor, colorSeed: ColorGenerator.instance.currentSeed, completion: {
                         project.setLastOpenForTeam(team)
                         self.completion?(team, project)
                         let _ = self.navigationController?.popToRootViewController(animated: true)

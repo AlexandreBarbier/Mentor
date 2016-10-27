@@ -9,7 +9,7 @@
 import UIKit
 
 class ColorGenerator {
-    static let CGSharedInstance = ColorGenerator()
+    static let instance = ColorGenerator()
     
     fileprivate struct CGeneratorConstant {
         static let maxSeed : CGFloat = 11.0

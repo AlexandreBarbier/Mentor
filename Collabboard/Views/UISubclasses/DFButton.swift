@@ -20,8 +20,8 @@ class DFButton: UIButton {
     override func awakeFromNib() {
         super.awakeFromNib()
         rounded(5.0)
-        border(UIColor.draftLinkBlue(), width: 2.0)
-        tintColor = UIColor.draftLinkDarkBlue()
+        border(UIColor.draftLinkBlue, width: 2.0)
+        tintColor = UIColor.draftLinkDarkBlue
     }
 
 }

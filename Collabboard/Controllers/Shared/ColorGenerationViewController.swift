@@ -37,7 +37,7 @@ class ColorGenerationViewController: UIViewController {
 extension ColorGenerationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        ColorGenerator.CGSharedInstance.readyBlock = { (ready) in
+        ColorGenerator.instance.readyBlock = { (ready) in
             self.colorDataSource = Array<(color:UIColor, colorSeed:CGFloat)>(repeating: (UIColor.white, 0), count: 12)
             OperationQueue.main.addOperation({ () -> Void in
                 self.colorCollectionView.reloadData()
@@ -45,12 +45,12 @@ extension ColorGenerationViewController {
         }
         if !loadFromNil {
             if let lastOpenedteamProject = Project.getLastOpen() {
-                ColorGenerator.CGSharedInstance.team = lastOpenedteamProject.team!
+                ColorGenerator.instance.team = lastOpenedteamProject.team!
             }
         }
         else {
-            ColorGenerator.CGSharedInstance.currentSeed = 0
-            ColorGenerator.CGSharedInstance.readyBlock!(true)
+            ColorGenerator.instance.currentSeed = 0
+            ColorGenerator.instance.readyBlock!(true)
         }
         
     }
@@ -62,7 +62,7 @@ extension ColorGenerationViewController: UICollectionViewDelegate, UICollectionV
     func configureColorCellForIndexPath(_ cell: UICollectionViewCell, index: IndexPath) {
         cell.rounded(4)
         if colorDataSource[(index as NSIndexPath).row].color == UIColor.white {
-            colorDataSource[(index as NSIndexPath).row] = ColorGenerator.CGSharedInstance.getNextColor()!
+            colorDataSource[(index as NSIndexPath).row] = ColorGenerator.instance.getNextColor()!
             cell.backgroundColor = colorDataSource[(index as NSIndexPath).row].color
         }
         else {
