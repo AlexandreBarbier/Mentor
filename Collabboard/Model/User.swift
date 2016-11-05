@@ -135,7 +135,7 @@ class User : ABModelCloudKit {
 			userTeamColor.color = NSKeyedArchiver.archivedData(withRootObject: color)
 			userTeamColor.colorSeed = colorSeed
 			userTeamColor.publicSave({ (record, error) in
-				print(error)
+				print(error ?? "nil error")
 				team.publicSave()
 				completion()
 			})

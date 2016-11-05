@@ -29,7 +29,7 @@ class UserTeamColor: ABModelCloudKit {
         
         utColor.publicSave({ (record, error) -> Void in
             utColor.record = record
-            print(error)
+            print(error ?? "error is nil")
             completion?(utColor, error as NSError?)
         })
         
