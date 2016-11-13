@@ -29,12 +29,15 @@ class Point: ABModelCloudKit {
             if let position = position {
                 $0.position = position
             }
-            $0.updateRecord()
             return $0
         }(Point())
-        
+        if save {
+            po.updateRecord()
+        }
         return po
     }
+    
+    
     
     class func createBatch(_ points: [CGPoint], dPath: DrawingPath) -> (records: [CKRecord], points: [Point]) {
         var pointsRecord = [CKRecord]()
@@ -46,6 +49,9 @@ class Point: ABModelCloudKit {
             batchPoints.append(po)
             pointsRecord.append(po.record!)
         }
+        let firstPoint = pointsRecord.popLast()
+        batchPoints.last?.saveBulk(pointsRecord, completion: nil)
+        pointsRecord.append(firstPoint!)
         return (pointsRecord, batchPoints)
     }
 }
