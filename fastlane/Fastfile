@@ -46,7 +46,7 @@ platform :ios do
   desc "This will also make sure the profile is up to date"
   lane :crashlitycs do
     cert(development: true)
-    sigh
+    sigh(development: true)
     gym(scheme: "Collabboard", workspace: "Collabboard.xcworkspace", configuration: debug)
     changelog_from_git_commits
 
