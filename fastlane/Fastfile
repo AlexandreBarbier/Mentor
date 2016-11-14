@@ -17,9 +17,9 @@ default_platform :ios
 
 platform :ios do
   before_all do
-    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+    ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
+    increment_build_number
     cocoapods
-    
   end
 
   desc "Runs all the tests"
@@ -30,12 +30,19 @@ platform :ios do
   desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
   lane :beta do
-    # match(type: "appstore") # more information: https://codesigning.guide
     gym # Build your app - more options available
     pilot
 
     # sh "your_script.sh"
     # You can also use other beta testing services here (run `fastlane actions`)
+  end
+
+  desc "Submit a new Beta Build to Crashlitycs"
+  desc "This will also make sure the profile is up to date"
+  lane :crashlitycs do
+    gym # Build your app - more options available
+    crashlytics(api_token:"32dc190aeef47e3e7971889471a1b8779c32ad54",
+      build_secret: "83f9580156b0b2a49d43c853be4c737e668a01d42e42436d24844f7e23e60019")
   end
 
   desc "Deploy a new version to the App Store"
@@ -52,16 +59,16 @@ platform :ios do
   after_all do |lane|
     # This block is called, only if the executed lane was successful
 
-    # slack(
-    #   message: "Successfully deployed new App Update."
-    # )
+     slack(
+       message: "Successfully deployed new App Update."
+     )
   end
 
   error do |lane, exception|
-    # slack(
-    #   message: exception.message,
-    #   success: false
-    # )
+     slack(
+       message: exception.message,
+       success: false
+     )
   end
 end
 
