@@ -70,6 +70,9 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                 
                 // get path's points, order them and convert them to CGPoint
                 paths.getPoints({ (points, error) -> Void in
+                    guard points.count > 0 else {
+                        return
+                    }
                     let cPoint = points.sorted(by: { (p1, p2) -> Bool in
                         return p1.position < p2.position
                     }).map({ (point) -> CGPoint in

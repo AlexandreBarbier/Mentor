@@ -67,8 +67,12 @@ class DrawingPath: ABModelCloudKit {
     
     func getPoints(_ completion:@escaping (_ points:[Point], _ error:NSError?) -> Void) {
         if let pointsData = UserDefaults.standard.object(forKey: localKey()) as? Data {
-            let archivedPoints =  NSKeyedUnarchiver.unarchiveObject(with: pointsData) as? [Point]
-            completion(archivedPoints!, nil)
+            if let archivedPoints =  NSKeyedUnarchiver.unarchiveObject(with: pointsData) as? [Point] {
+                completion(archivedPoints, nil)
+            }
+            else {
+                completion([], nil)
+            }
         }
         else {
             super.getReferences(points, completion: { (results:[Point], error) -> Void in
