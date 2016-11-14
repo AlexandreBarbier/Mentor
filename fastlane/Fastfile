@@ -18,7 +18,11 @@ default_platform :ios
 platform :ios do
   before_all do
     ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
+    ensure_git_status_clean
     increment_build_number
+    commit_version_bump(xcodeproj: "Collabboard.xcodeproj")
+    add_git_tag
+    push_to_git_remote
     cocoapods
   end
 
@@ -41,6 +45,7 @@ platform :ios do
   desc "This will also make sure the profile is up to date"
   lane :crashlitycs do
     gym # Build your app - more options available
+    changelog_from_git_commits
     crashlytics(api_token:"32dc190aeef47e3e7971889471a1b8779c32ad54",
       build_secret: "83f9580156b0b2a49d43c853be4c737e668a01d42e42436d24844f7e23e60019")
   end
