@@ -40,7 +40,7 @@ profile
 Crashlytics.framework/
 Fabric.framework/
 Pods/
-fastlane
+fastlane/
 *.zip
 *.ipa
 *.cer
