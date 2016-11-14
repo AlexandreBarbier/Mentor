@@ -37,8 +37,6 @@ class Team: ABModelCloudKit {
 // MARK: - ABModel
 extension Team {
     
-    
-    
     override func ignoreKey(_ key: String, value: AnyObject) -> Bool {
         if key == "users" {
             for ref : CKReference in value as! [CKReference] {
