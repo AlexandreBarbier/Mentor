@@ -117,13 +117,17 @@ class User : ABModelCloudKit {
 		})
 	}
 	
-	func getTeamColors(_ team:Team, completion:@escaping (_ teamColor:UIColor?, _ userTeamColor:UserTeamColor, _ error:NSError?) -> Void) {
+	func getTeamColors(_ team:Team, completion:@escaping (_ teamColor:UIColor?, _ userTeamColor:UserTeamColor?, _ error:NSError?) -> Void) {
 		self.getColors { (teamColor, error) -> Void in
-			teamColor.forEach({ (utColor) -> () in
-				if utColor.teamName == team.recordId.recordName {
-					completion(utColor.getColor(), utColor, nil)
-				}
-			})
+            if let tC = teamColor.first(where: { (utColor) -> Bool in
+                return utColor.teamName == team.recordId.recordName
+            }) {
+                completion(tC.getColor(), tC, nil)
+            }
+            else {
+                completion(nil, nil, error)
+            }
+			
 		}
 	}
 	
@@ -132,9 +136,9 @@ class User : ABModelCloudKit {
 			guard error == nil else {
 				return
 			}
-			userTeamColor.color = NSKeyedArchiver.archivedData(withRootObject: color)
-			userTeamColor.colorSeed = colorSeed
-			userTeamColor.publicSave({ (record, error) in
+			userTeamColor?.color = NSKeyedArchiver.archivedData(withRootObject: color)
+			userTeamColor?.colorSeed = colorSeed
+			userTeamColor?.publicSave({ (record, error) in
 				print(error ?? "nil error")
 				team.publicSave()
 				completion()

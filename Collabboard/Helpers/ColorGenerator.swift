@@ -26,9 +26,9 @@ class ColorGenerator {
             team.getUsers { (users, error) -> Void in
                 for user in users {
                     user.getTeamColors(self.team, completion: { (teamColor, utColor, error) -> Void in
-                        self.usedSeed.append(utColor.colorSeed)
-                        if utColor.colorSeed > self.currentSeed {
-                            self.currentSeed = utColor.colorSeed
+                        self.usedSeed.append((utColor?.colorSeed)!)
+                        if (utColor?.colorSeed)! > self.currentSeed {
+                            self.currentSeed = (utColor?.colorSeed)!
                         }
                         if self.usedSeed.count == self.team.users.count {
                             self.readyBlock?(true)

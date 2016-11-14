@@ -240,7 +240,7 @@ extension ViewController {
      - parameter team: current team
      */
     func setDrawingColor(_ team:Team) {
-        User.currentUser!.getTeamColors(team, completion: { (teamColor, userTeamColor:UserTeamColor, error) -> Void in
+        User.currentUser!.getTeamColors(team, completion: { (teamColor, userTeamColor:UserTeamColor?, error) -> Void in
             self.drawableView.color = teamColor == nil ? UIColor.green : teamColor!
         })
     }

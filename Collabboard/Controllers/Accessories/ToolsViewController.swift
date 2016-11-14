@@ -166,6 +166,7 @@ extension ToolsViewController {
         let size = slider.value * 100 / 15
         delegate.toolsViewChangeBrushSize(self, size: CGFloat(size))
     }
+    
     @IBAction func onCloseTouch(_ sender: AnyObject) {
         ColorGenerator.instance.reset()
         dismiss(animated: true, completion: nil)
