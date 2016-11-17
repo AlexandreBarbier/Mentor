@@ -70,9 +70,6 @@ class DrawingPath: ABModelCloudKit {
             if let archivedPoints =  NSKeyedUnarchiver.unarchiveObject(with: pointsData) as? [Point] {
                 completion(archivedPoints, nil)
             }
-            else {
-                completion([], nil)
-            }
         }
         else {
             super.getReferences(points, completion: { (results:[Point], error) -> Void in
