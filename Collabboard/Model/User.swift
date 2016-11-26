@@ -159,4 +159,12 @@ class User : ABModelCloudKit {
 			self.localSave()
 		})
 	}
+    
+    func removeTeam(recordID: CKRecordID) {
+        teams.remove(at: (teams.index(where: { (ref: CKReference) -> Bool in
+            return recordID == ref.recordID
+        }))!)
+        self.updateRecord()
+        self.localSave()
+    }
 }

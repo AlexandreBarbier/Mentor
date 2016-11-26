@@ -104,4 +104,15 @@ extension Team {
             completion(results, error)
         })
     }
+    
+    override func remove() {
+        if let teamsData = UserDefaults.standard.object(forKey: Constants.UserDefaultsKeys.teamUserKey) as? Data {
+            var teams = NSKeyedUnarchiver.unarchiveObject(with: teamsData) as? [Team]
+            teams!.remove(at: teams!.index(where: { (team) -> Bool in
+                return team.name == self.name
+            })!)
+        }
+        User.currentUser?.removeTeam(recordID: self.recordId)
+    }
 }
+

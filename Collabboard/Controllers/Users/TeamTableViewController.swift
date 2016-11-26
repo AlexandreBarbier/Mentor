@@ -48,7 +48,7 @@ extension TeamTableViewController {
             if let error = error {
                 DebugConsoleView.debugView.errorPrint("get teams error \(error)")
             }
-        
+            
             self.displayedDataSource = teams
             OperationQueue.main.addOperation({ () -> Void in
                 self.tableView.reloadData()
@@ -70,7 +70,7 @@ extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate  
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamTableViewCell") as! TeamTableViewCell
         let team = displayedDataSource[(indexPath as NSIndexPath).row]
-            cell.iconImageView.image = UIImage.Asset.Ic_team.image.withRenderingMode(.alwaysTemplate)
+        cell.iconImageView.image = UIImage.Asset.Ic_team.image.withRenderingMode(.alwaysTemplate)
         if team.currentUserIsAdmin {
             cell.iconImageView.tintColor = UIColor.draftLinkBlue
         }
@@ -88,9 +88,23 @@ extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate  
         performSegue(StoryboardSegue.Main.TeamCellSegue, sender: tableView.cellForRow(at: indexPath))
     }
     
-   func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let v = AdditionFooterView.instanciate(withConfiguration: .Team, delegate: self)
         return v
+    }
+    
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "Delete"
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        return [UITableViewRowAction(style: .destructive, title: "Leave", handler: { (action, indexPath) in
+            tableView.isEditing = true
+            self.displayedDataSource[indexPath.row].remove()
+            self.displayedDataSource.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+            
+        })]
     }
 }
 
@@ -123,7 +137,7 @@ extension TeamTableViewController : ColorGenerationViewControllerDelegate {
         User.currentUser!.addTeam(createdTeam!, color: color, colorSeed: seed, completion: {
             self.displayedDataSource.append(self.createdTeam!)
             self.tableView.insertRows(at: [IndexPath(row: self.displayedDataSource.count - 1, section: 0)], with: UITableViewRowAnimation.automatic)
-         //   colorAlert.dismissViewControllerAnimated(true, completion: nil)
+            //   colorAlert.dismissViewControllerAnimated(true, completion: nil)
         })
     }
 }
