@@ -127,7 +127,6 @@ class User : ABModelCloudKit {
             else {
                 completion(nil, nil, error)
             }
-			
 		}
 	}
 	
@@ -164,7 +163,8 @@ class User : ABModelCloudKit {
         teams.remove(at: (teams.index(where: { (ref: CKReference) -> Bool in
             return recordID == ref.recordID
         }))!)
-        self.updateRecord()
         self.localSave()
+        self.updateRecord()
+        
     }
 }

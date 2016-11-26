@@ -107,7 +107,7 @@ extension ConnectedUsersTableViewController {
             $0?.backgroundColor = UIColor.draftLinkGrey
             return $0
         }(segmentControl)
-        
+        segmentControl.selectedSegmentIndex = 1
         backSegmentationView.backgroundColor = UIColor.draftLinkGrey
         view.backgroundColor = UIColor.clear
     }
@@ -115,7 +115,6 @@ extension ConnectedUsersTableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         reload()
-        segmentControl.selectedSegmentIndex = 1
     }
     
     func reload() {
