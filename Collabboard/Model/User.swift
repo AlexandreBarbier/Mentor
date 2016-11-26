@@ -122,7 +122,7 @@ class User : ABModelCloudKit {
             if let tC = teamColor.first(where: { (utColor) -> Bool in
                 return utColor.teamName == team.recordId.recordName
             }) {
-                completion(tC.getColor(), tC, nil)
+                completion(tC.getUTColor(), tC, nil)
             }
             else {
                 completion(nil, nil, error)

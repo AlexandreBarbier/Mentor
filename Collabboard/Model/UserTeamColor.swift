@@ -36,7 +36,7 @@ class UserTeamColor: ABModelCloudKit {
         return utColor
     }
     
-    func getColor() -> UIColor {
+    func getUTColor() -> UIColor {
 		if let color = color {
 			return NSKeyedUnarchiver.unarchiveObject(with: color) as! UIColor
 		}
