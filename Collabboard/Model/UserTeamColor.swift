@@ -18,7 +18,7 @@ class UserTeamColor: ABModelCloudKit {
         return "UserTeamColor"
     }
     
-	@discardableResult class func create(_ team:Team, colorSeed:CGFloat, color:UIColor, completion:((_ utColor:UserTeamColor, _ error:NSError?)->Void)? = nil) -> UserTeamColor {
+	@discardableResult class func create(_ team:Team, colorSeed:CGFloat, color:UIColor, completion:((_ utColor:UserTeamColor?, _ error:NSError?)->Void)? = nil) -> UserTeamColor {
         
         let utColor: UserTeamColor = {
             $0.colorSeed = colorSeed
@@ -28,9 +28,12 @@ class UserTeamColor: ABModelCloudKit {
         }(UserTeamColor())
         
         utColor.publicSave({ (record, error) -> Void in
+            guard error == nil else {
+                completion?(utColor, error as NSError?)
+                return
+            }
             utColor.record = record
-            print(error ?? "error is nil")
-            completion?(utColor, error as NSError?)
+            completion?(utColor, nil)
         })
         
         return utColor

@@ -138,7 +138,6 @@ class User : ABModelCloudKit {
 			userTeamColor?.color = NSKeyedArchiver.archivedData(withRootObject: color)
 			userTeamColor?.colorSeed = colorSeed
 			userTeamColor?.publicSave({ (record, error) in
-				print(error ?? "nil error")
 				team.publicSave()
 				completion()
 			})
@@ -149,7 +148,7 @@ class User : ABModelCloudKit {
 		
 		team.users.append(CKReference(record: self.toRecord(), action: .none))
 		self.teams.append(CKReference(record: team.toRecord(), action: .none))
-		UserTeamColor.create(team, colorSeed: colorSeed, color: color, completion: {(utColor:UserTeamColor, error:NSError?) in
+		UserTeamColor.create(team, colorSeed: colorSeed, color: color, completion: {(utColor:UserTeamColor?, error:NSError?) in
 			if let error = error {
 				print(error)
 			}
