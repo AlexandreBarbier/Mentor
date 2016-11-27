@@ -42,16 +42,16 @@ class Point: ABModelCloudKit {
     class func createBatch(_ points: [CGPoint], dPath: DrawingPath) -> (records: [CKRecord], points: [Point]) {
         var pointsRecord = [CKRecord]()
         var batchPoints = [Point]()
-        var i = 0
-        for point in points {
-            let po = Point.create(NSNumber(value: Float(point.x) as Float), y: NSNumber(value: Float(point.y) as Float), position: i, save: true, dPath:dPath)
-            i += 1
+        
+        for (index, point) in points.enumerated() {
+            let po = Point.create(NSNumber(value: Float(point.x) as Float), y: NSNumber(value: Float(point.y) as Float), position: index, save: false, dPath:dPath)
             batchPoints.append(po)
             pointsRecord.append(po.record!)
         }
-        let firstPoint = pointsRecord.popLast()
-        batchPoints.last?.saveBulk(pointsRecord, completion: nil)
-        pointsRecord.append(firstPoint!)
+        let mapRecords = batchPoints.map { (p) -> CKRecord in
+            return p.toRecord()
+        }
+        ABModelCloudKit.saveBulk(mapRecords, completion: nil)
         return (pointsRecord, batchPoints)
     }
 }

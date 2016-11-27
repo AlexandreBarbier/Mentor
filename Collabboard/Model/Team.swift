@@ -75,33 +75,33 @@ extension Team {
 // MARK: - fetches
 extension Team {
     
-    class func get(_ token:String, completion:@escaping (_ team:Team?, _ error:NSError?) -> Void) {
+    class func get(_ token:String, completion:((_ team:Team?, _ error:NSError?) -> Void)? = nil) {
         Team.getRecord("token=\'\(token)\'") { (record, error)  in
             guard let record = record else {
-                completion(nil, error)
+                completion?(nil, error)
                 return
             }
             let team = Team(record: record, recordId: record.recordID)
-            completion(team, nil)
+            completion?(team, nil)
         }
     }
     
-    func getProjects(_ completion:@escaping (_ projects:[Project], _ local:Bool, _ error:NSError?) -> Void) {
+    func getProjects(_ completion:((_ projects:[Project], _ local:Bool, _ error:NSError?) -> Void)? = nil) {
         if let projectsData = UserDefaults.standard.object(forKey: "\(Constants.UserDefaultsKeys.teamProjects)\(self.name)") as? Data {
             let projects = NSKeyedUnarchiver.unarchiveObject(with: projectsData) as? [Project]
-            completion(projects!, true, nil)
+            completion?(projects!, true, nil)
         }
         super.getReferences(projects,completion: { (results:[Project], error) -> Void in
             let data = NSKeyedArchiver.archivedData(withRootObject: results)
             UserDefaults.standard.set(data, forKey:"\(Constants.UserDefaultsKeys.teamProjects)\(self.name)")
             UserDefaults.standard.synchronize()
-            completion(results, false, error)
+            completion?(results, false, error)
         })
     }
     
-    func getUsers(_ completion:@escaping (_ users:[User], _ error:NSError?) -> Void) {
+    func getUsers(_ completion:((_ users:[User], _ error:NSError?) -> Void)? = nil) {
         super.getReferences(users, completion: { (results:[User], error) -> Void in
-            completion(results, error)
+            completion?(results, error)
         })
     }
     

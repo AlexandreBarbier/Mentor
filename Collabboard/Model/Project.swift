@@ -83,27 +83,27 @@ extension Project {
         
     }
     
-    func getDrawing(_ completion:@escaping (_ drawing:Drawing?, _ error:NSError?) -> Void) {
+    func getDrawing(_ completion:((_ drawing:Drawing?, _ error:NSError?) -> Void)? = nil) {
 		guard let drawing = drawing else {
 			return
 		}
         super.getReferences([drawing],completion: { (results:[Drawing], error) -> Void in
-            completion(results.first, error)
+            completion?(results.first, error)
         })
     }
     
-    class func get(_ name:String , completion:@escaping (_ project:Project?, _ error:NSError?)-> Void) {
+    class func get(_ name:String , completion:((_ project:Project?, _ error:NSError?)-> Void)? = nil) {
         Project.getRecord("recordName=\'\(name)\'") { (record, error) in
             guard let record = record else {
-                completion(nil, error)
+                completion?(nil, error)
                 return
             }
             let project = Project(record: record, recordId: record.recordID)
-            completion(project, nil)
+            completion?(project, nil)
         }
     }
     
-    func saveBackground(_ image:UIImage, completion:@escaping () -> Void) {
+    func saveBackground(_ image:UIImage, completion:(() -> Void)? = nil) {
         let docDirPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first!
         let filePath =  "\(docDirPath)/\(recordName).png"
         if let myData =  UIImagePNGRepresentation(image){
@@ -111,7 +111,7 @@ extension Project {
         }
         background = CKAsset(fileURL:URL(fileURLWithPath:filePath))
         publicSave { (record, error) -> Void in
-            completion()
+            completion?()
         }
     }
     

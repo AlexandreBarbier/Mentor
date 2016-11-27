@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             }
                             let tuple = user.teams.count == 0 ? (method:"New user", animated:true) : (method:"New device", animated:false)
                             Answers.logSignUp(withMethod: tuple.method, success: true, customAttributes: nil)
-                            ending(StoryboardScene.OnBoarding.initialViewController(), tuple.animated)
+                            ending(StoryboardScene.Main.initialViewController(), tuple.animated)
                         })
                     }
                 }

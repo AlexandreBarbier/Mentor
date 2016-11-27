@@ -26,7 +26,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
     fileprivate var blue : CGFloat = 0.0
     fileprivate var colorAlpha : CGFloat = 0.0
     fileprivate var archivedColor : Data!
-    
+    fileprivate var updateChildQueue = OperationQueue()
     var brushTool : Tool = .pen
     var currentTool : Tool = .pen {
         didSet {
@@ -61,6 +61,9 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             let totalPaths = Double(drawing.paths.count)
             var pathPrinted : Double = 1
             drawing.getTexts { (text, error) in
+                guard let text = text else {
+                    return
+                }
                 let textV = DrawableTextView.create(CGPoint(x: CGFloat(text.x.floatValue), y: CGFloat(text.y.floatValue)), text: text.text, color: self.color, drawing: drawing)
                 OperationQueue.main.addOperation({ () -> Void in
                     self.addSubview(textV)
@@ -172,16 +175,9 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         }
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
+        updateChildQueue.qualityOfService = QualityOfService.background
         touchCircle.lineWidth = 1
         lineWidth = 2.0
         currentTool = .pen
@@ -342,8 +338,8 @@ extension DrawableView {
                 self.removeLayerWithName(value.first![FirebaseKey.delete]!)
             }
             
-            }, withCancel: { (error) -> Void in
-                
+        }, withCancel: { (error) -> Void in
+            
         })
     }
 }
@@ -351,10 +347,10 @@ extension DrawableView {
 // MARK: - Touches handler
 extension DrawableView {
 	
-	@objc(gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:) func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-		return !(gestureRecognizer is UITapGestureRecognizer)
-	}
-	
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return !(gestureRecognizer is UITapGestureRecognizer)
+    }
+    
     func panGesture(_ panGesture:UIPanGestureRecognizer) {
         let currentPoint = panGesture.location(in: self)
         guard let _ = self.drawing else {
@@ -399,9 +395,10 @@ extension DrawableView {
 			dico.append([FirebaseKey.pathName:dPath.recordId.recordName as AnyObject])
 			dico.append([FirebaseKey.marker:(self.currentTool == .marker) as AnyObject])
 			dico.append([FirebaseKey.lineWidth:self.lineWidth as AnyObject])
-			OperationQueue().addOperation({ () -> Void in
+			updateChildQueue.addOperation({ () -> Void in
                 cbFirebase.drawing!.updateChildValues([FirebaseKey.points:dico])
             })
+            
             dPath.points.append(contentsOf: recPoints.records.map({ (record) -> CKReference in
                 CKReference(record: record, action: CKReferenceAction.none)
             }))

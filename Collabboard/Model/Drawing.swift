@@ -46,24 +46,26 @@ class Drawing: ABModelCloudKit {
         return drawing
     }
     
-    func getTexts(_ completion:@escaping (_ text:Text, _ error:NSError?) -> Void) -> Void {
+    func getTexts(_ completion:((_ text:Text?, _ error:NSError?) -> Void)? = nil) -> Void {
         let currentTexts = texts
         texts.removeAll()
         super.getReferences(currentTexts) { (results : Text?, error) in
-            if let result = results {
-                self.texts.append(CKReference(recordID: result.recordId, action: .none))
-                completion(result, error)
+            guard let result = results else {
+                completion?(nil, error)
+                return
             }
+            self.texts.append(CKReference(recordID: result.recordId, action: .none))
+            completion?(result, error)
         }
     }
     
-    func getPaths(_ completion:@escaping (_ path:DrawingPath, _ error:NSError?) -> Void) {
+    func getPaths(_ completion:((_ path:DrawingPath, _ error:NSError?) -> Void)? = nil) {
         let currentPath = paths
         paths.removeAll()
         super.getReferences(currentPath, perRecordCompletion:{ (results:DrawingPath?, error) -> Void in
             if let result = results {
                 self.paths.append(CKReference(recordID: result.recordId, action: .none))
-                completion(result, error)
+                completion?(result, error)
             }
         })
     }
