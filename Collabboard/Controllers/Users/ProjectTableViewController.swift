@@ -44,14 +44,14 @@ extension ProjectTableViewController {
 extension ProjectTableViewController {
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier == StoryboardSegue.Main.ProjectCreationSegue.rawValue {
+        if identifier == StoryboardSegue.Main.projectCreationSegue.rawValue {
             return team.admin == User.currentUser!.recordId.recordName
         }
         return true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == StoryboardSegue.Main.ProjectCreationSegue.rawValue {
+        if segue.identifier == StoryboardSegue.Main.projectCreationSegue.rawValue {
             let vc = segue.destination as! ProjectCreationViewController
             vc.team = self.team
             vc.completion = { (project:Project, team:Team) in

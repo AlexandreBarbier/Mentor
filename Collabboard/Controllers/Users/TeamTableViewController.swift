@@ -70,7 +70,7 @@ extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate  
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TeamTableViewCell") as! TeamTableViewCell
         let team = displayedDataSource[(indexPath as NSIndexPath).row]
-        cell.iconImageView.image = UIImage.Asset.Ic_team.image.withRenderingMode(.alwaysTemplate)
+        cell.iconImageView.image = Asset.icTeam.image.withRenderingMode(.alwaysTemplate)
         if team.currentUserIsAdmin {
             cell.iconImageView.tintColor = UIColor.draftLinkBlue
         }
@@ -85,7 +85,7 @@ extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate  
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(StoryboardSegue.Main.TeamCellSegue, sender: tableView.cellForRow(at: indexPath))
+        performSegue(withIdentifier: StoryboardSegue.Main.teamCellSegue.rawValue, sender: tableView.cellForRow(at: indexPath))
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -111,7 +111,7 @@ extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate  
 // MARK: - Navigation
 extension TeamTableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == StoryboardSegue.Main.TeamCellSegue.rawValue {
+        if segue.identifier == StoryboardSegue.Main.teamCellSegue.rawValue {
             
             let index = self.tableView.indexPath(for: sender as! TeamTableViewCell)
             let _ : ProjectTableViewController = {
@@ -122,7 +122,7 @@ extension TeamTableViewController {
             } (segue.destination as! ProjectTableViewController)
         }
         
-        if segue.identifier == StoryboardSegue.Main.TeamCreationSegue.rawValue {
+        if segue.identifier == StoryboardSegue.Main.teamCreationSegue.rawValue {
             let teamCreationVC = segue.destination as! TeamCreationViewController
             teamCreationVC.completion = { (team, project) in
                 self.displayedDataSource.append(team)

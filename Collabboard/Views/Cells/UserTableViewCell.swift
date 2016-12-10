@@ -16,7 +16,7 @@ class UserTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        usernameLabel.font = UIFont.Roboto(.Regular, size: 17.0)
+        usernameLabel.font = UIFont.Roboto(.regular, size: 17.0)
         avatarView.rounded()
         avatarView.image = avatarView.image?.withRenderingMode(.alwaysTemplate)
         presenceIndicatorView.rounded()

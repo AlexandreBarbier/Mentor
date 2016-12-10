@@ -164,7 +164,6 @@ class User : ABModelCloudKit {
             return recordID == ref.recordID
         }))!)
         self.localSave()
-        self.updateRecord()
-        
+        self.updateRecord()        
     }
 }

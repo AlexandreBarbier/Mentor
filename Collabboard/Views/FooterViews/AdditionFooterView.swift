@@ -49,7 +49,7 @@ extension AdditionFooterView {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(AdditionFooterView.onAddTouch(_:)))
         addGestureRecognizer(tapGesture)
         addButton.backgroundColor = UIColor.draftLinkGrey
-        titleLabel.font = UIFont.Roboto(.Regular, size: 16)
+        titleLabel.font = UIFont.Roboto(.regular, size: 16)
     }
 
 }
@@ -63,8 +63,8 @@ extension AdditionFooterView {
             
             break
         case .Project:
-            if delegate.shouldPerformSegue(withIdentifier: StoryboardSegue.Main.ProjectCreationSegue.rawValue, sender: nil) {
-                delegate.performSegue(StoryboardSegue.Main.ProjectCreationSegue, sender:nil)
+            if delegate.shouldPerformSegue(withIdentifier: StoryboardSegue.Main.projectCreationSegue.rawValue, sender: nil) {
+                delegate.performSegue(withIdentifier: StoryboardSegue.Main.projectCreationSegue.rawValue, sender:nil)
             }
             else {
                     //TODO: alert user
@@ -74,7 +74,7 @@ extension AdditionFooterView {
             }
             break
         case .Team:
-            delegate.performSegue(StoryboardSegue.Main.TeamCreationSegue, sender:nil)
+            delegate.performSegue(withIdentifier: StoryboardSegue.Main.teamCreationSegue.rawValue, sender:nil)
             break
         }
     }

@@ -38,9 +38,9 @@ extension TeamCreationViewController {
             userNameTF.isHidden = true
         }
         teamNameTF.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-        teamNameTF.setup(UIImage.Asset.Ic_team_mini.image, border: UIColor.draftLinkBlue, innerColor: UIColor.draftLinkDarkBlue, cornerRadius: 5)
+        teamNameTF.setup(Asset.icTeamMini.image, border: UIColor.draftLinkBlue, innerColor: UIColor.draftLinkDarkBlue, cornerRadius: 5)
         projectNameTF.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-        projectNameTF.setup(UIImage.Asset.Ic_project_mini.image, border: UIColor.draftLinkBlue, innerColor: UIColor.draftLinkDarkBlue, cornerRadius: 5)
+        projectNameTF.setup(Asset.icProjectMini.image, border: UIColor.draftLinkBlue, innerColor: UIColor.draftLinkDarkBlue, cornerRadius: 5)
         userNameTF.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
         userNameTF.setup(border: UIColor.draftLinkBlue, innerColor: UIColor.draftLinkDarkBlue, cornerRadius: 5)
         
@@ -55,7 +55,7 @@ extension TeamCreationViewController {
 // MARK: - Navigation
 extension TeamCreationViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == StoryboardSegue.CreationStoryboard.ColorSegue.rawValue {
+        if segue.identifier == StoryboardSegue.CreationStoryboard.colorSegue.rawValue {
             self.colorController = segue.destination as! ColorGenerationViewController
             self.colorController.delegate = self
             self.colorController.loadFromNil = true

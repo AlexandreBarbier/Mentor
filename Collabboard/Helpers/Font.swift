@@ -10,14 +10,14 @@ import UIKit
 
 extension UIFont {
     enum Weight: String {
-        case Bold, BoldItalic,
-            Light, LightItalic,
-            Regular,
-            Black, BlackItalic,
-            Italic,
-            Medium,
-            MediumItalic,
-            Thin, ThinItalic
+        case bold, boldItalic,
+            light, lightItalic,
+            regular,
+            black, blackItalic,
+            italic,
+            medium,
+            mediumItalic,
+            thin, thinItalic
     }
     
     static func Kalam(_ weight: Weight, size:CGFloat) -> UIFont? {

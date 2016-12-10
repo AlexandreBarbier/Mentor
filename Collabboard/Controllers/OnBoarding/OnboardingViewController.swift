@@ -52,7 +52,7 @@ class OnboardingViewController: UIViewController {
     }
     
     func skip() {
-        self.performSegue(StoryboardSegue.OnBoarding.SkipSegue, sender: nil)
+        self.performSegue(withIdentifier: StoryboardSegue.OnBoarding.skipSegue.rawValue, sender: nil)
     }
     
     override func didReceiveMemoryWarning() {

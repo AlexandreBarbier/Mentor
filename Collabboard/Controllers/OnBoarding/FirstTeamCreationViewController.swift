@@ -26,13 +26,13 @@ extension FirstTeamCreationViewController {
         
         getStartedLabel = {
             $0?.textColor = UIColor.draftLinkBlue
-            $0?.font = UIFont.Kalam(.Bold, size: 30)
+            $0?.font = UIFont.Kalam(.bold, size: 30)
             return $0
         }(getStartedLabel)
         
         descriptionLabel = {
             $0?.textColor = UIColor.draftLinkDarkBlue
-            $0?.font = UIFont.Roboto(.Regular, size: 24)
+            $0?.font = UIFont.Roboto(.regular, size: 24)
             return $0
         }(descriptionLabel)
         
@@ -45,13 +45,13 @@ extension FirstTeamCreationViewController {
         
         projectTextView = {
             $0?.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-            $0?.setup(UIImage.Asset.Ic_project_mini.image, border: UIColor.draftLinkBlue, innerColor: UIColor.draftLinkDarkBlue,  cornerRadius: 5.0)
+            $0?.setup(Asset.icProjectMini.image, border: UIColor.draftLinkBlue, innerColor: UIColor.draftLinkDarkBlue,  cornerRadius: 5.0)
             return $0
         }(projectTextView)
         
         teamTextView = {
             $0?.padding = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-            $0?.setup(UIImage.Asset.Ic_team_mini.image, border: UIColor.draftLinkBlue, innerColor: UIColor.draftLinkDarkBlue, cornerRadius: 5.0)
+            $0?.setup(Asset.icTeamMini.image, border: UIColor.draftLinkBlue, innerColor: UIColor.draftLinkDarkBlue, cornerRadius: 5.0)
             return $0
         }(teamTextView)
     }
@@ -82,7 +82,7 @@ extension FirstTeamCreationViewController {
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if let segueId = StoryboardSegue.OnBoarding(rawValue: identifier) {
             switch segueId {
-            case .CreateTeamSegue:
+            case .createTeamSegue:
                 if projectTextView.text != "" && teamTextView.text != "" {
                     return true
                 }
@@ -97,7 +97,7 @@ extension FirstTeamCreationViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueId = StoryboardSegue.OnBoarding(rawValue: segue.identifier!) {
             switch segueId {
-            case .CreateTeamSegue:
+            case .createTeamSegue:
                 let _ : UserConfigurationViewController = {
                     $0.teamName = teamTextView.text!
                     $0.projectName = projectTextView.text!

@@ -27,7 +27,7 @@ class UserConfigurationViewController: UIViewController {
     @IBOutlet var getStartedLabel: UILabel! {
         didSet {
             getStartedLabel.textColor = UIColor.draftLinkBlue
-            getStartedLabel.font = UIFont.Kalam(.Bold, size: 30)
+            getStartedLabel.font = UIFont.Kalam(.bold, size: 30)
         }
     }
     
@@ -35,19 +35,19 @@ class UserConfigurationViewController: UIViewController {
         didSet {
             createButton.backgroundColor = UIColor.draftLinkBlue
             createButton.rounded(5)
-            createButton.titleLabel?.font = UIFont.Roboto(.Regular, size: 20)
+            createButton.titleLabel?.font = UIFont.Roboto(.regular, size: 20)
         }
     }
     @IBOutlet var pickColorLabel: UILabel! {
         didSet {
             pickColorLabel.textColor = UIColor.draftLinkDarkBlue
-            pickColorLabel.font = UIFont.Roboto(.Regular, size: 20)
+            pickColorLabel.font = UIFont.Roboto(.regular, size: 20)
         }
     }
     @IBOutlet var createYourProfileLabel: UILabel! {
         didSet {
             createYourProfileLabel.textColor = UIColor.draftLinkDarkBlue
-            createYourProfileLabel.font = UIFont.Roboto(.Regular, size: 24)
+            createYourProfileLabel.font = UIFont.Roboto(.regular, size: 24)
         }
     }
     
@@ -129,7 +129,7 @@ extension UserConfigurationViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueId = StoryboardSegue.OnBoarding(rawValue: segue.identifier!) {
             switch segueId {
-            case .ShowDraftSegue:
+            case .showDraftSegue:
                 break
             default:
                 break
@@ -155,7 +155,7 @@ extension UserConfigurationViewController {
                 DispatchQueue.main.async {
                     project.setLastOpenForTeam(team)
                     UserDefaults().set(true, forKey: "userConnect")
-                    self.performSegue(StoryboardSegue.OnBoarding.ShowDraftSegue)
+                    self.performSegue(withIdentifier: StoryboardSegue.OnBoarding.showDraftSegue.rawValue, sender: self)
                 }
             })
         })

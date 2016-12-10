@@ -20,11 +20,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     var debugView: DebugConsoleView!
+    private var shouldTryConnect = false
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FIRApp.configure()
-        Fabric.with([Crashlytics.self])
-        
+        Fabric.with([Crashlytics.self, Answers.self])
+        connect()
+        return true
+    }
+    
+    func connect() {
         if let window = self.window,
             let rootVC = window.rootViewController,
             let imgView = rootVC.view.viewWithTag(1) {
@@ -34,10 +39,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if animated {
                         UIView.animate(withDuration: 0.3, animations: {
                             imgView.layer.transform = CATransform3DMakeTranslation(0, -115, 0)
-                            }, completion: { (finished) in
-                                if finished {
-                                    window.rootViewController = vc
-                                }
+                        }, completion: { (finished) in
+                            if finished {
+                                window.rootViewController = vc
+                            }
                         })
                     }
                     else {
@@ -73,6 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
                 else {
                     if let alert = alert {
+                        self.shouldTryConnect = true
                         OperationQueue.main.addOperation({ () -> Void in
                             rootVC.present(alert, animated: true, completion: nil)
                         })
@@ -80,7 +86,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             })
         }
-        return true
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -100,7 +105,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
-        
+        if shouldTryConnect {
+            connect()
+            shouldTryConnect = false
+        }
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {

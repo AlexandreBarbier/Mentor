@@ -134,7 +134,7 @@ extension ConnectedUsersTableViewController {
 // MARK: - Navigation
 extension ConnectedUsersTableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == StoryboardSegue.Main.TeamContainerVC.rawValue {
+        if segue.identifier == StoryboardSegue.Main.teamContainerVC.rawValue {
             let nav = segue.destination as! UINavigationController
             teamTableVC = nav.viewControllers.first as! TeamTableViewController
         }

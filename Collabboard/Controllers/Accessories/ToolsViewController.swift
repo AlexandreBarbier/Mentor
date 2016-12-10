@@ -14,9 +14,9 @@ enum Tool : Int {
     func getIcon() -> UIImage? {
         switch self {
         case .pen:
-            return UIImage.Asset.Ic_tools_pen.image
+            return Asset.icToolsPen.image
         case .marker:
-            return UIImage.Asset.Ic_tools_marker.image
+            return Asset.icToolsMarker.image
         case .eraser, .text:
             return nil
             
@@ -26,9 +26,9 @@ enum Tool : Int {
     func getItemIcon() -> UIImage? {
         switch self {
         case .pen:
-            return UIImage.Asset.Ic_pen.image
+            return Asset.icPen.image
         case .marker:
-            return UIImage.Asset.Ic_marker.image
+            return Asset.icMarker.image
         case .eraser, .text:
             return nil
         }
@@ -79,6 +79,7 @@ class ToolsViewController: UIViewController {
     @IBOutlet var toolsCollectionView: UICollectionView!
     @IBOutlet var sizeSlider: UISlider!
     
+    @IBOutlet var backView: UIView!
     fileprivate var toolsDataSource : [Tool] = [.pen, .marker]
     
     var delegate : ToolsViewDelegate!
@@ -91,7 +92,8 @@ extension ToolsViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        colorIndicatorView.rounded()
+        backView.rounded(15)
+        colorIndicatorView.rounded(5)
         colorIndicatorView.backgroundColor = currentColor
     }
 }
@@ -107,7 +109,7 @@ extension ToolsViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = StoryboardSegue.Main(rawValue:segue.identifier!) {
             switch identifier {
-            case .LoadColorChooser:
+            case .loadColorChooser:
                 let dest = segue.destination as! ColorGenerationViewController
                 dest.delegate = self
                 break

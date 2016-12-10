@@ -19,6 +19,8 @@ private enum SegueIdentifier : String {
     case ShowTeamSegue
     case CreateTeamSegue
     case ConnectedUserSegue
+    case ToolsSegue
+    
 }
 
 class ViewController: UIViewController {
@@ -48,7 +50,7 @@ extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         topToolbar.tintColor = UIColor.white
-        logoItem.image = UIImage.Asset.Topbar_logo.image.withRenderingMode(.alwaysOriginal)
+        logoItem.image = Asset.topbarLogo.image.withRenderingMode(.alwaysOriginal)
         selectTool(0)
         teamViewContainer.isHidden = true
         
@@ -386,6 +388,14 @@ extension ViewController {
                     })
                 }
                 break
+            case .ToolsSegue:
+                let _ : ToolsViewController = {
+                    $0.delegate = self
+                    $0.selectedTool = drawableView.getCurrentTool()
+                    $0.currentColor = drawableView.color
+                    return $0
+                }(segue.destination as! ToolsViewController)
+                break
             }
         }
     }
@@ -401,16 +411,7 @@ extension ViewController {
         }
         else {
             selectTool(sender.tag)
-            let popover : ToolsViewController = {
-                $0.delegate = self
-                $0.selectedTool = drawableView.getCurrentTool()
-                $0.modalPresentationStyle = .formSheet
-                $0.preferredContentSize = CGSize(width: 375, height: 500)
-                $0.currentColor = drawableView.color
-                return $0
-            }(StoryboardScene.Main.instantiateToolsVC())
-           
-            self.present(popover, animated: true, completion: nil)
+            performSegue(withIdentifier: "ToolsSegue", sender: self)
         }
     }
     
@@ -453,7 +454,7 @@ extension ViewController {
         }
         teamViewContainer.sendSubview(toBack: teamViewContainerBackView)
         if !teamViewContainer.isHidden {
-            button.image = UIImage.Asset.Ic_team.image.withRenderingMode(.alwaysTemplate)
+            button.image = Asset.icTeam.image.withRenderingMode(.alwaysTemplate)
             connectedUsersView.segmentControl.selectedSegmentIndex = 0
             connectedUsersView.segmentControlChanged(connectedUsersView.segmentControl)
             teamViewContainer.isHidden = false
@@ -468,7 +469,7 @@ extension ViewController {
             })
         }
         else {
-            button.image = UIImage.Asset.Ic_team_selected.image.withRenderingMode(.alwaysTemplate)
+            button.image = Asset.icTeamSelected.image.withRenderingMode(.alwaysTemplate)
             teamViewContainer.backgroundColor = UIColor.draftLinkGrey.withAlphaComponent(0.0)
             teamViewContainer.isHidden = false
             connectedUsersView.view.layer.transform = CATransform3DMakeTranslation(0, -self.view.frame.size.height, 0)

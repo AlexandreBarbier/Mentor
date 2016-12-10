@@ -15,9 +15,9 @@ class WelcomView: UIView {
     static func instantiate() -> WelcomView {
         let welcomV : WelcomView = {
             $0.welcomLabel.textColor = UIColor.draftLinkDarkBlue
-            $0.welcomLabel.font = UIFont.Roboto(.Regular, size: 24)!
+            $0.welcomLabel.font = UIFont.Roboto(.regular, size: 24)!
             $0.descriptionLabel.textColor = UIColor.draftLinkDarkBlue
-            $0.descriptionLabel.font = UIFont.Roboto(.Italic, size: 20)!
+            $0.descriptionLabel.font = UIFont.Roboto(.italic, size: 20)!
             return $0
         }(UIViewController(nibName: "WelcomView", bundle: nil).view as! WelcomView)
         

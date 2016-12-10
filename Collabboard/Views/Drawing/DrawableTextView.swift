@@ -17,7 +17,7 @@ class DrawableTextView: UITextView, UITextViewDelegate {
         
         let textView : DrawableTextView = {
             $0.backgroundColor = UIColor.clear
-            $0.font = UIFont.Roboto(.Regular, size: 18.0)
+            $0.font = UIFont.Roboto(.regular, size: 18.0)
             $0.text = text
             $0.textColor = color
             $0.drawing = drawing

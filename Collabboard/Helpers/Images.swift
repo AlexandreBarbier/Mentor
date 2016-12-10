@@ -1,33 +1,46 @@
 // Generated using SwiftGen, by O.Halligon — https://github.com/AliSoftware/SwiftGen
 
-import UIKit
+#if os(iOS) || os(tvOS) || os(watchOS)
+  import UIKit.UIImage
+  typealias Image = UIImage
+#elseif os(OSX)
+  import AppKit.NSImage
+  typealias Image = NSImage
+#endif
 
-extension UIImage {
-  enum Asset: String {
-    case AddViewIcon = "addViewIcon"
-    case Ic_close = "ic_close"
-    case Ic_images = "ic_images"
-    case Ic_marker = "ic_marker"
-    case Ic_pen = "ic_pen"
-    case Ic_project = "ic_project"
-    case Ic_project_mini = "ic_project_mini"
-    case Ic_quote = "ic_quote"
-    case Ic_rubber = "ic_rubber"
-    case Ic_team = "ic_team"
-    case Ic_team_mini = "ic_team_mini"
-    case Ic_team_selected = "ic_team_selected"
-    case Ic_text = "ic_text"
-    case Ic_tong = "ic_tong"
-    case Ic_tools_marker = "ic_tools_marker"
-    case Ic_tools_pen = "ic_tools_pen"
-    case Settings = "settings"
-    case Topbar_logo = "topbar_logo"
+// swiftlint:disable file_length
+// swiftlint:disable line_length
 
-    var image: UIImage {
-      return UIImage(asset: self)
-    }
+// swiftlint:disable type_body_length
+enum Asset: String {
+  case addViewIcon = "addViewIcon"
+  case bgOnboarding = "bg_onboarding"
+  case icClose = "ic_close"
+  case icImages = "ic_images"
+  case icMarker = "ic_marker"
+  case icPen = "ic_pen"
+  case icProjectMini = "ic_project_mini"
+  case icProject = "ic_project"
+  case icQuote = "ic_quote"
+  case icRubber = "ic_rubber"
+  case icTeamMini = "ic_team_mini"
+  case icTeamSelected = "ic_team_selected"
+  case icTeam = "ic_team"
+  case icText = "ic_text"
+  case icTong = "ic_tong"
+  case icToolsMarker = "ic_tools_marker"
+  case icToolsPen = "ic_tools_pen"
+  case logoDraftlink = "logo_draftlink"
+  case settings = "settings"
+  case topbarLogo = "topbar_logo"
+
+  var image: Image {
+    return Image(asset: self)
   }
+}
+// swiftlint:enable type_body_length
 
+extension Image {
   convenience init!(asset: Asset) {
     self.init(named: asset.rawValue)
   }
