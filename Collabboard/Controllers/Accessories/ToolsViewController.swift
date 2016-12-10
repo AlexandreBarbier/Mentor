@@ -92,7 +92,7 @@ extension ToolsViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        backView.rounded(15)
+        backView.rounded(10)
         colorIndicatorView.rounded(5)
         colorIndicatorView.backgroundColor = currentColor
     }
