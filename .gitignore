@@ -55,3 +55,5 @@ fastlane/test_output
 *.ipa
 *.cer
 *.mobileprovision
+*.certSigningRequest
+*.p12
