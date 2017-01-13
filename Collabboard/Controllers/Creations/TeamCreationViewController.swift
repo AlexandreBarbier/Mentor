@@ -23,9 +23,6 @@ class TeamCreationViewController: UIViewController {
 
 // MARK: - View livecycle
 extension TeamCreationViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -56,9 +53,9 @@ extension TeamCreationViewController {
 extension TeamCreationViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == StoryboardSegue.CreationStoryboard.colorSegue.rawValue {
-            self.colorController = segue.destination as! ColorGenerationViewController
-            self.colorController.delegate = self
-            self.colorController.loadFromNil = true
+            colorController = segue.destination as! ColorGenerationViewController
+            colorController.delegate = self
+            colorController.loadFromNil = true
         }
     }
 }

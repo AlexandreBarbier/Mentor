@@ -83,10 +83,7 @@ extension FirstTeamCreationViewController {
         if let segueId = StoryboardSegue.OnBoarding(rawValue: identifier) {
             switch segueId {
             case .createTeamSegue:
-                if projectTextView.text != "" && teamTextView.text != "" {
-                    return true
-                }
-                return false
+                return projectTextView.text != "" && teamTextView.text != ""
             default:
                 break
             }

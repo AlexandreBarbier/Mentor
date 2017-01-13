@@ -25,7 +25,7 @@ class OnboardingViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        var frame = self.view.bounds
+        var frame = view.bounds
         
         let welcomView : WelcomView = {
             $0.frame = frame
@@ -52,7 +52,7 @@ class OnboardingViewController: UIViewController {
     }
     
     func skip() {
-        self.performSegue(withIdentifier: StoryboardSegue.OnBoarding.skipSegue.rawValue, sender: nil)
+        performSegue(withIdentifier: StoryboardSegue.OnBoarding.skipSegue.rawValue, sender: nil)
     }
     
     override func didReceiveMemoryWarning() {

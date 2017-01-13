@@ -135,42 +135,41 @@ extension ViewController {
             self.present(alert, animated: true, completion: nil)
             return
         }
-        if let connectedUser = self.connectedUsersView {
-            connectedUser.teamCompletion =  { (project, team) in
+        guard let connectedUser = self.connectedUsersView else {
+            return
+        }
+        connectedUser.teamCompletion =  { (project, team) in
+            connectedUser.team = team
+            OperationQueue.main.addOperation({ () -> Void in
+                self.initDrawing(team, project: project)
+                self.showTeam(self.showTeamButton)
+            })
+        }
+        guard let lastOpenedteamProject = Project.getLastOpen() else {
+            user.getTeams({ (teams, local, error) -> Void in
+                guard !local, let team = teams.first else {
+                    return
+                }
                 connectedUser.team = team
-                OperationQueue.main.addOperation({ () -> Void in
-                    self.initDrawing(team, project: project)
-                    self.showTeam(self.showTeamButton)
-                })
-            }
-            if let lastOpenedteamProject = Project.getLastOpen() {
-                connectedUser.team = lastOpenedteamProject.team!
-                OperationQueue.main.addOperation({ () -> Void in
-                    self.initDrawing(lastOpenedteamProject.team!, project: lastOpenedteamProject.project!)
-                    self.activity.stopAnimating()
-                })
-            }
-            else {
-                user.getTeams({ (teams, local, error) -> Void in
-                    if !local {
-                        if let team = teams.first {
-                            connectedUser.team = team
-                            team.getProjects({ (projects, local, error) -> Void in
-                                if !local {
-                                    if let project = projects.first {
-                                        OperationQueue.main.addOperation({ () -> Void in
-                                            self.initDrawing(team, project: project)
-                                            project.setLastOpenForTeam(team)
-                                            self.activity.stopAnimating()
-                                        })
-                                    }
-                                }
-                            })
-                        }
+                team.getProjects({ (projects, local, error) -> Void in
+                    guard !local, let project = projects.first else {
+                        return
                     }
+                    OperationQueue.main.addOperation({ () -> Void in
+                        self.initDrawing(team, project: project)
+                        project.setLastOpenForTeam(team)
+                        self.activity.stopAnimating()
+                    })
                 })
-            }
-        }}
+            })
+            return
+        }
+        connectedUser.team = lastOpenedteamProject.team!
+        OperationQueue.main.addOperation({ () -> Void in
+            self.initDrawing(lastOpenedteamProject.team!, project: lastOpenedteamProject.project!)
+            self.activity.stopAnimating()
+        })
+    }
     
     
     /**
@@ -253,31 +252,30 @@ extension ViewController {
      */
     func setBG(_ project:Project) {
         OperationQueue.main.addOperation({ () -> Void in
-            if let bg = project.background {
-                if self.imageBG == nil {
-                    if let data = try? Data(contentsOf: URL(fileURLWithPath: bg.fileURL.path)) {
-                        self.imageBG = {
-                            $0.autoresizingMask = [.flexibleHeight,.flexibleHeight]
-                            self.scrollView.insertSubview($0, at: 0)
-                            $0.contentMode = .scaleAspectFill
-                            $0.frame = self.drawableView.frame
-                            return $0
-                        }(UIImageView(image: UIImage(data: data)))
-                    }
+            guard let bg = project.background else {
+                if self.imageBG != nil {
+                    self.imageBG!.image = nil
+                    self.imageBG!.frame = self.drawableView.frame
                 }
-                else {
-                    if let imageData = try? Data(contentsOf: URL(fileURLWithPath: bg.fileURL.path)) {
-                        self.imageBG!.image = UIImage(data: imageData)
-                        self.imageBG!.frame = self.drawableView.frame
-                    }
-                    else {
-                        self.imageBG!.image = nil
-                        self.imageBG!.frame = self.drawableView.frame
-                    }
+                return
+            }
+            if self.imageBG == nil {
+                if let data = try? Data(contentsOf: URL(fileURLWithPath: bg.fileURL.path)) {
+                    self.imageBG = {
+                        $0.autoresizingMask = [.flexibleHeight,.flexibleHeight]
+                        self.scrollView.insertSubview($0, at: 0)
+                        $0.contentMode = .scaleAspectFill
+                        $0.frame = self.drawableView.frame
+                        return $0
+                    }(UIImageView(image: UIImage(data: data)))
                 }
             }
             else {
-                if self.imageBG != nil {
+                if let imageData = try? Data(contentsOf: URL(fileURLWithPath: bg.fileURL.path)) {
+                    self.imageBG!.image = UIImage(data: imageData)
+                    self.imageBG!.frame = self.drawableView.frame
+                }
+                else {
                     self.imageBG!.image = nil
                     self.imageBG!.frame = self.drawableView.frame
                 }
@@ -353,16 +351,15 @@ extension ViewController {
             switch identifier {
             case .ConnectedUserSegue :
                 connectedUsersView = segue.destination as? ConnectedUsersTableViewController
-                
                 if let team = Project.getLastOpen() {
                     
                     self.connectedUsersView!.team = team.team
                     self.connectedUsersView!.teamCompletion =  { (project, team) in
                         OperationQueue.main.addOperation({ () -> Void in
                             self.initDrawing(team, project: project)
+                            self.connectedUsersView!.reload()
                         })
                     }
-                    self.connectedUsersView!.reload()
                 }
                 self.activity.stopAnimating()
                 break
@@ -405,14 +402,8 @@ extension ViewController {
 extension ViewController {
     
     @IBAction func showBrushTools(_ sender:UIBarButtonItem) {
-        if selectedTool != sender.tag {
-            selectTool(sender.tag)
-            selectDrawingTool(drawableView.brushTool)
-        }
-        else {
-            selectTool(sender.tag)
-            performSegue(withIdentifier: "ToolsSegue", sender: self)
-        }
+        selectedTool != sender.tag ? selectDrawingTool(drawableView.brushTool) : performSegue(withIdentifier: "ToolsSegue",sender: self)
+        selectTool(sender.tag)
     }
     
     /**
