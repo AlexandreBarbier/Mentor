@@ -11,28 +11,31 @@ import ABModel
 import CloudKit
 
 class DrawingPath: ABModelCloudKit {
-    var points : [CKReference] = [CKReference]()
-    var color : Data!
+    var points: [CKReference] = [CKReference]()
+    var color: Data!
     var user = ""
-    var lineWidth : CGFloat = 2.0
+    var lineWidth: CGFloat = 2.0
     var pen = true
-    
+
     override class func recordType() -> String {
         return "DrawingPath"
     }
-    
+
     override func ignoreKey(_ key: String, value: AnyObject) -> Bool {
         if key == "points" {
-            for ref : CKReference in value as! [CKReference] {
-                self.points.append(ref)
+            if let refs = value as? [CKReference] {
+                for ref: CKReference in refs {
+                    self.points.append(ref)
+                }
+                return true
             }
-            return true
         }
         return false
     }
-    
-    class func create(_ drawing:Drawing, completion:((_ success:Bool, _ dPath:DrawingPath) -> Void)?) -> DrawingPath {
-        let drawingPath : DrawingPath = {
+
+    class func create(_ drawing: Drawing,
+                      completion:((_ success: Bool, _ dPath: DrawingPath) -> Void)?) -> DrawingPath {
+        let drawingPath: DrawingPath = {
             drawing.paths.append(CKReference(record: $0.record, action: CKReferenceAction.none))
             if let currentUser = User.currentUser {
                 $0.user = currentUser.recordId.recordName
@@ -40,16 +43,16 @@ class DrawingPath: ABModelCloudKit {
             return $0
         }(DrawingPath())
 
-        drawing.publicSave({ (record, error) -> Void in
+        drawing.publicSave({ (_, error) -> Void in
             if let completion = completion {
                 completion(error == nil, drawingPath)
             }
         })
         return drawingPath
     }
-    
-    func localKey()-> String { return "\(self.recordId.recordName)points" }
-    
+
+    func localKey() -> String { return "\(self.recordId.recordName)points" }
+
     override func remove() {
         super.remove()
         let _ : UserDefaults = {
@@ -57,35 +60,32 @@ class DrawingPath: ABModelCloudKit {
             $0.synchronize()
             return $0
         } (UserDefaults.standard)
-        
     }
-    
-    class func removeWithName(_ name:String) {
+
+    class func removeWithName(_ name: String) {
         let k = CKRecordID(recordName: name)
         super.removeRecordId(k)
     }
-    
-    func getPoints(_ completion:((_ points:[Point], _ error:NSError?) -> Void)? = nil) {
+
+    func getPoints(_ completion:((_ points: [Point], _ error: NSError?) -> Void)? = nil) {
         if let pointsData = UserDefaults.standard.object(forKey: localKey()) as? Data {
             if let archivedPoints =  NSKeyedUnarchiver.unarchiveObject(with: pointsData) as? [Point] {
                 completion?(archivedPoints, nil)
             }
-        }
-        else {
-            super.getReferences(points, completion: { (results:[Point], error) -> Void in
+        } else {
+            super.getReferences(points, completion: { (results: [Point], error) -> Void in
                 self.localSave(results)
                 completion?(results, error)
             })
         }
     }
-    
-    func localSave(_ point:[Point]) {
+
+    func localSave(_ point: [Point]) {
         let data = NSKeyedArchiver.archivedData(withRootObject: point)
         let _ : UserDefaults = {
             $0.set(data, forKey:localKey())
             $0.synchronize()
             return $0
         } (UserDefaults.standard)
-        
     }
 }

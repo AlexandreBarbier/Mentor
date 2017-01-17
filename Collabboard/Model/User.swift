@@ -10,38 +10,38 @@ import UIKit
 import ABModel
 import CloudKit
 
-class User : ABModelCloudKit {
-	internal static var currentUser : User? = nil
-	
+class User: ABModelCloudKit {
+	internal static var currentUser: User? = nil
+
 	override class func recordType() -> String {
 		return "Users"
 	}
-	
-	var username:String = ""
-	var teams : [CKReference] = [CKReference]()
+
+	var username: String = ""
+	var teams: [CKReference] = [CKReference]()
 	var teamColor: [CKReference] = [CKReference]()
-	
+
 	override func ignoreKey(_ key: String, value: AnyObject) -> Bool {
-		if key == "teams" {
-			for ref : CKReference in value as! [CKReference] {
+		if key == "teams", let refs = value as? [CKReference] {
+			for ref: CKReference in refs {
 				teams.append(ref)
 			}
 			return true
 		}
-		if key == "teamColor" {
-			for ref : CKReference in value as! [CKReference] {
+		if key == "teamColor", let refs = value as?[CKReference] {
+			for ref: CKReference in refs {
 				teamColor.append(ref)
 			}
 			return true
 		}
 		return false
 	}
-	
-	class func getCurrentUser(_ completion:((_ user:User?, _ error:NSError?)->())? = nil) {
+
+	class func getCurrentUser(_ completion:((_ user: User?, _ error: NSError?) -> Void)? = nil) {
 		if let user = UserDefaults.standard.object(forKey: Constants.UserDefaultsKeys.currentUser) as? Data {
 			User.currentUser = NSKeyedUnarchiver.unarchiveObject(with: user) as? User
 			completion?(User.currentUser, nil)
-			User.currentUser!.refresh({ (updatedObj:User?) -> Void in
+			User.currentUser!.refresh({ (updatedObj: User?) -> Void in
 				guard let update = updatedObj else {
 					return
 				}
@@ -50,8 +50,7 @@ class User : ABModelCloudKit {
 				UserDefaults.standard.set(data, forKey: Constants.UserDefaultsKeys.currentUser)
 				UserDefaults.standard.synchronize()
 			})
-		}
-		else {
+		} else {
 			CloudKitManager.container.fetchUserRecordID { (recordId, error) -> Void in
 				guard let recId = recordId else {
 					completion?(nil, error as NSError?)
@@ -70,7 +69,7 @@ class User : ABModelCloudKit {
 			}
 		}
 	}
-	
+
 	override func publicSave(_ completion: ((CKRecord?, NSError?) -> Void)?) {
 		super.publicSave { (record, error) -> Void in
 			guard let rec = record else {
@@ -91,64 +90,67 @@ class User : ABModelCloudKit {
 			}
 		}
 	}
-	
+
 	fileprivate func localSave() {
 		let data = NSKeyedArchiver.archivedData(withRootObject: self)
 		UserDefaults.standard.set(data, forKey:Constants.UserDefaultsKeys.currentUser)
 		UserDefaults.standard.synchronize()
 	}
-	
-	func getTeams(_ completion:((_ teams:[Team], _ local:Bool, _ error:NSError?) -> Void)? = nil) {
+
+	func getTeams(_ completion:((_ teams: [Team], _ local: Bool, _ error: NSError?) -> Void)? = nil) {
 		if let teamsData = UserDefaults.standard.object(forKey: Constants.UserDefaultsKeys.teamUserKey) as? Data {
 			let teams = NSKeyedUnarchiver.unarchiveObject(with: teamsData) as? [Team]
 			completion?(teams!, true, nil)
 		}
-		super.getReferences(teams,completion: { (results:[Team], error) -> Void in
+		super.getReferences(teams, completion: { (results: [Team], error) -> Void in
 			let data = NSKeyedArchiver.archivedData(withRootObject: results)
 			UserDefaults.standard.set(data, forKey:Constants.UserDefaultsKeys.teamUserKey)
 			UserDefaults.standard.synchronize()
 			completion?(results, false, error)
 		})
 	}
-	
-	func getColors(_ completion:((_ teamColor:[UserTeamColor], _ error:NSError?) -> Void)? = nil) {
-		super.getReferences(teamColor, completion: { (results:[UserTeamColor], error) -> Void in
+
+	func getColors(_ completion:((_ teamColor: [UserTeamColor], _ error: NSError?) -> Void)? = nil) {
+		super.getReferences(teamColor, completion: { (results: [UserTeamColor], error) -> Void in
 			completion?(results, error)
 		})
 	}
-	
-	func getTeamColors(_ team:Team, completion:((_ teamColor:UIColor?, _ userTeamColor:UserTeamColor?, _ error:NSError?) -> Void)? = nil) {
+
+	func getTeamColors(_ team: Team,
+	                   completion: ((_ teamColor: UIColor?, _ userTeamColor: UserTeamColor?, _ error: NSError?) -> Void)? = nil) {
 		self.getColors { (teamColor, error) -> Void in
             if let tC = teamColor.first(where: { (utColor) -> Bool in
                 return utColor.teamName == team.recordId.recordName
             }) {
                 completion?(tC.getUTColor(), tC, nil)
-            }
-            else {
+            } else {
                 completion?(nil, nil, error)
             }
 		}
 	}
-	
-	func updateColorForTeam(_ team: Team, color:UIColor, colorSeed:CGFloat, completion:(() -> Void)? = nil) {
-		self.getTeamColors(team) { (teamColor, userTeamColor, error) in
+
+	func updateColorForTeam(_ team: Team, color: UIColor, colorSeed: CGFloat, completion:(() -> Void)? = nil) {
+		self.getTeamColors(team) { (_, userTeamColor, error) in
 			guard error == nil else {
 				return
 			}
 			userTeamColor?.color = NSKeyedArchiver.archivedData(withRootObject: color)
 			userTeamColor?.colorSeed = colorSeed
-			userTeamColor?.publicSave({ (record, error) in
+			userTeamColor?.publicSave({ (_, _) in
 				team.publicSave()
 				completion?()
 			})
 		}
 	}
-	
-	func addTeam(_ team:Team, color:UIColor, colorSeed:CGFloat, completion:(()-> Void)? = nil) {
-		
+
+    func addTeam(_ team: Team, color: UIColor, colorSeed: CGFloat, completion: (() -> Void)? = nil) {
+
 		team.users.append(CKReference(record: self.toRecord(), action: .none))
 		self.teams.append(CKReference(record: team.toRecord(), action: .none))
-		UserTeamColor.create(team, colorSeed: colorSeed, color: color, completion: {(utColor:UserTeamColor?, error:NSError?) in
+		UserTeamColor.create(team,
+		                     colorSeed: colorSeed,
+		                     color: color,
+		                     completion: {(utColor: UserTeamColor?, error: NSError?) in
             guard let utColor = utColor else {
                 print(error ?? "nil error")
                 return
@@ -158,12 +160,12 @@ class User : ABModelCloudKit {
 			self.localSave()
 		})
 	}
-    
+
     func removeTeam(recordID: CKRecordID) {
         teams.remove(at: (teams.index(where: { (ref: CKReference) -> Bool in
             return recordID == ref.recordID
         }))!)
         self.localSave()
-        self.updateRecord()        
+        self.updateRecord()
     }
 }

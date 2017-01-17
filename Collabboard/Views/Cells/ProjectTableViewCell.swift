@@ -13,7 +13,7 @@ class ProjectTableViewCell: UITableViewCell {
     @IBOutlet var iconImageView: UIImageView!
     @IBOutlet var projectNameLabel: UILabel!
     @IBOutlet var infoLabel: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -21,8 +21,6 @@ class ProjectTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
-    
+
 }

@@ -12,10 +12,10 @@ class UserTableViewCell: UITableViewCell {
     @IBOutlet var usernameLabel: UILabel!
     @IBOutlet var presenceIndicatorView: UIView!
     @IBOutlet var avatarView: UIImageView!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         usernameLabel.font = UIFont.Roboto(.regular, size: 17.0)
         avatarView.rounded()
         avatarView.image = avatarView.image?.withRenderingMode(.alwaysTemplate)
@@ -26,5 +26,5 @@ class UserTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
 }

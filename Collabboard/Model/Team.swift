@@ -12,41 +12,37 @@ import CloudKit
 import Foundation
 
 class Team: ABModelCloudKit {
-    
-    var name:String = ""
-    var users : [CKReference] = [CKReference]()
-    var projects : [CKReference] = [CKReference]()
-    var token : String = ""
+
+    var name: String = ""
+    var users: [CKReference] = [CKReference]()
+    var projects: [CKReference] = [CKReference]()
+    var token: String = ""
     var infos = ""
-    var admin:String = ""
-    
+    var admin: String = ""
+
     override class func recordType() -> String {
         return "Teams"
     }
-    
-    var currentUserIsAdmin:Bool {
-        get {
-            if let currentUser = User.currentUser {
-                return currentUser.recordId.recordName == self.admin
-            }
-            return false
+
+    var currentUserIsAdmin: Bool {
+        if let currentUser = User.currentUser {
+            return currentUser.recordId.recordName == self.admin
         }
+        return false
     }
 }
 
 // MARK: - ABModel
 extension Team {
-    
+
     override func ignoreKey(_ key: String, value: AnyObject) -> Bool {
-        if key == "users" {
-            for ref : CKReference in value as! [CKReference] {
-                users.append(ref)
-            }
-            return true
-        }
-        if key == "projects" {
-            for ref : CKReference in value as! [CKReference] {
-                projects.append(ref)
+        if key == "users" || key == "projects", let refs = value as? [CKReference] {
+            for ref in refs {
+                if key == "users" {
+                    users.append(ref)
+                } else if key == "projects" {
+                    projects.append(ref)
+                }
             }
             return true
         }
@@ -56,8 +52,11 @@ extension Team {
 
 // MARK: - Creation
 extension Team {
-	@discardableResult class func create(_ name:String, color:UIColor, colorSeed:CGFloat, completion:(_ success:Bool, _ team:Team) -> Void) -> Team {
-        
+	@discardableResult class func create(_ name: String,
+	                                     color: UIColor,
+	                                     colorSeed: CGFloat,
+	                                     completion: (_ success: Bool, _ team: Team) -> Void) -> Team {
+
         let team: Team = {
             $0.name = name
             $0.token = "\(name)\(arc4random_uniform(UInt32(100)))"
@@ -74,8 +73,9 @@ extension Team {
 
 // MARK: - fetches
 extension Team {
-    
-    class func get(_ token:String, completion:((_ team:Team?, _ error:NSError?) -> Void)? = nil) {
+
+    class func get(_ token: String,
+                   completion: ((_ team: Team?, _ error: NSError?) -> Void)? = nil) {
         Team.getRecord("token=\'\(token)\'") { (record, error)  in
             guard let record = record else {
                 completion?(nil, error)
@@ -85,26 +85,29 @@ extension Team {
             completion?(team, nil)
         }
     }
-    
-    func getProjects(_ completion:((_ projects:[Project], _ local:Bool, _ error:NSError?) -> Void)? = nil) {
-        if let projectsData = UserDefaults.standard.object(forKey: "\(Constants.UserDefaultsKeys.teamProjects)\(self.name)") as? Data {
+
+    func getProjects(_ completion:((_ projects: [Project],
+        _ local: Bool,
+        _ error: NSError?) -> Void)? = nil) {
+        if let projectsData = UserDefaults.standard.object(
+            forKey: "\(Constants.UserDefaultsKeys.teamProjects)\(self.name)") as? Data {
             let projects = NSKeyedUnarchiver.unarchiveObject(with: projectsData) as? [Project]
             completion?(projects!, true, nil)
         }
-        super.getReferences(projects,completion: { (results:[Project], error) -> Void in
+        super.getReferences(projects, completion: { (results: [Project], error) -> Void in
             let data = NSKeyedArchiver.archivedData(withRootObject: results)
-            UserDefaults.standard.set(data, forKey:"\(Constants.UserDefaultsKeys.teamProjects)\(self.name)")
+            UserDefaults.standard.set(data, forKey: "\(Constants.UserDefaultsKeys.teamProjects)\(self.name)")
             UserDefaults.standard.synchronize()
             completion?(results, false, error)
         })
     }
-    
-    func getUsers(_ completion:((_ users:[User], _ error:NSError?) -> Void)? = nil) {
-        super.getReferences(users, completion: { (results:[User], error) -> Void in
+
+    func getUsers(_ completion: ((_ users: [User], _ error: NSError?) -> Void)? = nil) {
+        super.getReferences(users, completion: { (results: [User], error) -> Void in
             completion?(results, error)
         })
     }
-    
+
     override func remove() {
         if let teamsData = UserDefaults.standard.object(forKey: Constants.UserDefaultsKeys.teamUserKey) as? Data {
             var teams = NSKeyedUnarchiver.unarchiveObject(with: teamsData) as? [Team]
@@ -115,4 +118,3 @@ extension Team {
         User.currentUser?.removeTeam(recordID: self.recordId)
     }
 }
-

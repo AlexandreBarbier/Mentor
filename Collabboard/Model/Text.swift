@@ -11,17 +11,21 @@ import ABModel
 import CloudKit
 
 class Text: ABModelCloudKit {
-    var text : String = ""
+    var text: String = ""
     var x: NSNumber = 0.0
     var y: NSNumber = 0.0
-    
-    
+
     override class func recordType() -> String {
         return "Texts"
     }
-    
-    @discardableResult class func create(_ drawing:Drawing, x: NSNumber, y: NSNumber, text:String,  position:Int? = nil, save: Bool) -> Text {
-        let txt : Text = {
+
+    @discardableResult class func create(_ drawing: Drawing,
+                                         x: NSNumber,
+                                         y: NSNumber,
+                                         text: String,
+                                         position: Int? = nil,
+                                         save: Bool) -> Text {
+        let txt: Text = {
             drawing.texts.append(CKReference(record: $0.record, action: CKReferenceAction.none))
             $0.x = x
             $0.y = y
@@ -29,9 +33,7 @@ class Text: ABModelCloudKit {
             $0.updateRecord()
             return $0
         }(Text())
-        drawing.publicSave({ (record, error) -> Void in
-            
-        })
+        drawing.publicSave()
         return txt
     }
 }

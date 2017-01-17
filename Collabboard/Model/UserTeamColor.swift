@@ -10,23 +10,26 @@ import UIKit
 import ABModel
 
 class UserTeamColor: ABModelCloudKit {
-    var teamName:String = ""
-    var color:Data!
-    var colorSeed : CGFloat = 1.0
-    
+    var teamName: String = ""
+    var color: Data!
+    var colorSeed: CGFloat = 1.0
+
     override class func recordType() -> String {
         return "UserTeamColor"
     }
-    
-	@discardableResult class func create(_ team:Team, colorSeed:CGFloat, color:UIColor, completion:((_ utColor:UserTeamColor?, _ error:NSError?)->Void)? = nil) -> UserTeamColor {
-        
+
+	@discardableResult class func create(_ team: Team,
+	                                     colorSeed: CGFloat,
+	                                     color: UIColor,
+	                                     completion:((_ utColor: UserTeamColor?, _ error: NSError?) -> Void)? = nil) -> UserTeamColor {
+
         let utColor: UserTeamColor = {
             $0.colorSeed = colorSeed
             $0.teamName = team.recordId.recordName
             $0.color = NSKeyedArchiver.archivedData(withRootObject: color)
             return $0
         }(UserTeamColor())
-        
+
         utColor.publicSave({ (record, error) -> Void in
             guard error == nil else {
                 completion?(utColor, error as NSError?)
@@ -35,13 +38,12 @@ class UserTeamColor: ABModelCloudKit {
             utColor.record = record
             completion?(utColor, nil)
         })
-        
         return utColor
     }
-    
+
     func getUTColor() -> UIColor {
-		if let color = color {
-			return NSKeyedUnarchiver.unarchiveObject(with: color) as! UIColor
+		if let color = color, let res = NSKeyedUnarchiver.unarchiveObject(with: color) as? UIColor {
+			return res
 		}
 		return UIColor.black
     }

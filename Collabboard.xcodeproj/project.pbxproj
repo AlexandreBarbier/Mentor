@@ -510,6 +510,7 @@
 				3B302D6B681A5BB131F7B109 /* [CP] Copy Pods Resources */,
 				8D759DD21C3FE70900E793B6 /* Fabric run */,
 				8D9E8DFB1C6219AD0076030A /* Embed Frameworks */,
+				8D1756681E2D020F00F58436 /* Swift lint */,
 			);
 			buildRules = (
 			);
@@ -643,6 +644,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Collabboard/Pods-Collabboard-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		8D1756681E2D020F00F58436 /* Swift lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Swift lint";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		8D759DD21C3FE70900E793B6 /* Fabric run */ = {
 			isa = PBXShellScriptBuildPhase;

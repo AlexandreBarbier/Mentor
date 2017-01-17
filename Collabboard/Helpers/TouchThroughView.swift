@@ -9,7 +9,7 @@
 import UIKit
 
 class TouchThroughView: UIView {
-    
+
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let v = super.hitTest(point, with: event)
         return v == self ? nil : v

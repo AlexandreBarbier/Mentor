@@ -8,9 +8,9 @@
 
 import UIKit
 
-enum Tool : Int {
+enum Tool: Int {
     case pen, marker, eraser, text
-    
+
     func getIcon() -> UIImage? {
         switch self {
         case .pen:
@@ -19,10 +19,9 @@ enum Tool : Int {
             return Asset.icToolsMarker.image
         case .eraser, .text:
             return nil
-            
         }
     }
-    
+
     func getItemIcon() -> UIImage? {
         switch self {
         case .pen:
@@ -33,7 +32,7 @@ enum Tool : Int {
             return nil
         }
     }
-    
+
     func configure(_ view: DrawableView) {
         switch self {
         case .pen:
@@ -53,7 +52,7 @@ enum Tool : Int {
             break
         }
     }
-    
+
     func toString() -> String {
         switch self {
         case .pen:
@@ -68,28 +67,27 @@ enum Tool : Int {
     }
 }
 
-protocol ToolsViewDelegate {
-    func toolsViewDidSelectTools(_ toolsView:ToolsViewController, tool:Tool)
-    func toolsViewChangeUserColor(_ toolsView:ToolsViewController, color:UIColor, colorSeed:CGFloat)
-    func toolsViewChangeBrushSize(_ toolsView:ToolsViewController, size:CGFloat)
+protocol ToolsViewDelegate: class {
+    func toolsViewDidSelectTools (_ toolsView: ToolsViewController, tool: Tool)
+    func toolsViewChangeUserColor(_ toolsView: ToolsViewController, color: UIColor, colorSeed: CGFloat)
+    func toolsViewChangeBrushSize(_ toolsView: ToolsViewController, size: CGFloat)
 }
 
 class ToolsViewController: UIViewController {
     @IBOutlet var colorIndicatorView: UIView!
     @IBOutlet var toolsCollectionView: UICollectionView!
     @IBOutlet var sizeSlider: UISlider!
-    
     @IBOutlet var backView: UIView!
-    fileprivate var toolsDataSource : [Tool] = [.pen, .marker]
-    
-    var delegate : ToolsViewDelegate!
-    var currentColor:UIColor!
-    var selectedTool:Tool!
+    fileprivate var toolsDataSource: [Tool] = [.pen, .marker]
+
+    weak var delegate: ToolsViewDelegate!
+    var currentColor: UIColor!
+    var selectedTool: Tool!
 }
 
 // MARK: - View lifecycle
 extension ToolsViewController {
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         backView.rounded(10)
@@ -110,8 +108,9 @@ extension ToolsViewController {
         if let identifier = StoryboardSegue.Main(rawValue:segue.identifier!) {
             switch identifier {
             case .loadColorChooser:
-                let dest = segue.destination as! ColorGenerationViewController
-                dest.delegate = self
+                if let dest = segue.destination as? ColorGenerationViewController {
+                    dest.delegate = self
+                }
                 break
             default:
                 break
@@ -122,7 +121,7 @@ extension ToolsViewController {
 
 // MARK: - CollectionView
 extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    
+
     func configureToolsCellForIndexPath(_ cell: UICollectionViewCell, index: IndexPath) {
         let tool = toolsDataSource[(index as NSIndexPath).row]
         if tool == selectedTool {
@@ -131,28 +130,29 @@ extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSou
         cell.tintColor = tool == selectedTool ? UIColor.draftLinkBlue : UIColor.draftLinkGrey
         cell.backgroundView = UIImageView(image: tool.getIcon()?.withRenderingMode(.alwaysTemplate))
     }
-    
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return toolsDataSource.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "toolsCell", for: indexPath)
         configureToolsCellForIndexPath(cell, index: indexPath)
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if collectionView == toolsCollectionView {
             let cell = collectionView.cellForItem(at: indexPath)!
             cell.tintColor = UIColor.draftLinkGrey
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)!
         selectedTool = toolsDataSource[(indexPath as NSIndexPath).row]
@@ -162,13 +162,14 @@ extension ToolsViewController: UICollectionViewDelegate, UICollectionViewDataSou
 }
 
 extension ToolsViewController {
-    
+
     @IBAction func sizeToolChanged(_ sender: AnyObject) {
-        let slider = sender as! UISlider
-        let size = slider.value * 100 / 15
-        delegate.toolsViewChangeBrushSize(self, size: CGFloat(size))
+        if let slider = sender as? UISlider {
+            let size = slider.value * 100 / 15
+            delegate.toolsViewChangeBrushSize(self, size: CGFloat(size))
+        }
     }
-    
+
     @IBAction func onCloseTouch(_ sender: AnyObject) {
         ColorGenerator.instance.reset()
         dismiss(animated: true, completion: nil)

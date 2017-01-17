@@ -11,7 +11,7 @@ import UIKit
 class OnboardingViewController: UIViewController {
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var pageControl: UIPageControl!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         pageControl = {
@@ -19,47 +19,45 @@ class OnboardingViewController: UIViewController {
             $0?.currentPageIndicatorTintColor = UIColor.draftLinkBlue
             return $0
         }(pageControl)
-        
     }
- 
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+
         var frame = view.bounds
-        
-        let welcomView : WelcomView = {
+
+        let welcomView: WelcomView = {
             $0.frame = frame
             $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             return $0
         }(WelcomView.instantiate())
-       
+
         frame.origin.x = frame.width
-        
-        let getStartedView : GetStartedView = {
+
+        let getStartedView: GetStartedView = {
             $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             $0.frame = frame
             $0.skipButton.addTarget(self, action: #selector(OnboardingViewController.skip), for: .touchUpInside)
             return $0
         }(GetStartedView.instantiate())
-        
+
         scrollView = {
             $0?.addSubview(welcomView)
             $0?.addSubview(getStartedView)
             $0?.contentSize = CGSize(width: 2 * ($0?.frame.width)!, height: ($0?.frame.height)!)
             return $0
         }(scrollView)
-        
     }
-    
+
     func skip() {
         performSegue(withIdentifier: StoryboardSegue.OnBoarding.skipSegue.rawValue, sender: nil)
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    override var prefersStatusBarHidden : Bool {
+
+    override var prefersStatusBarHidden: Bool {
         return true
     }
 }
