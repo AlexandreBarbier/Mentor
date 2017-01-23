@@ -116,8 +116,7 @@ class User: ABModelCloudKit {
 		})
 	}
 
-	func getTeamColors(_ team: Team,
-	                   completion: ((_ teamColor: UIColor?, _ userTeamColor: UserTeamColor?, _ error: NSError?) -> Void)? = nil) {
+	func getTeamColors(_ team: Team, completion: ((_ tColor: UIColor?, _ uTColor: UserTeamColor?, _ error: NSError?) -> Void)? = nil) {
 		self.getColors { (teamColor, error) -> Void in
             if let tC = teamColor.first(where: { (utColor) -> Bool in
                 return utColor.teamName == team.recordId.recordName
@@ -146,7 +145,7 @@ class User: ABModelCloudKit {
     func addTeam(_ team: Team, color: UIColor, colorSeed: CGFloat, completion: (() -> Void)? = nil) {
 
 		team.users.append(CKReference(record: self.toRecord(), action: .none))
-		self.teams.append(CKReference(record: team.toRecord(), action: .none))
+		teams.append(CKReference(record: team.toRecord(), action: .none))
 		UserTeamColor.create(team,
 		                     colorSeed: colorSeed,
 		                     color: color,

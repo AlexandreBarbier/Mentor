@@ -292,40 +292,40 @@ extension DrawableView {
                         let cPath = UIBezierPath()
                         cPath.removeAllPoints()
                         cPath.interpolatePointsWithHermite(cPoint)
-                        var alpha: CGFloat = 1.0
+                        let alpha: CGFloat = mark ? 0.4 : 1.0
                         let lineW = self.lineWidth
                         let ma = self.currentTool
-                        self.currentTool = .pen
-                        if mark {
-                            self.currentTool = .marker
-                            alpha = 0.4
-                        }
+                        self.currentTool = mark ? .marker : .pen
                         self.lineWidth = lw
-                        self.addPath(cPath.cgPath, layerName: "\(FirebaseKey.undeletable).\(name)",
-                            color: UIColor(red: red, green: green, blue: blue, alpha: alpha))
+                        self.addPath(cPath.cgPath,
+                                     layerName: "\(FirebaseKey.undeletable).\(name)",
+                            color: UIColor(red: red,
+                                           green: green,
+                                           blue: blue,
+                                           alpha: alpha))
                         self.currentTool = ma
                         self.lineWidth = lineW
                     }
                 })
             } else {
-                if let txt = snap.value as? [String: AnyObject] {
-                    if let username = txt[FirebaseKey.drawingUser] as? String,
-                        username != "\(User.currentUser!.recordId.recordName)" {
-                        let text = txt["v"] as? String
-                        let x = CGFloat((txt["x"]! as? NSNumber)!)
-                        let y = CGFloat((txt["y"]! as? NSNumber)!)
-                        let red: CGFloat = CGFloat((txt[FirebaseKey.red]! as? NSNumber)!)
-                        let green: CGFloat = CGFloat((txt[FirebaseKey.green]! as? NSNumber)!)
-                        let blue: CGFloat = CGFloat((txt[FirebaseKey.blue]! as? NSNumber)!)
-                        let color = UIColor(red: red, green: green, blue: blue, alpha: 1.0)
-                        let textV = DrawableTextView.create(CGPoint(x: x, y: y),
-                                                            text: text!,
-                                                            color: color,
-                                                            drawing: self.drawing!)
-                        OperationQueue.main.addOperation({ () -> Void in
-                            self.addSubview(textV)
-                        })
-                    }
+                if let txt = snap.value as? [String: AnyObject],
+                    let username = txt[FirebaseKey.drawingUser] as? String,
+                    username != "\(User.currentUser!.recordId.recordName)" {
+                    let text = txt["v"] as? String
+                    let x = CGFloat((txt["x"]! as? NSNumber)!)
+                    let y = CGFloat((txt["y"]! as? NSNumber)!)
+                    let red: CGFloat = CGFloat((txt[FirebaseKey.red]! as? NSNumber)!)
+                    let green: CGFloat = CGFloat((txt[FirebaseKey.green]! as? NSNumber)!)
+                    let blue: CGFloat = CGFloat((txt[FirebaseKey.blue]! as? NSNumber)!)
+                    let color = UIColor(red: red, green: green, blue: blue, alpha: 1.0)
+                    let textV = DrawableTextView.create(CGPoint(x: x, y: y),
+                                                        text: text!,
+                                                        color: color,
+                                                        drawing: self.drawing!)
+                    OperationQueue.main.addOperation({ () -> Void in
+                        self.addSubview(textV)
+                    })
+
                 }
             }
         }) { (_) -> Void in
@@ -333,10 +333,9 @@ extension DrawableView {
         }
         cbFirebase.firebaseDeleteObserverHandle = cbFirebase.delete!.observe(FIRDataEventType.childChanged,
                                                                              with: { (snap) -> Void in
-            if let value = snap.value as? [[String:String]] {
-                if value.first![FirebaseKey.drawingUser] != User.currentUser!.recordId.recordName {
-                    self.removeLayerWithName(value.first![FirebaseKey.delete]!)
-                }
+            if let value = snap.value as? [[String:String]],
+                value.first![FirebaseKey.drawingUser] != User.currentUser!.recordId.recordName {
+                self.removeLayerWithName(value.first![FirebaseKey.delete]!)
             }
         }, withCancel: { (_) -> Void in
         })
@@ -380,10 +379,13 @@ extension DrawableView {
         case .changed:
             break
         case .ended, .cancelled, .failed:
-            let dPath = DrawingPath.create(self.drawing!, completion:nil)
-            dPath.color = self.archivedColor
-            dPath.pen = currentTool == .pen
-            dPath.lineWidth = self.lineWidth
+            let dPath: DrawingPath = {
+                $0.color = self.archivedColor
+                $0.pen = currentTool == .pen
+                $0.lineWidth = self.lineWidth
+                return $0
+            }(DrawingPath.create(self.drawing!, completion:nil))
+
             let recPoints = Point.createBatch(interPolationPoints, dPath: dPath)
             var dico = [[String: AnyObject]]()
             dico.append([FirebaseKey.drawingUser: "\(User.currentUser!.recordId.recordName)" as AnyObject])

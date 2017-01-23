@@ -36,13 +36,15 @@ class Team: ABModelCloudKit {
 extension Team {
 
     override func ignoreKey(_ key: String, value: AnyObject) -> Bool {
-        if key == "users" || key == "projects", let refs = value as? [CKReference] {
-            for ref in refs {
-                if key == "users" {
-                    users.append(ref)
-                } else if key == "projects" {
-                    projects.append(ref)
-                }
+        if key == "users" {
+            for ref: CKReference in (value as? [CKReference])! {
+                users.append(ref)
+            }
+            return true
+        }
+        if key == "projects" {
+            for ref: CKReference in (value as? [CKReference])! {
+                projects.append(ref)
             }
             return true
         }
@@ -62,7 +64,6 @@ extension Team {
             $0.token = "\(name)\(arc4random_uniform(UInt32(100)))"
             if let currentUser = User.currentUser {
                 $0.admin = currentUser.recordId.recordName
-                currentUser.addTeam($0, color: color, colorSeed: colorSeed)
                 completion(true, $0)
             }
             return $0
@@ -74,8 +75,7 @@ extension Team {
 // MARK: - fetches
 extension Team {
 
-    class func get(_ token: String,
-                   completion: ((_ team: Team?, _ error: NSError?) -> Void)? = nil) {
+    class func get(_ token: String, completion: ((_ team: Team?, _ error: NSError?) -> Void)? = nil) {
         Team.getRecord("token=\'\(token)\'") { (record, error)  in
             guard let record = record else {
                 completion?(nil, error)
@@ -86,14 +86,13 @@ extension Team {
         }
     }
 
-    func getProjects(_ completion:((_ projects: [Project],
-        _ local: Bool,
-        _ error: NSError?) -> Void)? = nil) {
-        if let projectsData = UserDefaults.standard.object(
-            forKey: "\(Constants.UserDefaultsKeys.teamProjects)\(self.name)") as? Data {
+    func getProjects(_ completion:((_ projects: [Project], _ local: Bool, _ error: NSError?) -> Void)? = nil) {
+        let key = "\(Constants.UserDefaultsKeys.teamProjects)\(self.name)"
+        if let projectsData = UserDefaults.standard.object(forKey: key) as? Data {
             let projects = NSKeyedUnarchiver.unarchiveObject(with: projectsData) as? [Project]
             completion?(projects!, true, nil)
         }
+
         super.getReferences(projects, completion: { (results: [Project], error) -> Void in
             let data = NSKeyedArchiver.archivedData(withRootObject: results)
             UserDefaults.standard.set(data, forKey: "\(Constants.UserDefaultsKeys.teamProjects)\(self.name)")

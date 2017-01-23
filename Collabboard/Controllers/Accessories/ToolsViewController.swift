@@ -96,7 +96,7 @@ extension ToolsViewController {
     }
 }
 
-extension ToolsViewController:ColorGenerationViewControllerDelegate {
+extension ToolsViewController: ColorGenerationViewControllerDelegate {
     func didSelectColor(_ color: UIColor, seed: CGFloat) {
         colorIndicatorView.backgroundColor = color
         delegate.toolsViewChangeUserColor(self, color: color, colorSeed: seed)
