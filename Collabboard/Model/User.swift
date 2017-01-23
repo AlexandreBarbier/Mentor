@@ -130,12 +130,12 @@ class User: ABModelCloudKit {
 
 	func updateColorForTeam(_ team: Team, color: UIColor, colorSeed: CGFloat, completion:(() -> Void)? = nil) {
 		self.getTeamColors(team) { (_, userTeamColor, error) in
-			guard error == nil else {
+			guard let userTeamColor = userTeamColor, error == nil else {
 				return
 			}
-			userTeamColor?.color = NSKeyedArchiver.archivedData(withRootObject: color)
-			userTeamColor?.colorSeed = colorSeed
-			userTeamColor?.publicSave({ (_, _) in
+			userTeamColor.color = NSKeyedArchiver.archivedData(withRootObject: color)
+			userTeamColor.colorSeed = colorSeed
+			userTeamColor.publicSave({ (_, _) in
 				team.publicSave()
 				completion?()
 			})
