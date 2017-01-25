@@ -43,13 +43,14 @@ class DrawableTextView: UITextView, UITextViewDelegate {
 			            y: NSNumber(value: Float(frame.origin.y)),
 			            text: self.text,
 			            save: true)
+            let drawingUser = User.currentUser!.recordId.recordName
             cbFirebase.drawing.updateChildValues([FirebaseKey.text: ["x": frame.origin.x,
                                                                      "y": frame.origin.y,
                                                                      "v": self.text,
                                                                      FirebaseKey.red: NSNumber(value: Float(red)),
                                                                      FirebaseKey.green: NSNumber(value: Float(green)),
                                                                      FirebaseKey.blue: NSNumber(value: Float(blue)),
-                                                                     FirebaseKey.drawingUser: "\(User.currentUser!.recordId.recordName)"]])
+                                                                     FirebaseKey.drawingUser: drawingUser]])
             return false
         }
         return true

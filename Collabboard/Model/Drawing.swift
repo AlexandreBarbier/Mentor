@@ -38,7 +38,7 @@ class Drawing: ABModelCloudKit {
                       completion: ((_ success: Bool, _ drawing: Drawing) -> Void)? = nil,
                       save: Bool) -> Drawing {
         let drawing = Drawing()
-        drawing.project = project.recordId!.recordName
+        drawing.project = project.recordId.recordName
         if save {
             drawing.updateRecord { (_, error) -> Void in
                 completion?(error == nil, drawing)

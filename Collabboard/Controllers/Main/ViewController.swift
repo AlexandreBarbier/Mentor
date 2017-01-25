@@ -70,7 +70,6 @@ extension ViewController {
         }
         activity.rounded()
         DebugConsoleView.debugView = DebugConsoleView(inView:view)
-//        let _ = prefersStatusBarHidden
         loginUser()
     }
 
@@ -205,9 +204,7 @@ extension ViewController : ToolsViewDelegate {
 
     func toolsViewDidSelectTools(_ toolsView: ToolsViewController, tool: Tool) {
         bottomBarButtons.forEach({ (item) in
-            if item.tag == 0 {
-                item.image = tool.getItemIcon()
-            }
+            item.image = item.tag == 0 ? tool.getItemIcon() : nil
         })
         selectDrawingTool(tool)
     }
@@ -256,13 +253,11 @@ extension ViewController {
                     }(UIImageView(image: UIImage(data: data)))
                 }
             } else {
+                self.imageBG!.image = nil
                 if let imageData = try? Data(contentsOf: URL(fileURLWithPath: bg.fileURL.path)) {
                     self.imageBG!.image = UIImage(data: imageData)
-                    self.imageBG!.frame = self.drawableView.frame
-                } else {
-                    self.imageBG!.image = nil
-                    self.imageBG!.frame = self.drawableView.frame
                 }
+                self.imageBG!.frame = self.drawableView.frame
             }
         })
     }
@@ -319,7 +314,6 @@ extension ViewController {
             case .ConnectedUserSegue :
                 connectedUsersView = segue.destination as? ConnectedUsersTableViewController
                 if let team = Project.getLastOpen() {
-
                     self.connectedUsersView!.team = team.team
                     self.connectedUsersView!.teamCompletion = { (project, team) in
                         OperationQueue.main.addOperation({ () -> Void in

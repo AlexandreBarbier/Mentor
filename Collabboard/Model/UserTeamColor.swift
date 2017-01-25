@@ -21,7 +21,8 @@ class UserTeamColor: ABModelCloudKit {
 	@discardableResult class func create(_ team: Team,
 	                                     colorSeed: CGFloat,
 	                                     color: UIColor,
-	                                     completion:((_ utColor: UserTeamColor?, _ error: NSError?) -> Void)? = nil) -> UserTeamColor {
+	                                     completion:((_ utColor: UserTeamColor?, _ error: NSError?) -> Void)? = nil)
+        -> UserTeamColor {
 
         let utColor: UserTeamColor = {
             $0.colorSeed = colorSeed

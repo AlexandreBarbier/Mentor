@@ -62,6 +62,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
             var pathPrinted: Double = 1
             drawing.getTexts { (text, _) in
                 guard let text = text else {
+                    print (drawing.texts)
                     return
                 }
                 let textV = DrawableTextView.create(CGPoint(x: CGFloat(text.x.floatValue),
@@ -218,6 +219,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
         }(CAShapeLayer(layer: self.layer))
 
         self.superview!.layer.insertSublayer(layer, below: self.layer)
+        layerIndex += 1
         return layer
     }
 
@@ -328,16 +330,13 @@ extension DrawableView {
 
                 }
             }
-        }) { (_) -> Void in
-
-        }
+        })
         cbFirebase.firebaseDeleteObserverHandle = cbFirebase.delete!.observe(FIRDataEventType.childChanged,
                                                                              with: { (snap) -> Void in
             if let value = snap.value as? [[String:String]],
                 value.first![FirebaseKey.drawingUser] != User.currentUser!.recordId.recordName {
                 self.removeLayerWithName(value.first![FirebaseKey.delete]!)
             }
-        }, withCancel: { (_) -> Void in
         })
     }
 }
@@ -387,20 +386,22 @@ extension DrawableView {
             }(DrawingPath.create(self.drawing!, completion:nil))
 
             let recPoints = Point.createBatch(interPolationPoints, dPath: dPath)
-            var dico = [[String: AnyObject]]()
-            dico.append([FirebaseKey.drawingUser: "\(User.currentUser!.recordId.recordName)" as AnyObject])
+            var dico = [[[String: AnyObject]]]()
 
             self.interPolationPoints.forEach({ (point) in
-                dico.append([FirebaseKey.xKey: NSNumber(value: Float(point.x))])
-                dico.append([FirebaseKey.yKey: NSNumber(value: Float(point.y))])
+                var obj = [[String: AnyObject]]()
+                obj.append([FirebaseKey.drawingUser: "\(User.currentUser!.recordId.recordName)" as AnyObject])
+                obj.append([FirebaseKey.xKey: NSNumber(value: Float(point.x))])
+                obj.append([FirebaseKey.yKey: NSNumber(value: Float(point.y))])
+                obj.append([FirebaseKey.red: NSNumber(value: Float(self.red))])
+                obj.append([FirebaseKey.green: NSNumber(value: Float(self.green))])
+                obj.append([FirebaseKey.blue: NSNumber(value: Float(self.blue))])
+                obj.append([FirebaseKey.pathName: dPath.recordId.recordName as AnyObject])
+                obj.append([FirebaseKey.marker: (self.currentTool == .marker) as AnyObject])
+                obj.append([FirebaseKey.lineWidth: self.lineWidth as AnyObject])
+                dico.append(obj)
             })
 
-            dico.append([FirebaseKey.red: NSNumber(value: Float(self.red))])
-            dico.append([FirebaseKey.green: NSNumber(value: Float(self.green))])
-            dico.append([FirebaseKey.blue: NSNumber(value: Float(self.blue))])
-            dico.append([FirebaseKey.pathName: dPath.recordId.recordName as AnyObject])
-            dico.append([FirebaseKey.marker: (self.currentTool == .marker) as AnyObject])
-            dico.append([FirebaseKey.lineWidth: self.lineWidth as AnyObject])
             updateChildQueue.addOperation({ () -> Void in
                 cbFirebase.drawing!.updateChildValues([FirebaseKey.points: dico])
             })
@@ -416,7 +417,6 @@ extension DrawableView {
             historyIndex = history.count - 1
             path.removeAllPoints()
             touchCircle.removeAllPoints()
-            layerIndex += 1
             break
         default:
             break
