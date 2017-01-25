@@ -87,7 +87,7 @@ extension Project {
 		guard let drawing = drawing else {
 			return
 		}
-        super.getReferences([drawing], completion: { (results: [Drawing], error) -> Void in
+        getReferences([drawing], completion: { (results: [Drawing], error) -> Void in
             completion?(results.first, error)
         })
     }

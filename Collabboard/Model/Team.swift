@@ -93,7 +93,7 @@ extension Team {
             completion?(projects!, true, nil)
         }
 
-        super.getReferences(projects, completion: { (results: [Project], error) -> Void in
+        getReferences(projects, completion: { (results: [Project], error) -> Void in
             let data = NSKeyedArchiver.archivedData(withRootObject: results)
             UserDefaults.standard.set(data, forKey: "\(Constants.UserDefaultsKeys.teamProjects)\(self.name)")
             UserDefaults.standard.synchronize()
@@ -102,7 +102,7 @@ extension Team {
     }
 
     func getUsers(_ completion: ((_ users: [User], _ error: NSError?) -> Void)? = nil) {
-        super.getReferences(users, completion: { (results: [User], error) -> Void in
+        getReferences(users, completion: { (results: [User], error) -> Void in
             completion?(results, error)
         })
     }

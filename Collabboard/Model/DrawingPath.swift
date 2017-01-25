@@ -73,7 +73,7 @@ class DrawingPath: ABModelCloudKit {
                 completion?(archivedPoints, nil)
             }
         } else {
-            super.getReferences(points, completion: { (results: [Point], error) -> Void in
+            getReferences(points, completion: { (results: [Point], error) -> Void in
                 self.localSave(results)
                 completion?(results, error)
             })

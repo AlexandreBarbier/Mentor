@@ -50,7 +50,7 @@ class Drawing: ABModelCloudKit {
     func getTexts(_ completion:((_ text: Text?, _ error: NSError?) -> Void)? = nil) -> Void {
         let currentTexts = texts
         texts.removeAll()
-        super.getReferences(currentTexts) { (results: Text?, error) in
+        getReferences(currentTexts) { (results: Text?, error) in
             guard let result = results, error == nil  else {
                 completion?(nil, error)
                 return
@@ -63,7 +63,7 @@ class Drawing: ABModelCloudKit {
     func getPaths(_ completion: ((_ path: DrawingPath, _ error: NSError?) -> Void)? = nil) {
         let currentPath = paths
         paths.removeAll()
-        super.getReferences(currentPath, perRecordCompletion: { (results: DrawingPath?, error) -> Void in
+        getReferences(currentPath, perRecordCompletion: { (results: DrawingPath?, error) -> Void in
             if let result = results {
                 self.paths.append(CKReference(recordID: result.recordId, action: .none))
                 completion?(result, error)

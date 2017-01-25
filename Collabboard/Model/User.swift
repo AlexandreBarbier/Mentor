@@ -102,7 +102,7 @@ class User: ABModelCloudKit {
 			let teams = NSKeyedUnarchiver.unarchiveObject(with: teamsData) as? [Team]
 			completion?(teams!, true, nil)
 		}
-		super.getReferences(teams, completion: { (results: [Team], error) -> Void in
+		getReferences(teams, completion: { (results: [Team], error) -> Void in
 			let data = NSKeyedArchiver.archivedData(withRootObject: results)
 			UserDefaults.standard.set(data, forKey:Constants.UserDefaultsKeys.teamUserKey)
 			UserDefaults.standard.synchronize()
@@ -111,7 +111,7 @@ class User: ABModelCloudKit {
 	}
 
 	func getColors(_ completion:((_ teamColor: [UserTeamColor], _ error: NSError?) -> Void)? = nil) {
-		super.getReferences(teamColor, completion: { (results: [UserTeamColor], error) -> Void in
+		getReferences(teamColor, completion: { (results: [UserTeamColor], error) -> Void in
 			completion?(results, error)
 		})
 	}
