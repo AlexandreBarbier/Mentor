@@ -21,6 +21,63 @@ class Point: ABModelCloudKit {
         return "Points"
     }
 
+    required convenience init?(coder aDecoder: NSCoder) {
+        self.init()
+        do {
+            let dico: [String: AnyObject]?
+            if #available(iOS 9.0, *) {
+                dico = try aDecoder.decodeTopLevelObject(forKey: "root") as? [String: AnyObject]
+            } else {
+                dico = aDecoder.decodeObject(forKey: "root") as? [String: AnyObject]
+            }
+            guard let dictionary = dico else {
+                return
+            }
+            self.parse(with: dictionary)
+            if let recId = aDecoder.decodeObject(forKey: "recordId") as? CKRecordID {
+                recordId = recId
+            }
+            if let rec = aDecoder.decodeObject(forKey: "record") as? CKRecord {
+                record = rec
+            }
+        } catch {
+            return
+        }
+
+    }
+
+    required init() {
+        super.init()
+    }
+
+    func parse(with dictionary: [String: AnyObject]) {
+        if let xVal = dictionary["x"] as? NSNumber {
+            x = xVal
+        }
+        if let yVal = dictionary["y"] as? NSNumber {
+            y = yVal
+        }
+        if let pos = dictionary["position"] as? NSNumber {
+            position = Int(pos)
+        }
+        if let dPath = dictionary["drawingPath"] as? CKReference {
+            drawingPath = dPath
+        }
+    }
+
+    required convenience init(dictionary: [String : AnyObject]) {
+        self.init()
+        self.parse(with: dictionary)
+    }
+
+    required convenience init(record rec: CKRecord, recordId rId: CKRecordID) {
+        let keys = rec.allKeys()
+        let dictionary = rec.dictionaryWithValues(forKeys: keys)
+        self.init(dictionary: dictionary as [String: AnyObject])
+        recordId = rId
+        record = rec
+    }
+
     class func create(_ x: NSNumber, y: NSNumber, position: Int? = nil, save: Bool, dPath: DrawingPath) -> Point {
         let point: Point = {
             $0.x = x
