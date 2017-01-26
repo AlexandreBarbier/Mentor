@@ -92,27 +92,18 @@ extension TeamCreationViewController {
     @IBAction func createTouch(_ sender: AnyObject) {
 
         guard let teamName = self.teamNameTF.text, teamName != "" else {
-            let alert = UIAlertController(title: "Empty team name",
-                                          message: "please name your team",
-                                          preferredStyle: UIAlertControllerStyle.alert)
-            self.present(alert, animated: true, completion: nil)
+            showAlert(title: "Empty team name", message: "please name your team")
             return
         }
         guard let projectName = self.projectNameTF.text,
             let chosenColor = chosenColor,
             projectName != "" else {
-                let alert = UIAlertController(title: "Empty project name",
-                                              message: "please name your first project",
-                                              preferredStyle: UIAlertControllerStyle.alert)
-                self.present(alert, animated: true, completion: nil)
+                showAlert(title: "Empty project name", message: "please name your first project")
                 return
         }
         if self.showUser {
             guard let userName = self.userNameTF.text, !self.userNameTF.isHidden && userName != "" else {
-                let alert = UIAlertController(title: "Empty username",
-                                              message: "please choose a username",
-                                              preferredStyle: UIAlertControllerStyle.alert)
-                self.present(alert, animated: true, completion: nil)
+                showAlert(title: "Empty username", message: "please choose a username")
                 return
             }
             User.currentUser!.username = userName

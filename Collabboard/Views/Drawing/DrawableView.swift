@@ -11,7 +11,6 @@ import CloudKit
 import FirebaseDatabase
 import ABUIKit
 
-// TODO: manage multi size screen (simple solution : create a view with the max screen size)
 /// this is the view used to draw everything
 class DrawableView: UIView, UIGestureRecognizerDelegate {
     fileprivate var markerAlpha: CGFloat = 0.4
@@ -178,6 +177,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         updateChildQueue.qualityOfService = QualityOfService.background
+        updateChildQueue.name = "updateChildQueue"
         touchCircle.lineWidth = 1
         lineWidth = 2.0
         currentTool = .pen

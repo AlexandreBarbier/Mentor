@@ -125,10 +125,7 @@ extension ViewController {
 
     func loginUser() {
         guard let user = User.currentUser else {
-            let alert = UIAlertController(title: "An error occured",
-                                          message: "please restart DraftLink",
-                                          preferredStyle: UIAlertControllerStyle.alert)
-            self.present(alert, animated: true, completion: nil)
+            showAlert(title: "An error occured", message: "please restart DraftLink")
             return
         }
         guard let connectedUser = self.connectedUsersView else {

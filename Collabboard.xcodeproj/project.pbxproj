@@ -22,6 +22,7 @@
 		8D2A787F1CED952F00C3F778 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D2A787E1CED952F00C3F778 /* GoogleService-Info.plist */; };
 		8D2F0CBB1D0EEDFC0065B7CF /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2F0CB91D0EEDFC0065B7CF /* UserTableViewCell.swift */; };
 		8D2F0CBC1D0EEDFC0065B7CF /* UserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D2F0CBA1D0EEDFC0065B7CF /* UserTableViewCell.xib */; };
+		8D39EFAF1E3A48920084B71B /* ViewControllerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D39EFAE1E3A48920084B71B /* ViewControllerHelper.swift */; };
 		8D3CF1931C159514006D23C7 /* UIBezierPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */; };
 		8D485B1C1CE9B39400465E69 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D485B1B1CE9B39400465E69 /* Color.swift */; };
 		8D4981E81C65EC6700BC6067 /* ConnectedUsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */; };
@@ -118,6 +119,7 @@
 		8D2A787E1CED952F00C3F778 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8D2F0CB91D0EEDFC0065B7CF /* UserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		8D2F0CBA1D0EEDFC0065B7CF /* UserTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewCell.xib; sourceTree = "<group>"; };
+		8D39EFAE1E3A48920084B71B /* ViewControllerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerHelper.swift; sourceTree = "<group>"; };
 		8D3CF1921C159514006D23C7 /* UIBezierPathExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtension.swift; sourceTree = "<group>"; };
 		8D485B1B1CE9B39400465E69 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Color.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		8D4981E71C65EC6700BC6067 /* ConnectedUsersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ConnectedUsersTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -241,6 +243,7 @@
 				8D91F2C01C7B38C3001D6A4E /* ColorGenerator.swift */,
 				8D485B1B1CE9B39400465E69 /* Color.swift */,
 				8DD236791CFAFC1A00B7C8B6 /* Font.swift */,
+				8D39EFAE1E3A48920084B71B /* ViewControllerHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -704,6 +707,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D91FD091C6B31650088F0FA /* TouchThroughView.swift in Sources */,
+				8D39EFAF1E3A48920084B71B /* ViewControllerHelper.swift in Sources */,
 				8DA5F3E41CF9C4EE00A37E33 /* GetStartedView.swift in Sources */,
 				8D058ADE1C17314F00A2D076 /* Point.swift in Sources */,
 				8D91F2C11C7B38C3001D6A4E /* ColorGenerator.swift in Sources */,

@@ -64,12 +64,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 Answers.logSignUp(withMethod: "Error",
                                                   success: NSNumber(value: true),
                                                   customAttributes: nil)
-                                let alert = UIAlertController(title: "An error occured",
-                                                              message: "please restart DraftLink",
-                                                              preferredStyle: UIAlertControllerStyle.alert)
-
                                 OperationQueue.main.addOperation({ () -> Void in
-                                    rootVC.present(alert, animated: true, completion: nil)
+                                    rootVC.showAlert(title: "An error occured", message: "please restart DraftLink")
                                 })
                                 return
                             }
