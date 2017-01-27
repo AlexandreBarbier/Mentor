@@ -102,10 +102,9 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
                     self.path.lineWidth = paths.lineWidth
 
                     // if I draw this path I can delete it
-                    var layerName = "\(FirebaseKey.undeletable).\(paths.recordId.recordName)"
-                    if paths.user == User.currentUser!.recordId.recordName {
-                        layerName = "\(paths.recordId.recordName)"
-                    }
+                    let layerName = paths.user == User.currentUser!.recordId.recordName ?
+                        "\(FirebaseKey.undeletable).\(paths.recordId.recordName)"
+                        : "\(paths.recordId.recordName)"
 
                     self.addPath(cPath.cgPath, layerName: layerName, color: color)
                     self.loadingProgressBlock!((pathPrinted / totalPaths), pathPrinted, totalPaths)

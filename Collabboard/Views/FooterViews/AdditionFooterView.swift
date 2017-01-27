@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 class AdditionFooterView: UIView {
     @IBOutlet var addButton: UIButton!
@@ -57,7 +58,6 @@ extension AdditionFooterView {
         addButton.backgroundColor = UIColor.draftLinkGrey
         titleLabel.font = UIFont.Roboto(.regular, size: 16)
     }
-
 }
 
 // MARK: - Actions
@@ -66,8 +66,9 @@ extension AdditionFooterView {
     @IBAction func onAddTouch(_ sender: AnyObject) {
         switch config {
         case .Users:
-
+            self.delegate.showMailController(subject: "Invite your friends", body: "")
             break
+
         case .Project:
             if delegate.shouldPerformSegue(withIdentifier: StoryboardSegue.Main.projectCreationSegue.rawValue,
                                            sender: nil) {

@@ -270,7 +270,7 @@ extension ViewController {
 }
 
 // MARK: - background management
-extension ViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension ViewController : UIImagePickerControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if imageBG == nil {

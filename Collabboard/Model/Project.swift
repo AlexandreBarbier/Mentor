@@ -109,7 +109,7 @@ extension Project {
                                                              FileManager.SearchPathDomainMask.userDomainMask,
                                                              true).first!
         let filePath =  "\(docDirPath)/\(recordName).png"
-        if let myData =  UIImagePNGRepresentation(image) {
+        if let myData = UIImagePNGRepresentation(image) {
             try? myData.write(to: URL(fileURLWithPath: filePath), options: [.atomic])
         }
         background = CKAsset(fileURL:URL(fileURLWithPath:filePath))
