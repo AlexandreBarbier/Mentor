@@ -9,6 +9,7 @@
 import UIKit
 
 class TeamTableViewCell: UITableViewCell {
+    static let identifier = "TeamTableViewCell"
     @IBOutlet var iconImageView: UIImageView!
     @IBOutlet var tokenLabel: UILabel!
     @IBOutlet var teamNameLabel: UILabel!

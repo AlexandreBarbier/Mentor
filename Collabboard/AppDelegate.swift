@@ -70,7 +70,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 return
                             }
                             let tuple = user.teams.count == 0 ?
-                                (method:"New user", animated:true) : (method:"New device", animated:false)
+                                (method:"New user", animated:true)
+                                : (method:"New device", animated:false)
                             Answers.logSignUp(withMethod: tuple.method, success: true, customAttributes: nil)
                             ending(StoryboardScene.Main.initialViewController(), tuple.animated)
                         })

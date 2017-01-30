@@ -97,7 +97,7 @@ extension ViewController {
             interfaceIsVisible = {
                 bottomToolBar.isHidden = $0
                 topToolbar.isHidden = $0
-                progressView.isHidden = $0 ? $0 : self.progressView.progress == 1.0
+                progressView.isHidden = $0 ? $0 : progressView.progress == 1.0
                 return $0
             }(interfaceIsVisible)
         }
@@ -337,7 +337,6 @@ extension ViewController {
                 let navTeamVC = segue.destination as? UINavigationController
                 let teamVC = navTeamVC!.viewControllers.first as? TeamTableViewController
                 teamVC?.completion = { (project, team) in
-
                     OperationQueue.main.addOperation({ () -> Void in
                         teamVC!.dismiss(animated: true, completion: nil)
                         self.initDrawing(team, project: project)

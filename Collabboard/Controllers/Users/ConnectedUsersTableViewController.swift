@@ -57,15 +57,12 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
                             }
                         }
                     })
-                    cbFirebase.firebaseUserObserverHandle =
-                        cbFirebase.users.observe(FIRDataEventType.childChanged) { (snap: FIRDataSnapshot) -> Void in
+                    cbFirebase.firebaseUserObserverHandle = cbFirebase.users.observe(FIRDataEventType.childChanged) {
+                        (snap: FIRDataSnapshot) -> Void in
 
                         OperationQueue.main.addOperation({
                             let index = self.displayedDataSource.index(where: { (user) -> Bool in
-                                if user.recordId.recordName == snap.key {
-                                    return true
-                                }
-                                return false
+                                return user.recordId.recordName == snap.key
                             })
                             if index != nil {
                                 if let cell = self.tableView.cellForRow(at: IndexPath(row: index!, section: 0))
@@ -90,7 +87,7 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as? UserTableViewCell
+		let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.identifier, for: indexPath) as? UserTableViewCell
 		let user = displayedDataSource[(indexPath as NSIndexPath).row]
 		cell?.usernameLabel.text = user.username
 		user.getTeamColors(team!) { (teamColor, _, _) in
@@ -104,8 +101,8 @@ class ConnectedUsersTableViewController: UIViewController, UITableViewDelegate, 
 extension ConnectedUsersTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UINib(nibName: "UserTableViewCell", bundle: nil),
-                           forCellReuseIdentifier: "UserTableViewCell")
+        tableView.register(UINib(nibName: UserTableViewCell.identifier, bundle: nil),
+                           forCellReuseIdentifier: UserTableViewCell.identifier)
         segmentControl = {
             $0?.tintColor = UIColor.draftLinkBlue
             $0?.backgroundColor = UIColor.draftLinkGrey
@@ -153,8 +150,7 @@ extension ConnectedUsersTableViewController {
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let v = AdditionFooterView.instanciate(withConfiguration: .Users, delegate: self)
-        return v
+        return AdditionFooterView.instanciate(withConfiguration: .Users, delegate: self)
     }
 }
 

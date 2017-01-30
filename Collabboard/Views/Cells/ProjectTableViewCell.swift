@@ -9,6 +9,7 @@
 import UIKit
 
 class ProjectTableViewCell: UITableViewCell {
+    static let identifier = "ProjectTableViewCell"
 
     @IBOutlet var iconImageView: UIImageView!
     @IBOutlet var projectNameLabel: UILabel!

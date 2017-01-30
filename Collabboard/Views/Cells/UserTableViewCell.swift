@@ -9,6 +9,8 @@
 import UIKit
 
 class UserTableViewCell: UITableViewCell {
+    static let identifier = "UserTableViewCell"
+    
     @IBOutlet var usernameLabel: UILabel!
     @IBOutlet var presenceIndicatorView: UIView!
     @IBOutlet var avatarView: UIImageView!

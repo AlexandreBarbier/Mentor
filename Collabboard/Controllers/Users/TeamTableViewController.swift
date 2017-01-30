@@ -33,8 +33,8 @@ class TeamTableViewController: UIViewController {
 extension TeamTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UINib(nibName: "TeamTableViewCell", bundle: nil),
-                           forCellReuseIdentifier: "TeamTableViewCell")
+        tableView.register(UINib(nibName: TeamTableViewCell.identifier, bundle: nil),
+                           forCellReuseIdentifier: TeamTableViewCell.identifier)
     }
 }
 
@@ -68,7 +68,7 @@ extension TeamTableViewController : UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TeamTableViewCell") as? TeamTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TeamTableViewCell.identifier) as? TeamTableViewCell
         let team = displayedDataSource[(indexPath as NSIndexPath).row]
         cell?.iconImageView.image = Asset.icTeam.image.withRenderingMode(.alwaysTemplate)
         cell?.iconImageView.tintColor = team.currentUserIsAdmin ? UIColor.draftLinkBlue : UIColor.draftLinkGrey

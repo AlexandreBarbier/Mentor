@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class ProjectTableViewController: UITableViewController {
 
     fileprivate var computedHeight: Double {
@@ -35,8 +36,8 @@ class ProjectTableViewController: UITableViewController {
 extension ProjectTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UINib.init(nibName: "ProjectTableViewCell", bundle: nil),
-                           forCellReuseIdentifier: "ProjectTableViewCell")
+        tableView.register(UINib.init(nibName: ProjectTableViewCell.identifier, bundle: nil),
+                           forCellReuseIdentifier: ProjectTableViewCell.identifier)
     }
 }
 
@@ -75,7 +76,7 @@ extension ProjectTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectTableViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ProjectTableViewCell.identifier, for: indexPath)
             as? ProjectTableViewCell
 
         cell?.projectNameLabel.text = displayedDataSource[(indexPath as NSIndexPath).row].name

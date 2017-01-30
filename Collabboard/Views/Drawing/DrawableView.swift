@@ -26,6 +26,7 @@ class DrawableView: UIView, UIGestureRecognizerDelegate {
     fileprivate var colorAlpha: CGFloat = 0.0
     fileprivate var archivedColor: Data!
     fileprivate var updateChildQueue = OperationQueue()
+
     var brushTool: Tool = .pen
     var currentTool: Tool = .pen {
         didSet {
@@ -492,8 +493,7 @@ extension DrawableView {
         _ = sublayers.forEach { (layer) -> Void in
             if let shapeLayer = layer as? CAShapeLayer {
                 if let path = shapeLayer.path {
-                    let bezierPath = UIBezierPath(cgPath:path)
-                    if bezierPath.contains(point) {
+                    if path.contains(point) {
                         if !shapeLayer.name!.contains(FirebaseKey.undeletable) {
                             let child = [FirebaseKey.delete: [
                                 [FirebaseKey.delete: shapeLayer.name!],
